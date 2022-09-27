@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private toast: ToastrService) { }
 
   ngOnInit() {
+
   }
 
+  show() {
+    this.toast.success("Hihi")
+  }
 }
