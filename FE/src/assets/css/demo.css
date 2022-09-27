@@ -16,22 +16,36 @@
 
 */
 @import '~ngx-toastr/toastr.css';
-.tim-typo{
-  padding-left: 25%;
-  margin-bottom: 40px;
-  position: relative;
-  width: 100%;
+
+.tim-typo {
+    padding-left: 25%;
+    margin-bottom: 40px;
+    position: relative;
+    width: 100%;
 }
-.tim-typo .tim-note{
-  bottom: 5px;
-  color: #c0c1c2;
-  display: block;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 15px;
-  left: 0;
-  margin-left: 20px;
-  position: absolute;
-  width: 260px;
+
+.tim-typo .tim-note {
+    bottom: 5px;
+    color: #c0c1c2;
+    display: block;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+    left: 0;
+    margin-left: 20px;
+    position: absolute;
+    width: 260px;
+}
+
+.custom-card {
+    margin-bottom: 20px;
+    border: 0;
+    box-shadow: -7.829px 11.607px 20px 0px rgb(228, 227, 245);
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.76562rem;
+    line-height: 1.5;
 }
 
