@@ -9,6 +9,7 @@ import {AppComponent} from './app.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 
+
 @NgModule({
     imports: [
         BrowserAnimationsModule,
