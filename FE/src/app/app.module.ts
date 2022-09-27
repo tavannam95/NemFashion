@@ -8,6 +8,7 @@ import {ComponentsModule} from './components/components.module';
 import {AppComponent} from './app.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {ToastrModule} from 'ngx-toastr';
+import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import {ToastrModule} from 'ngx-toastr';
     declarations: [
         AppComponent,
         AdminLayoutComponent,
+        ConfirmDialogComponent,
     ],
     providers: [],
     bootstrap: [AppComponent]
