@@ -8,8 +8,10 @@ import {NotificationsComponent} from '../../notifications/notifications.componen
 
 
 export const content_admin: Routes = [
-    {path: 'dashboard', component: DashboardComponent},
-    // { path: 'notifications',  component: NotificationsComponent },
+    {
+        path: 'dashboard',
+        loadChildren: () => import('../../dashboard/dashboard.module').then( m => m.DashboardModule )
+    },
     {
         path: 'staff',
         loadChildren: () => import('../../pages/admin/staff-manager/staff.modules').then(m => m.StaffModules),

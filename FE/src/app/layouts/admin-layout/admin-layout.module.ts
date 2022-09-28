@@ -32,7 +32,6 @@ import {StaffListComponent} from '../../pages/admin/staff-manager/staff-list/sta
 
     ],
     declarations: [
-        DashboardComponent,
         UserProfileComponent,
         TableListComponent,
         TypographyComponent,

@@ -4,6 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {Routes, RouterModule} from '@angular/router';
 
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
+import {content_admin} from './shared/router/admin_router';
 
 const routes: Routes = [
     {
@@ -13,10 +14,7 @@ const routes: Routes = [
     }, {
         path: '',
         component: AdminLayoutComponent,
-        children: [{
-            path: '',
-            loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
-        }]
+        children: content_admin
     }
 ];
 
