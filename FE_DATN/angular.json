@@ -4,7 +4,7 @@
   "newProjectRoot": "projects",
   "projects": {
     "material-dashboard-angular": {
-      "root": "",
+      "root": "e2e",
       "sourceRoot": "src",
       "projectType": "application",
       "architect": {
@@ -171,7 +171,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
