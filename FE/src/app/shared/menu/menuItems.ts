@@ -13,4 +13,5 @@ export const MenuItems: RouteInfo[] = [
     {path: '/icons', title: 'Icons', icon: 'bubble_chart', class: ''},
     {path: '/notifications', title: 'Notifications', icon: 'notifications', class: ''},
     {path: '/customer', title: 'Customer', icon: 'persons', class: ''},
+    {path: '/order', title: 'Order nha', icon: 'dasboard2', class: ''},
 ]

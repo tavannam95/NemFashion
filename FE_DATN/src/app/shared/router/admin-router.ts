@@ -14,11 +14,6 @@ export const content_admin: Routes = [
     {path: 'typography', component: TypographyComponent},
     {path: 'icons', component: IconsComponent},
     {path: 'notifications', component: NotificationsComponent},
-    {path: 'dashboard', component: DashboardComponent},
-    {path: 'user-profile', component: UserProfileComponent},
-    {path: 'table-list', component: TableListComponent},
-    {path: 'typography', component: TypographyComponent},
-    {path: 'icons', component: IconsComponent},
     // { path: 'notifications',  component: NotificationsComponent },
     {
         path: 'notifications',
@@ -27,9 +22,5 @@ export const content_admin: Routes = [
     {
         path: 'customer',
         loadChildren: () => import('../../pages/admin/customer-manager/customer-manager.module').then(m => m.CustomerManagerModule),
-    },
-    {
-        path: 'order',
-        loadChildren: () => import('../../pages/admin/order/order.module').then(m => m.OrderModule),
     }
 ]
