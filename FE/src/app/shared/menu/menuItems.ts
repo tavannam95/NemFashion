@@ -9,4 +9,5 @@ export const MenuItems: RouteInfo[] = [
     {path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: ''},
     {path: '/staff', title: 'Quản lý nhân viên', icon: 'persons', class: ''},
     {path: '/customer', title: 'Customer', icon: 'persons', class: ''},
+    {path: '/order', title: 'Order nha', icon: 'dasboard2', class: ''},
 ]
