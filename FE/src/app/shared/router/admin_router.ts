@@ -9,19 +9,9 @@ import {NotificationsComponent} from '../../notifications/notifications.componen
 
 export const content_admin: Routes = [
     {path: 'dashboard', component: DashboardComponent},
-    {path: 'user-profile', component: UserProfileComponent},
-    {path: 'table-list', component: TableListComponent},
-    {path: 'typography', component: TypographyComponent},
-    {path: 'icons', component: IconsComponent},
-    {path: 'notifications', component: NotificationsComponent},
-    {path: 'dashboard', component: DashboardComponent},
-    {path: 'user-profile', component: UserProfileComponent},
-    {path: 'table-list', component: TableListComponent},
-    {path: 'typography', component: TypographyComponent},
-    {path: 'icons', component: IconsComponent},
     // { path: 'notifications',  component: NotificationsComponent },
     {
-        path: 'notifications',
+        path: 'staff',
         loadChildren: () => import('../../pages/admin/staff-manager/staff.modules').then(m => m.StaffModules),
     },
     {
