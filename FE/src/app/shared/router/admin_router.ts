@@ -27,5 +27,9 @@ export const content_admin: Routes = [
     {
         path: 'customer',
         loadChildren: () => import('../../pages/admin/customer-manager/customer-manager.module').then(m => m.CustomerManagerModule),
+    },
+    {
+        path: 'order',
+        loadChildren: () => import('../../pages/admin/order/order.module').then(m => m.OrderModule),
     }
 ]
