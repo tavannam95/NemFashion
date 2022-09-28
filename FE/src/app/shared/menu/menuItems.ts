@@ -6,12 +6,12 @@ interface RouteInfo {
 }
 
 export const MenuItems: RouteInfo[] = [
-    {path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: ''},
-    {path: '/user-profile', title: 'User Profile', icon: 'person', class: ''},
-    {path: '/table-list', title: 'Table List', icon: 'content_paste', class: ''},
-    {path: '/typography', title: 'Typography', icon: 'library_books', class: ''},
-    {path: '/icons', title: 'Icons', icon: 'bubble_chart', class: ''},
-    {path: '/notifications', title: 'Notifications', icon: 'notifications', class: ''},
-    {path: '/customer', title: 'Customer', icon: 'persons', class: ''},
-    {path: '/order', title: 'Order nha', icon: 'dasboard2', class: ''},
+    {path: '/dashboard', title: 'Đát boa', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/user-profile', title: 'Người dùng', icon: 'fas fa-user', class: ''},
+    {path: '/table-list', title: 'Danh sách bảng', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/typography', title: 'Kiểu chữ', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/icons', title: 'Biểu tượng', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/notifications', title: 'Thông báo', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/customer', title: 'Khách hàng', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/order', title: 'Order nha', icon: 'fas fa-yin-yang', class: ''},
 ]
