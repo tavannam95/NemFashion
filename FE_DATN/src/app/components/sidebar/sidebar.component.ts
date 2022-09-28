@@ -8,14 +8,15 @@ declare interface RouteInfo {
     class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    { path: '/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/user-profile', title: 'User Profile',  icon:'person', class: '' },
-    { path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
-    { path: '/typography', title: 'Typography',  icon:'library_books', class: '' },
-    { path: '/icons', title: 'Icons',  icon:'bubble_chart', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
-    { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
-    { path: '/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
+    { path: '/dashboard', title: 'Dashboard',  icon: 'fas fa-bars', class: '' },
+    { path: '/user-profile', title: 'User Profile',  icon:'fas fa-user', class: '' },
+    { path: '/table-list', title: 'Table List',  icon:'fas fa-th-list', class: '' },
+    { path: '/typography', title: 'Typography',  icon:'fab fa-typo3', class: '' },
+    { path: '/icons', title: 'Icons',  icon:'fas fa-icons', class: '' },
+    { path: '/maps', title: 'Maps',  icon:'fas fa-map-marker', class: '' },
+    { path: '/notifications', title: 'Notifications',  icon:'fas fa-bell', class: '' },
+    { path: '/product', title: 'Hàng hóa',  icon:'fas fa-box', class: '' },
+    
 ];
 
 @Component({
