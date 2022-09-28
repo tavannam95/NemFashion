@@ -14,11 +14,6 @@ export const content_admin: Routes = [
     {path: 'typography', component: TypographyComponent},
     {path: 'icons', component: IconsComponent},
     {path: 'notifications', component: NotificationsComponent},
-    {path: 'dashboard', component: DashboardComponent},
-    {path: 'user-profile', component: UserProfileComponent},
-    {path: 'table-list', component: TableListComponent},
-    {path: 'typography', component: TypographyComponent},
-    {path: 'icons', component: IconsComponent},
     // { path: 'notifications',  component: NotificationsComponent },
     {
         path: 'notifications',
