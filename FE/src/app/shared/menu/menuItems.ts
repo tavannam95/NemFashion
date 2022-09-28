@@ -6,8 +6,8 @@ interface RouteInfo {
 }
 
 export const MenuItems: RouteInfo[] = [
-    {path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: ''},
-    {path: '/staff', title: 'Quản lý nhân viên', icon: 'persons', class: ''},
-    {path: '/customer', title: 'Customer', icon: 'persons', class: ''},
-    {path: '/order', title: 'Order nha', icon: 'dasboard2', class: ''},
+    {path: '/dashboard', title: 'Dashboard', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/staff', title: 'Quản lý nhân viên', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/customer', title: 'Customer', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/order', title: 'Order nha', icon: 'fas fa-yin-yang', class: ''},
 ]
