@@ -31,7 +31,6 @@ import {content_admin} from '../../shared/router/admin_router';
 
     ],
     declarations: [
-        DashboardComponent,
         UserProfileComponent,
         TableListComponent,
         TypographyComponent,
