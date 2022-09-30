@@ -65,13 +65,14 @@ export class StaffListComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.sort;
     }
 
-    openDialogForm( type: string ) {
+    openDialogForm( type: string , row?:any) {
         const dialogRef = this.dialog.open( StaffFormComponent , {
             width: '60vw' ,
             disableClose: true ,
             hasBackdrop: true ,
             data: {
-                type: type
+                type: type,
+                row: row
             }
         })
     }

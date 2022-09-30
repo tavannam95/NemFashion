@@ -10,82 +10,54 @@
     </div>
 
     <div class="row mt-3">
-        <div class="col-4 mt-1">
-            <div class="widget-container flex-box">
-                <div id="dropzone-external"
-                        class="flex-box"
-                        [ngClass]="
-                        isDropZoneActive ? ['dx-theme-accent-as-border-color', 'dropzone-active']: ['dx-theme-border-color']">
-                    <img id="dropzone-image" [src]="imageSource" *ngIf="imageSource" alt=""/>
-                    <div id="dropzone-text" class="flex-box" *ngIf="textVisible">
-                    </div>
-                    <dx-progress-bar
-                        #uploadProgress
-                        [min]="0"
-                        [max]="100"
-                        width="30%"
-                        [showStatus]="false"
-                        [visible]="progressVisible"
-                        [value]="progressValue"
-                    ></dx-progress-bar>
-                </div>
-                <dx-file-uploader
-                    #fileUploader
-                    hidden
-                    dialogTrigger="#dropzone-external"
-                    dropZone="#dropzone-external"
-                    [multiple]="true"
-                    [allowedFileExtensions]="['.jpg', '.jpeg', '.gif', '.png']"
-                    uploadMode="instantly"
-                    uploadUrl="https://js.devexpress.com/Demos/NetCore/FileUploader/Upload"
-                    [visible]="true"
-                    (onUploaded)="onUploaded($event)"
-                ></dx-file-uploader>
-            </div>
-        </div>
-
-        <div class="col-8 p-0">
+        <div class="col-12 p-0">
             <div class="container-fluid">
-                <form class="row">
+                <form class="row" [formGroup]="staff" >
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Họ và tên</mat-label>
-                        <input matInput placeholder="Placeholder">
+                        <input matInput placeholder="Placeholder" formControlName="fullname">
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Email</mat-label>
-                        <input matInput placeholder="Placeholder">
+                        <input matInput placeholder="Placeholder" formControlName="email">
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Mật khẩu</mat-label>
-                        <input matInput placeholder="Placeholder">
+                        <input matInput placeholder="Placeholder" formControlName="password">
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="col-6">
                         <mat-label>Ngày sinh</mat-label>
-                        <input matInput [matDatepicker]="picker">
+                        <input matInput [matDatepicker]="picker" formControlName="birthday">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
-                        <mat-label>Legacy form field</mat-label>
-                        <input matInput placeholder="Placeholder">
+                        <mat-label>Số điện thoại</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="phone">
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
-                        <mat-label>Legacy form field</mat-label>
-                        <input matInput placeholder="Placeholder">
+                        <mat-label>Địa chỉ</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="address">
                     </mat-form-field>
 
-                    <div class="col-12">
+                    <mat-radio-group aria-label="Select an option" formControlName="role">
+                        <mat-label style="margin-left: 15px;">Chức vụ: </mat-label>
+                        <mat-radio-button style="margin-left: 10px" [value]="2">Quản lý</mat-radio-button>
+                        <mat-radio-button style="margin-left: 10px" [value]="1">Nhân viên</mat-radio-button>
+                    </mat-radio-group>
+
+                    <div class="col-12 mt-3">
                         <button class="btn btn-success">Thêm mới</button>
+                        <button type="button" (click)="onDismiss()" class="btn btn-danger">Đóng</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 </div>
 
