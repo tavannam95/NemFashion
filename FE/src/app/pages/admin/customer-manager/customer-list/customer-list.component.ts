@@ -2,6 +2,10 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import {Constant} from '../../../../shared/constants/Constant';
+import {CustomerFormComponent} from '../customer-form/customer-form.component';
+import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-dialog.component';
 
 export interface UserData {
     id: string;
@@ -44,21 +48,23 @@ const NAMES: string[] = [
 ];
 
 @Component({
-    selector: 'customer-list',
+    selector: 'app-customer-list',
     templateUrl: './customer-list.component.html',
     styleUrls: ['./customer-list.component.scss']
 })
 
 export class CustomerListComponent implements OnInit, AfterViewInit {
 
-    //displayedColumns
+    // displayedColumns
     displayedColumns: string[] = ['id', 'name', 'progress', 'fruit', 'action'];
     dataSource: MatTableDataSource<UserData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor() {
+    TYPE_DIALOG = Constant.TYPE_DIALOG;
+
+    constructor(private readonly matDialog: MatDialog) {
         // Create 100 users
         const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
 
@@ -83,6 +89,35 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
     }
 
+    openFormDialog(type: string, row?: any) {
+        this.matDialog.open(CustomerFormComponent, {
+            width: '1000px',
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                type,
+                row
+            }
+        }).afterClosed().subscribe(result => {
+            if (result) {
+                // Get all
+            }
+        })
+    }
+
+    onDelete() {
+        this.matDialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                message: 'Bạn có muốn xóa bản ghi này?'
+            }
+        }).afterClosed().subscribe(result => {
+            if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+                // Delete
+            }
+        })
+    }
 }
 
 function createNewUser(id: number): UserData {

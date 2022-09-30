@@ -7,12 +7,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     imports: [
         DashboardRoutingModule,
         MatTooltipModule,
-        MatTooltipModule,
     ],
 
     declarations: [
-        DashboardComponent ,
+        DashboardComponent,
     ]
 })
 
-export class DashboardModule {}
+export class DashboardModule {
+}

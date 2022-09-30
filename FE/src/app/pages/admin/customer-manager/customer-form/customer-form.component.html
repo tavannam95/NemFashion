@@ -1,1 +1,64 @@
-<p>customer-form works!</p>
+<div class="customer-form-title card-title">
+    <h6 class="main-content-label text-center">{{title}}</h6>
+</div>
+<div class="card-body">
+    <form class="mb-0">
+        <div class="row">
+            <div class="col-4">
+                Hình ảnh
+            </div>
+            <div class="col-8">
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Tên khách hàng</mat-label>
+                    <input type="text" matInput>
+                    <mat-error class="text-danger">
+                        Tên khách hàng không được để trống
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input type="text" matInput>
+                    <mat-error class="text-danger">
+                        Email không được để trống
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Mật khẩu</mat-label>
+                    <input type="text" matInput>
+                    <mat-error class="text-danger">
+                        Mật khẩu không được để trống
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>SĐT</mat-label>
+                    <input type="text" matInput>
+                    <mat-error class="text-danger">
+                        Số điện thoại không được để trống
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Ngày sinh</mat-label>
+                    <input matInput [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error class="text-danger">
+                        Ngày sinh không được để trống
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="action-button mt-3 d-flex justify-content-end">
+                    <button mat-raised-button color="warn" class="mr-3" (click)="onDismiss()">
+                        <span><span class="fe fe-x mg-r-2"></span>Đóng</span>
+                    </button>
+                    <button mat-raised-button color="primary" (click)="save()">
+                        <span><span class="fe fe-check mg-r-2"></span>Lưu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
