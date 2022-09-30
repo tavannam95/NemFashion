@@ -2,12 +2,20 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import {Constant} from '../../../../shared/constants/Constant';
+import {CustomerFormComponent} from '../customer-form/customer-form.component';
+import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-dialog.component';
 
 export interface UserData {
     id: string;
-    name: string;
-    progress: string;
-    fruit: string;
+    fullName: string;
+    photo: string;
+    email: string;
+    phone: string;
+    birthDate: Date;
+    siginDate: Date;
+    status: number;
 }
 
 /** Constants used to fill up our data base. */
@@ -44,21 +52,23 @@ const NAMES: string[] = [
 ];
 
 @Component({
-    selector: 'customer-list',
+    selector: 'app-customer-list',
     templateUrl: './customer-list.component.html',
     styleUrls: ['./customer-list.component.scss']
 })
 
 export class CustomerListComponent implements OnInit, AfterViewInit {
 
-    //displayedColumns
-    displayedColumns: string[] = ['id', 'name', 'progress', 'fruit', 'action'];
+    // displayedColumns
+    displayedColumns: string[] = ['no', 'fullName', 'photo', 'email', 'phone', 'birthDate', 'siginDate', 'status', 'action'];
     dataSource: MatTableDataSource<UserData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor() {
+    TYPE_DIALOG = Constant.TYPE_DIALOG;
+
+    constructor(private readonly matDialog: MatDialog) {
         // Create 100 users
         const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
 
@@ -83,6 +93,35 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
     }
 
+    openFormDialog(type: string, row?: any) {
+        this.matDialog.open(CustomerFormComponent, {
+            width: '1000px',
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                type,
+                row
+            }
+        }).afterClosed().subscribe(result => {
+            if (result) {
+                // Get all
+            }
+        })
+    }
+
+    onDelete() {
+        this.matDialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                message: 'Bạn có muốn xóa bản ghi này?'
+            }
+        }).afterClosed().subscribe(result => {
+            if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+                // Delete
+            }
+        })
+    }
 }
 
 function createNewUser(id: number): UserData {
@@ -94,8 +133,12 @@ function createNewUser(id: number): UserData {
 
     return {
         id: id.toString(),
-        name: name,
-        progress: Math.round(Math.random() * 100).toString(),
-        fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
+        fullName: name,
+        photo: 'https://res.cloudinary.com/nemfashion/image/upload/v1664380965/plmq7131t2wuwb7eekva.png',
+        email: 'phuong@gmail.com',
+        phone: '1234567',
+        birthDate: new Date(),
+        siginDate: new Date(),
+        status: 1
     };
 }
