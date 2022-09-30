@@ -14,6 +14,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {NgxDropzoneModule} from 'ngx-dropzone';
+import {MatRadioModule} from '@angular/material/radio';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import {MatNativeDateModule} from '@angular/material/core';
         MatDialogModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        NgxDropzoneModule,
+        MatRadioModule,
     ],
     entryComponents: [CustomerFormComponent]
 })

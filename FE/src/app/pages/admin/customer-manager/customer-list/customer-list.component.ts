@@ -9,9 +9,13 @@ import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-
 
 export interface UserData {
     id: string;
-    name: string;
-    progress: string;
-    fruit: string;
+    fullName: string;
+    photo: string;
+    email: string;
+    phone: string;
+    birthDate: Date;
+    siginDate: Date;
+    status: number;
 }
 
 /** Constants used to fill up our data base. */
@@ -56,7 +60,7 @@ const NAMES: string[] = [
 export class CustomerListComponent implements OnInit, AfterViewInit {
 
     // displayedColumns
-    displayedColumns: string[] = ['id', 'name', 'progress', 'fruit', 'action'];
+    displayedColumns: string[] = ['no', 'fullName', 'photo', 'email', 'phone', 'birthDate', 'siginDate', 'status', 'action'];
     dataSource: MatTableDataSource<UserData>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -129,8 +133,12 @@ function createNewUser(id: number): UserData {
 
     return {
         id: id.toString(),
-        name: name,
-        progress: Math.round(Math.random() * 100).toString(),
-        fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
+        fullName: name,
+        photo: 'https://res.cloudinary.com/nemfashion/image/upload/v1664380965/plmq7131t2wuwb7eekva.png',
+        email: 'phuong@gmail.com',
+        phone: '1234567',
+        birthDate: new Date(),
+        siginDate: new Date(),
+        status: 1
     };
 }

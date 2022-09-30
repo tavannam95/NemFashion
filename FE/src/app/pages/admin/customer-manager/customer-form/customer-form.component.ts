@@ -10,6 +10,7 @@ import {Constant} from '../../../../shared/constants/Constant';
 export class CustomerFormComponent implements OnInit {
 
     title: string;
+    file: any[] = [];
 
     constructor(private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
                 @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
@@ -29,5 +30,13 @@ export class CustomerFormComponent implements OnInit {
 
     save() {
 
+    }
+
+    onChangeAvatar(event: any) {
+        this.file = event.addedFiles;
+    }
+
+    onRemove(f: any) {
+        this.file.splice(this.file.indexOf(f), 1);
     }
 }
