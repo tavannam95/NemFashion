@@ -1,18 +1,32 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-customer-form',
     templateUrl: './customer-form.component.html',
-    styleUrls: ['./customer-form.component.scss']
+    styleUrls: ['./customer-form.component.scss'],
 })
 export class CustomerFormComponent implements OnInit {
 
     title: string;
     file: any[] = [];
 
-    constructor(private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
+    formGroup = this.fb.group({
+        id: [''],
+        fullName: ['', [Validators.required]],
+        photo: ['', []],
+        email: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        phone: ['', [Validators.required]],
+        birthDate: ['', [Validators.required]],
+        siginDate: new Date(),
+        status: [1]
+    })
+
+    constructor(private readonly fb: FormBuilder,
+                private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
                 @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
     }
 
@@ -21,6 +35,7 @@ export class CustomerFormComponent implements OnInit {
             this.title = 'Thêm mới khách hàng';
         } else {
             this.title = 'Cập nhật khách hàng';
+            this.formGroup.patchValue(this.dataDialog.row);
         }
     }
 
@@ -29,7 +44,7 @@ export class CustomerFormComponent implements OnInit {
     }
 
     save() {
-
+        this.formGroup.markAllAsTouched();
     }
 
     onChangeAvatar(event: any) {

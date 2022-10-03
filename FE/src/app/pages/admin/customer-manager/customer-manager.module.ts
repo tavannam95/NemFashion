@@ -10,12 +10,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {CustomerListComponent} from './customer-list/customer-list.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -37,8 +37,8 @@ import {MatRadioModule} from '@angular/material/radio';
         MatNativeDateModule,
         NgxDropzoneModule,
         MatRadioModule,
-    ],
-    entryComponents: [CustomerFormComponent]
+        ReactiveFormsModule,
+    ]
 })
 export class CustomerManagerModule {
 }
