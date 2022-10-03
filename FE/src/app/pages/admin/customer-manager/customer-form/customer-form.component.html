@@ -32,10 +32,10 @@
             <div class="col-8">
                 <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Tên khách hàng</mat-label>
-                    <input type="text" matInput cdkFocusInitial formControlName="fullName">
+                    <input type="text" matInput cdkFocusInitial formControlName="fullname">
                     <mat-error class="text-danger"
-                               *ngIf="formGroup.get('fullName')?.hasError('required') &&
-                                      formGroup.get('fullName')?.touched">
+                               *ngIf="formGroup.get('fullname')?.hasError('required') &&
+                                      formGroup.get('fullname')?.touched">
                         Tên khách hàng không được để trống
                     </mat-error>
                 </mat-form-field>

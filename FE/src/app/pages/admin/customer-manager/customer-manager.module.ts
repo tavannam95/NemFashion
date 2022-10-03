@@ -16,13 +16,13 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AppModule} from '../../../app.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
     declarations: [
+        CustomerListComponent,
         CustomerFormComponent,
-        CustomerListComponent
     ],
     imports: [
         CommonModule,
@@ -39,6 +39,7 @@ import {AppModule} from '../../../app.module';
         NgxDropzoneModule,
         MatRadioModule,
         ReactiveFormsModule,
+        MatSlideToggleModule,
     ]
 })
 export class CustomerManagerModule {

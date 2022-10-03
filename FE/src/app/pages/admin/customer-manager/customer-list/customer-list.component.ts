@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -70,13 +70,13 @@ export class CustomerListComponent implements OnInit {
                 row
             }
         }).afterClosed().subscribe(result => {
-            if (result) {
-                // Get all
+            if (result === Constant.RESULT_CLOSE_DIALOG.SUCCESS) {
+                this.getAllCustomer();
             }
         })
     }
 
-    onDelete() {
+    onDelete(id: number) {
         this.matDialog.open(ConfirmDialogComponent, {
             disableClose: true,
             hasBackdrop: true,
@@ -85,8 +85,9 @@ export class CustomerListComponent implements OnInit {
             }
         }).afterClosed().subscribe(result => {
             if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
-                // Delete
+                this.customerService.deleteCustomer(id);
             }
+            this.getAllCustomer();
         })
     }
 }

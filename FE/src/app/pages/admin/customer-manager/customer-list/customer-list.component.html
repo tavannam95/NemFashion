@@ -23,7 +23,7 @@
                     <ng-container matColumnDef="photo">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header="photo"> Hình ảnh</th>
                         <td mat-cell *matCellDef="let row">
-                            <img [src]="row.photo" [alt]="row.fullname" class="avt-circle">
+                            <img [src]="row.photo" class="avt-circle">
                         </td>
                     </ng-container>
 
@@ -59,9 +59,9 @@
                                     class="btn btn-primary btn-link btn-sm btn-just-icon">
                                 <i class="material-icons" (click)="openFormDialog(TYPE_DIALOG.UPDATE, row)">edit</i>
                             </button>
-                            <button mat-raised-button type="button"
+                            <button mat-raised-button type="button" [disabled]="row.status == 0"
                                     class="btn btn-danger btn-link btn-sm btn-just-icon"
-                                    (click)="onDelete()">
+                                    (click)="onDelete(row.id)">
                                 <i class="material-icons">close</i>
                             </button>
                         </td>
@@ -80,4 +80,4 @@
             </div>
         </div>
     </div>
-</div>Z
+</div>
