@@ -41,8 +41,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("{id}")
-    public void update(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") Integer id) {
         customerService.delete(id);
     }
-
 }

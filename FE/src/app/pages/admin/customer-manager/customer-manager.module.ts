@@ -16,6 +16,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AppModule} from '../../../app.module';
 
 
 @NgModule({
