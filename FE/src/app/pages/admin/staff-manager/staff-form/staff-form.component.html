@@ -16,16 +16,25 @@
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Họ và tên</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="fullname">
+                        <mat-error *ngIf=" isValidator('fullname' , 'required') ">
+                            Vui lòng không để trống
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Email</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="email">
+                        <mat-error *ngIf=" isValidator('email' , 'required') ">
+                            Vui lòng không để trống
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Mật khẩu</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="password">
+                        <mat-error *ngIf=" isValidator('password' , 'required') ">
+                            Vui lòng không để trống
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="col-6">
@@ -33,16 +42,25 @@
                         <input matInput [matDatepicker]="picker" formControlName="birthday">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf=" isValidator('birthday' , 'required') ">
+                            Vui lòng không để trống
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Số điện thoại</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="phone">
+                        <mat-error *ngIf=" isValidator('phone' , 'required') ">
+                            Vui lòng không để trống
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Địa chỉ</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="address">
+                        <mat-error *ngIf=" isValidator('address' , 'required') ">
+                            Vui lòng không để trống
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-radio-group aria-label="Select an option" formControlName="role">
