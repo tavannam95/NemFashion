@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
 import {FormBuilder, Validators} from '@angular/forms';
+import {CustomerService} from '../../../../shared/service/customer.service';
 
 @Component({
     selector: 'app-customer-form',
@@ -15,7 +16,7 @@ export class CustomerFormComponent implements OnInit {
 
     formGroup = this.fb.group({
         id: [''],
-        fullName: ['', [Validators.required]],
+        fullname: ['', [Validators.required]],
         photo: ['', []],
         email: ['', [Validators.required]],
         password: ['', [Validators.required]],
@@ -27,6 +28,7 @@ export class CustomerFormComponent implements OnInit {
 
     constructor(private readonly fb: FormBuilder,
                 private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
+                private readonly customerService: CustomerService,
                 @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
     }
 
@@ -45,6 +47,22 @@ export class CustomerFormComponent implements OnInit {
 
     save() {
         this.formGroup.markAllAsTouched();
+        if (this.formGroup.invalid) {
+            return;
+        }
+
+        if (this.dataDialog.type === Constant.TYPE_DIALOG.NEW) {
+            this.customerService.createCustomer(this.formGroup.getRawValue());
+        } else {
+            this.customerService.updateCustomer(this.formGroup.getRawValue(), this.dataDialog.row.id);
+        }
+
+        this.customerService.isCloseDialog.subscribe(value => {
+            if (value) {
+                this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.SUCCESS);
+                this.customerService.isCloseDialog.next(false);
+            }
+        })
     }
 
     onChangeAvatar(event: any) {
