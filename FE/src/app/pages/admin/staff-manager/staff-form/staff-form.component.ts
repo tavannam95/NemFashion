@@ -43,7 +43,7 @@ export class StaffFormComponent implements OnInit {
         this.dialogRef.close( Constant.RESULT_CLOSE_DIALOG.CLOSE ) ;
     }
 
-    isValidator( name: string , error: string ){
+    isValidator( name:string , error: string ){
         return this.staff.get(name).hasError(error) && this.staff.get(name).touched ;
     }
 
