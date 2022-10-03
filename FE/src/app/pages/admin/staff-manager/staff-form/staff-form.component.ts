@@ -16,7 +16,7 @@ export class StaffFormComponent implements OnInit {
     staff = this.fb.group( {
         id: null ,
         fullname: ['' , Validators.required ],
-        email: ['' , Validators.required] ,
+        email: ['' , [Validators.required ]] ,
         password: ['' , [Validators.required ]] ,
         birthday: ['' , [Validators.required ]] ,
         phone: ['' , [Validators.required ]] ,
@@ -41,6 +41,10 @@ export class StaffFormComponent implements OnInit {
 
     onDismiss() {
         this.dialogRef.close( Constant.RESULT_CLOSE_DIALOG.CLOSE ) ;
+    }
+
+    isValidator( name: string , error: string ){
+        return this.staff.get(name).hasError(error) && this.staff.get(name).touched ;
     }
 
 }
