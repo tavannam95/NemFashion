@@ -16,10 +16,10 @@ export class StaffFormComponent implements OnInit {
     staff = this.fb.group( {
         id: null ,
         fullname: ['' , Validators.required ],
-        email: ['' , [Validators.required ]] ,
+        email: ['' , [Validators.required , Validators.pattern("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")]] ,
         password: ['' , [Validators.required ]] ,
         birthday: ['' , [Validators.required ]] ,
-        phone: ['' , [Validators.required ]] ,
+        phone: ['' , [Validators.required , Validators.pattern("0[3,9]\\d{8}")]] ,
         address: ['' , [Validators.required ]] ,
         role: 1
     })
