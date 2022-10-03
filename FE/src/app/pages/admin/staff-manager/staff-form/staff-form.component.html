@@ -27,6 +27,9 @@
                         <mat-error *ngIf=" isValidator('email' , 'required') ">
                             Vui lòng không để trống
                         </mat-error>
+                        <mat-error *ngIf="isValidator( 'email' , 'pattern')">
+                            Email không đúng định dạng
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
@@ -52,6 +55,9 @@
                         <input matInput placeholder="Placeholder" formControlName="phone">
                         <mat-error *ngIf=" isValidator('phone' , 'required') ">
                             Vui lòng không để trống
+                        </mat-error>
+                        <mat-error *ngIf="isValidator( 'phone' , 'pattern')">
+                            Số điện thoại không đúng định dạng
                         </mat-error>
                     </mat-form-field>
 
