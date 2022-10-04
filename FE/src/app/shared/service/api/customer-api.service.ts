@@ -1,18 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Constant} from '../constants/Constant';
-import {ApiConstant} from '../constants/ApiConstant';
+import {ApiConstant} from '../../constants/ApiConstant';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ApiService {
+export class CustomerApiService {
 
     constructor(private readonly http: HttpClient) {
     }
 
-    // Customer
     getAllCustomer(): Observable<any> {
         return this.http.get(ApiConstant.customer);
     }
@@ -29,9 +27,8 @@ export class ApiService {
         return this.http.put(`${ApiConstant.customer}/${id}`, data);
     }
 
-    deleteCustomer(id: number): Observable<any> {
-        return this.http.delete(`${ApiConstant.customer}/${id}`);
+    deleteCustomer(data: any, id: number): Observable<any> {
+        return this.http.put(`${ApiConstant.customer}/${id}`, data);
     }
 
-    //End customer
 }

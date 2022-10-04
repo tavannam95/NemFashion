@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
 import {FormBuilder, Validators} from '@angular/forms';
+import {CustomerService} from '../../../../shared/service/customer.service';
+import {UploadCloudinaryService} from '../../../../shared/service/upload-cloudinary.service';
 
 @Component({
     selector: 'app-customer-form',
@@ -11,15 +13,17 @@ import {FormBuilder, Validators} from '@angular/forms';
 export class CustomerFormComponent implements OnInit {
 
     title: string;
-    file: any[] = [];
+    avatarFile: any[] = [];
+    avatarUrl!: any;
+    isLoadingButton: boolean = false;
 
     formGroup = this.fb.group({
         id: [''],
-        fullName: ['', [Validators.required]],
+        fullname: ['', [Validators.required]],
         photo: ['', []],
-        email: ['', [Validators.required]],
+        email: ['', [Validators.required, Validators.pattern('^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$')]],
         password: ['', [Validators.required]],
-        phone: ['', [Validators.required]],
+        phone: ['', [Validators.required, Validators.pattern(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/)]],
         birthDate: ['', [Validators.required]],
         siginDate: new Date(),
         status: [1]
@@ -27,6 +31,8 @@ export class CustomerFormComponent implements OnInit {
 
     constructor(private readonly fb: FormBuilder,
                 private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
+                private readonly customerService: CustomerService,
+                private readonly uploadService: UploadCloudinaryService,
                 @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
     }
 
@@ -35,6 +41,7 @@ export class CustomerFormComponent implements OnInit {
             this.title = 'Thêm mới khách hàng';
         } else {
             this.title = 'Cập nhật khách hàng';
+            this.formGroup.controls['password'].disable();
             this.formGroup.patchValue(this.dataDialog.row);
         }
     }
@@ -43,15 +50,57 @@ export class CustomerFormComponent implements OnInit {
         this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.CLOSE);
     }
 
-    save() {
-        this.formGroup.markAllAsTouched();
+    onChangeAvatar(event: any) {
+        this.avatarFile = event.addedFiles;
+        console.log(this.avatarFile)
     }
 
-    onChangeAvatar(event: any) {
-        this.file = event.addedFiles;
+    async uploadImage() {
+        console.log(this.avatarFile.length)
+
+        const formData = new FormData();
+        formData.append('files', this.avatarFile[0]);
+        try {
+            this.avatarUrl = await this.uploadService.upload(formData).toPromise();
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
     onRemove(f: any) {
-        this.file.splice(this.file.indexOf(f), 1);
+        this.avatarFile.splice(this.avatarFile.indexOf(f), 1);
+    }
+
+    async save() {
+        this.formGroup.markAllAsTouched();
+        if (this.formGroup.invalid) {
+            return;
+        }
+
+        this.isLoadingButton = true;
+        if (this.avatarFile.length > 0) {
+            await this.uploadImage();
+        }
+
+        if (this.dataDialog.type === Constant.TYPE_DIALOG.NEW) {
+            if (this.avatarUrl != undefined) {
+                this.formGroup.patchValue({photo: this.avatarUrl[0]});
+            } else {
+                this.formGroup.patchValue({photo: 'https://res.cloudinary.com/nemfashion/image/upload/v1664814655/unknow_ejzkbl.jpg'});
+            }
+            this.customerService.createCustomer(this.formGroup.getRawValue());
+        } else {
+            this.customerService.updateCustomer(this.formGroup.getRawValue(), this.dataDialog.row.id);
+
+        }
+
+        this.customerService.isCloseDialog.subscribe(value => {
+            if (value) {
+                this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.SUCCESS);
+                this.customerService.isCloseDialog.next(false);
+                this.isLoadingButton = false;
+            }
+        })
     }
 }

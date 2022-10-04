@@ -10,7 +10,7 @@ import {NotificationsComponent} from '../../notifications/notifications.componen
 export const content_admin: Routes = [
     {
         path: 'dashboard',
-        loadChildren: () => import('../../dashboard/dashboard.module').then( m => m.DashboardModule )
+        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {
         path: 'staff',
@@ -23,5 +23,8 @@ export const content_admin: Routes = [
     {
         path: 'order',
         loadChildren: () => import('../../pages/admin/order/order.module').then(m => m.OrderModule),
+    }, {
+        path: 'category',
+        loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
     }
 ]

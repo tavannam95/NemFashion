@@ -10,7 +10,6 @@ import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.componen
 import {ToastrModule} from 'ngx-toastr';
 import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.component';
 
-
 @NgModule({
     imports: [
         BrowserAnimationsModule,
@@ -25,7 +24,7 @@ import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.com
     declarations: [
         AppComponent,
         AdminLayoutComponent,
-        ConfirmDialogComponent,
+        ConfirmDialogComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

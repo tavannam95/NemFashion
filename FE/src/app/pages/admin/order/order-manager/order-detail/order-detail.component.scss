@@ -1,0 +1,42 @@
+.total table{
+  float: right;
+}
+.total table td{
+  text-align: right;
+}
+
+.total{
+  font-size: 12px;
+}
+
+.info{
+  padding-left: 10px;
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+
+.card-body-custom{
+  flex: 1 1 auto;
+  min-height: 1px;
+}
+
+mat-tab-group{
+  height: 500px;
+}
+
+.mat-tab-body{
+  height: 500px;
+}
+
+.footer-order{
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+}
+
+.table-mid table{
+  height: 210px;
+}
+
+
