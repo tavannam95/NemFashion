@@ -3,6 +3,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {Constant} from '../../../../shared/constants/Constant';
+import {MatDialog} from '@angular/material/dialog';
+import {CategoryFormComponent} from '../category-form/category-form.component';
 
 @Component({
     selector: 'category-list',
@@ -19,7 +21,7 @@ export class CategoryListComponent implements OnInit {
 
     TYPE_DIALOG = Constant.TYPE_DIALOG;
 
-    constructor() {
+    constructor(private readonly matDialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -30,7 +32,18 @@ export class CategoryListComponent implements OnInit {
     }
 
     openFormDialog(type: string, row?: any) {
-
+        this.matDialog.open(CategoryFormComponent, {
+            width: '800px',
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                type,
+                row
+            }
+        }).afterClosed().subscribe(result => {
+            if (result === Constant.RESULT_CLOSE_DIALOG.SUCCESS) {
+            }
+        })
     }
 
     applyFilter(event: Event) {
