@@ -15,8 +15,10 @@ export class CustomerFormComponent implements OnInit {
     title: string;
     avatarFile: any[] = [];
     avatarUrl!: any;
-    isLoadingButton: boolean = false;
     avatarUrlEdit: any;
+    isLoadingButton: boolean = false;
+    isUpdate: boolean = false;
+    isShowPassword: boolean = true;
 
     formGroup = this.fb.group({
         id: [''],
@@ -39,10 +41,11 @@ export class CustomerFormComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.dataDialog.type === Constant.TYPE_DIALOG.NEW) {
+            this.isUpdate = true;
             this.title = 'Thêm mới khách hàng';
         } else {
             this.title = 'Cập nhật khách hàng';
-            this.formGroup.controls['password'].disable();
+            this.isShowPassword = false;
             this.avatarUrlEdit = this.dataDialog.row.photo;
             this.formGroup.patchValue(this.dataDialog.row);
         }
@@ -54,12 +57,9 @@ export class CustomerFormComponent implements OnInit {
 
     onChangeAvatar(event: any) {
         this.avatarFile = event.addedFiles;
-        console.log(this.avatarFile)
     }
 
     async uploadImage() {
-        console.log(this.avatarFile.length)
-
         const formData = new FormData();
         formData.append('files', this.avatarFile[0]);
         try {
@@ -67,7 +67,6 @@ export class CustomerFormComponent implements OnInit {
         } catch (err) {
             console.log(err);
         }
-
     }
 
     onRemove(f: any) {
@@ -81,6 +80,7 @@ export class CustomerFormComponent implements OnInit {
         }
 
         this.isLoadingButton = true;
+
         if (this.avatarFile.length > 0) {
             await this.uploadImage();
         }
@@ -93,16 +93,21 @@ export class CustomerFormComponent implements OnInit {
             }
             this.customerService.createCustomer(this.formGroup.getRawValue());
         } else {
+            if (this.avatarUrl != undefined) {
+                this.formGroup.patchValue({photo: this.avatarUrl[0]});
+            } else {
+                this.formGroup.patchValue({photo: this.dataDialog.row.photo});
+            }
             this.customerService.updateCustomer(this.formGroup.getRawValue(), this.dataDialog.row.id);
-
         }
 
         this.customerService.isCloseDialog.subscribe(value => {
             if (value) {
                 this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.SUCCESS);
                 this.customerService.isCloseDialog.next(false);
-                this.isLoadingButton = false;
             }
+            this.isLoadingButton = false;
         })
     }
+
 }
