@@ -117,9 +117,8 @@ export class NavbarComponent implements OnInit {
         if (title.charAt(0) === '#') {
             title = title.slice(1);
         }
-
         for (let item = 0; item < this.listTitles.length; item++) {
-            if (this.listTitles[item].path === title) {
+            if (this.listTitles[item].path === title.substring(0,this.listTitles[item].path.length)) {
                 return this.listTitles[item].title;
             }
         }

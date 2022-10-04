@@ -9,6 +9,8 @@ import {AppComponent} from './app.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {ToastrModule} from 'ngx-toastr';
 import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.component';
+import { ProductFormComponent } from './pages/admin/product/product-form/product-form.component';
+import { ProductListComponent } from './pages/admin/product/product-list/product-list.component';
 
 
 @NgModule({
