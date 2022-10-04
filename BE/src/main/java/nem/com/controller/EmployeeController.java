@@ -1,10 +1,10 @@
 package nem.com.controller;
 
 import nem.com.entity.Employees;
-import nem.com.service.StaffService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import nem.com.service.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,16 +13,28 @@ import java.util.List;
 @RequestMapping("api/v1/employee")
 public class EmployeeController {
 
-    private final StaffService staffService ;
+    private final EmployeeService employeeService ;
 
-    public EmployeeController( StaffService staffService ) {
-        this.staffService = staffService ;
+    public EmployeeController( EmployeeService employeeService ) {
+        this.employeeService = employeeService ;
     }
 
     @RequestMapping("")
-    public List<Employees> findAll() {
-        return staffService.findAll() ;
+    public ResponseEntity<List<Employees>>  findAll() {
+        return new ResponseEntity<>(employeeService.findAll() , HttpStatus.OK )  ;
     }
 
+    @PostMapping("")
+    public ResponseEntity<Employees> create(@RequestBody Employees employees ) {
+        return new ResponseEntity<>( employeeService.create(employees) , HttpStatus.CREATED );
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Employees> update( @PathVariable("id") Integer id , @RequestBody Employees employees ) {
+        if(  !employeeService.exitById( id)){
+            return ResponseEntity.notFound().build() ;
+        }
+        return new ResponseEntity<>( employeeService.create(employees) , HttpStatus.OK );
+    }
 
 }
