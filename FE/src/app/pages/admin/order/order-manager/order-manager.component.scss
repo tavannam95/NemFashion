@@ -1,0 +1,11 @@
+.example-form-field{
+  width: 220px;
+}
+
+.check-box-search{
+  margin-left: 23px;
+}
+
+.check-box-search mat-checkbox:nth-child(n+2){
+  margin-left: 40px ;
+}

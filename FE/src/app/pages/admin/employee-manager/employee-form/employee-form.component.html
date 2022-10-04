@@ -1,0 +1,90 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between">
+                <h6 class="main-content-label" style="font-size: 16px;">{{ title }}</h6>
+                <span class="fa-solid fa-xmark icon-close" style="font-size: 16px; cursor: pointer;"
+                      (click)="onDismiss()"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 p-0">
+            <div class="container-fluid">
+                <form class="row" [formGroup]="staff">
+                    <mat-form-field class="col-6" appearance="outline">
+                        <mat-label>Họ và tên</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="fullname">
+                        <mat-error *ngIf=" isValidator( 'fullname' , 'required')">
+                            Vui lòng không để trống họ tên
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-6" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="email">
+                        <mat-error *ngIf=" isValidator( 'email' , 'required')">
+                            Vui lòng không để trống email
+                        </mat-error>
+                        <mat-error *ngIf=" isValidator( 'email' , 'email')">
+                            Email không đúng định dạng
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-6" appearance="outline">
+                        <mat-label>Mật khẩu</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="password">
+                        <mat-error *ngIf=" isValidator( 'password' , 'required')">
+                            Vui lòng không để trống mật khẩu
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="col-6">
+                        <mat-label>Ngày sinh</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf=" isValidator( 'birthDate' , 'required')">
+                            Vui lòng không để trống ngày sinh
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-6" appearance="outline">
+                        <mat-label>Số điện thoại</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="phone">
+                        <mat-error *ngIf=" isValidator( 'phone' , 'required')">
+                            Vui lòng không để trống số điện thoại
+                        </mat-error>
+                        <mat-error *ngIf="isValidator( 'phone' , 'pattern')">
+                            Số điện thoại không đúng định dạng
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-6" appearance="outline">
+                        <mat-label>Địa chỉ</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="address">
+                        <mat-error *ngIf=" isValidator( 'address' , 'required')">
+                            Vui lòng không để trống địa chỉ
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="col-12 d-flex align-items-center" formGroupName="role">
+                        <mat-label style="margin-left: 15px;">Chức vụ: </mat-label>
+                        <mat-radio-group aria-label="Select an option" formControlName="id">
+                            <mat-radio-button style="margin-left: 10px" [value]="2">Quản lý</mat-radio-button>
+                            <mat-radio-button style="margin-left: 10px" [value]="1">Nhân viên</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+
+                    <div class="col-12 mt-3">
+                        <button [class]="colorBtn" (click)="onSubmit()" >{{nameBtn}}</button>
+                        <button type="button" (click)="onDismiss()" class="btn btn-danger">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

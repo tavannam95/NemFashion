@@ -49,3 +49,11 @@
     line-height: 1.5;
 }
 
+.main-content-label {
+    font-weight: 500;
+    color: #3c4858;
+    font-size: 14px;
+    margin-bottom: 0rem;
+    line-height: 1;
+}
+

@@ -12,7 +12,6 @@ import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.com
 import { ProductFormComponent } from './pages/admin/product/product-form/product-form.component';
 import { ProductListComponent } from './pages/admin/product/product-list/product-list.component';
 
-
 @NgModule({
     imports: [
         BrowserAnimationsModule,
@@ -27,7 +26,7 @@ import { ProductListComponent } from './pages/admin/product/product-list/product
     declarations: [
         AppComponent,
         AdminLayoutComponent,
-        ConfirmDialogComponent,
+        ConfirmDialogComponent
     ],
     providers: [],
     bootstrap: [AppComponent]

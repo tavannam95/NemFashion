@@ -1,74 +1,54 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-
-export interface UserData {
-    id: string;
-    name: string;
-    progress: string;
-    fruit: string;
-}
-
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-    'blueberry',
-    'lychee',
-    'kiwi',
-    'mango',
-    'peach',
-    'lime',
-    'pomegranate',
-    'pineapple',
-];
-const NAMES: string[] = [
-    'Maia',
-    'Asher',
-    'Olivia',
-    'Atticus',
-    'Amelia',
-    'Jack',
-    'Charlotte',
-    'Theodore',
-    'Isla',
-    'Oliver',
-    'Isabella',
-    'Jasper',
-    'Cora',
-    'Levi',
-    'Violet',
-    'Arthur',
-    'Mia',
-    'Thomas',
-    'Elizabeth',
-];
+import {MatDialog} from '@angular/material/dialog';
+import {Constant} from '../../../../shared/constants/Constant';
+import {CustomerFormComponent} from '../customer-form/customer-form.component';
+import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-dialog.component';
+import {CustomerService} from '../../../../shared/service/customer.service';
 
 @Component({
-    selector: 'customer-list',
+    selector: 'app-customer-list',
     templateUrl: './customer-list.component.html',
     styleUrls: ['./customer-list.component.scss']
 })
 
-export class CustomerListComponent implements OnInit, AfterViewInit {
+export class CustomerListComponent implements OnInit {
 
-    //displayedColumns
-    displayedColumns: string[] = ['id', 'name', 'progress', 'fruit', 'action'];
-    dataSource: MatTableDataSource<UserData>;
+    displayedColumns: string[] = ['no', 'fullname', 'photo', 'email', 'phone', 'birthDate', 'siginDate', 'status', 'action'];
+    dataSource: MatTableDataSource<any>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor() {
-        // Create 100 users
-        const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    TYPE_DIALOG = Constant.TYPE_DIALOG;
 
-        // Assign the data to the data source for the table to render
-        this.dataSource = new MatTableDataSource(users);
+    customers: any[] = [];
+    isLoading: boolean = false;
+
+    constructor(private readonly matDialog: MatDialog,
+                private readonly customerService: CustomerService) {
     }
 
-    ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+    ngOnInit(): void {
+        this.getAllCustomer();
+    }
+
+    getAllCustomer() {
+        this.isLoading = true;
+        return this.customerService.getAllCustomer().subscribe({
+            next: (res) => {
+                this.isLoading = false;
+                this.dataSource = new MatTableDataSource<any>(res);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+                this.isLoading = false;
+                console.log(err)
+            }
+        })
     }
 
     applyFilter(event: Event) {
@@ -80,22 +60,35 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    ngOnInit(): void {
+    openFormDialog(type: string, row?: any) {
+        this.matDialog.open(CustomerFormComponent, {
+            width: '1000px',
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                type,
+                row
+            }
+        }).afterClosed().subscribe(result => {
+            if (result === Constant.RESULT_CLOSE_DIALOG.SUCCESS) {
+                this.getAllCustomer();
+            }
+        })
     }
 
+    onDelete(row: any) {
+        this.matDialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                message: 'Bạn có muốn thay đổi trạng thái người dùng?'
+            }
+        }).afterClosed().subscribe(result => {
+            if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+                row.status = 0;
+                this.customerService.deleteCustomer(row, row.id);
+            }
+        })
+    }
 }
 
-function createNewUser(id: number): UserData {
-    const name =
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-        ' ' +
-        NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-        '.';
-
-    return {
-        id: id.toString(),
-        name: name,
-        progress: Math.round(Math.random() * 100).toString(),
-        fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
-    };
-}

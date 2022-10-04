@@ -11,11 +11,11 @@ import { ProductModule } from '../../pages/admin/product/product.module';
 export const content_admin: Routes = [
     {
         path: 'dashboard',
-        loadChildren: () => import('../../dashboard/dashboard.module').then( m => m.DashboardModule )
+        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {
         path: 'staff',
-        loadChildren: () => import('../../pages/admin/staff-manager/staff.modules').then(m => m.StaffModules),
+        loadChildren: () => import('../../pages/admin/employee-manager/employee.modules').then(m => m.EmployeeModules),
     },
     {
         path: 'customer',
@@ -33,7 +33,8 @@ export const content_admin: Routes = [
         path: 'productDetail',
         loadChildren: () => import('../../pages/admin/product-detail/product-detail.module').then(m => m.ProductDetailModule),
     },
-    
-    
-    
+    }, {
+        path: 'category',
+        loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
+    }
 ]
