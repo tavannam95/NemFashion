@@ -1,0 +1,14 @@
+mat-form-field {
+  width: 100%;
+}
+:host ::ng-deep img {
+  width: 210px !important;
+  min-height: 340px !important;
+}
+.example-section {
+  margin: 12px 0;
+}
+
+.example-margin {
+  margin: 0 12px;
+}

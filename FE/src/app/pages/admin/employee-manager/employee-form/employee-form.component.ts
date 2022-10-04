@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
 import {FormBuilder, Validators} from '@angular/forms';
 import {EmployeeListComponent} from '../employee-list/employee-list.component';
-import {EmployeeService} from '../../../../shared/service/employee/employee.service';
+import {EmployeeService} from 'app/shared/service/employee/employee.service'
 
 @Component({
     selector: 'app-employee-form',
