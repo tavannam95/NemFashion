@@ -16,6 +16,7 @@ export class CustomerFormComponent implements OnInit {
     avatarFile: any[] = [];
     avatarUrl!: any;
     isLoadingButton: boolean = false;
+    avatarUrlEdit: any;
 
     formGroup = this.fb.group({
         id: [''],
@@ -42,6 +43,7 @@ export class CustomerFormComponent implements OnInit {
         } else {
             this.title = 'Cập nhật khách hàng';
             this.formGroup.controls['password'].disable();
+            this.avatarUrlEdit = this.dataDialog.row.photo;
             this.formGroup.patchValue(this.dataDialog.row);
         }
     }

@@ -24,3 +24,8 @@ ngx-dropzone-image-preview {
 :host ::ng-deep img {
   max-width: 100% !important;
 }
+
+.avt-preview {
+  height: 60% !important;
+  margin-top: 50px !important;
+}
