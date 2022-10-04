@@ -14,7 +14,7 @@ export const content_admin: Routes = [
     },
     {
         path: 'staff',
-        loadChildren: () => import('../../pages/admin/staff-manager/staff.modules').then(m => m.StaffModules),
+        loadChildren: () => import('../../pages/admin/employee-manager/employee.modules').then(m => m.EmployeeModules),
     },
     {
         path: 'customer',

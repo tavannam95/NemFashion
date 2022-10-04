@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
-import {StaffListComponent} from './staff-list/staff-list.component';
-import {StaffFormComponent} from './staff-form/staff-form.component';
-import {StaffRoutingModule} from './staff-routing.module';
+import {EmployeeListComponent} from './employee-list/employee-list.component';
+import {EmployeeFormComponent} from './employee-form/employee-form.component';
+import {EmployeeRoutingModule} from './employee-routing.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -15,16 +15,17 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {DxFileUploaderModule, DxProgressBarModule} from 'devextreme-angular';
 import {MatRadioModule} from '@angular/material/radio';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
-       StaffListComponent ,
-       StaffFormComponent
+       EmployeeListComponent ,
+       EmployeeFormComponent
     ] ,
     imports: [
         CommonModule,
-        StaffRoutingModule,
+        EmployeeRoutingModule,
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
@@ -40,9 +41,11 @@ import {ReactiveFormsModule} from '@angular/forms';
         DxProgressBarModule,
         MatRadioModule,
         ReactiveFormsModule,
+        MatSlideToggleModule,
+        FormsModule,
     ],
-    entryComponents: [StaffFormComponent]
+    entryComponents: [EmployeeFormComponent]
 })
 
-export class StaffModules {}
+export class EmployeeModules {}
 
