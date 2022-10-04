@@ -6,7 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-dialog.component';
 import {Constant} from '../../../../shared/constants/Constant';
 import {EmployeeFormComponent} from '../employee-form/employee-form.component';
-import {EmployeeService} from '../../../../shared/service/employee/employee.service';
+import {EmployeeService} from 'app/shared/service/employee/employee.service'
 
 @Component({
     selector: 'app-employee-list',
