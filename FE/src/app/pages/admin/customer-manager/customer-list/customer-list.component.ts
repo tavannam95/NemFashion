@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -70,22 +70,23 @@ export class CustomerListComponent implements OnInit {
                 row
             }
         }).afterClosed().subscribe(result => {
-            if (result) {
-                // Get all
+            if (result === Constant.RESULT_CLOSE_DIALOG.SUCCESS) {
+                this.getAllCustomer();
             }
         })
     }
 
-    onDelete() {
+    onDelete(row: any) {
         this.matDialog.open(ConfirmDialogComponent, {
             disableClose: true,
             hasBackdrop: true,
             data: {
-                message: 'Bạn có muốn xóa bản ghi này?'
+                message: 'Bạn có muốn thay đổi trạng thái người dùng?'
             }
         }).afterClosed().subscribe(result => {
             if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
-                // Delete
+                row.status = 0;
+                this.customerService.deleteCustomer(row, row.id);
             }
         })
     }

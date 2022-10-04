@@ -21,7 +21,7 @@
                     </ngx-dropzone-label>
                     <ngx-dropzone-image-preview
                             ngProjectAs="ngx-dropzone-preview"
-                            *ngFor="let f of file"
+                            *ngFor="let f of avatarFile"
                             [file]="f"
                             [removable]="true"
                             (removed)="onRemove(f)"
@@ -32,10 +32,10 @@
             <div class="col-8">
                 <mat-form-field class="w-100" appearance="outline">
                     <mat-label>Tên khách hàng</mat-label>
-                    <input type="text" matInput cdkFocusInitial formControlName="fullName">
+                    <input type="text" matInput cdkFocusInitial formControlName="fullname">
                     <mat-error class="text-danger"
-                               *ngIf="formGroup.get('fullName')?.hasError('required') &&
-                                      formGroup.get('fullName')?.touched">
+                               *ngIf="formGroup.get('fullname')?.hasError('required') &&
+                                      formGroup.get('fullname')?.touched">
                         Tên khách hàng không được để trống
                     </mat-error>
                 </mat-form-field>
@@ -47,6 +47,11 @@
                                *ngIf="formGroup.get('email')?.hasError('required') &&
                                       formGroup.get('email')?.touched">
                         Email không được để trống
+                    </mat-error>
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('email')?.hasError('pattern') &&
+                                      formGroup.get('email')?.touched">
+                        Email không đúng định dạng
                     </mat-error>
                 </mat-form-field>
 
@@ -67,6 +72,11 @@
                                *ngIf="formGroup.get('phone')?.hasError('required') &&
                                       formGroup.get('phone')?.touched">
                         Số điện thoại không được để trống
+                    </mat-error>
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('phone')?.hasError('pattern') &&
+                                      formGroup.get('phone')?.touched">
+                        Số điện thoại không đúng định dạng
                     </mat-error>
                 </mat-form-field>
 
@@ -101,7 +111,10 @@
                         <span><span class="fe fe-x mg-r-2"></span>Đóng</span>
                     </button>
                     <button type="button" mat-raised-button color="primary" (click)="save()">
-                        <span><span class="fe fe-check mg-r-2"></span>Lưu</span>
+                        <span>
+                            <i *ngIf="isLoadingButton" class="fa fa-spinner fa-spin"></i>
+                            Lưu
+                        </span>
                     </button>
                 </div>
             </div>
