@@ -13,7 +13,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepicker, MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
-import {DxFileUploaderModule, DxProgressBarModule} from 'devextreme-angular';
 import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -37,8 +36,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatDatepickerModule,
         MatNativeDateModule,
         NgxDropzoneModule,
-        DxFileUploaderModule,
-        DxProgressBarModule,
         MatRadioModule,
         ReactiveFormsModule,
         MatSlideToggleModule,
