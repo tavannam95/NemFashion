@@ -55,6 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customers update(Customers customers) {
         Roles role = rolesRepository.findRolesByName("ROLE_CUSTOMER");
+//        Customers customerExists = get(customers.getId());
+//
+//        customers.setPassword(customerExists.getPassword());
         customers.setRole(role);
         return customersRepository.save(customers);
     }
