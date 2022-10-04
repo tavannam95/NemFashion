@@ -33,6 +33,9 @@ export class CustomerService {
                 },
                 error: (err) => {
                     console.log(err);
+                    if (err.error.code == 'UNIQUE_FIELD') {
+                        this.toastService.error(err.error.message);
+                    }
                     this.toastService.error('Tạo mới khách hàng thất bại !');
                     this.isCloseDialog.next(false);
                 }
@@ -58,13 +61,15 @@ export class CustomerService {
         )
     }
 
-    deleteCustomer(id: number) {
-        return this.apiService.deleteCustomer(id).subscribe({
-            next: _ => {
-                this.toastService.success('Xoá khách hàng thành công !');
+    deleteCustomer(data: any, id: number) {
+        return this.apiService.deleteCustomer(data, id).subscribe({
+            next: (res) => {
+                console.log(res)
+                this.toastService.success('Thay đổi trạng thái thành công !');
             },
-            error: _ => {
-                this.toastService.success('Xoá khách hàng thất bại !');
+            error: (err) => {
+                console.log(err)
+                this.toastService.error('Thay đổi trạng thái thất bại !');
             }
         })
     }

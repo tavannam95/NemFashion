@@ -76,18 +76,18 @@ export class CustomerListComponent implements OnInit {
         })
     }
 
-    onDelete(id: number) {
+    onDelete(row: any) {
         this.matDialog.open(ConfirmDialogComponent, {
             disableClose: true,
             hasBackdrop: true,
             data: {
-                message: 'Bạn có muốn xóa bản ghi này?'
+                message: 'Bạn có muốn thay đổi trạng thái người dùng?'
             }
         }).afterClosed().subscribe(result => {
             if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
-                this.customerService.deleteCustomer(id);
+                row.status = 0;
+                this.customerService.deleteCustomer(row, row.id);
             }
-            this.getAllCustomer();
         })
     }
 }

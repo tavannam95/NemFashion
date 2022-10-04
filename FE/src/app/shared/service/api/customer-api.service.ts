@@ -27,8 +27,8 @@ export class CustomerApiService {
         return this.http.put(`${ApiConstant.customer}/${id}`, data);
     }
 
-    deleteCustomer(id: number): Observable<any> {
-        return this.http.delete(`${ApiConstant.customer}/${id}`);
+    deleteCustomer(data: any, id: number): Observable<any> {
+        return this.http.put(`${ApiConstant.customer}/${id}`, data);
     }
 
 }

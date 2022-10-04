@@ -10,4 +10,5 @@ export const MenuItems: RouteInfo[] = [
     {path: '/staff', title: 'Quản lý nhân viên', icon: 'fas fa-users', class: ''},
     {path: '/customer', title: 'Quản lý khách hàng', icon: 'fas fa-users', class: ''},
     {path: '/order', title: 'Order nha', icon: 'fas fa-yin-yang', class: ''},
+    {path: '/category', title: 'Quản lý danh mục', icon: 'fas fa-box', class: ''},
 ]

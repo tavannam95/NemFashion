@@ -16,4 +16,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UniqueFieldException.class)
+    public ResponseEntity<?> uniqueFieldExceptionHandler(UniqueFieldException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("UNIQUE_FIELD", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
 }
