@@ -16,7 +16,7 @@
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Họ và tên</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="fullname">
-                        <mat-error *ngIf=" isValidator( 'fullname' , 'required')">
+                        <mat-error *ngIf=" isValidator( 'fullname' , 'isSpace')">
                             Vui lòng không để trống họ tên
                         </mat-error>
                     </mat-form-field>
@@ -35,7 +35,7 @@
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Mật khẩu</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="password">
-                        <mat-error *ngIf=" isValidator( 'password' , 'required')">
+                        <mat-error *ngIf=" isValidator( 'password' , 'isSpace')">
                             Vui lòng không để trống mật khẩu
                         </mat-error>
                     </mat-form-field>
@@ -64,7 +64,7 @@
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Địa chỉ</mat-label>
                         <input matInput placeholder="Placeholder" formControlName="address">
-                        <mat-error *ngIf=" isValidator( 'address' , 'required')">
+                        <mat-error *ngIf=" isValidator( 'address' , 'isSpace')">
                             Vui lòng không để trống địa chỉ
                         </mat-error>
                     </mat-form-field>

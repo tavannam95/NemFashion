@@ -1,7 +1,5 @@
 import {enableProdMode, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {ApiConstant} from '../../constants/ApiConstant';
 import {EmployeeApiService} from './employee-api.service';
 import {ToastrService} from 'ngx-toastr';
 
@@ -21,6 +19,10 @@ export class EmployeeService {
     }
 
     createEmployee(employee: any) {
+        employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.password.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+
         this.emApi.create(employee).subscribe({
             next: value => {
                 if (value.id) {
@@ -29,6 +31,9 @@ export class EmployeeService {
                 }
             },
             error: err => {
+                if (err.error.code == 'UNIQUE_FIELD') {
+                    this.toast.error( err.error.message );
+                }
                 this.toast.error('Thêm mới thất bại')
                 this.isCloseDialog.next(false)
             }
@@ -36,8 +41,26 @@ export class EmployeeService {
     }
 
     updateEmployee(employee: any) {
-        this.emApi.create(employee).subscribe({
+        employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.password.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+
+        this.emApi.update(employee).subscribe({
             next: value => {
+                this.toast.success('Cập nhập thành công')
+                this.isCloseDialog.next(true)
+            },
+            error: err => {
+                this.toast.error('Cập nhập thất bại')
+                this.isCloseDialog.next(false)
+            }
+        })
+    }
+
+    updateEmployeeStatus( employee: any ) {
+        this.emApi.updateStatus(employee).subscribe({
+            next: value => {
+                console.log(1)
                 this.toast.success('Cập nhập thành công')
                 this.isCloseDialog.next(true)
             },
