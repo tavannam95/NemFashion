@@ -19,6 +19,9 @@
                         <mat-error *ngIf=" isValidator( 'fullname' , 'isSpace')">
                             Vui lòng không để trống họ tên
                         </mat-error>
+                        <mat-error *ngIf=" isValidator( 'fullname' , 'pattern')">
+                            Tên không được chứa số và ký tự đặc biệt
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-6" appearance="outline">
@@ -34,10 +37,10 @@
 
                     <mat-form-field class="col-6" appearance="outline">
                         <mat-label>Mật khẩu</mat-label>
-                        <input matInput placeholder="Placeholder" formControlName="password">
-                        <mat-error *ngIf=" isValidator( 'password' , 'isSpace')">
-                            Vui lòng không để trống mật khẩu
-                        </mat-error>
+                        <input matInput  formControlName="password" [type]="hide ? 'password' : 'text'">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" class="col-6">

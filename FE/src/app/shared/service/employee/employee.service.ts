@@ -19,9 +19,9 @@ export class EmployeeService {
     }
 
     createEmployee(employee: any) {
-        employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-        employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-        employee.password.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.fullname = employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.address = employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.password = employee.password.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
 
         this.emApi.create(employee).subscribe({
             next: value => {
@@ -41,9 +41,9 @@ export class EmployeeService {
     }
 
     updateEmployee(employee: any) {
-        employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-        employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-        employee.password.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.fullname = employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.address = employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+        employee.password = employee.password.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
 
         this.emApi.update(employee).subscribe({
             next: value => {

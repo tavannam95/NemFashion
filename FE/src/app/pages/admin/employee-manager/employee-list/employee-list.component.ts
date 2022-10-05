@@ -79,12 +79,12 @@ export class EmployeeListComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe( rs => {
              if ( rs === Constant.RESULT_CLOSE_DIALOG.CONFIRM ) {
-                 if( status == 1 ){
-                     row.status = 2 ;
-                 }else{
-                     row.status = 1 ;
-                 }
-                 this.emService.updateEmployee( row )
+                 setTimeout( () => {
+                     this.emService.updateEmployeeStatus( row )
+                     setTimeout( () => {
+                         this.getAllData()  ;
+                     } , 150)
+                 } ,100)
              }
             console.log(rs)
         })
