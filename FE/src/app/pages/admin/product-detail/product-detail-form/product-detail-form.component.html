@@ -1,17 +1,110 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="card custom-card">
+      <mat-card-title class="text-center mt-3"
+        ><span class="h2 font-weight-bold text-center"
+          >Thêm chi tiết sản phẩm</span
+        ></mat-card-title>
       <div class="card-body">
-        <div class="mx-2">
-            <mat-form-field appearance="outline" class="w-100">
-                <mat-label>Tìm kiếm</mat-label>
-                <input type="text" matInput placeholder="Tìm kiếm"
-
-                #input>
-            </mat-form-field>
-            <button mat-raised-button color="warn">Thêm mới</button>
+        <div class="row">
+          <div class="col-3">
+            <div
+                    class="custom-dropzone"
+                    style="height: 360px; width: 234px;"
+                    ngx-dropzone
+                    [accept]="'image/*'"
+                    (change)="onSelect($event)"
+                  >
+                    <ngx-dropzone-label>
+                      <div>
+                        <span>Tải ảnh lên để hút màu!</span>
+                        <br>
+                        <span>(Không bắt buộc)</span>
+                      </div>
+                    </ngx-dropzone-label>
+                    <ngx-dropzone-image-preview
+                      ngProjectAs="ngx-dropzone-preview"
+                      *ngFor="let f of files"
+                      [file]="f"
+                      [removable]="true"
+                      (removed)="onRemove(f)"
+                    >
+                      <ngx-dropzone-label> </ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
+                  </div>
+          </div>
+          <div class="col-9">
+            <form (submit)="onSubmit()">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Mã màu sản phẩm</mat-label>
+                    <input
+                      matInput
+                      [(value)]="color"
+                      type="text"
+                      onfocus="this.select()"
+                      (change)="onChangeColor($event)"
+                      placeholder="Ví dụ: #FFFFFF"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-5">
+                  <input
+                    class=""
+                    style="height: 54px"
+                    type="color"
+                    (change)="onChangeColor($event)"
+                    [(value)]="color"
+                  />
+                </div>
+              </div>
+              <mat-label>Chọn size </mat-label>
+                      <!-- Color product detail -->
+                      <section class="example-section">
+                        <mat-checkbox
+                          *ngFor="let s of size"
+                          (click)="clickSize(s)"
+                          [(value)]="s.value"
+                          class="example-margin"
+                        >
+                          {{ s.viewValue }}
+                        </mat-checkbox>
+                      </section>
+                      <mat-form-field
+                        *ngFor="let item of selectedSize"
+                        [(value)]="item.value"
+                        appearance="outline"
+                      >
+                        <mat-label>
+                          Số lượng của size {{item.viewValue}}
+                        </mat-label>
+                        <input matInput type="number" placeholder="Nhập số lượng..." />
+                      </mat-form-field>
+                      <div class="row d-flex justify-content-end">
+                        <button
+                            class="btn btn-info mt-auto"
+                            type="submit"
+                            title="Tiếp tục thêm màu và số lượng mới"
+                            mat-button
+                            matStepperNext
+                          >
+                            Thêm tiếp
+                          </button>
+                          <a
+                            routerLink="/product"
+                            class="btn btn-danger mt-auto"
+                            mat-button
+                            matStepperNext
+                          >
+                            Kết thúc
+                          </a>
+                      </div>
+            </form>
+          </div>
         </div>
-    </div>
+        
+      </div>
     </div>
   </div>
 </div>
