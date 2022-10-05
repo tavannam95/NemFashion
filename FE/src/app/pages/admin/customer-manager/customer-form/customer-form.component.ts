@@ -4,6 +4,7 @@ import {Constant} from '../../../../shared/constants/Constant';
 import {FormBuilder, Validators} from '@angular/forms';
 import {CustomerService} from '../../../../shared/service/customer.service';
 import {UploadCloudinaryService} from '../../../../shared/service/upload-cloudinary.service';
+import {Regex} from '../../../../shared/validators/Regex';
 
 @Component({
     selector: 'app-customer-form',
@@ -22,11 +23,11 @@ export class CustomerFormComponent implements OnInit {
 
     formGroup = this.fb.group({
         id: [''],
-        fullname: ['', [Validators.required]],
+        fullname: ['', [Validators.required, Validators.pattern(Regex.unicode)]],
         photo: ['', []],
-        email: ['', [Validators.required, Validators.pattern('^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$')]],
+        email: ['', [Validators.required, Validators.pattern(Regex.email)]],
         password: ['', [Validators.required]],
-        phone: ['', [Validators.required, Validators.pattern(/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/)]],
+        phone: ['', [Validators.required, Validators.pattern(Regex.phone)]],
         birthDate: ['', [Validators.required]],
         siginDate: new Date(),
         status: [1]
