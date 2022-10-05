@@ -7,9 +7,11 @@ import java.util.List;
 public interface EmployeeService {
     List<Employees> findAll() ;
 
-    Employees create( Employees employees ) ;
+    Employees create(Employees employees ) ;
 
     Employees update( Employees employees ) ;
 
     boolean exitById( Integer id ) ;
+
+    Employees updateStatus( Employees employees ) ;
 }

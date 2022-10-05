@@ -1,9 +1,16 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmployeeListComponent} from '../employee-list/employee-list.component';
 import {EmployeeService} from 'app/shared/service/employee/employee.service'
+import {Regex} from '../../../../shared/validators/Regex';
+
+export function checkSpace( c: AbstractControl ) {
+    return ( c.value.trim() == '' ) ? {
+        isSpace: true
+    }: null ;
+}
 
 @Component({
     selector: 'app-employee-form',
@@ -15,15 +22,16 @@ export class EmployeeFormComponent implements OnInit {
     title = '' ;
     nameBtn = '' ;
     colorBtn = '' ;
+    hide = true ;
 
     staff = this.fb.group( {
         id: null ,
-        fullname: ['' , Validators.required ],
+        fullname: ['' , [ checkSpace , Validators.pattern( Regex.unicode ) ]],
         email: ['' , [Validators.required , Validators.email ]] ,
-        password: ['' , [Validators.required ]] ,
+        password: ['' , [checkSpace ]] ,
         birthDate: ['' , [Validators.required ]] ,
         phone: ['' , [Validators.required , Validators.pattern("0[3,9]\\d{8}")]] ,
-        address: ['' , [Validators.required ]] ,
+        address: ['' , [checkSpace ]] ,
         photo: 'https://res.cloudinary.com/dpnmnhu1m/image/upload/v1664847958/b92834f8d2ca4fffeb42062d37f2c6bd_now9cs.jpg' ,
         status: 1 ,
         role: this.fb.group( {
