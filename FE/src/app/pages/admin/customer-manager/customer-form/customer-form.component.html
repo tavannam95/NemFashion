@@ -70,7 +70,12 @@
                 <ng-container *ngIf="isShowPassword">
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Mật khẩu</mat-label>
-                        <input type="password" matInput formControlName="password" autocomplete="off">
+                        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
+                               autocomplete="off">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
                         <mat-error class="text-danger"
                                    *ngIf="formGroup.get('password')?.hasError('required') &&
                                       formGroup.get('password')?.touched">

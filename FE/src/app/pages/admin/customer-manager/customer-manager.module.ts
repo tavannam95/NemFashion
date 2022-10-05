@@ -17,6 +17,8 @@ import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -39,6 +41,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         NgxDropzoneModule,
         MatRadioModule,
         ReactiveFormsModule,
+        MatIconModule
     ]
 })
 export class CustomerManagerModule {
