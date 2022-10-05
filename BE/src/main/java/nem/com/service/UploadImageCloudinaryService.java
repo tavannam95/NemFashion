@@ -9,5 +9,5 @@ public interface UploadImageCloudinaryService {
 
     List<String> upload(MultipartFile[] files) throws IOException;
 
-    void delete(String publicId);
+    void delete(String publicId) throws IOException;
 }

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +33,10 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageCloudinarySe
     }
 
     @Override
-    public void delete(String publicId) {
-
+    public void delete(String publicId) throws IOException {
+        Map<String, String> params = new HashMap<>();
+        params.put("invalidate", "true");
+        cloudinary.uploader().destroy(publicId, params);
     }
 
     private String save(MultipartFile file) throws IOException {

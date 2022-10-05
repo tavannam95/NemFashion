@@ -20,6 +20,7 @@ export class CustomerFormComponent implements OnInit {
     isLoadingButton: boolean = false;
     isUpdate: boolean = false;
     isShowPassword: boolean = true;
+    hide: boolean = true;
 
     formGroup = this.fb.group({
         id: [''],
@@ -32,6 +33,7 @@ export class CustomerFormComponent implements OnInit {
         siginDate: new Date(),
         status: [1]
     })
+
 
     constructor(private readonly fb: FormBuilder,
                 private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
