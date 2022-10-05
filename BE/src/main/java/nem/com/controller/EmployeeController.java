@@ -34,7 +34,13 @@ public class EmployeeController {
         if(  !employeeService.exitById( id)){
             return ResponseEntity.notFound().build() ;
         }
-        return new ResponseEntity<>( employeeService.create(employees) , HttpStatus.OK );
+        return new ResponseEntity<>( employeeService.update(employees) , HttpStatus.OK );
+    }
+
+    @PutMapping("status/{id}")
+    public ResponseEntity<Employees> updateStatus( @PathVariable("id") Integer id , @RequestBody Employees employees ) {
+
+        return new ResponseEntity<>( employeeService.updateStatus(employees) , HttpStatus.OK );
     }
 
 }

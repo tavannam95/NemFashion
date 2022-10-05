@@ -4,6 +4,7 @@ import {Constant} from '../../../../shared/constants/Constant';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmployeeListComponent} from '../employee-list/employee-list.component';
 import {EmployeeService} from 'app/shared/service/employee/employee.service'
+import {Regex} from '../../../../shared/validators/Regex';
 
 export function checkSpace( c: AbstractControl ) {
     return ( c.value.trim() == '' ) ? {
@@ -21,10 +22,11 @@ export class EmployeeFormComponent implements OnInit {
     title = '' ;
     nameBtn = '' ;
     colorBtn = '' ;
+    hide = true ;
 
     staff = this.fb.group( {
         id: null ,
-        fullname: ['' , [ checkSpace ]],
+        fullname: ['' , [ checkSpace , Validators.pattern( Regex.unicode ) ]],
         email: ['' , [Validators.required , Validators.email ]] ,
         password: ['' , [checkSpace ]] ,
         birthDate: ['' , [Validators.required ]] ,

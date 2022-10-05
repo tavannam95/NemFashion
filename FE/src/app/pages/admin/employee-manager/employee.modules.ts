@@ -16,6 +16,7 @@ import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         ReactiveFormsModule,
         MatSlideToggleModule,
         FormsModule,
+        MatIconModule,
     ],
     entryComponents: [EmployeeFormComponent]
 })
