@@ -22,4 +22,8 @@ export class EmployeeApiService {
   update( employee: any ) : Observable<any> {
     return this.http.put( `${ ApiConstant.employee }/${employee.id}` , employee ) ;
   }
+
+  updateStatus( employee: any ): Observable<any> {
+    return this.http.put( `${ ApiConstant.employee }/status/${employee.id}` , employee )
+  }
 }
