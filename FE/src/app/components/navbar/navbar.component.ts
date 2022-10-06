@@ -3,6 +3,9 @@ import {Component, OnInit, ElementRef} from '@angular/core';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {Router} from '@angular/router';
 import {MenuItems} from '../../shared/menu/menuItems';
+import {MatDialog} from '@angular/material/dialog';
+import {EmployeeDetailComponent} from '../../pages/admin/employee-manager/employee-detail/employee-detail.component';
+import {EmployeeService} from '../../shared/service/employee/employee.service';
 
 @Component({
     selector: 'app-navbar',
@@ -16,7 +19,8 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
 
-    constructor(location: Location, private element: ElementRef, private router: Router) {
+    constructor(location: Location, private element: ElementRef, private router: Router , private dialog: MatDialog ,
+                private employeeService: EmployeeService ) {
         this.location = location;
         this.sidebarVisible = false;
     }
@@ -123,5 +127,17 @@ export class NavbarComponent implements OnInit {
             }
         }
         return 'Dashboard';
+    }
+
+    openDialogEmployeDetail(){
+        const dialog = this.dialog.open( EmployeeDetailComponent , {
+            width: '70vw' ,
+            disableClose: true,
+            hasBackdrop: true,
+        })
+
+        dialog.afterClosed().subscribe( value => {
+
+        })
     }
 }

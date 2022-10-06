@@ -9,8 +9,15 @@ import {AppComponent} from './app.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {ToastrModule} from 'ngx-toastr';
 import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.component';
-import { ProductFormComponent } from './pages/admin/product/product-form/product-form.component';
-import { ProductListComponent } from './pages/admin/product/product-list/product-list.component';
+import { EmployeeDetailComponent } from './pages/admin/employee-manager/employee-detail/employee-detail.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { EmployeeImageComponent } from './pages/admin/employee-manager/employee-image/employee-image.component';
+import {NgxDropzoneModule} from 'ngx-dropzone';
+
 
 @NgModule({
     imports: [
@@ -21,12 +28,20 @@ import { ProductListComponent } from './pages/admin/product/product-list/product
         ComponentsModule,
         RouterModule,
         AppRoutingModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        NgxDropzoneModule
     ],
     declarations: [
         AppComponent,
         AdminLayoutComponent,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        EmployeeDetailComponent,
+        EmployeeImageComponent,
     ],
     providers: [],
     bootstrap: [AppComponent]

@@ -4,13 +4,7 @@ import {Constant} from '../../../../shared/constants/Constant';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmployeeListComponent} from '../employee-list/employee-list.component';
 import {EmployeeService} from 'app/shared/service/employee/employee.service'
-import {Regex} from '../../../../shared/validators/Regex';
-
-export function checkSpace( c: AbstractControl ) {
-    return ( c.value.trim() == '' ) ? {
-        isSpace: true
-    }: null ;
-}
+import {checkSpace, Regex} from '../../../../shared/validators/Regex';
 
 @Component({
     selector: 'app-employee-form',
@@ -23,6 +17,7 @@ export class EmployeeFormComponent implements OnInit {
     nameBtn = '' ;
     colorBtn = '' ;
     hide = true ;
+    hidePassword = false ;
 
     staff = this.fb.group( {
         id: null ,
@@ -52,10 +47,14 @@ export class EmployeeFormComponent implements OnInit {
             this.title = 'Thêm mới nhân viên'
             this.nameBtn = "Thêm mới"
             this.colorBtn = 'btn btn-success'
+            this.hidePassword = true ;
         }else{
+            this.hidePassword = false ;
+            this.title = 'Cập nhâp nhân viên'
             this.colorBtn = 'btn btn-primary'
             this.nameBtn = "Cập nhập"
             this.staff.patchValue( this.dataDialog.row )
+            console.log(this.staff.getRawValue())
         }
     }
 
@@ -68,6 +67,7 @@ export class EmployeeFormComponent implements OnInit {
         if( this.dataDialog.type === this.TYPE_DIALOG.NEW ){
             this.emService.createEmployee( this.staff.getRawValue() ) ;
         }else {
+
             this.emService.updateEmployee( this.staff.getRawValue() ) ;
         }
 

@@ -20,9 +20,9 @@ import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
     declarations: [
-       EmployeeListComponent ,
-       EmployeeFormComponent
-    ] ,
+        EmployeeListComponent,
+        EmployeeFormComponent,
+    ],
     imports: [
         CommonModule,
         EmployeeRoutingModule,
@@ -46,5 +46,6 @@ import {MatIconModule} from '@angular/material/icon';
     entryComponents: [EmployeeFormComponent]
 })
 
-export class EmployeeModules {}
+export class EmployeeModules {
+}
 

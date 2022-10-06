@@ -83,8 +83,8 @@ export class EmployeeListComponent implements OnInit {
                      this.emService.updateEmployeeStatus( row )
                      setTimeout( () => {
                          this.getAllData()  ;
-                     } , 150)
-                 } ,100)
+                     } , 200)
+                 } ,200)
              }
             console.log(rs)
         })
