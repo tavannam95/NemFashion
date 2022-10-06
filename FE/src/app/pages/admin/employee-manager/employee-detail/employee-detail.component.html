@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between">
+                <h6 class="main-content-label" style="font-size: 16px;">{{ title }}</h6>
+                <span class="fa-solid fa-xmark icon-close" style="font-size: 16px; cursor: pointer;"
+                      (click)="onDismiss()"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-3 mt-3">
+            <img id="img" style="width: 100%; border-radius: 200px ; border: 1px solid gray;"
+                 [src]="employee.getRawValue().photo">
+            <button id="updateImg" (click)="onpenDialogUpdateImg()">
+                <i class="material-icons">photo_camera</i>
+            </button>
+        </div>
+        <div class="col-6 mt-3">
+            <form class="row" [formGroup]="employee">
+                <mat-form-field appearance="outline" class="col-6">
+                    <mat-label>Họ và tên</mat-label>
+                    <input matInput formControlName="fullname">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-6">
+                    <mat-label>Số điện thoại</mat-label>
+                    <input matInput formControlName="phone">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-6">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-6">
+                    <mat-label>Ngày sinh</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Địa chỉ</mat-label>
+                    <input matInput formControlName="address">
+                </mat-form-field>
+
+                <div class="col-12">
+                    <button class="btn btn-primary" (click)="updateInformation()">Cập nhập thông tin</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-3 mt-3">
+            <form class="row" [formGroup]="changePassword">
+                <mat-form-field appearance="outline" class="col-12">
+                    <mat-label>Mật khẩu cũ</mat-label>
+                    <input matInput formControlName="oldPassword">
+                    <mat-error *ngIf=" isValidator('oldPassword' , 'isSpace')">
+                        Vui lòng nhập mật khẩu cũ
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="col-12" formGroupName="pw">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mật khẩu mới</mat-label>
+                        <input matInput formControlName="newPassword">
+                        <mat-error >
+
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-12" formGroupName="pw">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Xác nhận mật khẩu</mat-label>
+                        <input matInput formControlName="confirmPassword">
+                    </mat-form-field>
+                    <mat-error *ngIf=" this.changePassword.get('pw').hasError('isCheckPassword') && this.changePassword.get('pw').touched">
+                        Mật khẩu không khớp
+                    </mat-error>
+                </div>
+
+
+                <div class="col-12">
+                    <button class="btn btn-primary">Đổi mật khẩu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

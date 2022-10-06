@@ -64,5 +64,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeesRepository.save(employees);
     }
 
+    @Override
+    public Employees findById(Integer id) {
+        return employeesRepository.findById( id ).get();
+    }
+
 
 }
