@@ -19,9 +19,14 @@ public class EmployeeController {
         this.employeeService = employeeService ;
     }
 
-    @RequestMapping("")
+    @GetMapping("")
     public ResponseEntity<List<Employees>>  findAll() {
         return new ResponseEntity<>(employeeService.findAll() , HttpStatus.OK )  ;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employees> findById( @PathVariable("id") Integer id  ){
+        return new ResponseEntity<>( employeeService.findById(id) , HttpStatus.OK ) ;
     }
 
     @PostMapping("")

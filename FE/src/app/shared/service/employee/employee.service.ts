@@ -18,6 +18,10 @@ export class EmployeeService {
         return this.emApi.getAll()
     }
 
+    getEmployeeById( id: number ){
+        return this.emApi.getById( id) ;
+    }
+
     createEmployee(employee: any) {
         employee.fullname = employee.fullname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
         employee.address = employee.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");

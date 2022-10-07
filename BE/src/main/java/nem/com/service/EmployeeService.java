@@ -14,4 +14,6 @@ public interface EmployeeService {
     boolean exitById( Integer id ) ;
 
     Employees updateStatus( Employees employees ) ;
+
+    Employees findById( Integer id ) ;
 }
