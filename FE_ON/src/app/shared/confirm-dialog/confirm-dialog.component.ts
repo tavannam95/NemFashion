@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {Constant} from '../constants/Constant';
+import {Constants } from '../constants/constants.module';
 
 @Component({
     selector: 'app-confirm-dialog',
@@ -24,11 +24,11 @@ export class ConfirmDialogComponent implements OnInit {
     }
 
     onDismiss(): void {
-        this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.CLOSE);
+        this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.CLOSE);
     }
 
     onConfirm(): void {
-        this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.CONFIRM);
+        this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.CONFIRM);
     }
 
 }

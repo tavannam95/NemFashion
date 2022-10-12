@@ -78,8 +78,15 @@ export class EmployeeDetailComponent implements OnInit {
         this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.CLOSE);
     }
 
-    isValidator( name: string , error: string ){
+    isValidatorChangePassword( name: string , error: string ){
         return this.changePassword.get(name).hasError(error) && this.changePassword.get(name).touched ;
     }
 
+    isValidatorEmployee(name: string , error: string ){
+        return this.employee.get(name).hasError(error) && this.employee.get(name).touched ;
+    }
+
+    saveChangePassword() {
+
+    }
 }
