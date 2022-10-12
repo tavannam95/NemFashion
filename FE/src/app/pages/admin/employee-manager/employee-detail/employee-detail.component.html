@@ -17,29 +17,56 @@
                 <i class="material-icons">photo_camera</i>
             </button>
         </div>
+
+        <!--     Form cập nhập thông tin-->
         <div class="col-6 mt-3">
             <form class="row" [formGroup]="employee">
                 <mat-form-field appearance="outline" class="col-6">
                     <mat-label>Họ và tên</mat-label>
                     <input matInput formControlName="fullname">
+                    <mat-error *ngIf=" isValidatorEmployee('fullname' , 'isSpace') ">
+                        Vui lòng nhập họ tên
+                    </mat-error>
+                    <mat-error *ngIf=" isValidatorEmployee('fullname' , 'pattern') ">
+                        Vui lòng không nhập ký tự đặc biệt
+                    </mat-error>
                 </mat-form-field>
+
                 <mat-form-field appearance="outline" class="col-6">
                     <mat-label>Số điện thoại</mat-label>
                     <input matInput formControlName="phone">
+                    <mat-error *ngIf=" isValidatorEmployee('phone' , 'isSpace') ">
+                        Vui lòng nhập số điện thoại
+                    </mat-error>
+                    <mat-error *ngIf=" isValidatorEmployee('phone' , 'pattern') ">
+                        Số điện thoại không đúng định dạng
+                    </mat-error>
                 </mat-form-field>
+
                 <mat-form-field appearance="outline" class="col-6">
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email">
+                    <mat-error *ngIf=" isValidatorEmployee('email' , 'email') ">
+                        Email không đúng định dạng
+                    </mat-error>
                 </mat-form-field>
+
                 <mat-form-field appearance="outline" class="col-6">
                     <mat-label>Ngày sinh</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="birthDate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf=" isValidatorEmployee('birthDate' , 'required') ">
+                        Vui lòng nhập ngày sinh
+                    </mat-error>
                 </mat-form-field>
+
                 <mat-form-field appearance="outline" class="col-12">
                     <mat-label>Địa chỉ</mat-label>
                     <input matInput formControlName="address">
+                    <mat-error *ngIf=" isValidatorEmployee('address' , 'isSpace') ">
+                        Vui lòng nhập địa chỉ
+                    </mat-error>
                 </mat-form-field>
 
                 <div class="col-12">
@@ -47,12 +74,14 @@
                 </div>
             </form>
         </div>
+
+        <!--    Form đổi mật khẩu-->
         <div class="col-3 mt-3">
             <form class="row" [formGroup]="changePassword">
                 <mat-form-field appearance="outline" class="col-12">
                     <mat-label>Mật khẩu cũ</mat-label>
                     <input matInput formControlName="oldPassword">
-                    <mat-error *ngIf=" isValidator('oldPassword' , 'isSpace')">
+                    <mat-error *ngIf=" isValidatorChangePassword('oldPassword' , 'isSpace')">
                         Vui lòng nhập mật khẩu cũ
                     </mat-error>
                 </mat-form-field>
@@ -61,8 +90,8 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Mật khẩu mới</mat-label>
                         <input matInput formControlName="newPassword">
-                        <mat-error >
-
+                        <mat-error *ngIf="isValidatorChangePassword('pw.newPassword' , 'isSpace')">
+                            Vui lòng nhập mật khẩu mới
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -70,13 +99,15 @@
                 <div class="col-12" formGroupName="pw">
                     <mat-form-field appearance="outline">
                         <mat-label>Xác nhận mật khẩu</mat-label>
-                        <input matInput formControlName="confirmPassword">
+                        <input matInput formControlName="confirmPassword" class="p-0">
+                        <mat-error *ngIf="isValidatorChangePassword('pw.confirmPassword' , 'isSpace')">
+                            Vui lòng nhập lại mật khẩu mới
+                        </mat-error>
+                        <mat-hint class="text-danger" *ngIf=" isValidatorChangePassword('pw' , 'isCheckPassword')">
+                            Mật khẩu không khớp
+                        </mat-hint>
                     </mat-form-field>
-                    <mat-error *ngIf=" this.changePassword.get('pw').hasError('isCheckPassword') && this.changePassword.get('pw').touched">
-                        Mật khẩu không khớp
-                    </mat-error>
                 </div>
-
 
                 <div class="col-12">
                     <button class="btn btn-primary">Đổi mật khẩu</button>

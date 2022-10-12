@@ -6,7 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
 import {CustomerFormComponent} from '../customer-form/customer-form.component';
 import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-dialog.component';
-import {CustomerService} from '../../../../shared/service/customer.service';
+import {CustomerService} from '../../../../shared/service/customer/customer.service';
 
 @Component({
     selector: 'app-customer-list',
