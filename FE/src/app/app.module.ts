@@ -17,6 +17,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { EmployeeImageComponent } from './pages/admin/employee-manager/employee-image/employee-image.component';
 import {NgxDropzoneModule} from 'ngx-dropzone';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {NgxDropzoneModule} from 'ngx-dropzone';
         MatInputModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        NgxDropzoneModule
+        NgxDropzoneModule,
+        NgSelectModule,
     ],
     declarations: [
         AppComponent,
