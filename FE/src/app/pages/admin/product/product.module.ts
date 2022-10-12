@@ -19,7 +19,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
-
+import {NgSelectModule} from "@ng-select/ng-select";
 
 @NgModule({
   declarations: [ProductFormComponent, ProductListComponent],
@@ -40,7 +40,8 @@ import {MatTreeModule} from '@angular/material/tree';
     ReactiveFormsModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatTreeModule
+    MatTreeModule,
+      NgSelectModule
   ],
 })
 export class ProductModule{

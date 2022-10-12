@@ -1,11 +1,20 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FileUploadService } from "../../../../service/file-upload.service";
 import { ThemePalette } from '@angular/material/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Regex } from '../../../../shared/validators/Regex';
+import { CategoryService } from '../../../../shared/service/category/category.service';
+import {ProductService} from "../../../../shared/service/product/product.service";
+
 
 // Fake data
 interface Category {
-  value: string;
-  viewValue: string;
+  id: number;
+  name: string;
+  image: string;
+  createDate: Date;
+  updateDate: Date;
+  status: number
 }
 
 // Fake size
@@ -29,25 +38,68 @@ export class ProductFormComponent implements OnInit {
   disabled = false;
   unbounded = false;
 
+  productId: number;
+
+  // categorySelectedCheck = false;
+  //
+  // categorySelected: any;
+
   files: File[] = [];
   detailFiles: File[] = [];
   
+  isLoading: boolean = false;
+
   // Fake category
-  categories: Category[] = [
-    {value: '1', viewValue: 'Đầm'},
-    {value: '2', viewValue: 'Áo'},
-    {value: '3', viewValue: 'Quần'},
-    {value: '4', viewValue: 'Chân váy'},
-    {value: '5', viewValue: 'Bikini'},
-    {value: '6', viewValue: 'Set bộ'},
-    
-  ]
+  categories: any;
+
+  formGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.pattern(Regex.unicode)]],
+    category: this.fb.group({
+      id: ['',Validators.required]
+    }),
+    price: ['',[Validators.min(1),Validators.required]],
+    description: ['']
+  })
 
   constructor(
     private fileUploadService: FileUploadService,
+    private fb: FormBuilder,
+    private categoryService: CategoryService,
+    private productService: ProductService
   ) {}
 
-  ngOnInit(): void {}
+  check(){
+    console.log(this.formGroup.value);
+  }
+
+  //Get category and fill to selection
+  getAllCategory(){
+    this.isLoading = true;
+    return this.categoryService.getAllCategory().subscribe({
+      next: (res) => {
+          this.isLoading = false;
+          //Gán data vào biến
+          this.categories = res;
+        },
+      error: (err) => {
+          this.isLoading = false;
+          console.log(err)
+      }
+  })
+  }
+
+  createProduct(){
+    if (this.formGroup.valid){
+      this.productService.createProduct(this.formGroup.value).subscribe(res=>{
+        this.productId = res.id;
+        console.log(this.productId);
+      })
+    }
+  }
+
+  ngOnInit(): void {
+    this.getAllCategory();
+  }
   // On file Select
   onChange(event) {
     this.file = event.target.files[0];
