@@ -14,6 +14,7 @@ import {EmployeeImageComponent} from '../employee-image/employee-image.component
 })
 export class EmployeeDetailComponent implements OnInit {
     title = 'Thông tin chi tiết'
+    isChecked = false ;
     employee = this.fb.group( {
         id: null ,
         fullname: ['' , [ checkSpace , Validators.pattern( Regex.unicode ) ]],
@@ -79,6 +80,11 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     isValidatorChangePassword( name: string , error: string ){
+        if( this.changePassword.get(name).hasError(error) && this.changePassword.get(name).touched  ){
+            this.isChecked = false
+        }else{
+            this.isChecked = true
+        }
         return this.changePassword.get(name).hasError(error) && this.changePassword.get(name).touched ;
     }
 
@@ -89,4 +95,6 @@ export class EmployeeDetailComponent implements OnInit {
     saveChangePassword() {
 
     }
+
+
 }
