@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CustomerApiService} from './api/customer-api.service';
+import {CustomerApiService} from './customer-api.service';
 import {ToastrService} from 'ngx-toastr';
 import {BehaviorSubject} from 'rxjs';
 

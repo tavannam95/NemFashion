@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {UploadCloudinaryApiService} from './api/upload-cloudinary-api.service';
+import {UploadCloudinaryApiService} from './upload-cloudinary-api.service';
 
 @Injectable({
     providedIn: 'root'
