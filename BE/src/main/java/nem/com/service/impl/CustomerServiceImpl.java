@@ -37,15 +37,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customers save(Customers customers) {
 
-        Optional<Customers> customerByEmail = customersRepository.findCustomersByEmail(customers.getEmail());
-        Optional<Customers> customerByPhone = customersRepository.findCustomersByPhone(customers.getPhone());
-
-        if (customerByEmail.isPresent()) {
-            throw new UniqueFieldException("Khách hàng có email " + customers.getEmail() + " đã tồn tại !");
-        }
-        if (customerByPhone.isPresent()) {
+        customersRepository.findCustomersByEmail(customers.getEmail()).ifPresent(e -> {
+            throw new UniqueFieldException("Khách hàng có số email " + customers.getEmail() + " đã tồn tại !");
+        });
+        customersRepository.findCustomersByPhone(customers.getPhone()).ifPresent(e -> {
             throw new UniqueFieldException("Khách hàng có số điện thoại " + customers.getPhone() + " đã tồn tại !");
-        }
+        });
 
         Roles role = rolesRepository.findRolesByName("ROLE_CUSTOMER");
         customers.setRole(role);
@@ -55,10 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customers update(Customers customers) {
         Roles role = rolesRepository.findRolesByName("ROLE_CUSTOMER");
-//        Customers customerExists = get(customers.getId());
-//
-//        customers.setPassword(customerExists.getPassword());
         customers.setRole(role);
+
         return customersRepository.save(customers);
     }
 
