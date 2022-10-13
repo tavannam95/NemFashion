@@ -7,7 +7,7 @@
         ></mat-card-title>
       <div class="card-body">
         <mat-stepper linear #stepper>
-          <mat-step [stepControl]="formGroup" [editable]="false">
+          <mat-step [stepControl]="formGroup" [editable]="true">
             <form [formGroup]="formGroup">
               <ng-template matStepLabel>Thông tin sản phẩm</ng-template>
               <div class="row">
@@ -26,7 +26,7 @@
                     </ngx-dropzone-label>
                     <ngx-dropzone-image-preview
                       ngProjectAs="ngx-dropzone-preview"
-                      *ngFor="let f of files"
+                      *ngFor="let f of thumnailFile"
                       [file]="f"
                       [removable]="true"
                       (removed)="onRemove(f)"
@@ -91,8 +91,8 @@
                       class="btn btn-info mt-auto"
                       mat-button
                       matStepperNext
-                      (click)="createProduct()"
                     >
+<!--                      createProduct()-->
                       Đồng ý
                     </button>
                   </div>
@@ -100,7 +100,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step [editable]="false">
+          <mat-step [editable]="true">
               <ng-template matStepLabel>Ảnh sản phẩm</ng-template>
               <div class="row">
                 <div class="col-12 p-0">
@@ -119,7 +119,7 @@
                     </ngx-dropzone-label>
                     <ngx-dropzone-image-preview
                       ngProjectAs="ngx-dropzone-preview"
-                      *ngFor="let f of detailFiles"
+                      *ngFor="let f of imagesFile"
                       [file]="f"
                       [removable]="true"
                       (removed)="onRemoveDetail(f)"

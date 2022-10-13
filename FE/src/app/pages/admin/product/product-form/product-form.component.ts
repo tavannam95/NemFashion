@@ -5,25 +5,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Regex } from '../../../../shared/validators/Regex';
 import { CategoryService } from '../../../../shared/service/category/category.service';
 import {ProductService} from "../../../../shared/service/product/product.service";
+import {UploadCloudinaryService} from "../../../../shared/service/upload-cloudinary.service";
 
-
-// Fake data
-interface Category {
-  id: number;
-  name: string;
-  image: string;
-  createDate: Date;
-  updateDate: Date;
-  status: number
-}
-
-// Fake size
-export interface Task {
-  name: string;
-  completed: boolean;
-  color: ThemePalette;
-  subtasks?: Task[];
-}
 
 @Component({
   selector: "product-form",
@@ -33,10 +16,11 @@ export interface Task {
 export class ProductFormComponent implements OnInit {
   shortLink: string = "";
   loading: boolean = false;
-  file: File = null;
-  centered = false;
-  disabled = false;
-  unbounded = false;
+  thumnailFile: any[] = [];
+  thumnailUrl!: any;
+
+  imagesFile: any[] = [];
+  imagesUrl!: any;
 
   productId: number;
 
@@ -44,9 +28,6 @@ export class ProductFormComponent implements OnInit {
   //
   // categorySelected: any;
 
-  files: File[] = [];
-  detailFiles: File[] = [];
-  
   isLoading: boolean = false;
 
   // Fake category
@@ -58,19 +39,17 @@ export class ProductFormComponent implements OnInit {
       id: ['',Validators.required]
     }),
     price: ['',[Validators.min(1),Validators.required]],
-    description: ['']
+    description: [''],
+    thumnail: ['']
   })
 
   constructor(
     private fileUploadService: FileUploadService,
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private productService: ProductService
+    private productService: ProductService,
+    private readonly uploadService: UploadCloudinaryService,
   ) {}
-
-  check(){
-    console.log(this.formGroup.value);
-  }
 
   //Get category and fill to selection
   getAllCategory(){
@@ -83,16 +62,22 @@ export class ProductFormComponent implements OnInit {
         },
       error: (err) => {
           this.isLoading = false;
-          console.log(err)
       }
   })
   }
 
-  createProduct(){
-    if (this.formGroup.valid){
-      this.productService.createProduct(this.formGroup.value).subscribe(res=>{
+  check(){
+  }
+
+  async createProduct() {
+    this.formGroup.markAllAsTouched();
+    if (this.thumnailFile.length > 0) {
+      await this.uploadThumnail();
+    }
+    if (this.formGroup.valid) {
+      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
+      this.productService.createProduct(this.formGroup.value).subscribe(res => {
         this.productId = res.id;
-        console.log(this.productId);
       })
     }
   }
@@ -100,16 +85,17 @@ export class ProductFormComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCategory();
   }
+
+  // Image thumnail product
   // On file Select
   onChange(event) {
-    this.file = event.target.files[0];
+    this.thumnailFile = event.addedFiles;
   }
 
   // OnClick of button Upload
   onUpload() {
     this.loading = !this.loading;
-    console.log(this.file);
-    this.fileUploadService.upload(this.file).subscribe((event: any) => {
+    this.fileUploadService.upload(this.thumnailFile).subscribe((event: any) => {
       if (typeof event === "object") {
         // Short link via api response
         this.shortLink = event.link;
@@ -119,31 +105,52 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  //Select image
-	onSelect(event) {
-    if(this.files){
-      this.files.splice(0,1);
+  // Upload image
+  async uploadThumnail() {
+    const formData = new FormData();
+    formData.append('files', this.thumnailFile[0]);
+    try {
+      this.thumnailUrl = await this.uploadService.upload(formData).toPromise();
+    } catch (err) {
+      console.log(err);
     }
-		console.log(event);
-		this.files.push(...event.addedFiles);
+  }
+  //Select image
+  async uploadImages() {
+    const formData = new FormData();
+    for (let i = 0; this.imagesFile.length < 0; i++) {
+      formData.append('files', this.imagesFile[i]);
+    }
+    try {
+      this.imagesUrl = await this.uploadService.upload(formData).toPromise();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+	onSelect(event) {
+    if(this.thumnailFile){
+      this.thumnailFile.splice(0,1);
+    }
+		this.thumnailFile.push(...event.addedFiles);
     
 	}
+  // End image thumnail product
+
+  // Table Images
   //Remove image
-	onRemove(event) {
-		console.log(event);
-		this.files.splice(this.files.indexOf(event), 1);
+	onRemove(f: any) {
+      this.imagesFile.splice(this.thumnailFile.indexOf(f), 1);
+      this.imagesUrl = '';
 	}
   //Select image
 	onSelectDetail(event) {
-		console.log(event);
-		this.detailFiles.push(...event.addedFiles);
+		this.imagesFile.push(...event.addedFiles);
     
 	}
   //Remove image
 	onRemoveDetail(event) {
-		console.log(event);
-		this.detailFiles.splice(this.detailFiles.indexOf(event), 1);
+		this.imagesFile.splice(this.imagesFile.indexOf(event), 1);
 	}
   
-  
+  // End table image
 }
