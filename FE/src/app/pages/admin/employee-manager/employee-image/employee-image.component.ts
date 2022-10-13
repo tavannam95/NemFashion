@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Constant} from '../../../../shared/constants/Constant';
 import {MatDialogRef} from '@angular/material/dialog';
-import {UploadCloudinaryService} from '../../../../shared/service/upload-cloudinary.service';
 import {EmployeeService} from '../../../../shared/service/employee/employee.service';
+import {UploadCloudinaryService} from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 
 @Component({
     selector: 'employee-image',
