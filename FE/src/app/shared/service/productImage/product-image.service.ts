@@ -16,7 +16,7 @@ getAllProductImage() {
 getProductImage(id: number) {
   return this.apiService.getProductImage(id);
 }
-createCustomer(data: any) {
+createProductImage(data: any) {
   return this.apiService.createProductImage(data);
 }
 }
