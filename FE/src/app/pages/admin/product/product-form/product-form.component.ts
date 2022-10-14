@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Regex } from '../../../../shared/validators/Regex';
 import { CategoryService } from '../../../../shared/service/category/category.service';
 import {ProductService} from "../../../../shared/service/product/product.service";
-import {UploadCloudinaryService} from "../../../../shared/service/upload-cloudinary.service";
+import { UploadCloudinaryService } from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 
 
 @Component({
