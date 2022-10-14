@@ -6,6 +6,8 @@ import { Regex } from '../../../../shared/validators/Regex';
 import { CategoryService } from '../../../../shared/service/category/category.service';
 import {ProductService} from "../../../../shared/service/product/product.service";
 import { UploadCloudinaryService } from '../../../../shared/service/cloudinary/upload-cloudinary.service';
+import {each} from "jquery";
+import {ProductImageService} from "../../../../shared/service/productImage/product-image.service";
 
 
 @Component({
@@ -34,7 +36,7 @@ export class ProductFormComponent implements OnInit {
   categories: any;
 
   formGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.pattern(Regex.unicode)]],
+    name: ['', [Validators.required, Validators.pattern(Regex.unicodeAndNumber)]],
     category: this.fb.group({
       id: ['',Validators.required]
     }),
@@ -43,11 +45,20 @@ export class ProductFormComponent implements OnInit {
     thumnail: ['']
   })
 
+  productImageFormGroup = this.fb.group({
+    name: ['test'],
+    product: {
+      id: 1
+    }
+
+  })
+
   constructor(
     private fileUploadService: FileUploadService,
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private productService: ProductService,
+    private productImageService: ProductImageService,
     private readonly uploadService: UploadCloudinaryService,
   ) {}
 
@@ -67,20 +78,11 @@ export class ProductFormComponent implements OnInit {
   }
 
   check(){
+    this.productImageFormGroup.patchValue({product:{id:1}});
+    console.log(this.productImageFormGroup.value);
   }
 
-  async createProduct() {
-    this.formGroup.markAllAsTouched();
-    if (this.thumnailFile.length > 0) {
-      await this.uploadThumnail();
-    }
-    if (this.formGroup.valid) {
-      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
-      this.productService.createProduct(this.formGroup.value).subscribe(res => {
-        this.productId = res.id;
-      })
-    }
-  }
+
 
   ngOnInit(): void {
     this.getAllCategory();
@@ -105,7 +107,9 @@ export class ProductFormComponent implements OnInit {
     });
   }
 
-  // Upload image
+
+  // Upload thumbnail
+
   async uploadThumnail() {
     const formData = new FormData();
     formData.append('files', this.thumnailFile[0]);
@@ -115,10 +119,34 @@ export class ProductFormComponent implements OnInit {
       console.log(err);
     }
   }
-  //Select image
+  // Create product
+  async createProduct() {
+    this.formGroup.markAllAsTouched();
+    if (this.thumnailFile.length > 0) {
+      await this.uploadThumnail();
+    }
+    if (this.formGroup.valid) {
+      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
+      this.productService.createProduct(this.formGroup.value).subscribe(res => {
+        this.productId = res.id;
+      })
+    }
+  }
+  //Select image and upload
+
+  async createProductImage(){
+    if(this.imagesFile.length>0){
+      await this.uploadImages();
+      this.productImageFormGroup.patchValue({product: {id: this.productId}});
+      for (let i = 0; i < this.imagesUrl.length; i++) {
+        this.productImageFormGroup.patchValue({name:this.imagesUrl[i]});
+        this.productImageService.createProductImage(this.productImageFormGroup.value).subscribe();
+      }
+    }
+  }
   async uploadImages() {
     const formData = new FormData();
-    for (let i = 0; this.imagesFile.length < 0; i++) {
+    for (let i = 0; i < this.imagesFile.length; i++) {
       formData.append('files', this.imagesFile[i]);
     }
     try {
@@ -136,7 +164,7 @@ export class ProductFormComponent implements OnInit {
 	}
   // End image thumnail product
 
-  // Table Images
+  // Table Images-------------------------------------------------------------
   //Remove image
 	onRemove(f: any) {
       this.imagesFile.splice(this.thumnailFile.indexOf(f), 1);
@@ -145,12 +173,11 @@ export class ProductFormComponent implements OnInit {
   //Select image
 	onSelectDetail(event) {
 		this.imagesFile.push(...event.addedFiles);
-    
 	}
   //Remove image
 	onRemoveDetail(event) {
 		this.imagesFile.splice(this.imagesFile.indexOf(event), 1);
-	}
+    }
   
   // End table image
 }
