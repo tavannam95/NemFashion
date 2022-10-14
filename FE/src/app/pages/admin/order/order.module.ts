@@ -18,7 +18,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 @NgModule({
     declarations: [
         OrderManagerComponent,
-        OrderDetailComponent
+        OrderDetailComponent,
     ],
     imports: [
         CommonModule,

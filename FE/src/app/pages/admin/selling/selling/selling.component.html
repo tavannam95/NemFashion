@@ -1,0 +1,290 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="card custom-card ">
+            <mat-drawer-container [hasBackdrop]="true" class="example-container" autosize>
+                <div class="add-tabs">
+                    <a class="example-add-tab-button"
+                       (click)="addTab(true)">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+                <form class="example-form">
+                    <input class="input" placeholder="Vui lòng nhập tìm kiếm">
+                </form>
+
+                <mat-tab-group [selectedIndex]="selected.value"
+                               animationDuration="0ms"
+                               (selectedIndexChange)="selected.setValue($event)">
+                    <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
+
+                        <ng-template mat-tab-label>
+                            <div> Hóa đơn {{index + 1}}
+                                <button class="delete-tab" (click)="removeTab(index)"><i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </ng-template>
+
+                        <ng-template matTabContent>
+                            <div class="row">
+                                <div class="col-7 left-order">
+                                    <div class="row product">
+                                        <div class="col-2 list-category">
+                                            <ul>
+                                                <li *ngFor="let cate of list; let index = index">
+                                                    <button class="btn-category" (click)="fillProduct(index)">
+                                                        {{cate|uppercase}}
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-10" style="padding: 5px">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-lg-4 product-item"
+                                                     *ngFor="let product of listProductfill">
+                                                    <a class="add-product" href="">
+                                                        <div class="card-product row">
+                                                            <img class="col-4 img-product"
+                                                                 src="https://cdn-app.kiotviet.vn/sample/fashion/26.png">
+                                                            <div class="col-8 info-product">
+                                                                <span class="name-product">{{product.name}}</span>
+                                                                <span class="price-product">
+                                                           <span class="price"> {{product.price|currency}}</span>
+                                                            |{{product.quantity}}</span></div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-5 order">
+                                    <div class="right-order">
+                                        <form class="form-order">
+                                            <i class="fas fa-search icon-search"></i>
+                                            <input class="input-kh" placeholder="Tìm khách hàng">
+                                            <a class="input-add-kh example-add-tab-button"
+                                               (click)="addTab(true)">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </form>
+                                        <div class="order-detail">
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity"><input type="text" value="5"></div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                                <div><textarea placeholder="Ghi chú..." class="note"></textarea></div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="order-item">
+                                                <div class="container-item">
+                                                    <div class="item-top">
+                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        </div>
+                                                        <div class="item-id">1</div>
+                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-bot">
+                                                        <div class="item-quantity">5</div>
+                                                        <div class="item-price">10000</div>
+                                                        <div class="item-total">50000</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="order-footer">
+                                            <div class="order-total">
+                                                <div style="font-size: 16px;padding: 4px;color: black;">TỔNG TIỀN HÀNG
+                                                    <span class="total-quantity">12</span>
+                                                </div>
+                                                <div style="flex: 1;text-align: end">12,000,000đ</div>
+                                            </div>
+                                            <div>
+                                                <div class="row">
+                                                    <div class="col-6"><textarea class="order-note"
+                                                                                 placeholder="Ghi chú đơn hàng"></textarea>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button class="btn-order" mat-button (click)="drawer.toggle()">
+                                                            THANH TOÁN
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+                <mat-drawer #drawer mode="over" position="end" class="example-sidenav">
+                    <div class="payment">
+                        <div class="header-payment">
+                            <div class="date-time">12/12/1212 12:12</div>
+                            <button class="close-toggle" (click)="drawer.toggle()"><i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="customer-info">Tạ Văn Nam</div>
+                        <div class="payment-bot">
+                            <div class="payment-content">
+                                <div class="payment-content-item">
+                                    <div>Tổng tiền hàng <span class="total-quantity">12</span></div>
+                                    <div class="price">15,000,000</div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div>Giảm giá</div>
+                                    <div class="price">0</div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div class="bold">Khách cần trả</div>
+                                    <div class="price">15,000,000</div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div class="bold">Khách thanh toán</div>
+                                    <div class="price">15,000,000</div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div class="bold">Tiền thừa trả khách</div>
+                                    <div class="price">0</div>
+                                </div>
+                            </div>
+                            <div class="payment-footer">
+                                <button class="btn-order" mat-button>
+                                    THANH TOÁN
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-drawer>
+            </mat-drawer-container>
+        </div>
+    </div>
+</div>
+

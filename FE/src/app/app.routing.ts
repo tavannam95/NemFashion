@@ -5,6 +5,7 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {content_admin} from './shared/router/admin_router';
+import {SellingComponent} from "./pages/admin/selling/selling/selling.component";
 
 const routes: Routes = [
     {
@@ -15,6 +16,10 @@ const routes: Routes = [
         path: '',
         component: AdminLayoutComponent,
         children: content_admin
+    },
+    {
+        path: 'selling',
+        loadChildren: () => import('./pages/admin/selling/selling.module').then(m => m.SellingModule)
     }
 ];
 
