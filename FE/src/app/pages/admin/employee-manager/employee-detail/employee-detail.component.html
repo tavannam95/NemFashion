@@ -103,10 +103,10 @@
                         <mat-error *ngIf="isValidatorChangePassword('pw.confirmPassword' , 'isSpace')">
                             Vui lòng nhập lại mật khẩu mới
                         </mat-error>
+                        <mat-hint class="text-danger" *ngIf=" isValidatorChangePassword('pw' , 'isCheckPassword')">
+                            Mật khẩu không khớp
+                        </mat-hint>
                     </mat-form-field>
-                    <mat-error *ngIf=" this.changePassword.get('pw').hasError('isCheckPassword') && this.changePassword.get('pw').touched">
-                        Mật khẩu không khớp
-                    </mat-error>
                 </div>
 
                 <div class="col-12">

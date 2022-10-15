@@ -6,9 +6,9 @@
           >Thêm sản phẩm</span
         ></mat-card-title>
       <div class="card-body">
-        <mat-stepper headerPosition="bottom" #stepper>
-          <mat-step [stepControl]="">
-            <form [formGroup]="">
+        <mat-stepper linear #stepper>
+          <mat-step [stepControl]="formGroup" [editable]="true">
+            <form [formGroup]="formGroup">
               <ng-template matStepLabel>Thông tin sản phẩm</ng-template>
               <div class="row">
                 <div class="col-3 p-0">
@@ -26,7 +26,7 @@
                     </ngx-dropzone-label>
                     <ngx-dropzone-image-preview
                       ngProjectAs="ngx-dropzone-preview"
-                      *ngFor="let f of files"
+                      *ngFor="let f of thumnailFile"
                       [file]="f"
                       [removable]="true"
                       (removed)="onRemove(f)"
@@ -38,28 +38,50 @@
                 <div class="col-9">
                   <mat-form-field appearance="outline">
                     <mat-label>Tên sản phẩm</mat-label>
-                    <input matInput type="text" />
+                    <input matInput type="text" formControlName="name" required />
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('name')?.hasError('required') &&
+                                      formGroup.get('name')?.touched">
+                        Tên sản phẩm không được để trống!
+                    </mat-error>
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('name')?.hasError('pattern') &&
+                                      formGroup.get('name')?.touched">
+                        Tên khách hàng không chứa ký tự đặc biệt
+                    </mat-error>
                   </mat-form-field>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="outline" formGroupName="category">
                     <mat-label>Danh mục</mat-label>
-                    <!-- Value binding [(value)]="" -->
-                    <mat-select>
+                    <mat-select formControlName="id">
                       <mat-option
                         *ngFor="let item of categories"
-                        [(value)]="item.value"
+                        [value]="item.id"
                       >
-                        {{ item.viewValue }}
+                        {{ item.name }}
                       </mat-option>
                     </mat-select>
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('category')?.hasError('required')">
+                      Bạn chưa chọn danh mục sản phẩm!
+                    </mat-error>
                   </mat-form-field>
-
                   <mat-form-field appearance="outline">
                     <mat-label>Giá</mat-label>
-                    <input matInput type="number" />
+                    <input formControlName="price" matInput type="number" />
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('price')?.hasError('min') &&
+                                      formGroup.get('price')?.touched">
+                      Giá sản phẩm phải lớn hơn 0!
+                    </mat-error>
+                    <mat-error class="text-danger"
+                               *ngIf="formGroup.get('price')?.hasError('required') &&
+                                      formGroup.get('price')?.touched">
+                      Giá sản phẩm không được để trống!
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>Mô tả</mat-label>
-                    <textarea matInput id="floatingInput"></textarea>
+                    <textarea formControlName="description" matInput id="floatingInput"></textarea>
                   </mat-form-field>
                   <div
                     class="d-flex justify-content-end align-items-end"
@@ -70,15 +92,15 @@
                       mat-button
                       matStepperNext
                     >
-                      Tiếp theo
+<!--                      createProduct()-->
+                      Đồng ý
                     </button>
                   </div>
                 </div>
               </div>
             </form>
           </mat-step>
-          <mat-step [stepControl]="">
-            <form [formGroup]="">
+          <mat-step [editable]="true">
               <ng-template matStepLabel>Ảnh sản phẩm</ng-template>
               <div class="row">
                 <div class="col-12 p-0">
@@ -97,7 +119,7 @@
                     </ngx-dropzone-label>
                     <ngx-dropzone-image-preview
                       ngProjectAs="ngx-dropzone-preview"
-                      *ngFor="let f of detailFiles"
+                      *ngFor="let f of imagesFile"
                       [file]="f"
                       [removable]="true"
                       (removed)="onRemoveDetail(f)"
@@ -119,13 +141,17 @@
                     >
                       Trở về
                     </button>
-                    <button class="btn btn-info" mat-button matStepperNext>
-                      Tiếp theo
+                    <button
+                            class="btn btn-info"
+                            mat-button matStepperNext
+                            (click)="createProductImage()"
+
+                    >
+                      Đồng ý
                     </button>
                   </div>
                 </div>
               </div>
-            </form>
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>Chuyển hướng</ng-template>
