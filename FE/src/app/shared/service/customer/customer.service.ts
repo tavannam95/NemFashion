@@ -74,4 +74,16 @@ export class CustomerService {
         })
     }
 
+    updateAllStatus(arrId: any[], status: number) {
+        return this.apiService.updateAllStatus(arrId, status).subscribe({
+            next: _ => {
+                this.toastService.success('Thay đổi trạng thái thành công !');
+            },
+            error: (err) => {
+                console.log(err)
+                this.toastService.error('Thay đổi trạng thái thất bại !');
+            }
+        })
+    }
+
 }

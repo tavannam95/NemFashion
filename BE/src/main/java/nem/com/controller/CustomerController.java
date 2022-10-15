@@ -40,6 +40,15 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.update(customer), HttpStatus.OK);
     }
 
+    @PutMapping("update-status/{status}")
+    public void updateStatus(@PathVariable("status") Integer status, @RequestBody List<Integer> id) {
+        if (status == 1) {
+            customerService.updateAllStatusTrue(id);
+        } else {
+            customerService.updateAllStatusFalse(id);
+        }
+    }
+
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Integer id) {
         customerService.delete(id);
