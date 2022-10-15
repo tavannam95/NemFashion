@@ -20,9 +20,10 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
 import {NgSelectModule} from "@ng-select/ng-select";
+import { CategoryCreateDialogComponent } from '../dialog/category-create-dialog/category-create-dialog.component';
 
 @NgModule({
-  declarations: [ProductFormComponent, ProductListComponent],
+  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -41,7 +42,7 @@ import {NgSelectModule} from "@ng-select/ng-select";
     MatSelectModule,
     MatCheckboxModule,
     MatTreeModule,
-      NgSelectModule
+    NgSelectModule
   ],
 })
 export class ProductModule{
