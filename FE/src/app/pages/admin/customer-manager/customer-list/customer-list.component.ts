@@ -7,6 +7,9 @@ import {Constant} from '../../../../shared/constants/Constant';
 import {CustomerFormComponent} from '../customer-form/customer-form.component';
 import {ConfirmDialogComponent} from '../../../../shared/confirm-dialog/confirm-dialog.component';
 import {CustomerService} from '../../../../shared/service/customer/customer.service';
+import {SelectionModel} from '@angular/cdk/collections';
+import {HttpClient} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
     selector: 'app-customer-list',
@@ -16,11 +19,13 @@ import {CustomerService} from '../../../../shared/service/customer/customer.serv
 
 export class CustomerListComponent implements OnInit {
 
-    displayedColumns: string[] = ['no', 'fullname', 'photo', 'email', 'phone', 'birthDate', 'siginDate', 'status', 'action'];
+    displayedColumns: string[] = ['select', 'fullname', 'photo', 'email', 'phone', 'birthDate', 'siginDate', 'status', 'action'];
     dataSource: MatTableDataSource<any>;
+    selection = new SelectionModel<any>(true, []);
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+
 
     TYPE_DIALOG = Constant.TYPE_DIALOG;
 
@@ -28,25 +33,55 @@ export class CustomerListComponent implements OnInit {
     isLoading: boolean = false;
 
     constructor(private readonly matDialog: MatDialog,
-                private readonly customerService: CustomerService) {
+                private readonly customerService: CustomerService,
+                private readonly http: HttpClient,
+                private readonly toastService: ToastrService) {
     }
 
     ngOnInit(): void {
         this.getAllCustomer();
     }
 
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource?.data.length;
+        return numSelected === numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    toggleAllRows() {
+        if (this.isAllSelected()) {
+            this.selection.clear();
+            return;
+        }
+
+        this.selection.select(...this.dataSource.data);
+    }
+
+    /** The label for the checkbox on the passed row */
+    checkboxLabel(row?: any): string {
+        if (!row) {
+            return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+        }
+        return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    }
+
     getAllCustomer() {
+        console.log('Get all')
         this.isLoading = true;
         return this.customerService.getAllCustomer().subscribe({
             next: (res) => {
                 this.isLoading = false;
                 this.dataSource = new MatTableDataSource<any>(res);
+                this.dataSource.data = res;
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
             },
             error: (err) => {
                 this.isLoading = false;
                 console.log(err)
+                this.toastService.error('Lỗi tải dữ liệu !!!')
             }
         })
     }
@@ -87,6 +122,37 @@ export class CustomerListComponent implements OnInit {
             if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
                 row.status = 0;
                 this.customerService.deleteCustomer(row, row.id);
+            }
+        })
+    }
+
+    arrId: any[] = [];
+
+    deleteAll(status: number) {
+        this.matDialog.open(ConfirmDialogComponent, {
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                message: 'Bạn có muốn thay đổi trạng thái người dùng?'
+            }
+        }).afterClosed().subscribe(result => {
+            if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+                if (this.selection.selected.length > 0) {
+                    this.selection.selected.forEach(select => {
+                        this.arrId.push(select.id);
+                    })
+
+                    if (status === 1) {
+                        this.customerService.updateAllStatus(this.arrId, 1);
+                    } else {
+                        this.customerService.updateAllStatus(this.arrId, 0);
+                    }
+                    this.getAllCustomer();
+                    this.selection.deselect(...this.selection.selected)
+                    this.arrId = [];
+                } else {
+                    this.toastService.warning('Vui lòng chọn khách hàng muốn thay đổi trạng thái !')
+                }
             }
         })
     }

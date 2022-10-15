@@ -1,19 +1,56 @@
+<loading [isLoading]="isLoading"></loading>
 <div class="main-content">
     <div class="container-fluid">
         <div class="card custom-card">
             <div class="card-body ">
                 <div class="mx-2">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Tìm kiếm</mat-label>
-                        <input type="text" matInput placeholder="Tìm kiếm" (keyup)="applyFilter($event)" #input>
-                    </mat-form-field>
-                    <button mat-raised-button color="warn" (click)="openFormDialog(TYPE_DIALOG.NEW)">Thêm mới</button>
+                    <div class="container-fluid">
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-3  align-self-center">
+                                <mat-form-field appearance="standard" class="w-100">
+                                    <mat-label>Tìm kiếm</mat-label>
+                                    <input type="text" (keyup)="applyFilter($event)" #input matInput
+                                           placeholder="Tìm kiếm">
+                                </mat-form-field>
+                            </div>
+                            <div class=" align-self-center ">
+                                <button mat-raised-button color="warn" class="align-middle "
+                                        (click)="openFormDialog(TYPE_DIALOG.NEW)">
+                                    <span><span class="fa-solid fa-plus me-2"></span> Thêm mới </span></button>
+                                <button mat-raised-button color="warn" class="align-middle ml-3"
+                                        (click)="deleteAll(0)">
+                                    <span><span class="fa-solid fa-trash me-2"></span> Ngưng hoạt động </span></button>
+                                <button mat-raised-button color="warn" class="align-middle ml-3"
+                                        (click)="deleteAll(1)">
+                                    <span><span class="fa-solid fa-rotate-right me-2"></span> Khôi phục </span></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <table mat-table [dataSource]="dataSource" matSort class="w-100 table-hover">
-                    <ng-container matColumnDef="no">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header="no"> STT</th>
-                        <td mat-cell *matCellDef="let row; index as ind"> {{ind + 1}} </td>
+
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                                          [checked]="selection.hasValue() && isAllSelected()"
+                                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                          [aria-label]="checkboxLabel()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                          (change)="$event ? selection.toggle(row) : null"
+                                          [checked]="selection.isSelected(row)"
+                                          [aria-label]="checkboxLabel(row)">
+                            </mat-checkbox>
+                        </td>
                     </ng-container>
+
+                    <!--                    <ng-container matColumnDef="no">-->
+                    <!--                        <th mat-header-cell *matHeaderCellDef mat-sort-header="no"> STT</th>-->
+                    <!--                        <td mat-cell *matCellDef="let row; index as ind"> {{ind + 1}} </td>-->
+                    <!--                    </ng-container>-->
 
                     <ng-container matColumnDef="fullname">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header="fullname"> Họ tên</th>

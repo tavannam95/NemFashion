@@ -16,4 +16,8 @@ public interface CustomerService {
     Customers update(Customers customers);
 
     void delete(Integer id);
+
+    void updateAllStatusTrue(List<Integer> id);
+
+    void updateAllStatusFalse(List<Integer> id);
 }
