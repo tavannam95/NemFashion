@@ -126,10 +126,10 @@ export class ProductFormComponent implements OnInit {
   async createProduct() {
     this.formGroup.markAllAsTouched();
     if (this.thumnailFile.length > 0) {
+      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
       await this.uploadThumnail();
     }
     if (this.formGroup.valid) {
-      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
       this.productService.createProduct(this.formGroup.value).subscribe(res => {
         this.productId = res.id;
       })
@@ -170,8 +170,8 @@ export class ProductFormComponent implements OnInit {
   // Table Images-------------------------------------------------------------
   //Remove image
 	onRemove(f: any) {
-      this.imagesFile.splice(this.thumnailFile.indexOf(f), 1);
-      this.imagesUrl = '';
+      this.thumnailFile.splice(this.thumnailFile.indexOf(f), 1);
+      this.thumnailUrl = '';
 	}
   //Select image
 	onSelectDetail(event) {

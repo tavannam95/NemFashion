@@ -15,4 +15,10 @@ getAllProduct() {
 createProduct(data: any){
   return this.apiService.createProduct(data);
 }
+getOneProduct(data: number){
+  return this.apiService.getOneProduct(data);
+}
+updateProduct(data: any, id: number){
+  this.apiService.updateProduct(data,id).subscribe();
+}
 }
