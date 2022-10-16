@@ -35,7 +35,7 @@ export class ProductEditDialogComponent implements OnInit {
   })
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public idProduct: number,
+    @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private productService: ProductService,
     private categoryService: CategoryService,
     private fb: FormBuilder,
@@ -44,26 +44,11 @@ export class ProductEditDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getProductById();
+    this.productFG.patchValue(this.dataDialog);
+    console.log();
+    
+    // this.getProductById();
     this.getAllCategory();
-  }
-
-  getProductById(){
-    this.productService.getOneProduct(this.idProduct).subscribe(res =>{
-      this.product = res;
-      this.productFG.patchValue({id: this.product.id});
-      this.productFG.patchValue({name: this.product.name});
-      this.productFG.patchValue({price: this.product.price});
-      this.productFG.patchValue({status: this.product.status});
-      this.productFG.patchValue({thumnail: this.product.thumnail});
-      this.productFG.patchValue({updateDate: this.product.updateDate});
-      this.productFG.patchValue({createDate: this.product.createDate});
-      this.productFG.patchValue({description: this.product.description});
-      this.productFG.patchValue({category: this.product.category});
-      
-      console.log(res);
-      
-    });
   }
 
   async uploadThumnail() {
@@ -83,7 +68,7 @@ export class ProductEditDialogComponent implements OnInit {
       this.productFG.patchValue({thumnail: this.thumnailUrl[0]});
     }
     if (this.productFG.valid) {
-      this.productService.updateProduct(this.productFG.value, this.idProduct);
+      this.productService.updateProduct(this.productFG.value, this.productFG.value.id);
     }
   }
 
