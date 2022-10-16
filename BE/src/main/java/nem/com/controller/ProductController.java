@@ -36,4 +36,12 @@ public class ProductController {
         products.setStatus(1);
         return new ResponseEntity<>(this.productService.save(products),HttpStatus.OK);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Products> update(
+            @PathVariable("id") Integer id,
+            @RequestBody Products products
+    ){
+        products.setUpdateDate(new Date());
+        return new ResponseEntity<>(this.productService.update(products),HttpStatus.OK);
+    }
 }

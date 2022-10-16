@@ -1,5 +1,6 @@
 import { NgModule, AfterViewInit, ViewChild } from "@angular/core";
 import { CategoryCreateDialogComponent } from '../dialog/category-create-dialog/category-create-dialog.component';
+import { ProductEditDialogComponent } from '../dialog/product-edit-dialog/product-edit-dialog.component';
 import { CommonModule } from "@angular/common";
 import { ProductListComponent } from "./product-list/product-list.component";
 import { ProductFormComponent } from "./product-form/product-form.component";
@@ -23,9 +24,10 @@ import {MatTreeModule} from '@angular/material/tree';
 import {NgSelectModule} from "@ng-select/ng-select";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
-  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent],
+  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent, ProductEditDialogComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -46,7 +48,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatTreeModule,
     NgSelectModule,
     MatTooltipModule,
-    MatMenuModule
+    MatMenuModule,
+    MatRadioModule
   ],
 })
 export class ProductModule{
