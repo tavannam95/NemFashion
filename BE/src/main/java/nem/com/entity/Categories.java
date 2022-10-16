@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -31,11 +32,11 @@ public class Categories {
 
     @Basic
     @Column(name = "create_date", nullable = true)
-    private Timestamp createDate;
+    private Date createDate;
 
     @Basic
     @Column(name = "update_date", nullable = true)
-    private Timestamp updateDate;
+    private Date updateDate;
 
     @Basic
     @Column(name = "status", nullable = true)

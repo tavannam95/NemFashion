@@ -8,6 +8,8 @@ import {ProductService} from "../../../../shared/service/product/product.service
 import { UploadCloudinaryService } from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 import {each} from "jquery";
 import {ProductImageService} from "../../../../shared/service/productImage/product-image.service";
+import { MatDialog } from '@angular/material/dialog';
+import { CategoryCreateDialogComponent } from '../../dialog/category-create-dialog/category-create-dialog.component';
 
 
 @Component({
@@ -46,9 +48,9 @@ export class ProductFormComponent implements OnInit {
   })
 
   productImageFormGroup = this.fb.group({
-    name: ['test'],
+    name: [''],
     product: {
-      id: 1
+      id: ['']
     }
 
   })
@@ -60,6 +62,7 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductService,
     private productImageService: ProductImageService,
     private readonly uploadService: UploadCloudinaryService,
+    private dialog: MatDialog
   ) {}
 
   //Get category and fill to selection
@@ -180,4 +183,14 @@ export class ProductFormComponent implements OnInit {
     }
   
   // End table image
+
+  //Dialog Create category------------------
+  openDialogCreateCategory(){
+    let dialogRef = this.dialog.open(CategoryCreateDialogComponent,{
+      width: '700px',
+    });
+    dialogRef.afterClosed().subscribe(res=>{
+      this.getAllCategory();
+    })
+  }
 }
