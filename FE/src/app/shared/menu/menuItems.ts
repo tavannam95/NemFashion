@@ -12,4 +12,6 @@ export const MenuItems: RouteInfo[] = [
     {path: '/order', title: 'Order nha', icon: 'fas fa-yin-yang', class: ''},
     {path: '/product', title: 'Quản lý sản phẩm', icon: 'fas fa-box', class: ''},
     {path: '/category', title: 'Quản lý danh mục', icon: 'fas fa-box', class: ''},
+
+
 ]
