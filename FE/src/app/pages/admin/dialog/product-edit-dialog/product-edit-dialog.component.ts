@@ -45,7 +45,6 @@ export class ProductEditDialogComponent implements OnInit {
 
   ngOnInit() {
     this.productFG.patchValue(this.dataDialog);
-    console.log();
     
     // this.getProductById();
     this.getAllCategory();
