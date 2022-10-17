@@ -24,6 +24,14 @@ public class Colors {
     @Column(name = "code", nullable = true, length = 255)
     private String code;
 
+    @Basic
+    @Column(name = "name", nullable = true, length = 255)
+    private String name;
+
+    @Basic
+    @Column(name = "status", nullable = true)
+    private Integer status;
+
     @JsonIgnore
     @OneToMany(mappedBy = "color")
     private List<ProductsDetails> listProductsDetails;

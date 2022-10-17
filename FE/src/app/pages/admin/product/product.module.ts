@@ -27,7 +27,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
-  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent, ProductEditDialogComponent],
+  declarations: [
+    ProductFormComponent, 
+    ProductListComponent, 
+    CategoryCreateDialogComponent, 
+    ProductEditDialogComponent,
+  ],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -49,7 +54,7 @@ import {MatRadioModule} from '@angular/material/radio';
     NgSelectModule,
     MatTooltipModule,
     MatMenuModule,
-    MatRadioModule
+    MatRadioModule,
   ],
 })
 export class ProductModule{

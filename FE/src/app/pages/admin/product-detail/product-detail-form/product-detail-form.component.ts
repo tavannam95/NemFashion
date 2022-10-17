@@ -19,8 +19,6 @@ export class ProductDetailFormComponent implements OnInit {
 
   files: File[] = [];
 
-  sizeQuantityBoolean: boolean = false;
-
   productId: any;
   colorId: any = {
     id: '',
@@ -81,6 +79,8 @@ export class ProductDetailFormComponent implements OnInit {
           this.productDetailFormGroup.patchValue({size: {id: Object.keys(this.sizeFormGroup.value)[i]}});
           this.productDetailFormGroup.patchValue({quantity: Object.values(this.sizeFormGroup.value)[i]});
           this.productDetailFormGroup.patchValue({product:{id: this.productId}});
+          console.log(this.productDetailFormGroup.value);
+          
           this.productDetailService.createProductDetail(this.productDetailFormGroup.value);
         }
       }
@@ -88,21 +88,17 @@ export class ProductDetailFormComponent implements OnInit {
 
   createColor(){
     this.colorFormGroup.markAllAsTouched();
-    this.sizeQuantityBoolean = !this.sizeQuantityBoolean;
       if (this.colorFormGroup.valid) {
-        this.colorService.createColor(this.colorFormGroup.value).subscribe(res =>{
+        this.colorService.createColor(this.colorFormGroup.value).toPromise().then(res =>{
           this.colorId = res;
+          console.log(this.colorId);
+          this.createProductDetail();
         })
       }
   }
 
   check(){
-    // this.colorService.createColor(this.colorFormGroup.value).subscribe(res =>{
-    //   this.colorId = res;
-    // });
-    // console.log(Object.keys(this.sizeFormGroup.value)[0]);
-    // console.log(Object.values(this.sizeFormGroup.value)[0]);
-    this.createProductDetail();
+    this.createColor();
   }
 
   selectSize(size: string){

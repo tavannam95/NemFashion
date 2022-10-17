@@ -65,11 +65,7 @@
                     />
                   </div>
                 </div>
-                <div class="row d-flex justify-content-end">
-                    <button *ngIf="!sizeQuantityBoolean" class="btn btn-info" (click)="createColor()">Đồng ý</button>
-                  </div>
                 </form>
-                <div class="size-quantity" *ngIf="sizeQuantityBoolean">
                   <mat-label>Chọn size </mat-label>
                       <!-- Color product detail -->
                       <section class="example-section">
@@ -161,10 +157,6 @@
                         <input matInput type="number" formControlName="6" placeholder="Nhập số lượng" />
                       </mat-form-field>
                     </form>
-                </div>
-              
-
-                      <div class="row d-flex justify-content-end" *ngIf="sizeQuantityBoolean">
                         <button
                             class="btn btn-info mt-auto"
                             type="submit"
@@ -179,11 +171,11 @@
                             class="btn btn-danger mt-auto"
                             mat-button
                             matStepperNext
-                            (click)="check()"
+                            (click)="createColor()"
+                            routerLink="/product"
                           >
                             Kết thúc
                           </a>
-                      </div>
           </div>
         </div>
         

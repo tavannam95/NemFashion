@@ -1,3 +1,4 @@
+import { LoadingComponent } from './../../../shared/loading/loading.component';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
@@ -20,7 +21,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {LoadingComponent} from '../../../shared/loading/loading.component';
 import {MatSelectModule} from '@angular/material/select';
 
 

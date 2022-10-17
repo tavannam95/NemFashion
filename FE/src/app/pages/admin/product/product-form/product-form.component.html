@@ -1,3 +1,10 @@
+<div *ngIf="isLoading" class="loading">
+  <div
+          class="spinner-border text-danger spinner-center"
+          role="status"
+  >
+</div>
+</div>
 <div class="main-content">
   <div class="container-fluid">
     <div class="card custom-card">
@@ -7,7 +14,7 @@
         ></mat-card-title>
       <div class="card-body">
         <mat-stepper linear #stepper>
-          <mat-step [stepControl]="formGroup" [editable]="true">
+          <mat-step [stepControl]="formGroup" [editable]="false">
             <form [formGroup]="formGroup">
               <ng-template matStepLabel>Thông tin sản phẩm</ng-template>
               <div class="row">
@@ -17,6 +24,7 @@
                     style="height: 360px; width: 234px;"
                     ngx-dropzone
                     [accept]="'image/*'"
+                    [multiple]="false"
                     (change)="onSelect($event)"
                   >
                     <ngx-dropzone-label>
@@ -99,8 +107,7 @@
                     <button
                       class="btn btn-info mt-auto"
                       mat-button
-                      matStepperNext
-                      (click)="createProduct()"
+                      (click)="createProduct(stepper)"
                     >
                         <!-- createProduct()-->
                       Đồng ý
@@ -110,7 +117,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step [editable]="true">
+          <mat-step [editable]="false">
               <ng-template matStepLabel>Ảnh sản phẩm</ng-template>
               <div class="row">
                 <div class="col-12 p-0">
@@ -146,8 +153,8 @@
                   >
                     <button
                             class="btn btn-info"
-                            mat-button matStepperNext
-                            (click)="createProductImage()"
+                            mat-button 
+                            (click)="createProductImage(stepper)"
 
                     >
                       Đồng ý
@@ -162,7 +169,7 @@
               Thêm mới sản phẩm thành công, chuyển đến trang thêm chi tiết
             </span>
             <div class="d-flex justify-content-center">
-              <a routerLink="/productDetail" class="btn btn-info" mat-button>
+              <a routerLink="/productDetail/{{productId}}" class="btn btn-info" mat-button>
                 Tiếp theo
               </a>
             </div>
