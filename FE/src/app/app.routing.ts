@@ -12,7 +12,8 @@ const routes: Routes = [
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',
-    }, {
+    },
+    {
         path: '',
         component: AdminLayoutComponent,
         children: content_admin
@@ -20,6 +21,10 @@ const routes: Routes = [
     {
         path: 'selling',
         loadChildren: () => import('./pages/admin/selling/selling.module').then(m => m.SellingModule)
+    },
+    {
+        path: 'login',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
     }
 ];
 

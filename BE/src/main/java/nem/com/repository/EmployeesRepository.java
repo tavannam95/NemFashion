@@ -14,5 +14,4 @@ public interface EmployeesRepository extends JpaRepository<Employees, Integer> {
 
     @Query( "select em from Employees em where em.phone like :phone ")
     Employees findByPhoneNumber(@Param("phone") String phone ) ;
-
 }

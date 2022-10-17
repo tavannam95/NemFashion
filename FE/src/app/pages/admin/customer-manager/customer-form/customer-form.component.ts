@@ -2,8 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
 import {FormBuilder, Validators} from '@angular/forms';
-import {CustomerService} from '../../../../shared/service/customer.service';
-import {UploadCloudinaryService} from '../../../../shared/service/upload-cloudinary.service';
+import {CustomerService} from '../../../../shared/service/customer/customer.service';
+import {UploadCloudinaryService} from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 import {Regex} from '../../../../shared/validators/Regex';
 
 @Component({

@@ -1,4 +1,6 @@
 import { NgModule, AfterViewInit, ViewChild } from "@angular/core";
+import { CategoryCreateDialogComponent } from '../dialog/category-create-dialog/category-create-dialog.component';
+import { ProductEditDialogComponent } from '../dialog/product-edit-dialog/product-edit-dialog.component';
 import { CommonModule } from "@angular/common";
 import { ProductListComponent } from "./product-list/product-list.component";
 import { ProductFormComponent } from "./product-form/product-form.component";
@@ -19,10 +21,13 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
-
+import {NgSelectModule} from "@ng-select/ng-select";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
-  declarations: [ProductFormComponent, ProductListComponent],
+  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent, ProductEditDialogComponent],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -40,7 +45,11 @@ import {MatTreeModule} from '@angular/material/tree';
     ReactiveFormsModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatTreeModule
+    MatTreeModule,
+    NgSelectModule,
+    MatTooltipModule,
+    MatMenuModule,
+    MatRadioModule
   ],
 })
 export class ProductModule{

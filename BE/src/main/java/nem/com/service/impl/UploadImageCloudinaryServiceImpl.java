@@ -28,7 +28,6 @@ public class UploadImageCloudinaryServiceImpl implements UploadImageCloudinarySe
         for (MultipartFile file : files) {
             listImageUrls.add(save(file));
         }
-
         return listImageUrls;
     }
 

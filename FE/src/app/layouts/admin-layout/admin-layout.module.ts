@@ -15,6 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {content_admin} from '../../shared/router/admin_router';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import {content_admin} from '../../shared/router/admin_router';
         MatInputModule,
         MatSelectModule,
         MatTooltipModule,
+        MatDialogModule
 
     ],
     declarations: [
