@@ -5,7 +5,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { ProductService } from '../../../../shared/service/product/product.service';
-import { analytics } from 'googleapis/build/src/apis/analytics';
 import { ProductEditDialogComponent } from '../../dialog/product-edit-dialog/product-edit-dialog.component';
 
 @Component({
