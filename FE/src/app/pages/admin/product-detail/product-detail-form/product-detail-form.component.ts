@@ -92,7 +92,6 @@ export class ProductDetailFormComponent implements OnInit {
       if (this.colorFormGroup.valid) {
         this.colorService.createColor(this.colorFormGroup.value).subscribe(res =>{
           this.colorId = res;
-          console.log(res);
         })
       }
   }
