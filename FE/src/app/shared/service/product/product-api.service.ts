@@ -14,7 +14,7 @@ getAllProduct(): Observable<any>{
   return this.http.get(ApiConstant.product);
 }
 
-getProduct(id: number){
+getOneProduct(id: number){
   return this.http.get(`${ApiConstant.product}/${id}`);
 }
 

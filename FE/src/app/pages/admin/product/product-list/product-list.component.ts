@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { ProductService } from '../../../../shared/service/product/product.service';
-import { analytics } from 'googleapis/build/src/apis/analytics';
+import { ProductEditDialogComponent } from '../../dialog/product-edit-dialog/product-edit-dialog.component';
 
 @Component({
   selector: 'product-list',
@@ -24,7 +24,9 @@ export class ProductListComponent implements OnInit  {
   @ViewChild(MatSort) sort: MatSort;
   
   constructor(private formBuilder: FormBuilder,
-              private productService: ProductService) { 
+              private productService: ProductService,
+              private dialog: MatDialog
+              ) { 
   }
   ngOnInit(): void {
     this.getAllProduct();
@@ -36,7 +38,6 @@ export class ProductListComponent implements OnInit  {
       next: (res) => {
           this.isLoading = false;
           this.dataSource = new MatTableDataSource<any>(res);
-          console.log(this.dataSource);
           
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -50,8 +51,14 @@ export class ProductListComponent implements OnInit  {
 
 
   checkData(){
-    console.log(this.dataSource)
     
+  }
+
+  openDialogProductEdit(data: any){
+    this.dialog.open(ProductEditDialogComponent,{
+      data: data,
+      width: '1000px'
+    })
   }
 
   applyFilter(event: Event) {
