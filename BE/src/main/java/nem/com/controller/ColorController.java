@@ -20,6 +20,7 @@ public class ColorController {
 
     @PostMapping("")
     public ResponseEntity<Colors> create(@RequestBody Colors colors){
+        colors.setStatus(1);
         return new ResponseEntity<>(this.colorService.save(colors), HttpStatus.OK);
     }
     @GetMapping("")

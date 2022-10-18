@@ -4,11 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { SizeService } from '../../../../shared/service/size/size.service';
 import { ColorService } from '../../../../shared/service/color/color.service';
 import { ProductDetailService } from '../../../../shared/service/productDetail/product-detail.service';
-
-interface Size{
-  value: number;
-  viewValue: string
-}
+import { Regex } from '../../../../shared/validators/Regex';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { ColorCreateDialogComponent } from '../../dialog/color-create-dialog/color-create-dialog.component';
 
 @Component({
   selector: 'app-product-detail-form',
@@ -16,26 +15,32 @@ interface Size{
   styleUrls: ['./product-detail-form.component.scss']
 })
 export class ProductDetailFormComponent implements OnInit {
+  isLoading: boolean = false;
 
   files: File[] = [];
+
+  selectedColor: any;
 
   productId: any;
   colorId: any = {
     id: '',
     code:''
   };
-
+  allColor: any;
   colorFormGroup = this.fb.group({
-    code: ['#ff12ff', Validators.required]
+    id: ['',Validators.required],
+    name: ['', [Validators.required,Validators.pattern(Regex.unicode)]],
+    code: ['', Validators.required],
+    status: ['']
   })
 
   sizeFormGroup = this.fb.group({
-    1: [''],
-    2: [''],
-    3: [''],
-    4: [''],
-    5: [''],
-    6: [''],
+    1: ['',Validators.required],
+    2: ['',Validators.required],
+    3: ['',Validators.required],
+    4: ['',Validators.required],
+    5: ['',Validators.required],
+    6: ['',Validators.required],
   })
   // Size Color API create
   productDetailFormGroup = this.fb.group({
@@ -59,6 +64,7 @@ export class ProductDetailFormComponent implements OnInit {
   xl: boolean = false;
   xxl: boolean = false;
   xxxl: boolean = false;
+  checkSelectedSize: boolean = false;
   
   constructor(
     private route: ActivatedRoute,
@@ -66,42 +72,86 @@ export class ProductDetailFormComponent implements OnInit {
     private readonly sizeService: SizeService,
     private readonly colorService: ColorService,
     private readonly productDetailService: ProductDetailService,
+    private toastrService: ToastrService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
+    this.getAllColor();
   }
-   
+
   createProductDetail(){
+    this.sizeFormGroup.markAllAsTouched();
+    this.productDetailFormGroup.markAllAsTouched();
+    if (this.s == false
+        && this.m == false
+        && this.l == false
+        && this.xl == false
+        && this.xxl == false
+        && this.xxxl == false
+      ) {
+      this.checkSelectedSize = true;
+    }
+      if (
+       Object.values( Object.values(this.productDetailFormGroup.value)[1])[0] == ""
+      ) {
+        this.toastrService.error('Bạn chưa chọn màu sắc');
+        this.sizeFormGroup.markAsUntouched();
+      }
+      
       for (let i = 0; i < Object.keys(this.sizeFormGroup.value).length; i++) {
         if (Object.values(this.sizeFormGroup.value)[i] != "") {
-          this.productDetailFormGroup.patchValue({color: {id: this.colorId.id}});
           this.productDetailFormGroup.patchValue({size: {id: Object.keys(this.sizeFormGroup.value)[i]}});
           this.productDetailFormGroup.patchValue({quantity: Object.values(this.sizeFormGroup.value)[i]});
           this.productDetailFormGroup.patchValue({product:{id: this.productId}});
           console.log(this.productDetailFormGroup.value);
-          
-          this.productDetailService.createProductDetail(this.productDetailFormGroup.value);
+          this.productDetailService.createProductDetail(this.productDetailFormGroup.value).subscribe();
         }
       }
-  }
-
-  createColor(){
-    this.colorFormGroup.markAllAsTouched();
-      if (this.colorFormGroup.valid) {
-        this.colorService.createColor(this.colorFormGroup.value).toPromise().then(res =>{
-          this.colorId = res;
-          console.log(this.colorId);
-          this.createProductDetail();
-        })
-      }
+      console.log('Test');
+      
   }
 
   check(){
-    this.createColor();
+    this.createProductDetail();
+    // console.log(Object.values( Object.values(this.productDetailFormGroup.value)[1])[0] );
+    
+  }
+
+  selectColor(code: any){
+    this.selectedColor = code;
+    console.log(this.selectedColor);
+    
+  }
+
+  getAllColor(){
+    this.isLoading = true;
+    this.colorService.getAllColor().subscribe({
+      next: (res)=>{
+        this.isLoading = false;
+        this.allColor = res;
+      },
+      error: (err)=>{
+        console.log(err);
+        this.isLoading = false;
+      }
+    })
+  }
+
+  openDialogCreateColor(){
+    let dialogRef = this.dialog.open(ColorCreateDialogComponent,{
+      width: '1000px',
+      disableClose: true
+    })
+    dialogRef.afterClosed().subscribe(res=>{
+      this.getAllColor();
+    })
   }
 
   selectSize(size: string){
+    this.sizeFormGroup.markAsUntouched();
+    this.checkSelectedSize = false;
     if (size == 's') {
       this.s = !this.s;
     }
@@ -121,7 +171,7 @@ export class ProductDetailFormComponent implements OnInit {
       this.xxxl = !this.xxxl;
     }
   }
-
+  
   //Select image
 	onSelect(event) {
     if(this.files){

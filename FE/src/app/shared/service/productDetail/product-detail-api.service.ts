@@ -12,6 +12,6 @@ constructor(
 ) { }
 
 createProductDetail(data: any){
-  return this.http.post(ApiConstant.productDetail,data).subscribe();
+  return this.http.post(ApiConstant.productDetail,data);
 }
 }

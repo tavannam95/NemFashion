@@ -11,8 +11,12 @@ constructor(
   private readonly http: HttpClient
 ) { }
 
-createSize(data: any){
+createColor(data: any){
   return this.http.post(ApiConstant.color,data);
+}
+
+getAllColor(){
+  return this.http.get(ApiConstant.color);
 }
 
 }
