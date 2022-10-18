@@ -63,4 +63,14 @@ public class CustomerServiceImpl implements CustomerService {
         customers.setStatus((short) 0);
         customersRepository.save(customers);
     }
+
+    @Override
+    public void updateAllStatusTrue(List<Integer> id) {
+        customersRepository.updateAllStatusTrue(id);
+    }
+
+    @Override
+    public void updateAllStatusFalse(List<Integer> id) {
+        customersRepository.updateAllStatusFalse(id);
+    }
 }

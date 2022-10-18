@@ -1,14 +1,13 @@
 package nem.com.controller;
 
 import nem.com.entity.Categories;
+import nem.com.service.CategoryService;
 import nem.com.service.impl.CategoryServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -16,14 +15,20 @@ import java.util.List;
 @RequestMapping("api/v1/category")
 public class CategoryController {
 
-    private final CategoryServiceImpl categoryService;
+    private final CategoryService categoryService;
 
-    public CategoryController(CategoryServiceImpl categoryService) {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
     @GetMapping("")
     public ResponseEntity<List<Categories>> getAll(){
-        return new ResponseEntity<>(categoryService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(this.categoryService.getAll(), HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Categories> create(@RequestBody Categories categories){
+        categories.setCreateDate(new Date());
+        return new ResponseEntity<>(this.categoryService.save(categories),HttpStatus.OK);
     }
 }
