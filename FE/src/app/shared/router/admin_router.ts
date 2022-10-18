@@ -30,11 +30,12 @@ export const content_admin: Routes = [
         loadChildren: () => import('../../pages/admin/product/product.module').then(m => m.ProductModule),
     },
     {
-        path: 'productDetail',
+        path: 'productDetail/:id',
         loadChildren: () => import('../../pages/admin/product-detail/product-detail.module').then(m => m.ProductDetailModule),
     },
     {
         path: 'category',
         loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
     }
+
 ]

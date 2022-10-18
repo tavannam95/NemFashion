@@ -31,4 +31,8 @@ export class CustomerApiService {
         return this.http.put(`${ApiConstant.customer}/${id}`, data);
     }
 
+    updateAllStatus(arrId: any[], status: number): Observable<any> {
+        return this.http.put(`${ApiConstant.customer}/update-status/${status}`, arrId);
+    }
+
 }

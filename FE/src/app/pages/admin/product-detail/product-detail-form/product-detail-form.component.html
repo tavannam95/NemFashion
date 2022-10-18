@@ -17,7 +17,7 @@
                   >
                     <ngx-dropzone-label>
                       <div>
-                        <span>Tải ảnh lên để hút màu!</span>
+                        <span>Tải ảnh lên để hút màu</span>
                         <br>
                         <span>(Không bắt buộc)</span>
                       </div>
@@ -34,54 +34,129 @@
                   </div>
           </div>
           <div class="col-9">
-            <form (submit)="onSubmit()">
-              <div class="row">
+              <form [formGroup]="colorFormGroup">
+                  <div class="row">
                 <div class="col-4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Mã màu sản phẩm</mat-label>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Mã màu sản phẩm</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        onfocus="this.select()"
+                        (change)="onChangeColor($event)"
+                        formControlName="code"
+                        placeholder="Ví dụ: #FFFFFF"
+                      />
+                      <mat-error class="text-danger"
+                               *ngIf="colorFormGroup.get('code')?.hasError('required') &&
+                               colorFormGroup.get('code')?.touched">
+                        Màu sắc không được để trống
+                    </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-5">
                     <input
-                      matInput
-                      [(value)]="color"
-                      type="text"
-                      onfocus="this.select()"
-                      (change)="onChangeColor($event)"
-                      placeholder="Ví dụ: #FFFFFF"
-                    />
-                  </mat-form-field>
-                </div>
-                <div class="col-5">
-                  <input
+                    formControlName="code"
                     class=""
                     style="height: 54px"
                     type="color"
                     (change)="onChangeColor($event)"
-                    [(value)]="color"
-                  />
+                    title="Hút màu"
+                    />
+                  </div>
                 </div>
-              </div>
-              <mat-label>Chọn size </mat-label>
+                </form>
+                  <mat-label>Chọn size </mat-label>
                       <!-- Color product detail -->
                       <section class="example-section">
                         <mat-checkbox
-                          *ngFor="let s of size"
-                          (click)="clickSize(s)"
-                          [(value)]="s.value"
+                          (click)="selectSize('s')"
+                          value="s"
                           class="example-margin"
                         >
-                          {{ s.viewValue }}
+                          S
+                        </mat-checkbox>
+                        <mat-checkbox
+                          (click)="selectSize('m')"
+                          value="s"
+                          class="example-margin"
+                        >
+                          M
+                        </mat-checkbox>
+                        <mat-checkbox
+                          (click)="selectSize('l')"
+                          value="s"
+                          class="example-margin"
+                        >
+                          L
+                        </mat-checkbox>
+                        <mat-checkbox
+                          (click)="selectSize('xl')"
+                          value="s"
+                          class="example-margin"
+                        >
+                          XL
+                        </mat-checkbox>
+                        <mat-checkbox
+                          (click)="selectSize('2xl')"
+                          value="s"
+                          class="example-margin"
+                        >
+                          2XL
+                        </mat-checkbox>
+                        <mat-checkbox
+                          (click)="selectSize('3xl')"
+                          value="s"
+                          class="example-margin"
+                        >
+                          3XL
                         </mat-checkbox>
                       </section>
-                      <mat-form-field
-                        *ngFor="let item of selectedSize"
-                        [(value)]="item.value"
-                        appearance="outline"
-                      >
+
+
+                      <form [formGroup]="sizeFormGroup">
+                      <mat-form-field appearance="outline" *ngIf="s">
                         <mat-label>
-                          Số lượng của size {{item.viewValue}}
+                          Số lượng của size S
                         </mat-label>
-                        <input matInput type="number" placeholder="Nhập số lượng..." />
+                        <input matInput type="number" formControlName="1" placeholder="Nhập số lượng" />
                       </mat-form-field>
-                      <div class="row d-flex justify-content-end">
+
+                      <mat-form-field appearance="outline" *ngIf="m">
+                        <mat-label>
+                          Số lượng của size M
+                        </mat-label>
+                        <input matInput type="number" formControlName="2" placeholder="Nhập số lượng" />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" *ngIf="l">
+                        <mat-label>
+                          Số lượng của size L
+                        </mat-label>
+                        <input matInput type="number" formControlName="3" placeholder="Nhập số lượng" />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" *ngIf="xl">
+                        <mat-label>
+                          Số lượng của size XL
+                        </mat-label>
+                        <input matInput type="number" formControlName="4" placeholder="Nhập số lượng" />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" *ngIf="xxl">
+                        <mat-label>
+                          Số lượng của size 2XL
+                        </mat-label>
+                        <input matInput type="number" formControlName="5" placeholder="Nhập số lượng" />
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" *ngIf="xxxl">
+                        <mat-label>
+                          Số lượng của size 3XL
+                        </mat-label>
+                        <input matInput type="number" formControlName="6" placeholder="Nhập số lượng" />
+                      </mat-form-field>
+                    </form>
                         <button
                             class="btn btn-info mt-auto"
                             type="submit"
@@ -91,16 +166,16 @@
                           >
                             Thêm tiếp
                           </button>
+                          <!-- routerLink="/product" -->
                           <a
-                            routerLink="/product"
                             class="btn btn-danger mt-auto"
                             mat-button
                             matStepperNext
+                            (click)="createColor()"
+                            routerLink="/product"
                           >
                             Kết thúc
                           </a>
-                      </div>
-            </form>
           </div>
         </div>
         

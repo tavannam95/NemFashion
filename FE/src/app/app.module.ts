@@ -9,15 +9,16 @@ import {AppComponent} from './app.component';
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {ToastrModule} from 'ngx-toastr';
 import {ConfirmDialogComponent} from './shared/confirm-dialog/confirm-dialog.component';
-import { EmployeeDetailComponent } from './pages/admin/employee-manager/employee-detail/employee-detail.component';
+import {EmployeeDetailComponent} from './pages/admin/employee-manager/employee-detail/employee-detail.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { EmployeeImageComponent } from './pages/admin/employee-manager/employee-image/employee-image.component';
+import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-image/employee-image.component';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 
 @NgModule({

@@ -5,19 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { ProductService } from '../../../../shared/service/product/product.service';
-import { analytics } from 'googleapis/build/src/apis/analytics';
-
-export interface Product{
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  description: string;
-  thumnail: string;
-  createDate: Date;
-  updateDate: Date;
-  status: boolean
-}
+import { ProductEditDialogComponent } from '../../dialog/product-edit-dialog/product-edit-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'product-list',
@@ -36,7 +25,10 @@ export class ProductListComponent implements OnInit  {
   @ViewChild(MatSort) sort: MatSort;
   
   constructor(private formBuilder: FormBuilder,
-              private productService: ProductService) { 
+              private productService: ProductService,
+              private dialog: MatDialog,
+              private toastrService: ToastrService
+              ) { 
   }
   ngOnInit(): void {
     this.getAllProduct();
@@ -48,6 +40,7 @@ export class ProductListComponent implements OnInit  {
       next: (res) => {
           this.isLoading = false;
           this.dataSource = new MatTableDataSource<any>(res);
+          
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
       },
@@ -58,32 +51,16 @@ export class ProductListComponent implements OnInit  {
   })
   }
 
-  createProduct(){
-    this.productService.createProduct({
-      name: "Test03",
-      price: 100.0,
-      description: "Không có mô tả",
-      thumnail: "aodai.jpg",
-      createDate: "2021-12-31T17:00:00.000+00:00",
-      updateDate: "2021-12-31T17:00:00.000+00:00",
-      status: 1,
-      category: {
-        id: 1
-      }
-    }).subscribe({
-      next: (res)=>{
-        console.log(res);
-      },
-      error: (err)=>{
-        console.log(err)
-      }
-    });
-
-  }
 
   checkData(){
-    console.log(this.dataSource)
     
+  }
+
+  openDialogProductEdit(data: any){
+    this.dialog.open(ProductEditDialogComponent,{
+      data: data,
+      width: '1000px'
+    })
   }
 
   applyFilter(event: Event) {

@@ -9,6 +9,7 @@ import { ProductDetailFormComponent } from './product-detail-form/product-detail
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatInputModule} from '@angular/material/input';
     MatCardModule,
     NgxDropzoneModule,
     MatCheckboxModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule
   ]
 })
 export class ProductDetailModule { }

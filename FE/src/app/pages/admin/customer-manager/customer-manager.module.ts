@@ -1,3 +1,4 @@
+import { LoadingComponent } from './../../../shared/loading/loading.component';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
@@ -19,12 +20,15 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
     declarations: [
         CustomerListComponent,
         CustomerFormComponent,
+        LoadingComponent
     ],
     imports: [
         CommonModule,
@@ -41,7 +45,9 @@ import {MatIconModule} from '@angular/material/icon';
         NgxDropzoneModule,
         MatRadioModule,
         ReactiveFormsModule,
-        MatIconModule
+        MatIconModule,
+        MatCheckboxModule,
+        MatSelectModule,
     ]
 })
 export class CustomerManagerModule {

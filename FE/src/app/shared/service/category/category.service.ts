@@ -13,4 +13,7 @@ constructor(
 getAllCategory(){
   return this.categoryApiService.getAllCategory();
 }
+createCategory(data: any){
+  return this.categoryApiService.createCategory(data);
+}
 }
