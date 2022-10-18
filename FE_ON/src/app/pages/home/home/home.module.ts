@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule  } from '@angular/common';
 import {HomeRountingModule} from "./home-rounting.module";
 import {HomeComponent} from "./home.component";
+import {StarsComponent} from "../../../shared/stars/stars.component";
 
 @NgModule({
   declarations: [
-     HomeComponent
+    HomeComponent,
+    StarsComponent
   ],
-  imports: [
-    CommonModule ,
-    HomeRountingModule
-  ]
+    imports: [
+        CommonModule,
+        HomeRountingModule,
+    ]
 })
-export class HomeModule { }
+export class HomeModule {
+
+}
