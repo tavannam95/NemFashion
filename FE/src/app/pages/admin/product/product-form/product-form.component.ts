@@ -216,6 +216,7 @@ export class ProductFormComponent implements OnInit {
   openDialogCreateCategory(){
     let dialogRef = this.dialog.open(CategoryCreateDialogComponent,{
       width: '700px',
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe(res=>{
       this.getAllCategory();
