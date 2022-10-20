@@ -12,4 +12,8 @@ constructor(
 createProductDetail(data: any){
    return this.apiService.createProductDetail(data);
 }
+
+getProductDetailById(data: any){
+  return this.apiService.getProductDetailById(data);
+}
 }

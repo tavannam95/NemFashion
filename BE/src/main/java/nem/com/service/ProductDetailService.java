@@ -11,4 +11,6 @@ public interface ProductDetailService {
     ProductsDetails update(ProductsDetails productsDetails);
     void delete(Integer id);
     ProductsDetails save(ProductsDetails productsDetails);
+
+    List<ProductsDetails> getProductDetailById(Integer id);
 }

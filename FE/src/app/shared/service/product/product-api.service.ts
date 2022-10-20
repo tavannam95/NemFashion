@@ -31,4 +31,8 @@ deleteProduct(data: any, id: number): Observable<any> {
   return this.http.put(`${ApiConstant.product}/${id}`, data);
 }
 
+getProductView(data: any){
+  return this.http.post(`${ApiConstant.product}/view`,data);
+}
+
 }

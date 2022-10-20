@@ -7,6 +7,8 @@ import { FormBuilder } from '@angular/forms';
 import { ProductService } from '../../../../shared/service/product/product.service';
 import { ProductEditDialogComponent } from '../../dialog/product-edit-dialog/product-edit-dialog.component';
 import { ToastrService } from 'ngx-toastr';
+import { ProductViewDialogComponent } from '../../dialog/product-view-dialog/product-view-dialog.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'product-list',
@@ -18,6 +20,7 @@ export class ProductListComponent implements OnInit  {
   
   displayedColumns: string[] = ['id', 'name', 'category', 'price', 'thumnail', 'status', 'function'];
   dataSource: MatTableDataSource<any>;
+
 
   isLoading: boolean = false;
 
@@ -34,15 +37,18 @@ export class ProductListComponent implements OnInit  {
     this.getAllProduct();
   }
   
+  
+
   getAllProduct(){
     this.isLoading = true;
     return this.productService.getAllProduct().subscribe({
       next: (res) => {
           this.isLoading = false;
           this.dataSource = new MatTableDataSource<any>(res);
-          
+          this.dataSource.data = res;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          
       },
       error: (err) => {
           this.isLoading = false;
@@ -56,10 +62,20 @@ export class ProductListComponent implements OnInit  {
     
   }
 
+
   openDialogProductEdit(data: any){
     this.dialog.open(ProductEditDialogComponent,{
       data: data,
       width: '1000px',
+      disableClose: true
+    })
+  }
+
+  openDialogProductView(data: any){
+    this.dialog.open(ProductViewDialogComponent,{
+      data: data,
+      width: '1400px',
+      height: '702px',
       disableClose: true
     })
   }

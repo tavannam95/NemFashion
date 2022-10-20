@@ -40,4 +40,9 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductsDetails save(ProductsDetails productsDetails) {
         return this.productsDetailsRepository.save(productsDetails);
     }
+
+    @Override
+    public List<ProductsDetails> getProductDetailById(Integer id) {
+        return this.productsDetailsRepository.getProductsDetailsById(id);
+    }
 }

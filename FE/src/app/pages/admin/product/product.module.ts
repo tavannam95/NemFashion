@@ -26,6 +26,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
 import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-create-dialog.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { ProductViewDialogComponent } from '../dialog/product-view-dialog/product-view-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-
     ProductListComponent, 
     CategoryCreateDialogComponent, 
     ProductEditDialogComponent,
-    ColorCreateDialogComponent
+    ColorCreateDialogComponent,
+    ProductViewDialogComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +60,7 @@ import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-
     MatTooltipModule,
     MatMenuModule,
     MatRadioModule,
+    ScrollingModule
   ],
 })
 export class ProductModule{

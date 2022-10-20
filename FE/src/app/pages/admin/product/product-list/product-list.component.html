@@ -108,7 +108,7 @@
                   <button mat-menu-item [routerLink]="['/productDetail',row.id]">
                     Thêm chi tiết
                   </button>
-                  <button mat-menu-item>
+                  <button mat-menu-item (click)="openDialogProductView(row)">
                     <span>Xem chi tiết</span>
                   </button>
                 </mat-menu>
