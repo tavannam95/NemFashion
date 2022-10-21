@@ -7,6 +7,12 @@ a {
   text-decoration: none;
 }
 
-.app-content{
-  margin-top: 160px;
+/*.app-content{*/
+/*  margin-top: 160px;*/
+/*}*/
+
+#topScroll{
+  background-color: black;
+  color: #FFFFFF;
+  border-radius: 100px;
 }

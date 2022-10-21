@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { ProductService } from '../../../../shared/service/product/product.service';
 import { ProductEditDialogComponent } from '../../dialog/product-edit-dialog/product-edit-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'product-list',
@@ -25,7 +26,8 @@ export class ProductListComponent implements OnInit  {
   
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private toastrService: ToastrService
               ) { 
   }
   ngOnInit(): void {
@@ -57,7 +59,8 @@ export class ProductListComponent implements OnInit  {
   openDialogProductEdit(data: any){
     this.dialog.open(ProductEditDialogComponent,{
       data: data,
-      width: '1000px'
+      width: '1000px',
+      disableClose: true
     })
   }
 

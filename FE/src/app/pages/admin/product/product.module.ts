@@ -25,9 +25,16 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
+import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-create-dialog.component';
 
 @NgModule({
-  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent, ProductEditDialogComponent],
+  declarations: [
+    ProductFormComponent, 
+    ProductListComponent, 
+    CategoryCreateDialogComponent, 
+    ProductEditDialogComponent,
+    ColorCreateDialogComponent
+  ],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -49,7 +56,7 @@ import {MatRadioModule} from '@angular/material/radio';
     NgSelectModule,
     MatTooltipModule,
     MatMenuModule,
-    MatRadioModule
+    MatRadioModule,
   ],
 })
 export class ProductModule{

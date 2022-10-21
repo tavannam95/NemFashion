@@ -37,5 +37,9 @@ export const router_user: Routes= [
   {
     path: 'sign-up' ,
     component: SignupComponent
+  },
+  {
+    path:'product-detail' ,
+    loadChildren: () => import('../../pages/home/product-detail/product-detail.module').then( m => m.ProductDetailModule )
   }
 ]

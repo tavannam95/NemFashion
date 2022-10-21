@@ -10,6 +10,9 @@ import {each} from "jquery";
 import {ProductImageService} from "../../../../shared/service/productImage/product-image.service";
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryCreateDialogComponent } from '../../dialog/category-create-dialog/category-create-dialog.component';
+import { ToastrService } from 'ngx-toastr';
+import { MatStepper } from '@angular/material/stepper';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -62,7 +65,8 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductService,
     private productImageService: ProductImageService,
     private readonly uploadService: UploadCloudinaryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastrService: ToastrService
   ) {}
 
   //Get category and fill to selection
@@ -80,7 +84,7 @@ export class ProductFormComponent implements OnInit {
   })
   }
 
-  check(){
+  check2(){
     this.productImageFormGroup.patchValue({product:{id:1}});
     console.log(this.productImageFormGroup.value);
   }
@@ -123,21 +127,37 @@ export class ProductFormComponent implements OnInit {
     }
   }
   // Create product
-  async createProduct() {
+  async createProduct(stepper: MatStepper) {
     this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid) {
+      return;
+    }
+    this.isLoading = true;
     if (this.thumnailFile.length > 0) {
-      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
       await this.uploadThumnail();
+      this.formGroup.patchValue({thumnail: this.thumnailUrl[0]});
     }
+    
     if (this.formGroup.valid) {
-      this.productService.createProduct(this.formGroup.value).subscribe(res => {
-        this.productId = res.id;
+      this.productService.createProduct(this.formGroup.value).subscribe({
+        next: (res)=>{
+            this.productId = res.id;
+            this.toastrService.success('Thêm mới sản phẩm thành công');
+            this.goForward(stepper);
+        },
+        error: (err) =>{
+          console.log(err);
+          this.toastrService.error('Thêm mới sản phẩm thất bại');
+          this.goForward(stepper);
+        }
       })
+      this.isLoading = false;
     }
+    
   }
   //Select image and upload
 
-  async createProductImage(){
+  async createProductImage(stepper: MatStepper){
     if(this.imagesFile.length>0){
       await this.uploadImages();
       this.productImageFormGroup.patchValue({product: {id: this.productId}});
@@ -145,17 +165,26 @@ export class ProductFormComponent implements OnInit {
         this.productImageFormGroup.patchValue({name:this.imagesUrl[i]});
         this.productImageService.createProductImage(this.productImageFormGroup.value).subscribe();
       }
+      this.goForward(stepper);
+      this.toastrService.success('Thêm ảnh thành công');
     }
+   if (this.imagesFile.length<=0) {
+    this.toastrService.warning('Bạn chưa chọn ảnh');
+   }
+
   }
   async uploadImages() {
+    this.isLoading = true;
     const formData = new FormData();
     for (let i = 0; i < this.imagesFile.length; i++) {
       formData.append('files', this.imagesFile[i]);
     }
     try {
       this.imagesUrl = await this.uploadService.upload(formData).toPromise();
+      this.isLoading = false;
     } catch (err) {
       console.log(err);
+      this.isLoading = false;
     }
   }
 	onSelect(event) {
@@ -163,7 +192,6 @@ export class ProductFormComponent implements OnInit {
       this.thumnailFile.splice(0,1);
     }
 		this.thumnailFile.push(...event.addedFiles);
-    
 	}
   // End image thumnail product
 
@@ -188,9 +216,17 @@ export class ProductFormComponent implements OnInit {
   openDialogCreateCategory(){
     let dialogRef = this.dialog.open(CategoryCreateDialogComponent,{
       width: '700px',
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe(res=>{
       this.getAllCategory();
     })
+  }
+  goBack(stepper: MatStepper){
+    stepper.previous();
+  }
+
+  goForward(stepper: MatStepper){
+    stepper.next();
   }
 }
