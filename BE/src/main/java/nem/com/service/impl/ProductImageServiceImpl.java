@@ -39,4 +39,9 @@ public class ProductImageServiceImpl implements ProductImageService {
         ProductImages productImages = getOne(id);
         this.productImagesRepository.delete(productImages);
     }
+
+    @Override
+    public List<ProductImages> findByProId(Integer id) {
+        return this.productImagesRepository.findAllImageByProID( id ) ;
+    }
 }

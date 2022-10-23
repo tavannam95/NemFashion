@@ -9,18 +9,27 @@ import {ProductService} from "../../../shared/service/product-service/product.se
 })
 export class ProductDetailComponent implements OnInit {
   product: any ;
+  productImage: any ;
+  thumnail = '' ;
 
   constructor( private route: ActivatedRoute ,
                private ServicePro: ProductService ) {
-
   }
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap ;
     const productIdFromRoute = Number(routeParams.get('id')) ;
-    this.ServicePro.getById( productIdFromRoute ).subscribe( value => {
+    this.ServicePro.getProductById( productIdFromRoute ).subscribe( value => {
+      this.thumnail = value.thumnail ;
        this.product = value ;
+       this.ServicePro.getProductImageById( value.id ).subscribe( value => {
+           this.productImage = value ;
+       })
     })
+  }
+
+  changThumnail( img: string ) {
+     this.thumnail = img ;
   }
 
 }

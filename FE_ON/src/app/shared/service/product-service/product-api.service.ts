@@ -28,4 +28,9 @@ export class ProductApiService {
      return this.http.put( `${ApiConstrant.product}/${pro.id}` , pro );
    }
 
+   // Product Image
+
+   getProductImage( id: number ): Observable<any>{
+      return this.http.get( `${ApiConstrant.productImage}/list-proId/${id}` );
+   }
 }
