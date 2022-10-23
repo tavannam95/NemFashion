@@ -2,6 +2,21 @@
   box-sizing: border-box
 }
 
+.loading {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.spinner-center {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+}
 
 .container-fluid {
   padding: 0;
@@ -23,7 +38,7 @@
   min-width: 150px;
   max-width: 241px;
   width: 100%;
-  top: 10px;
+  top: 5px;
   left: 10px;
   border: 2px solid gray;
   border-radius: 8px;
@@ -41,6 +56,8 @@
 .mat-tab-label {
   min-width: 130px !important;
   margin-top: 10px;
+  color: white;
+  opacity: 1 !important;
 }
 
 .mat-tab-body-content {
@@ -53,7 +70,7 @@
 
 .mat-tab-header {
   max-width: 100%;
-  margin-left: 250px;
+  margin-left: 270px;
   margin-right: 55px;
 }
 
@@ -84,7 +101,7 @@
   position: absolute;
   right: 1px;
   border-radius: 30px;
-  background-color: white;
+  background-color: #1a94ff;
   height: 26px;
   width: 27px;
   font-size: 17px;
@@ -102,7 +119,7 @@
 }
 
 .product {
-  background-color: #d2d2d2;
+  background-color: #efefef;
   padding: 0;
   border-radius: 10px;
   height: 100%;
@@ -114,7 +131,7 @@
 }
 
 .right-order {
-  background-color: #d2d2d2;
+  background-color: #efefef;
   padding: 10px 10px 0px 10px;
   border-radius: 10px;
   height: 100%;
@@ -196,13 +213,13 @@
 }
 
 .btn-category {
-  border: #6ad6ff;
-  background-color: #6ad6ff;
+  border: #237fcd;
+  background-color: #237fcd;
   width: 100%;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: black;
+  color: white;
   height: 49px;
   border-radius: 5px;
 }
@@ -215,6 +232,7 @@
   height: 75px;
   background-color: white;
   border-radius: 5px;
+  border: 1px solid #237fcd;
 }
 
 .card-product img {
@@ -257,8 +275,8 @@
 }
 
 .card-product:hover {
-  border-color: #cd2323;
-  box-shadow: 0 0 5px rgb(205, 35, 35) !important;
+  border-color: #237fcd;
+  box-shadow: 0 0 5px #237fcd !important;
   border-radius: 7px;
   cursor: pointer;
   color: black;
@@ -292,6 +310,7 @@ textarea.note {
   flex-direction: row;
   flex-wrap: wrap;
   flex: 1;
+  font-size: 17px;
   //background-color: white;
   //border-radius: 7px;
   //margin-top: 5px;
@@ -471,7 +490,7 @@ mat-drawer {
 
 .order-item:hover, .note:focus {
   .note {
-    display: block;
+    display: block !important;
   }
 }
 
@@ -555,3 +574,9 @@ mat-drawer {
   width: 100%;
   flex:1;
 }
+
+.mat-elevation-z4 {
+  box-shadow: none;
+}
+
+

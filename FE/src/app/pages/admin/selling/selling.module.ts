@@ -9,8 +9,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from '@angular/material/input';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSidenavModule} from "@angular/material/sidenav";
+import { ProductDetailOrderComponent } from './selling/product-detail-order/product-detail-order.component';
+import {FormsModule} from "@angular/forms";
 @NgModule({
-    declarations: [SellingComponent],
+    declarations: [SellingComponent, ProductDetailOrderComponent],
     imports: [
         CommonModule,
         MatTabsModule,
@@ -20,8 +22,10 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         MatFormFieldModule,
         MatInputModule,
         MatBadgeModule,
-        MatSidenavModule
+        MatSidenavModule,
+        FormsModule
     ]
 })
 export class SellingModule {
+
 }

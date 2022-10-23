@@ -1,5 +1,6 @@
 package nem.com.controller;
 
+import nem.com.dto.request.ProductDetailsDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
 import org.springframework.http.HttpStatus;
@@ -37,5 +38,10 @@ public class ProductDetailController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id){
         this.productDetailService.delete(id);
+    }
+
+    @GetMapping("/getByProduct/{id}")
+    public ResponseEntity<List<ProductDetailsDTO>> getByIdProduct(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(this.productDetailService.getByIdProduct(id));
     }
 }

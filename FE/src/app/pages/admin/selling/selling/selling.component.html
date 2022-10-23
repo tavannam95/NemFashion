@@ -1,3 +1,10 @@
+<div *ngIf="isLoading" class="loading">
+    <div
+            class="spinner-border text-danger spinner-center"
+            role="status"
+    ></div>
+</div>
+
 <div class="main-content">
     <div class="container-fluid">
 
@@ -12,14 +19,13 @@
                 <form class="example-form">
                     <input class="input" placeholder="Vui lòng nhập tìm kiếm">
                 </form>
-
                 <mat-tab-group [selectedIndex]="selected.value"
+                               [color] = "'accent'"
                                animationDuration="0ms"
-                               (selectedIndexChange)="selected.setValue($event)">
+                               (selectedIndexChange)="selected.setValue($event);getItemByTabs()">
                     <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
-
                         <ng-template mat-tab-label>
-                            <div> Hóa đơn {{index + 1}}
+                            <div> Hóa đơn {{tab}}
                                 <button class="delete-tab" (click)="removeTab(index)"><i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -31,9 +37,9 @@
                                     <div class="row product">
                                         <div class="col-2 list-category">
                                             <ul>
-                                                <li *ngFor="let cate of list; let index = index">
+                                                <li *ngFor="let cate of listCate; let index = index">
                                                     <button class="btn-category" (click)="fillProduct(index)">
-                                                        {{cate|uppercase}}
+                                                        {{cate.name|uppercase}}
                                                     </button>
                                                 </li>
                                             </ul>
@@ -41,16 +47,16 @@
                                         <div class="col-10" style="padding: 5px">
                                             <div class="row">
                                                 <div class="col-sm-6 col-lg-4 product-item"
-                                                     *ngFor="let product of listProductfill">
-                                                    <a class="add-product" href="">
+                                                     *ngFor="let product of listProduct">
+                                                    <a class="add-product" (click)="openDialog(product)">
                                                         <div class="card-product row">
                                                             <img class="col-4 img-product"
                                                                  src="https://cdn-app.kiotviet.vn/sample/fashion/26.png">
                                                             <div class="col-8 info-product">
                                                                 <span class="name-product">{{product.name}}</span>
                                                                 <span class="price-product">
-                                                           <span class="price"> {{product.price|currency}}</span>
-                                                            |{{product.quantity}}</span></div>
+                                                           <span class="price"> {{product.price|currency}}</span></span>
+                                                            </div>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -69,162 +75,36 @@
                                             </a>
                                         </form>
                                         <div class="order-detail">
-                                            <div class="order-item">
+                                            <div class="order-item " *ngFor="let orderDetail of order.orderDetail;let index = index" >
                                                 <div class="container-item">
                                                     <div class="item-top">
                                                         <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
                                                         </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
+                                                        <div class="item-id">{{orderDetail.id}}</div>
+                                                        <div class="item-name"> <p style="margin: 0">{{orderDetail.name}}</p>
+                                                            <span> <span style="width: 15px;height: 15px; display: inline-block" [style.background-color]="orderDetail.colorCode"></span>
+                                                                <span> / {{orderDetail.sizeCode}}</span></span>
                                                         </div>
                                                     </div>
                                                     <div class="item-bot">
-                                                        <div class="item-quantity"><input type="text" value="5"></div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
+                                                        <div class="item-quantity"><input type="text" value="{{orderDetail.quantity}}"></div>
+                                                        <div class="item-price">{{orderDetail.price}}</div>
+                                                        <div class="item-total">{{orderDetail.price * orderDetail.quantity}}</div>
                                                     </div>
                                                 </div>
-                                                <div><textarea placeholder="Ghi chú..." class="note"></textarea></div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="order-item">
-                                                <div class="container-item">
-                                                    <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
-                                                        </div>
-                                                        <div class="item-id">1</div>
-                                                        <div class="item-name">Quần Đùi Pro max xịn xò con bò xò con bò
-                                                        </div>
-                                                    </div>
-                                                    <div class="item-bot">
-                                                        <div class="item-quantity">5</div>
-                                                        <div class="item-price">10000</div>
-                                                        <div class="item-total">50000</div>
-                                                    </div>
-                                                </div>
+                                                <div><textarea id="note_{{index}}" [(ngModel)]="noteDetail[index]" (focusout)="focusOutItem(index)"  placeholder="Ghi chú..." class="note"></textarea></div>
                                             </div>
                                         </div>
                                         <div class="order-footer">
                                             <div class="order-total">
                                                 <div style="font-size: 16px;padding: 4px;color: black;">TỔNG TIỀN HÀNG
-                                                    <span class="total-quantity">12</span>
+                                                    <span class="total-quantity">{{order.totalQuantity}}</span>
                                                 </div>
-                                                <div style="flex: 1;text-align: end">12,000,000đ</div>
+                                                <div style="flex: 1;text-align: end">{{order.totalPrice}}đ</div>
                                             </div>
                                             <div>
                                                 <div class="row">
-                                                    <div class="col-6"><textarea class="order-note"
+                                                    <div class="col-6"><textarea class="order-note" [value]=" order.note"
                                                                                  placeholder="Ghi chú đơn hàng"></textarea>
                                                     </div>
                                                     <div class="col-6">

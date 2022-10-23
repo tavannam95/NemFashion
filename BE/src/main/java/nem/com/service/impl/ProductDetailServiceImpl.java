@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.dto.request.ProductDetailsDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.ProductDetailService;
@@ -39,5 +40,10 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     @Override
     public ProductsDetails save(ProductsDetails productsDetails) {
         return this.productsDetailsRepository.save(productsDetails);
+    }
+
+    @Override
+    public List<ProductDetailsDTO> getByIdProduct(Integer id) {
+        return this.productsDetailsRepository.getProductDetailsByIdPro(id);
     }
 }

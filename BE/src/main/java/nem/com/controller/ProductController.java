@@ -44,4 +44,9 @@ public class ProductController {
         products.setUpdateDate(new Date());
         return new ResponseEntity<>(this.productService.update(products),HttpStatus.OK);
     }
+
+    @GetMapping("/findByCate/{id}")
+    public ResponseEntity<List<Products>> findByCate(@PathVariable("id") Short id){
+        return ResponseEntity.ok(this.productService.findByCate(id));
+    }
 }

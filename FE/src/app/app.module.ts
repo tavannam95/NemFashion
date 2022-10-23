@@ -18,7 +18,6 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-image/employee-image.component';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {LoadingComponent} from './shared/loading/loading.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -37,7 +36,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
         MatDatepickerModule,
         MatNativeDateModule,
         NgxDropzoneModule,
-        NgSelectModule,
     ],
     declarations: [
         AppComponent,
