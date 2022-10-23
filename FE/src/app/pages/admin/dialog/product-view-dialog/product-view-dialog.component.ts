@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ProductDetailService } from '../../../../shared/service/productDetail/product-detail.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ProductViewImagesDialogComponent } from './product-view-images-dialog/product-view-images-dialog.component';
 
 @Component({
   selector: 'app-product-view-dialog',
@@ -13,6 +14,7 @@ import { MatSort } from '@angular/material/sort';
   encapsulation: ViewEncapsulation.None,
 })
 export class ProductViewDialogComponent implements OnInit {
+
   displayedColumns: string[] = ['id', 'color', 'size', 'quantity'];
   dataSource: MatTableDataSource<any>;
 
@@ -29,7 +31,8 @@ export class ProductViewDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private poductDetailService: ProductDetailService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -53,6 +56,14 @@ export class ProductViewDialogComponent implements OnInit {
       ).map(s => {return s.size.code});
       this.colors.push(this.color);
     });
+  }
+
+  openProductViewImagesDialog(){
+    this.dialog.open(ProductViewImagesDialogComponent,{
+      height: '600px',
+      width: '1000px',
+      data: this.product.id,
+    })
   }
 
   getProductDetailById(){

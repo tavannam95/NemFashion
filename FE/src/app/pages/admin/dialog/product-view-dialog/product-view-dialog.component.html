@@ -3,7 +3,15 @@
 
   <div class="row">
     <div class="col-5 text-center">
-      <img class="rounded" style="height: 500px; width: 300px;" src="{{product.thumnail}}" alt="">
+      <div class="row">
+        <div class="col-12">
+          <img class="rounded" style="height: 500px; width: 300px;" src="{{product.thumnail}}" alt="">
+        </div>
+        <div class="col-12">
+          <button class="btn btn-info" (click)="openProductViewImagesDialog()">Xem thêm ảnh</button>
+        </div>
+      </div>
+
     </div>
 
     <div class="col-7">
