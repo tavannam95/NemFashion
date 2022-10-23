@@ -9,4 +9,6 @@ public interface ProductImageService {
     List<ProductImages> getAll();
     ProductImages save(ProductImages productImages);
     void delete(Integer id);
+
+    List<ProductImages> findByProId( Integer id ) ;
 }

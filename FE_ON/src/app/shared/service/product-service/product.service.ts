@@ -13,8 +13,13 @@ export class ProductService {
      return this.proApi.getAll() ;
   }
 
-  getById( id: number ){
+  getProductById( id: number ){
     return this.proApi.getById( id );
+  }
+
+  // Product Imgae
+  getProductImageById( id: number ){
+    return this.proApi.getProductImage( id );
   }
 
 }

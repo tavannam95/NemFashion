@@ -3,15 +3,20 @@ import { CommonModule  } from '@angular/common';
 import {HomeRountingModule} from "./home-rounting.module";
 import {HomeComponent} from "./home.component";
 import {StarsComponent} from "../../../shared/stars/stars.component";
+import {SlickCarouselModule} from "ngx-slick-carousel";
 
 @NgModule({
-  declarations: [
-    HomeComponent,
-    StarsComponent
-  ],
+    declarations: [
+        HomeComponent,
+        StarsComponent
+    ],
+    exports: [
+        StarsComponent
+    ],
     imports: [
         CommonModule,
         HomeRountingModule,
+        SlickCarouselModule
     ]
 })
 export class HomeModule {
