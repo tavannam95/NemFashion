@@ -19,21 +19,29 @@ public class ColorController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Colors> create(@RequestBody Colors colors){
+    public ResponseEntity<Colors> create(@RequestBody Colors colors) {
         colors.setStatus(1);
         return new ResponseEntity<>(this.colorService.save(colors), HttpStatus.OK);
     }
+
     @GetMapping("")
-    public ResponseEntity<List<Colors>> getAll(){
-        return new ResponseEntity<>(this.colorService.getAll(),HttpStatus.OK);
+    public ResponseEntity<List<Colors>> getAll() {
+        return new ResponseEntity<>(this.colorService.getAll(), HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Colors> getOne(@PathVariable("id") Integer id){
-        return new ResponseEntity<>(this.colorService.getOne(id),HttpStatus.OK);
+    public ResponseEntity<Colors> getOne(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.colorService.getOne(id), HttpStatus.OK);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Colors> remove(@RequestBody Colors colors){
+    public ResponseEntity<Colors> remove(@RequestBody Colors colors) {
         colors.setStatus(0);
-        return new ResponseEntity<>(this.colorService.save(colors),HttpStatus.OK);
+        return new ResponseEntity<>(this.colorService.save(colors), HttpStatus.OK);
+    }
+
+    @GetMapping("productId/{id}")
+    public ResponseEntity<List<Colors>> findAllColorInProductDetails(@PathVariable("id") Integer productId) {
+        return new ResponseEntity<>(this.colorService.findAllColorInProductDetails(productId), HttpStatus.OK);
     }
 }

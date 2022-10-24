@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {CartService} from "../../../shared/service/cart-service/cart-service";
 
 @Component({
   selector: 'app-cart',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartComponent implements OnInit {
 
-  constructor() { }
+  carts: any[] = [];
+
+  constructor(private readonly cartService: CartService) {
+  }
 
   ngOnInit(): void {
+    this.findAllByCustomerId(33);
+  }
+
+  findAllByCustomerId(customerId: number) {
+    this.cartService.findAllByCustomerId(customerId).subscribe(res => {
+      this.carts = res as any[];
+      console.log(this.carts)
+    })
   }
 
 }
