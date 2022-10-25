@@ -145,13 +145,16 @@
             </li>
             <li class="has-dropdown">
               <a class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i>
-                <span class="total-item-round">{{carts.length}}</span>
+                <span class="total-item-round">{{totalCart}}</span>
               </a>
               <!--====== Dropdown ======-->
               <span class="js-menu-toggle"></span>
               <div class="mini-cart">
                 <!--====== Mini Product Container ======-->
                 <div class="mini-product-container gl-scroll u-s-m-b-15">
+                  <div class="text-center" *ngIf="carts.length == 0">
+                    <p>Giỏ hàng trống. Mời bạn mua thêm sản phẩm <b><a routerLink="/products"> tại đây.</a></b></p>
+                  </div>
                   <!--====== Card for mini cart ======-->
                   <div class="card-mini-product" *ngFor="let cart of carts">
                     <div class="mini-product">
@@ -183,13 +186,14 @@
 
                     <a
                       class="mini-product__delete-link far fa-trash-alt"
+                      (click)="onDelete(cart.id)"
                     ></a>
                   </div>
                   <!--====== End - Card for mini cart ======-->
                 </div>
                 <!--====== End - Mini Product Container ======-->
                 <!--====== Mini Product Statistics ======-->
-                <div class="mini-product-stat">
+                <div class="mini-product-stat" *ngIf="carts.length > 0">
                   <div class="mini-total">
                     <span class="subtotal-text">Tổng tiền</span>
 

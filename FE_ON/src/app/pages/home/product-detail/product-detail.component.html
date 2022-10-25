@@ -104,12 +104,11 @@
               <div class="pd-detail__size">
                 <div class="size__radio" *ngFor="let size of sizes">
                   <input type="radio" id="xs" name="size"
-                         *ngIf="(!(disabledInput === true && test === size.id))"
+                         [attr.disabled]="disabledInput === true && test === size.id ? '' : null"
                          [value]="size.id"
                          [(ngModel)]="sizeModel"
                          (change)="onClickProductDetail(size.id)"/>
-                  <label class="size__radio-label" for="xs"
-                         *ngIf="(!(disabledInput === true && test === size.id))">{{size.code}}</label>
+                  <label class="size__radio-label" for="xs">{{size.code}}</label>
                 </div>
               </div>
             </div>

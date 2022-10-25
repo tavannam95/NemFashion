@@ -10,7 +10,7 @@ export class CartService {
   isReload: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly cartApi: CartApiService,
-             ) {
+  ) {
   }
 
   addToCart(data: any) {
@@ -24,6 +24,18 @@ export class CartService {
       }
     })
   }
+
+  deleteCart(id: number) {
+    return this.cartApi.deleteCart(id).subscribe({
+      next: (_) => {
+        this.isReload.next(true);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+
 
   findAllByCustomerId(customerId: any) {
     return this.cartApi.findAllByCustomerId(customerId);

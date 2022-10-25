@@ -34,6 +34,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public void deleteCart(Integer cartId) {
+        this.cartsRepository.deleteById(cartId);
+    }
+
+    @Override
     public List<Carts> findAllByCustomerId(Integer customerId) {
         return this.cartsRepository.findCartsByCustomerId(33);
     }

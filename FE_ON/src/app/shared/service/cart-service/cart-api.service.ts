@@ -14,6 +14,10 @@ export class CartApiService {
     return this.http.post(`${ApiConstrant.cart}`, data);
   }
 
+  deleteCart(id: number) {
+    return this.http.delete(`${ApiConstrant.cart}/${id}`);
+  }
+
   findAllByCustomerId(customerId: any) {
     return this.http.get(`${ApiConstrant.cart}/${customerId}`);
   }

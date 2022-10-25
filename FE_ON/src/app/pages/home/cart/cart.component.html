@@ -1,5 +1,5 @@
 <!--====== Section 1 ======-->
-<div class="u-s-p-y-60">
+<div class="u-s-p-y-30">
   <!--====== Section Content ======-->
   <div class="section__content">
     <div class="container">
@@ -23,13 +23,13 @@
 <!--====== Section 2 ======-->
 <div class="u-s-p-b-60">
   <!--====== Section Intro ======-->
-  <div class="section__intro u-s-m-b-60">
+  <div class="section__intro u-s-m-b-30">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
           <div class="section__text-wrap">
             <h1 class="section__heading u-c-secondary">
-              SHOPPING CART
+              Giỏ hàng
             </h1>
           </div>
         </div>
@@ -39,11 +39,11 @@
   <!--====== End - Section Intro ======-->
 
   <!--====== Section Content ======-->
-  <div class="section__content">
+  <div class="section__content" *ngIf="carts.length > 0">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
-          <div class="table-responsive" style="overflow: auto; height: 500px">
+          <div class="table-responsive" [style]="{overflow: 'auto', height: carts.length > 2 ? '500px': 'auto'}">
             <table class="table-p">
               <tbody>
               <!--====== Row ======-->
@@ -100,7 +100,8 @@
                   <div class="table-p__del-wrap">
                     <a
                       class="far fa-trash-alt table-p__delete-link"
-                      href="#"
+                      href="javascript:void(0)"
+                      (click)="onDelete(cart.id)"
                     ></a>
                   </div>
                 </td>
@@ -113,23 +114,23 @@
         <div class="col-lg-12">
           <div class="route-box">
             <div class="route-box__g1">
-              <a class="route-box__link" href="#"
+              <a class="route-box__link" routerLink="/products"
               ><i class="fas fa-long-arrow-alt-left"></i>
 
-                <span>CONTINUE SHOPPING</span></a
+                <span>Tiếp tục mua sắm</span></a
               >
             </div>
             <div class="route-box__g2">
               <a class="route-box__link" href="#"
               ><i class="fas fa-trash"></i>
 
-                <span>CLEAR CART</span></a
+                <span>Xoá tất cả</span></a
               >
 
               <a class="route-box__link" href="#"
               ><i class="fas fa-sync"></i>
 
-                <span>UPDATE CART</span></a
+                <span>Cập nhật giỏ hàng</span></a
               >
             </div>
           </div>
@@ -138,6 +139,9 @@
     </div>
   </div>
   <!--====== End - Section Content ======-->
+  <div class="text-center" *ngIf="carts.length == 0">
+    <p>Giỏ hàng của bạn đang trống. Mời bạn mua thêm sản phẩm <b><a routerLink="/products"> tại đây.</a></b></p>
+  </div>
 </div>
 <!--====== End - Section 2 ======-->
 

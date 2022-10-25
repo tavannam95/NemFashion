@@ -9,6 +9,8 @@ public interface CartService {
 
     Carts addToCart(Carts request);
 
+    void deleteCart(Integer cartId);
+
     List<Carts> findAllByCustomerId(Integer customerId);
 
 }

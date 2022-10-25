@@ -27,4 +27,9 @@ public class CartController {
         return new ResponseEntity<>(this.cartService.findAllByCustomerId(customerId), HttpStatus.OK);
     }
 
+    @DeleteMapping("{cartId}")
+    public void deleteCart(@PathVariable("cartId") Integer cartId){
+        this.cartService.deleteCart(cartId);
+    }
+
 }
