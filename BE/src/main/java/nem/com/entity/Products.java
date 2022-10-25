@@ -53,10 +53,6 @@ public class Products {
 
     @JsonIgnore
     @OneToMany(mappedBy = "product")
-    private List<Carts> listCarts;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "product")
     private List<ProductImages> listProductImages;
 
     @ManyToOne

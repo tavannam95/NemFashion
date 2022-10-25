@@ -41,11 +41,11 @@ public class CustomerController {
     }
 
     @PutMapping("update-status/{status}")
-    public void updateStatus(@PathVariable("status") Integer status, @RequestBody List<Integer> id) {
+    public void updateStatus(@PathVariable("status") Integer status, @RequestBody List<Integer> listId) {
         if (status == 1) {
-            customerService.updateAllStatusTrue(id);
+            customerService.updateAllStatusTrue(listId);
         } else {
-            customerService.updateAllStatusFalse(id);
+            customerService.updateAllStatusFalse(listId);
         }
     }
 
