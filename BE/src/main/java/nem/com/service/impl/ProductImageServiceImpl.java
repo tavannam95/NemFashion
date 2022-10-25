@@ -47,6 +47,6 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Override
     public List<ProductImages> findByProId(Integer id) {
-        return this.productImagesRepository.findAllImageByProID( id ) ;
+        return this.productImagesRepository.getProductsImagesById( id ) ;
     }
 }

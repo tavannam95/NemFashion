@@ -19,7 +19,7 @@ getOneProduct(data: number){
   return this.apiService.getOneProduct(data);
 }
 updateProduct(data: any, id: number){
-  return this.apiService.updateProduct(data,id).subscribe();
+  return this.apiService.updateProduct(data,id);
 }
 getProductView(data: any){
   return this.apiService.getProductView(data);

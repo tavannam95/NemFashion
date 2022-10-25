@@ -45,7 +45,6 @@ public class ProductController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<Products> update(
-            @PathVariable("id") Integer id,
             @RequestBody Products products
     ){
         products.setUpdateDate(new Date());

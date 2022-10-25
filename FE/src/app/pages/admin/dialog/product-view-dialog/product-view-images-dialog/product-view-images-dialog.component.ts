@@ -75,6 +75,7 @@ export class ProductViewImagesDialogComponent implements OnInit {
       disableClose: true,
       data: this.dataDialog.id
     });
+
     dialogRef.afterClosed().subscribe(res=>{
       this.getProductDetailById(this.dataDialog.id);
     })

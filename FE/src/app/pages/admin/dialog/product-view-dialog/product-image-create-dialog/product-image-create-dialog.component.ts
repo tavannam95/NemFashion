@@ -4,7 +4,7 @@ import { ProductImageService } from '../../../../../shared/service/productImage/
 import { UploadCloudinaryService } from '../../../../../shared/service/cloudinary/upload-cloudinary.service';
 import { FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'product-image-create-dialog',
@@ -27,8 +27,10 @@ export class ProductImageCreateDialogComponent implements OnInit {
     private fileUploadService: FileUploadService,
     private productImageService: ProductImageService,
     private readonly uploadService: UploadCloudinaryService,
+    private dialogRef: MatDialogRef<ProductImageCreateDialogComponent>,
     private fb: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +45,7 @@ export class ProductImageCreateDialogComponent implements OnInit {
         this.productImageService.createProductImage(this.productImageFormGroup.value).subscribe();
       }
       this.toastrService.success('Thêm ảnh thành công');
+      this.dialogRef.close();
     }
    if (this.imagesFile.length<=0) {
     this.toastrService.warning('Bạn chưa chọn ảnh');

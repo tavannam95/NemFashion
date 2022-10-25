@@ -46,7 +46,6 @@ export class ProductViewDialogComponent implements OnInit {
     this.productDetails.forEach(res => {
       map.set(res.color.code,res.color.name);
     });
-    console.log(map);
     
     map.forEach((value,key) => {
       this.color = {};
@@ -68,7 +67,6 @@ export class ProductViewDialogComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.productDetails = res;
-          console.log(this.productDetails);
           
           this.getSizeByColor();
         

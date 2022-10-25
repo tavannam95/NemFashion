@@ -49,7 +49,7 @@ public class ProductDetailController {
     }
     @GetMapping("/product/{id}")
     public ResponseEntity<List<ProductsDetails>> getProductDetailById(@PathVariable("id") Integer id){
-        return new ResponseEntity<>(this.productDetailService.getProductDetailById(id),HttpStatus.OK);
+        return new ResponseEntity<>(this.productDetailService.findProductsDetailsByProductId(id),HttpStatus.OK);
     }
     @PutMapping("/{id}")
     public ResponseEntity<ProductsDetails> update(@RequestBody ProductsDetails productsDetails) {

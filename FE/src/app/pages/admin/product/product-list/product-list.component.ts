@@ -70,10 +70,13 @@ export class ProductListComponent implements OnInit  {
 
 
   openDialogProductEdit(data: any){
-    this.dialog.open(ProductEditDialogComponent,{
+    let dialogRef = this.dialog.open(ProductEditDialogComponent,{
       data: data,
       width: '1000px',
       disableClose: true
+    });
+    dialogRef.afterClosed().subscribe( value => {
+      this.getAllProduct();
     })
   }
 
