@@ -40,4 +40,14 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductsDetails save(ProductsDetails productsDetails) {
         return this.productsDetailsRepository.save(productsDetails);
     }
+
+    @Override
+    public List<ProductsDetails> findProductsDetailsByProductId(Integer productId) {
+        return this.productsDetailsRepository.findProductsDetailsByProductId(productId);
+    }
+
+    @Override
+    public ProductsDetails findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId) {
+        return this.productsDetailsRepository.findProductDetailBySizeAndColor(productId, sizeId, colorId);
+    }
 }

@@ -65,12 +65,20 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateAllStatusTrue(List<Integer> id) {
-        customersRepository.updateAllStatusTrue(id);
+    public void updateAllStatusTrue(List<Integer> listId) {
+        listId.forEach(id ->
+                customersRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng có mã: " + id))
+        );
+        customersRepository.updateAllStatusTrue(listId);
     }
 
     @Override
-    public void updateAllStatusFalse(List<Integer> id) {
-        customersRepository.updateAllStatusFalse(id);
+    public void updateAllStatusFalse(List<Integer> listId) {
+        listId.forEach(id ->
+                customersRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng có mã: " + id))
+        );
+        customersRepository.updateAllStatusFalse(listId);
     }
 }

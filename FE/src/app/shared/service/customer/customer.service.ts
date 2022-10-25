@@ -10,6 +10,7 @@ export class CustomerService {
 
     isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+
     constructor(private readonly apiService: CustomerApiService,
                 private readonly toastService: ToastrService) {
     }
@@ -78,6 +79,7 @@ export class CustomerService {
         return this.apiService.updateAllStatus(arrId, status).subscribe({
             next: _ => {
                 this.toastService.success('Thay đổi trạng thái thành công !');
+                this.isCloseDialog.next(true);
             },
             error: (err) => {
                 console.log(err)

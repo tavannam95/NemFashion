@@ -1,7 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiConstant} from '../../constants/ApiConstant';
+
+let httpOptions: any = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+    }),
+};
 
 @Injectable({
     providedIn: 'root'
@@ -32,7 +38,7 @@ export class CustomerApiService {
     }
 
     updateAllStatus(arrId: any[], status: number): Observable<any> {
-        return this.http.put(`${ApiConstant.customer}/update-status/${status}`, arrId);
+        return this.http.put(`${ApiConstant.customer}/update-status/${status}`, arrId, httpOptions);
     }
 
 }

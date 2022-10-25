@@ -19,11 +19,17 @@ public class SizeController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Sizes>> getAll(){
-        return new ResponseEntity<>(this.sizeService.getAll(),HttpStatus.OK);
+    public ResponseEntity<List<Sizes>> getAll() {
+        return new ResponseEntity<>(this.sizeService.getAll(), HttpStatus.OK);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<Sizes> getOne(@PathVariable("id") Integer id){
-        return new ResponseEntity<>(this.sizeService.getOne(id),HttpStatus.OK);
+    public ResponseEntity<Sizes> getOne(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.sizeService.getOne(id), HttpStatus.OK);
+    }
+
+    @GetMapping("productId/{id}")
+    public ResponseEntity<List<Sizes>> findAllSizeInProductDetails(@PathVariable("id") Integer productId) {
+        return new ResponseEntity<>(this.sizeService.findAllSizeInProductDetails(productId), HttpStatus.OK);
     }
 }
