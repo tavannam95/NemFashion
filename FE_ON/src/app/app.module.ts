@@ -12,6 +12,7 @@ import { NavbarComponent } from './layout/navbar/navbar.component';
 import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.component";
 import {HttpClientModule} from "@angular/common/http";
 import {CdkTableModule} from "@angular/cdk/table";
+import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {CdkTableModule} from "@angular/cdk/table";
     FooterComponent,
     NavbarComponent,
     ConfirmDialogComponent,
+    ProductViewComponent
   ],
   imports: [
     BrowserModule,

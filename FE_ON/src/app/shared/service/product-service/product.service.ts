@@ -22,4 +22,15 @@ export class ProductService {
     return this.proApi.getProductImage( id );
   }
 
+  getAllProBySize( sizes : any ){
+     var path = ''
+     for( var x of sizes ){
+        path += 'size=' + x + '&'
+     }
+    path = path.slice( 0 , path.length - 1 )
+    console.log(path)
+
+     return this.proApi.getProBySize(path) ;
+  }
+
 }

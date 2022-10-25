@@ -31,6 +31,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Products> getAllBySize(Integer[] size ) {
+        return this.productsRepository.findProBySize(size );
+    }
+
+    @Override
     public Products save(Products products) {
         System.out.println(products.getCreateDate());
         return this.productsRepository.save(products);
