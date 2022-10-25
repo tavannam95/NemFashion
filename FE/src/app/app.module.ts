@@ -19,6 +19,7 @@ import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-im
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { ProductImageCreateDialogComponent } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { LoadingComponent } from './shared/loading/loading.component';
         ConfirmDialogComponent,
         EmployeeDetailComponent,
         EmployeeImageComponent,
+        ProductImageCreateDialogComponent,
     ],
     providers: [],
     bootstrap: [AppComponent]
