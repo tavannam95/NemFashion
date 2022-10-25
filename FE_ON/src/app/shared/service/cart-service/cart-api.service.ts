@@ -14,12 +14,20 @@ export class CartApiService {
     return this.http.post(`${ApiConstrant.cart}`, data);
   }
 
+  updateCart(data: any) {
+    return this.http.put(`${ApiConstrant.cart}`, data);
+  }
+
   deleteCart(id: number) {
     return this.http.delete(`${ApiConstrant.cart}/${id}`);
   }
 
   findAllByCustomerId(customerId: any) {
     return this.http.get(`${ApiConstrant.cart}/${customerId}`);
+  }
+
+  deleteAllByCustomerId(customerId: any){
+    return this.http.delete(`${ApiConstrant.cart}/delete-all/${customerId}`);
   }
 
 }

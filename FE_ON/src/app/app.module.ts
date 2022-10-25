@@ -28,7 +28,7 @@ import {CdkTableModule} from "@angular/cdk/table";
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CdkTableModule
+    CdkTableModule,
   ],
   providers: [],
   exports: [

@@ -123,6 +123,7 @@
                     type="number"
                     name="quantity"
                     [(ngModel)]="productQuantity"
+                    (change)="onChangeInput($event)"
                     min="1"
                     [max]="countProductDetail"
                   />
@@ -130,6 +131,7 @@
                 <!--====== End - Input Counter ======-->
               </div>
             </div>
+            <p *ngIf="message" class="text-danger">{{message}}</p>
             <div class="u-s-m-b-15">
               <button class="btn btn-warning" type="button" (click)="onAddToCart(f)">
                 Thêm vào giỏ hàng
