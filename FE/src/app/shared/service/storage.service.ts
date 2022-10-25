@@ -10,6 +10,7 @@ export class StorageService {
     constructor() {
     }
 
+    /**Xoá token cũ ở Local Storage và lưu token mới*/
     public saveUserToken(userToken: any) {
         window.localStorage.removeItem(USER_TOKEN);
         window.localStorage.setItem(USER_TOKEN, JSON.stringify(userToken));

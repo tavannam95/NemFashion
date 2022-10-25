@@ -41,4 +41,10 @@ public class ProductImageController {
     public void delete(@PathVariable("id") Integer id){
         this.productImageService.delete(id);
     }
+
+    @GetMapping("list-proId/{id}")
+    public ResponseEntity<List<ProductImages>> findByProId( @PathVariable("id") Integer id ){
+        return ResponseEntity.ok( this.productImageService.findByProId(id) ) ;
+    }
+
 }

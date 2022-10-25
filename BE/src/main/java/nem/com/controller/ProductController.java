@@ -51,4 +51,10 @@ public class ProductController {
         products.setUpdateDate(new Date());
         return new ResponseEntity<>(this.productService.update(products),HttpStatus.OK);
     }
+
+    @GetMapping("findSize")
+    public ResponseEntity<List<Products>> findProBySize( @RequestParam("size") Integer[] sizes){
+        return new ResponseEntity<>(this.productService.getAllBySize(sizes) , HttpStatus.OK );
+    }
+
 }

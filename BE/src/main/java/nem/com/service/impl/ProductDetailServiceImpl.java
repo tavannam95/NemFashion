@@ -42,7 +42,12 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    public List<ProductsDetails> getProductDetailById(Integer id) {
-        return this.productsDetailsRepository.getProductsDetailsById(id);
+    public List<ProductsDetails> findProductsDetailsByProductId(Integer productId) {
+        return this.productsDetailsRepository.findProductsDetailsByProductId(productId);
+    }
+
+    @Override
+    public ProductsDetails findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId) {
+        return this.productsDetailsRepository.findProductDetailBySizeAndColor(productId, sizeId, colorId);
     }
 }

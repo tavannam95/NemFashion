@@ -1,6 +1,7 @@
 package nem.com.service;
 
 import nem.com.entity.Colors;
+import nem.com.entity.Sizes;
 
 import java.util.List;
 
@@ -10,4 +11,6 @@ public interface ColorService {
     Colors getOne(Integer id);
 
     List<Colors> getAll();
+
+    List<Colors> findAllColorInProductDetails(Integer productId);
 }

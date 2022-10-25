@@ -10,6 +10,8 @@ public interface ProductService {
     List<ProductViewDto> createProductView(List<ProductViewDto> list);
     Products getOne(Integer id);
     List<Products> getAll();
+
+    List<Products> getAllBySize( Integer[] size);
     Products save(Products products);
     Products update(Products products);
     void delete(Integer id);

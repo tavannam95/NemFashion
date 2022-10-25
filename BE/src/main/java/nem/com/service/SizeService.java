@@ -8,4 +8,5 @@ import java.util.List;
 public interface SizeService {
     List<Sizes> getAll();
     Sizes getOne(Integer id);
+    List<Sizes> findAllSizeInProductDetails(Integer productId);
 }

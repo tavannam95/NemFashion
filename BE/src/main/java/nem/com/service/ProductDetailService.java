@@ -7,10 +7,17 @@ import java.util.List;
 public interface ProductDetailService {
 
     List<ProductsDetails> getAll();
+
     ProductsDetails getOne(Integer id);
+
     ProductsDetails update(ProductsDetails productsDetails);
+
     void delete(Integer id);
+
     ProductsDetails save(ProductsDetails productsDetails);
 
-    List<ProductsDetails> getProductDetailById(Integer id);
+    List<ProductsDetails> findProductsDetailsByProductId(Integer productId);
+
+    ProductsDetails findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId);
+
 }

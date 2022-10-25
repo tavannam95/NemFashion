@@ -169,9 +169,9 @@
                 var thisInstance = $(this);
                 var itemPerLine = thisInstance.data('item');
                 thisInstance.owlCarousel({
-                    autoplay: false,
-                    loop: false,
-                    dots: false,
+                    autoplay: true,
+                    loop: true,
+                    dots: true,
                     rewind: true,
                     smartSpeed: 1500,
                     nav: true,

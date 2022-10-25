@@ -14,4 +14,8 @@ export class UploadCloudinaryApiService {
         return this.http.post(`${ApiConstant.cloudinary}/upload`, files);
     }
 
+    delete(publicId: any) {
+        return this.http.delete(`${ApiConstant.cloudinary}/${publicId}`);
+    }
+
 }

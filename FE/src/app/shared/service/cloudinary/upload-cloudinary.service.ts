@@ -14,4 +14,8 @@ export class UploadCloudinaryService {
         return this.uploadService.upload(files);
     }
 
+    delete(publicId: any) {
+        return this.uploadService.delete(publicId);
+    }
+
 }

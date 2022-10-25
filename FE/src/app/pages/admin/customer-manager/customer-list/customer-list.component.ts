@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -26,16 +26,14 @@ export class CustomerListComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-
     TYPE_DIALOG = Constant.TYPE_DIALOG;
-
     customers: any[] = [];
     isLoading: boolean = false;
 
     constructor(private readonly matDialog: MatDialog,
                 private readonly customerService: CustomerService,
                 private readonly http: HttpClient,
-                private readonly toastService: ToastrService) {
+                private readonly toastService: ToastrService,) {
     }
 
     ngOnInit(): void {
@@ -68,7 +66,6 @@ export class CustomerListComponent implements OnInit {
     }
 
     getAllCustomer() {
-        console.log('Get all')
         this.isLoading = true;
         return this.customerService.getAllCustomer().subscribe({
             next: (res) => {
@@ -80,8 +77,8 @@ export class CustomerListComponent implements OnInit {
             },
             error: (err) => {
                 this.isLoading = false;
-                console.log(err)
-                this.toastService.error('Lỗi tải dữ liệu !!!')
+                console.log(err);
+                this.toastService.error('Lỗi tải dữ liệu !!!');
             }
         })
     }
@@ -126,9 +123,8 @@ export class CustomerListComponent implements OnInit {
         })
     }
 
-    arrId: any[] = [];
-
     deleteAll(status: number) {
+        let arrId = [];
         this.matDialog.open(ConfirmDialogComponent, {
             disableClose: true,
             hasBackdrop: true,
@@ -139,19 +135,26 @@ export class CustomerListComponent implements OnInit {
             if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
                 if (this.selection.selected.length > 0) {
                     this.selection.selected.forEach(select => {
-                        this.arrId.push(select.id);
+                        arrId.push(select.id);
                     })
 
                     if (status === 1) {
-                        this.customerService.updateAllStatus(this.arrId, 1);
+                        this.customerService.updateAllStatus(arrId, 1);
                     } else {
-                        this.customerService.updateAllStatus(this.arrId, 0);
+                        this.customerService.updateAllStatus(arrId, 0);
                     }
-                    this.getAllCustomer();
+
+                    this.customerService.isCloseDialog.subscribe(value => {
+                        if (value) {
+                            this.getAllCustomer();
+                            this.customerService.isCloseDialog.next(false);
+                        }
+                    })
+
                     this.selection.deselect(...this.selection.selected)
-                    this.arrId = [];
+                    arrId = [];
                 } else {
-                    this.toastService.warning('Vui lòng chọn khách hàng muốn thay đổi trạng thái !')
+                    this.toastService.warning('Vui lòng chọn khách hàng muốn thay đổi trạng thái !');
                 }
             }
         })

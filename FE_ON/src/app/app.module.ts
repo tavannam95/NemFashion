@@ -9,9 +9,10 @@ import { HeaderComponent } from './layout/header/header.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { NavbarComponent } from './layout/navbar/navbar.component';
-import { ProductDetailComponent } from './pages/home/product-detail/product-detail.component';
 import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.component";
-import { ProductComponent } from './pages/home/product/product.component';
+import {HttpClientModule} from "@angular/common/http";
+import {CdkTableModule} from "@angular/cdk/table";
+import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
 
 @NgModule({
   declarations: [
@@ -21,15 +22,20 @@ import { ProductComponent } from './pages/home/product/product.component';
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
-    ProductDetailComponent,
     ConfirmDialogComponent,
+    ProductViewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    CdkTableModule,
   ],
   providers: [],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
