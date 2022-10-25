@@ -35,6 +35,7 @@ export class ProductDetailOrderComponent implements OnInit {
     productDetailOrder: any;
     //Index tabs
 
+
     message = '';
 
     ngOnInit(): void {
@@ -103,23 +104,31 @@ export class ProductDetailOrderComponent implements OnInit {
     }
 
     onSubmit() {
-        if (this.quantityinput > 0 && this.quantityinput <= this.quantityInventory) {
+
             if (this.listColorOfProduct.click !== undefined && this.listSizeOfProduct.click !== undefined) {
+                if (this.quantityinput > 0 && this.quantityinput <= this.quantityInventory) {
+                    this.productDetailOrder[0].quantityOrder = parseInt(this.quantityinput);
+                    this.productDetailOrder[0].price = this.product.price;
+                    this.productDetailOrder[0].quantityInventory = this.quantityInventory;
+                    this.productDetailOrder[0].productName = this.product.name;
+                    this.matDialogRef.close(this.productDetailOrder[0]);
+                }else{
+                        this.message = 'Số lượng không hợp lệ';
+                    }
                 // Do filter trả về 1 mảng nên phải [0]
-                this.productDetailOrder[0].quantityOrder = parseInt(this.quantityinput);
-                this.productDetailOrder[0].price = this.product.price;
-                this.productDetailOrder[0].quantityInventory = this.quantityInventory;
-                this.productDetailOrder[0].productName = this.product.name;
-                this.matDialogRef.close(this.productDetailOrder[0]);
+
             }
-        }else{
-            this.message = 'Số lượng không hợp lệ';
         }
-    }
+
 
     checkQuantityInput() {
+        this.message = '';
         let pattern = /^[0-9]*$/
+        if (this.quantityinput == ''){
+            this.quantityinput = 1;
+        }
         if (pattern.test(this.quantityinput)) {
+            this.quantityinput = parseInt(this.quantityinput);
             if (this.quantityinput > this.quantityInventory) {
                 this.quantityinput = this.quantityInventory
             }

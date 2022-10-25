@@ -1,27 +1,39 @@
 <div *ngIf="isLoading" class="loading">
-    <div
-            class="spinner-border text-danger spinner-center"
-            role="status"
-    ></div>
+    <div class="spinner-border text-danger spinner-center" role="status"></div>
 </div>
 
 <div class="main-content">
     <div class="container-fluid">
-
         <div class="card custom-card ">
             <mat-drawer-container [hasBackdrop]="true" class="example-container" autosize>
                 <div class="add-tabs">
-                    <a class="example-add-tab-button"
-                       (click)="addTab(true)">
+                    <a class="example-add-tab-button" (click)="addTab(true)">
                         <i class="fas fa-plus"></i>
                     </a>
                 </div>
+                <div class="btn-menu">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item [routerLink]="['/dashboard']">
+                            <span>Quản lý</span>
+                        </button>
+                        <button mat-menu-item>
+                            <span>Đăng xuất</span>
+                        </button>
+                    </mat-menu>
+                </div>
                 <form class="example-form">
-                    <input class="input" placeholder="Vui lòng nhập tìm kiếm">
+                    <input class="input" [formControl]="customerInput" [matAutocomplete]="auto1"
+                           placeholder="Vui lòng nhập tìm kiếm">
+                    <mat-autocomplete #auto1="matAutocomplete">
+                        <mat-option *ngFor="let cus of filteredCustomer | async" [value]="cus.id">
+                            {{cus.fullname}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </form>
-                <mat-tab-group [selectedIndex]="selected.value"
-                               [color] = "'accent'"
-                               animationDuration="0ms"
+                <mat-tab-group [selectedIndex]="selected.value" [color]="'accent'" animationDuration="0ms"
                                (selectedIndexChange)="selected.setValue($event);getItemByTabs()">
                     <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
                         <ng-template mat-tab-label>
@@ -55,7 +67,7 @@
                                                             <div class="col-8 info-product">
                                                                 <span class="name-product">{{product.name}}</span>
                                                                 <span class="price-product">
-                                                           <span class="price"> {{product.price|currency}}</span></span>
+                                                           <span class="price"> {{product.price|currency:'VND'}}</span></span>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -67,32 +79,69 @@
                                 <div class="col-5 order">
                                     <div class="right-order">
                                         <form class="form-order">
-                                            <i class="fas fa-search icon-search"></i>
-                                            <input class="input-kh" placeholder="Tìm khách hàng">
-                                            <a class="input-add-kh example-add-tab-button"
-                                               (click)="addTab(true)">
-                                                <i class="fas fa-plus"></i>
-                                            </a>
+                                            <div [style.background-color]="order.customer != ''?'#cbcaca': '' "
+                                                 class="seach-kh">
+                                                <div class="icon-search">
+                                                    <i *ngIf="order.customer == ''" class="fas fa-search"></i>
+                                                    <i *ngIf="order.customer != ''" class="fa-solid fa-user"></i>
+                                                </div>
+                                                <div class="kh">
+                                                    <input *ngIf="order.customer == ''" class="input-kh"
+                                                           [matAutocomplete]="auto2"
+                                                           [formControl]="customerInput" placeholder="Tìm khách hàng">
+                                                    <div class="link-kh">
+                                                        <a *ngIf="order.customer != ''">{{customerName}}</a>
+                                                    </div>
+                                                </div>
+                                                <a class="input-add-kh example-add-tab-button">
+                                                    <i *ngIf="order.customer == ''" (click)="openDialogAddKh()"
+                                                       class="fas fa-plus"></i>
+                                                    <i *ngIf="order.customer != ''" (click)="deleteCustomer()"
+                                                       class="fa-solid fa-xmark"></i>
+                                                </a>
+                                                <mat-autocomplete #auto2="matAutocomplete">
+                                                    <mat-option *ngFor="let cus of filteredCustomer | async"
+                                                                [value]="cus.id"
+                                                                (click)="chooseCustomer()"
+                                                    >
+                                                        {{cus.fullname }}&#160;-&#160;{{ cus.phone}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </div>
                                         </form>
                                         <div class="order-detail">
-                                            <div class="order-item " *ngFor="let orderDetail of order.orderDetail;let index = index" >
+                                            <div class="order-item "
+                                                 *ngFor="let orderDetail of order.orderDetail;let index = index">
                                                 <div class="container-item">
                                                     <div class="item-top">
-                                                        <div class="item-delete"><i class="fa-regular fa-trash-can"></i>
+                                                        <div class="item-delete"><i style="cursor:pointer;"
+                                                                                    (click)="deleteDetail(index)"
+                                                                                    class="fa-regular fa-trash-can"></i>
                                                         </div>
-                                                        <div class="item-id">{{orderDetail.id}}</div>
-                                                        <div class="item-name"> <p style="margin: 0">{{orderDetail.name}}</p>
-                                                            <span> <span style="width: 15px;height: 15px; display: inline-block" [style.background-color]="orderDetail.colorCode"></span>
-                                                                <span> / {{orderDetail.sizeCode}}</span></span>
+                                                        <div class="item-name">
+                                                            <p style="margin: 0">{{orderDetail.name}}</p>
+                                                            <span> <span
+                                                                    style="width: 15px;height: 15px; display: inline-block"
+                                                                    [style.background-color]="orderDetail.colorCode"></span>
+                                                            <span> / {{orderDetail.sizeCode}}</span></span>
                                                         </div>
                                                     </div>
                                                     <div class="item-bot">
-                                                        <div class="item-quantity"><input type="text" value="{{orderDetail.quantity}}"></div>
-                                                        <div class="item-price">{{orderDetail.price}}</div>
-                                                        <div class="item-total">{{orderDetail.price * orderDetail.quantity}}</div>
+                                                        <div class="item-quantity">
+                                                            <button (click)="minusQuantity(index)"><i
+                                                                    class="fa-solid fa-minus"></i></button>
+                                                            <input type="text"
+                                                                   matTooltip="Kho: {{orderDetail.quantityInventory}}"
+                                                                   (keyup)="checkQuantityInput(index);setOrderLocalStorage(listOrders)"
+                                                                   (blur)="blurQuantityInput(index)"
+                                                                   [(ngModel)]="quantityDetail[index]">
+                                                            <button (click)="plusQuantity(index)"><i
+                                                                    class="fa-solid fa-plus"></i></button>
+                                                        </div>
+                                                        <div class="item-price">{{orderDetail.price | currency:'VND' }}</div>
+                                                        <div class="item-total">{{(orderDetail.quantity != '' ? orderDetail.price * orderDetail.quantity : 0)|currency:'VND' }}</div>
                                                     </div>
                                                 </div>
-                                                <div><textarea id="note_{{index}}" [(ngModel)]="noteDetail[index]" (focusout)="focusOutItem(index)"  placeholder="Ghi chú..." class="note"></textarea></div>
                                             </div>
                                         </div>
                                         <div class="order-footer">
@@ -100,15 +149,19 @@
                                                 <div style="font-size: 16px;padding: 4px;color: black;">TỔNG TIỀN HÀNG
                                                     <span class="total-quantity">{{order.totalQuantity}}</span>
                                                 </div>
-                                                <div style="flex: 1;text-align: end">{{order.totalPrice}}đ</div>
+                                                <div style="flex: 1;text-align: end">{{order.totalPrice|currency:'VND'}}</div>
                                             </div>
                                             <div>
                                                 <div class="row">
-                                                    <div class="col-6"><textarea class="order-note" [value]=" order.note"
+                                                    <div class="col-6"><textarea class="order-note"
+                                                                                 id="noteOrder"
+                                                                                 (change)="setOrderLocalStorage(listOrders)"
+                                                                                 [(ngModel)]="order.note"
+                                                                                 [value]=" order.note"
                                                                                  placeholder="Ghi chú đơn hàng"></textarea>
                                                     </div>
                                                     <div class="col-6">
-                                                        <button class="btn-order" mat-button (click)="drawer.toggle()">
+                                                        <button class="btn-order" mat-button (click)="drawer.toggle();tinhtien()">
                                                             THANH TOÁN
                                                         </button>
                                                     </div>
@@ -130,24 +183,34 @@
                             <button class="close-toggle" (click)="drawer.toggle()"><i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <div class="customer-info">Tạ Văn Nam</div>
+                        <div class="customer-info">{{customerName == '' ? 'Khách lẻ' : customerName }}</div>
                         <div class="payment-bot">
                             <div class="payment-content">
                                 <div class="payment-content-item">
-                                    <div>Tổng tiền hàng <span class="total-quantity">12</span></div>
-                                    <div class="price">15,000,000</div>
+                                    <div>Tổng tiền hàng <span class="total-quantity">{{order.totalQuantity}}</span>
+                                    </div>
+                                    <div class="price">{{order.totalPrice |currency:'VND'}}</div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div>Giảm giá</div>
-                                    <div class="price">0</div>
+                                    <div class="price">
+                                        0
+<!--                                        <button (focus)="openModalfocus()" (focusout)="closeModal()">0đ</button>-->
+<!--                                        <div (focus)="openModalfocus()" (focusout)="closeModal()" class="modal-discount" *ngIf="openModal">hei hei</div>-->
+                                    </div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Khách cần trả</div>
-                                    <div class="price">15,000,000</div>
+                                    <div class="price">{{order.totalPrice |currency:'VND'}}</div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Khách thanh toán</div>
-                                    <div class="price">15,000,000</div>
+                                    <div class="price">{{order.totalPrice |currency:'VND'}}</div>
+                                </div>
+                                <div class="list-price-payment">
+                                    <button class="btn-price-payment" *ngFor="let price of listTien;let index = index">
+                                        {{price|currency:' ': '':'0.0-0'}}
+                                    </button>
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Tiền thừa trả khách</div>
@@ -167,4 +230,3 @@
         </div>
     </div>
 </div>
-

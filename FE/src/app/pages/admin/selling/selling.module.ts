@@ -10,7 +10,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { ProductDetailOrderComponent } from './selling/product-detail-order/product-detail-order.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
     declarations: [SellingComponent, ProductDetailOrderComponent],
     imports: [
@@ -23,7 +27,12 @@ import {FormsModule} from "@angular/forms";
         MatInputModule,
         MatBadgeModule,
         MatSidenavModule,
-        FormsModule
+        FormsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatIconModule,
+        MatTooltipModule
     ]
 })
 export class SellingModule {
