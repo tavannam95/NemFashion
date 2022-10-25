@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductService} from "../../../shared/service/product-service/product.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ProductViewComponent} from "./product-view/product-view.component";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,8 @@ export class HomeComponent implements OnInit {
 
   listPro: any ;
 
-  constructor( private proService: ProductService ) {
+  constructor( private proService: ProductService ,
+               private dialog: MatDialog ) {
     proService.getAllProduct().subscribe( data => {
       this.listPro = data
       console.log( this.listPro )
@@ -20,7 +23,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  slideConfig = { slidesToShow: 4, slidesToScroll:1 , styles: 'fontsize: 30px' };
+  slideConfig = { slidesToShow: 4, slidesToScroll:1 , swipeToSlide: true};
 
   slickInit(e: any) {
     console.log('slick initialized');
@@ -33,6 +36,22 @@ export class HomeComponent implements OnInit {
   }
   beforeChange(e: any) {
     console.log('beforeChange');
+  }
+
+  OpenProductView( product: any ){
+     const dialogRef = this.dialog.open( ProductViewComponent , {
+       width: '100vw' ,
+       disableClose: true ,
+       hasBackdrop: true ,
+       data: {
+           product: product ,
+           type: 'home'
+       }
+     })
+
+    dialogRef.afterClosed().subscribe( value => {
+
+    })
   }
 
 }

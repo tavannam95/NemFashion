@@ -29,8 +29,12 @@ export class ProductApiService {
    }
 
    // Product Image
-
    getProductImage( id: number ): Observable<any>{
       return this.http.get( `${ApiConstrant.productImage}/list-proId/${id}` );
+   }
+
+//   Tình kiếm pro theo size
+   getProBySize( pahtsizes: any ){
+     return this.http.get(`${ApiConstrant.product}/findSize?${pahtsizes}`)
    }
 }

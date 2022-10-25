@@ -4,11 +4,13 @@ import {HomeRountingModule} from "./home-rounting.module";
 import {HomeComponent} from "./home.component";
 import {StarsComponent} from "../../../shared/stars/stars.component";
 import {SlickCarouselModule} from "ngx-slick-carousel";
+import {MatDialogModule} from "@angular/material/dialog";
+import {ProductViewComponent} from "./product-view/product-view.component";
 
 @NgModule({
     declarations: [
         HomeComponent,
-        StarsComponent
+        StarsComponent,
     ],
     exports: [
         StarsComponent
@@ -16,7 +18,8 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
     imports: [
         CommonModule,
         HomeRountingModule,
-        SlickCarouselModule
+        SlickCarouselModule ,
+      MatDialogModule
     ]
 })
 export class HomeModule {

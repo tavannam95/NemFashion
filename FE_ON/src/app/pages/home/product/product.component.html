@@ -88,20 +88,15 @@
                           <ul class="shop-w__list gl-scroll">
                             <li>
                               <div class="color__check">
-
                                 <input type="checkbox" id="jet">
-
-                                <label class="color__check-label" for="jet" style="background-color: #333333"></label></div>
-
+                                <label class="color__check-label" for="jet" style="background-color: #333333"></label>
+                              </div>
                               <span class="shop-w__total-text">(2)</span>
                             </li>
                             <li>
                               <div class="color__check">
-
                                 <input type="checkbox" id="folly">
-
                                 <label class="color__check-label" for="folly" style="background-color: #FF0055"></label></div>
-
                               <span class="shop-w__total-text">(4)</span>
                             </li>
                             <li>
@@ -143,89 +138,14 @@
                         </div>
                         <div class="shop-w__wrap collapse" id="s-size">
                           <ul class="shop-w__list gl-scroll">
-                            <li>
-
-                              <!--====== Check Box ======-->
+                            <li *ngFor="let size of listSize ">
                               <div class="check-box">
-
-                                <input type="checkbox" id="xs">
+                                <input type="checkbox" id="{{size.code}}" (click)="getAllBySize(size.id)" >
                                 <div class="check-box__state check-box__state--primary">
-
-                                  <label class="check-box__label" for="xs">XS</label></div>
+                                  <label class="check-box__label" for="{{size.code}}">{{size.code}}</label>
+                                </div>
                               </div>
-                              <!--====== End - Check Box ======-->
-
                               <span class="shop-w__total-text">(2)</span>
-                            </li>
-                            <li>
-
-                              <!--====== Check Box ======-->
-                              <div class="check-box">
-
-                                <input type="checkbox" id="small">
-                                <div class="check-box__state check-box__state--primary">
-
-                                  <label class="check-box__label" for="small">Small</label></div>
-                              </div>
-                              <!--====== End - Check Box ======-->
-
-                              <span class="shop-w__total-text">(4)</span>
-                            </li>
-                            <li>
-
-                              <!--====== Check Box ======-->
-                              <div class="check-box">
-
-                                <input type="checkbox" id="medium">
-                                <div class="check-box__state check-box__state--primary">
-
-                                  <label class="check-box__label" for="medium">Medium</label></div>
-                              </div>
-                              <!--====== End - Check Box ======-->
-
-                              <span class="shop-w__total-text">(6)</span>
-                            </li>
-                            <li>
-
-                              <!--====== Check Box ======-->
-                              <div class="check-box">
-
-                                <input type="checkbox" id="large">
-                                <div class="check-box__state check-box__state--primary">
-
-                                  <label class="check-box__label" for="large">Large</label></div>
-                              </div>
-                              <!--====== End - Check Box ======-->
-
-                              <span class="shop-w__total-text">(8)</span>
-                            </li>
-                            <li>
-
-                              <!--====== Check Box ======-->
-                              <div class="check-box">
-
-                                <input type="checkbox" id="xl">
-                                <div class="check-box__state check-box__state--primary">
-
-                                  <label class="check-box__label" for="xl">XL</label></div>
-                              </div>
-                              <!--====== End - Check Box ======-->
-
-                              <span class="shop-w__total-text">(10)</span>
-                            </li>
-                            <li>
-
-                              <!--====== Check Box ======-->
-                              <div class="check-box">
-
-                                <input type="checkbox" id="xxl">
-                                <div class="check-box__state check-box__state--primary">
-
-                                  <label class="check-box__label" for="xxl">XXL</label></div>
-                              </div>
-                              <!--====== End - Check Box ======-->
-
-                              <span class="shop-w__total-text">(12)</span>
                             </li>
                           </ul>
                         </div>
@@ -275,7 +195,7 @@
                         <img class="aspect__img" src="{{pro.thumnail}}" alt=""></a>
                       <div class="product-m__quick-look">
 
-                        <a class="fas fa-search" data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick Look"></a></div>
+                        <a class="fas fa-search" title="xem nhanh" (click)="OpenProductView(pro)"></a></div>
                       <div class="product-m__add-cart">
 
                         <a class="btn--e-brand" data-modal="modal" data-modal-id="#add-to-cart">Thêm vào giỏ hàng</a></div>

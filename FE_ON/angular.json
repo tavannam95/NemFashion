@@ -109,5 +109,7 @@
       }
     }
   },
-  "defaultProject": "FE_ON"
+  "cli": {
+    "analytics": "91bb4381-99aa-4e23-8893-119b9881f188"
+  }
 }
