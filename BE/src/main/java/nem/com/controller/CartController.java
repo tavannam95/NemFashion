@@ -22,14 +22,25 @@ public class CartController {
         return new ResponseEntity<>(this.cartService.addToCart(request), HttpStatus.OK);
     }
 
+    @PutMapping
+    public ResponseEntity<Carts> updateCart(@RequestBody Carts request) {
+        return new ResponseEntity<>(this.cartService.updateCart(request), HttpStatus.OK);
+    }
+
+
     @GetMapping("{customerId}")
     public ResponseEntity<List<Carts>> addToCart(@PathVariable Integer customerId) {
         return new ResponseEntity<>(this.cartService.findAllByCustomerId(customerId), HttpStatus.OK);
     }
 
     @DeleteMapping("{cartId}")
-    public void deleteCart(@PathVariable("cartId") Integer cartId){
+    public void deleteCart(@PathVariable("cartId") Integer cartId) {
         this.cartService.deleteCart(cartId);
+    }
+
+    @DeleteMapping("delete-all/{customerId}")
+    public void deleteAllByCustomerId(@PathVariable("customerId") Integer customerId) {
+        this.cartService.deleteAllByCustomerId(customerId);
     }
 
 }

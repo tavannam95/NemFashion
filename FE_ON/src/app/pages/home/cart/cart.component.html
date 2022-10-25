@@ -88,8 +88,9 @@
                     <div class="input-counter">
                       <input
                         class="input-counter__text input-counter--text-primary-style"
-                        type="text"
-                        [value]="cart.quantity"
+                        type="number"
+                        [(ngModel)]="cart.quantity"
+                        (change)="updateCart($event, cart.customer.id, cart.productsDetail.id)"
                         data-min="1"
                         data-max="1000"/>
                     </div>
@@ -121,11 +122,11 @@
               >
             </div>
             <div class="route-box__g2">
-              <a class="route-box__link" href="#"
-              ><i class="fas fa-trash"></i>
-
-                <span>Xoá tất cả</span></a
-              >
+              <a class="route-box__link" href="javascript:void(0)"
+                 (click)="deleteAllByCustomerId(33)">
+                <i class="fas fa-trash"></i>
+                <span>Xoá tất cả</span>
+              </a>
 
               <a class="route-box__link" href="#"
               ><i class="fas fa-sync"></i>
@@ -259,8 +260,8 @@
                         <td>$379.00</td>
                       </tr>
                       <tr>
-                        <td>GRAND TOTAL</td>
-                        <td>$379.00</td>
+                        <td>Tổng tiền</td>
+                        <td>{{subTotal | currency: 'VND' : 'symbol' : '4.0' }}</td>
                       </tr>
                       </tbody>
                     </table>

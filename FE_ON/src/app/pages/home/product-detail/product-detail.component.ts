@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../../shared/service/product-service/product.service";
+import {BehaviorSubject} from "rxjs";
+import {NgForm} from "@angular/forms";
 import {ProductDetailService} from "../../../shared/service/product-detail-service/product-detail.service";
 import {ColorService} from "../../../shared/service/color-service/color.service";
 import {SizeService} from "../../../shared/service/size-service/size.service";
-import {BehaviorSubject} from "rxjs";
-import {NgForm} from "@angular/forms";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
 
 @Component({
@@ -33,6 +33,7 @@ export class ProductDetailComponent implements OnInit {
   total: any;
   productDetail: any[] = [];
   productQuantity: any;
+  message!: string;
 
   constructor(private route: ActivatedRoute,
               private ServicePro: ProductService,
@@ -130,7 +131,7 @@ export class ProductDetailComponent implements OnInit {
   onAddToCart(f: NgForm) {
     let pid = 0;
     this.productId.subscribe((id: number) => {
-      pid = id;
+      if (id) pid = id;
     })
 
     const data = {
@@ -138,11 +139,21 @@ export class ProductDetailComponent implements OnInit {
       sizeId: f.value.size,
       colorId: f.value.color
     }
+
     if (data.sizeId === undefined || data.colorId === undefined) {
-      console.log("Vui lòng chọn màu sắc và size")
+      this.message = 'Vui lòng chọn màu sắc và size';
       return;
+    } else {
+      this.message = ''
     }
+
     this.productDetailService.findProductDetailBySizeAndColor(data).subscribe((res: any) => {
+
+      if (this.productQuantity > res.quantity) {
+        this.message = 'Số lượng không hợp lệ. Vui lòng nhập lại !';
+        return;
+      }
+
       const cart = {
         quantity: f.value.quantity,
         customer: {
@@ -154,13 +165,11 @@ export class ProductDetailComponent implements OnInit {
       }
       this.cartService.addToCart(cart);
     })
+
   }
 
-  findAllByCustomerId(customerId: number) {
-    this.cartService.findAllByCustomerId(customerId).subscribe(res => {
-      console.log(res)
-    })
+  onChangeInput(event: any) {
+    this.productQuantity = event.target.value;
+    console.log(this.productQuantity)
   }
-
-
 }

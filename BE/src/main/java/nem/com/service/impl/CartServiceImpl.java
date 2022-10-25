@@ -19,7 +19,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Carts addToCart(Carts request) {
-        Carts cartExist = this.cartsRepository.findCartsByProductDetailAndCustomer(request.getProductsDetail().getId(), request.getCustomer().getId());
+        Carts cartExist = this.cartsRepository.findCartsByProductDetailAndCustomer(
+                request.getProductsDetail().getId(),
+                request.getCustomer().getId());
 
         if (cartExist == null) {
             cartExist = new Carts();
@@ -34,8 +36,22 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Carts updateCart(Carts request) {
+        Carts cartExist = this.cartsRepository.findCartsByProductDetailAndCustomer(
+                request.getProductsDetail().getId(),
+                request.getCustomer().getId());
+        cartExist.setQuantity(request.getQuantity());
+        return cartsRepository.save(cartExist);
+    }
+
+    @Override
     public void deleteCart(Integer cartId) {
         this.cartsRepository.deleteById(cartId);
+    }
+
+    @Override
+    public void deleteAllByCustomerId(Integer customerId) {
+        this.cartsRepository.deleteAllByCustomerId(customerId);
     }
 
     @Override

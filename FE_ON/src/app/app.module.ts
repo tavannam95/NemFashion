@@ -30,7 +30,7 @@ import {ProductViewComponent} from "./pages/home/home/product-view/product-view.
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CdkTableModule
+    CdkTableModule,
   ],
   providers: [],
   exports: [
