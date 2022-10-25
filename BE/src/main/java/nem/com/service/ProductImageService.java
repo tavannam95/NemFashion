@@ -8,5 +8,7 @@ public interface ProductImageService {
     ProductImages getOne(Integer id);
     List<ProductImages> getAll();
     ProductImages save(ProductImages productImages);
+
+    List<ProductImages> getProductsImagesById(Integer id);
     void delete(Integer id);
 }

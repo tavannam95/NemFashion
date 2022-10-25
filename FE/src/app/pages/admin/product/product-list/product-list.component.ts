@@ -9,6 +9,7 @@ import { ProductEditDialogComponent } from '../../dialog/product-edit-dialog/pro
 import { ToastrService } from 'ngx-toastr';
 import { ProductViewDialogComponent } from '../../dialog/product-view-dialog/product-view-dialog.component';
 import { filter } from 'rxjs';
+import { ProductViewImagesDialogComponent } from '../../dialog/product-view-dialog/product-view-images-dialog/product-view-images-dialog.component';
 
 @Component({
   selector: 'product-list',
@@ -37,7 +38,13 @@ export class ProductListComponent implements OnInit  {
     this.getAllProduct();
   }
   
-  
+  openProductViewImagesDialog(data: any){
+    this.dialog.open(ProductViewImagesDialogComponent,{
+      width: '1000px',
+      data: data,
+      disableClose: true
+    })
+  }
 
   getAllProduct(){
     this.isLoading = true;
@@ -48,7 +55,6 @@ export class ProductListComponent implements OnInit  {
           this.dataSource.data = res;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-          
       },
       error: (err) => {
           this.isLoading = false;

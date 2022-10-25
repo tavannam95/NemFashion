@@ -58,13 +58,6 @@ export class ProductViewDialogComponent implements OnInit {
     });
   }
 
-  openProductViewImagesDialog(){
-    this.dialog.open(ProductViewImagesDialogComponent,{
-      height: '600px',
-      width: '1000px',
-      data: this.product.id,
-    })
-  }
 
   getProductDetailById(){
     return this.poductDetailService.getProductDetailById(this.product.id).subscribe({
