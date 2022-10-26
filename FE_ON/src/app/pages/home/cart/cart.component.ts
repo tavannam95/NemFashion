@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {Constants} from "../../../shared/constants/constants.module";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
-import {FormControl} from "@angular/forms";
+import {FormBuilder, FormControl} from "@angular/forms";
 import {debounce, debounceTime, distinctUntilChanged, shareReplay, Subject, switchMap} from "rxjs";
 
 @Component({
@@ -17,9 +17,13 @@ export class CartComponent implements OnInit {
   subTotal: number = 0;
   inputChange = new Subject<number>();
   quantity: number = 0;
+  formGroup = this.fb.group({
+
+  })
 
   constructor(private readonly cartService: CartService,
-              private readonly matDialog: MatDialog) {
+              private readonly matDialog: MatDialog,
+              private readonly fb: FormBuilder) {
 
   }
 
