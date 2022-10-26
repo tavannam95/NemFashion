@@ -41,6 +41,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     listProductSearch: any = [];
     openModal: boolean = false;
     listTien: any = [];
+    customerPayment:number = 0;
 
     ngOnInit(): void {
         this.getListCate();
@@ -441,6 +442,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     tinhtien() {
+        this.listTien = [];
         var total = this.order.totalPrice;
         if (total % 1000 != 0) {
             total = Math.ceil(total / 1000) * 1000;
