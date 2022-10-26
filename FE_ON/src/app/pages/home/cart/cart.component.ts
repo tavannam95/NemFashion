@@ -4,7 +4,7 @@ import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dia
 import {Constants} from "../../../shared/constants/constants.module";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
 import {FormControl} from "@angular/forms";
-import {debounce, debounceTime, distinctUntilChanged, Subject, switchMap} from "rxjs";
+import {debounce, debounceTime, distinctUntilChanged, shareReplay, Subject, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-cart',
@@ -15,10 +15,12 @@ export class CartComponent implements OnInit {
 
   carts: any[] = [];
   subTotal: number = 0;
-  modelChanged = new Subject<number>();
+  inputChange = new Subject<number>();
+  quantity: number = 0;
 
   constructor(private readonly cartService: CartService,
               private readonly matDialog: MatDialog) {
+
   }
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class CartComponent implements OnInit {
   findAllByCustomerId(customerId: number) {
     this.cartService.findAllByCustomerId(customerId).subscribe(res => {
       this.carts = res as any[];
-      console.log(this.carts)
+      console.log("findAllByCustomerId", this.carts)
       if (this.carts.length > 0) {
         this.subTotal = this.carts
           .map(c => c.productsDetail.product.price * c.quantity)
@@ -64,7 +66,7 @@ export class CartComponent implements OnInit {
       disableClose: true,
       hasBackdrop: true,
       data: {
-        message: 'Bạn có muốn xoá sản phẩm này khỏi giỏ hàng?'
+        message: 'Bạn có muốn xoá tất cả sản phẩm khỏi giỏ hàng?'
       }
     }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
@@ -79,7 +81,8 @@ export class CartComponent implements OnInit {
     })
   }
 
-  updateCart(event: any, customerId?: any, productDetailId?: any) {
+  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any) {
+
     const data = {
       customer: {
         id: customerId,
@@ -90,9 +93,36 @@ export class CartComponent implements OnInit {
       quantity: event.target.value
     }
 
-    setTimeout(() => {
-      this.cartService.updateCart(data);
-    }, 1000)
-    // this.findAllByCustomerId(customerId);
+
+    if (data.quantity > quantity) {
+      event.target.value = cartQuantity;
+      alert("Số không được lớn hơn số lượng còn lại !")
+      return;
+    }
+
+    this.cartService.updateCart(data).subscribe(data => {
+      if (data) {
+        this.findAllByCustomerId(customerId)
+        this.cartService.isReload.next(false);
+      }
+    })
+    // this.cartService.isReload.subscribe(res => {
+    //   if (res) {
+    //
+    //     this.cartService.isReload.next(false)
+    //   }
+    // })
+    // this.inputChange.next(event.target.value);
+    // this.inputChange.pipe(
+    //   debounceTime(1000),
+    //   distinctUntilChanged()).subscribe(value => {
+    //   if (value) {
+    //     console.log(value)
+    //     data.quantity = value;
+    //
+    //     this.inputChange.next(0);
+    //   }
+    // })
+
   }
 }
