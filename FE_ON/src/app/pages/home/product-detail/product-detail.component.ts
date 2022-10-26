@@ -7,6 +7,7 @@ import {ProductDetailService} from "../../../shared/service/product-detail-servi
 import {ColorService} from "../../../shared/service/color-service/color.service";
 import {SizeService} from "../../../shared/service/size-service/size.service";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-product-detail',
@@ -41,7 +42,8 @@ export class ProductDetailComponent implements OnInit {
               private readonly productDetailService: ProductDetailService,
               private readonly colorService: ColorService,
               private readonly sizeService: SizeService,
-              private readonly cartService: CartService) {
+              private readonly cartService: CartService,
+              private readonly toastService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -120,7 +122,6 @@ export class ProductDetailComponent implements OnInit {
           if (this.countProductDetail === undefined) {
             this.disabledInput = true;
             this.test = id;
-            console.log('OK')
           }
         },
         error: (err) => {
@@ -160,7 +161,7 @@ export class ProductDetailComponent implements OnInit {
       if (this.carts.length > 0) {
         for (const c of this.carts) {
           if (c.productsDetail.id == res.id && (parseInt(c.quantity) + parseInt(this.productQuantity)) > res.quantity) {
-            alert(1)
+            this.toastService.warning("Sản phẩm còn lại không đủ !");
             return;
           }
         }
@@ -180,7 +181,10 @@ export class ProductDetailComponent implements OnInit {
         if (data) {
           this.findAllByCustomerId(33);
           console.log("Add")
+          this.toastService.success("Thêm sản phẩm vào giỏ hàng thành công !")
           this.cartService.isReload.next(false)
+        } else {
+          this.toastService.error("Thêm sản phẩm vào giỏ hàng thất bại !")
         }
       })
 

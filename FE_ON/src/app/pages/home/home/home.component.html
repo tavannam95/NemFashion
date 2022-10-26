@@ -16,7 +16,8 @@
            alt="...">
     </div>
     <div class="carousel-item">
-      <img src="https://theme.hstatic.net/200000182297/1000887316/14/ms_banner_img1.jpg?v=254" class="d-block w-100" alt="...">
+      <img src="https://theme.hstatic.net/200000182297/1000887316/14/ms_banner_img1.jpg?v=254" class="d-block w-100"
+           alt="...">
     </div>
   </div>
   <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -52,45 +53,47 @@
           <div class="filter__grid-wrapper u-s-m-t-30">
             <div class="row">
               <ngx-slick-carousel class="carousel p-0" #slickModal="slick-carousel" [config]="slideConfig"
-                                  (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
-                                  (beforeChange)="beforeChange($event)" >
+                                  (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                                  (afterChange)="afterChange($event)"
+                                  (beforeChange)="beforeChange($event)">
 
-                <div ngxSlickItem *ngFor="let pro of listPro " class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                <div ngxSlickItem *ngFor="let pro of listPro "
+                     class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
                   <div class="product-o product-o--hover-on product-o--radius">
-                    <a href="/product-detail/{{pro.id}}">
+                    <a [routerLink]="['/product-detail/', pro.id]">
                       <div class="product-o__wrap">
-                        <a   class="aspect aspect--bg-grey aspect--square u-d-block" >
+                        <a class="aspect aspect--bg-grey aspect--square u-d-block">
                           <img class="aspect__img" src="{{pro.thumnail}}" alt=""/>
                         </a>
                       </div>
                     </a>
                     <div class="product-o__action-wrap">
-                    <ul class="product-o__action-list text-white">
-                      <li>
-                        <a
-                          (click)="OpenProductView(pro)"
-                          data-modal="modal"
-                          data-modal-id="#quick-look"
-                          data-tooltip="tooltip"
-                          data-placement="top"
-                          title="xem nhanh"
-                        ><i class="fas fa-search-plus"></i
-                        ></a>
-                      </li>
-                      <li>
-                        <a
-                          data-modal="modal"
-                          data-modal-id="#add-to-cart"
-                          data-tooltip="tooltip"
-                          data-placement="top"
-                          title="Add to Cart"
-                        ><i class="fas fa-plus-circle"></i
-                        ></a>
-                      </li>
-                    </ul>
-                  </div>
+                      <ul class="product-o__action-list text-white">
+                        <li>
+                          <a
+                            (click)="OpenProductView(pro)"
+                            data-modal="modal"
+                            data-modal-id="#quick-look"
+                            data-tooltip="tooltip"
+                            data-placement="top"
+                            title="xem nhanh"
+                          ><i class="fas fa-search-plus"></i
+                          ></a>
+                        </li>
+                        <li>
+                          <a
+                            data-modal="modal"
+                            data-modal-id="#add-to-cart"
+                            data-tooltip="tooltip"
+                            data-placement="top"
+                            title="Add to Cart"
+                          ><i class="fas fa-plus-circle"></i
+                          ></a>
+                        </li>
+                      </ul>
+                    </div>
                     <span class="product-o__name">
-                      <a href="/product-detail/{{pro.id}}">{{pro.name}}</a>
+                      <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a>
                     </span>
                     <app-stars [rating]="2"></app-stars>
                     <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
@@ -131,43 +134,45 @@
           <div class="filter__grid-wrapper u-s-m-t-30">
             <div class="row">
               <ngx-slick-carousel class="carousel p-0" #slickModal="slick-carousel" [config]="slideConfig"
-                                  (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
-                                  (beforeChange)="beforeChange($event)" >
+                                  (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                                  (afterChange)="afterChange($event)"
+                                  (beforeChange)="beforeChange($event)">
 
-                <div ngxSlickItem *ngFor="let pro of listPro " class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                <div ngxSlickItem *ngFor="let pro of listPro "
+                     class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
                   <div class="product-o product-o--hover-on product-o--radius">
-                      <a href="/product-detail/{{pro.id}}">
-                        <div class="product-o__wrap">
-                          <a   class="aspect aspect--bg-grey aspect--square u-d-block" >
-                            <img class="aspect__img" src="{{pro.thumnail}}" alt=""/>
-                          </a>
-                        </div>
-                      </a>
-                      <div class="product-o__action-wrap">
-                        <ul class="product-o__action-list text-white">
-                          <li>
-                            <a
-                              data-modal="modal"
-                              data-modal-id="#quick-look"
-                              data-tooltip="tooltip"
-                              data-placement="top"
-                              title="Quick View"
-                              (click)="OpenProductView( pro  )"
-                            ><i class="fas fa-search-plus"></i
-                            ></a>
-                          </li>
-                          <li>
-                            <a
-                              data-modal="modal"
-                              data-modal-id="#add-to-cart"
-                              data-tooltip="tooltip"
-                              data-placement="top"
-                              title="Add to Cart"
-                            ><i class="fas fa-plus-circle"></i
-                            ></a>
-                          </li>
-                        </ul>
+                    <a [routerLink]="['/product-detail/', pro.id]">
+                      <div class="product-o__wrap">
+                        <a class="aspect aspect--bg-grey aspect--square u-d-block">
+                          <img class="aspect__img" src="{{pro.thumnail}}" alt=""/>
+                        </a>
                       </div>
+                    </a>
+                    <div class="product-o__action-wrap">
+                      <ul class="product-o__action-list text-white">
+                        <li>
+                          <a
+                            data-modal="modal"
+                            data-modal-id="#quick-look"
+                            data-tooltip="tooltip"
+                            data-placement="top"
+                            title="Quick View"
+                            (click)="OpenProductView( pro  )"
+                          ><i class="fas fa-search-plus"></i
+                          ></a>
+                        </li>
+                        <li>
+                          <a
+                            data-modal="modal"
+                            data-modal-id="#add-to-cart"
+                            data-tooltip="tooltip"
+                            data-placement="top"
+                            title="Add to Cart"
+                          ><i class="fas fa-plus-circle"></i
+                          ></a>
+                        </li>
+                      </ul>
+                    </div>
 
                     <span class="product-o__category">
                       <a href="#">Electronics</a>
@@ -193,7 +198,8 @@
   <!--====== End - Section Content ======-->
 </div>
 
-<img src="https://theme.hstatic.net/200000182297/1000887316/14/ms_banner_img1.jpg?v=254" class="d-block w-100" alt="...">
+<img src="https://theme.hstatic.net/200000182297/1000887316/14/ms_banner_img1.jpg?v=254" class="d-block w-100"
+     alt="...">
 
 <!--====== blog ======-->
 <div class="u-s-p-b-60 mt-5">

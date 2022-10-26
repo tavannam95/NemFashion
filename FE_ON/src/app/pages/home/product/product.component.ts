@@ -11,33 +11,33 @@ import {SizeService} from "../../../shared/service/size/size.service";
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  listPro : any ;
-  listSize: any ;
+  listPro: any;
+  listSize: any;
   listProBySize = [];
 
-  constructor(  private proService: ProductService ,
-                private sizeService: SizeService ,
-                private dialog: MatDialog ) {
-      this.getAllProSize() ;
-      this.getAllPro() ;
+  constructor(private proService: ProductService,
+              private sizeService: SizeService,
+              private dialog: MatDialog) {
+    this.getAllProSize();
+    this.getAllPro();
   }
 
-  getAllPro(){
-    this.proService.getAllProduct().subscribe( data => {
+  getAllPro() {
+    this.proService.getAllProduct().subscribe(data => {
       this.listPro = data
     })
   }
 
-  getAllProSize(){
-    this.sizeService.getAllSize().subscribe( data => {
-      this.listSize = data ;
+  getAllProSize() {
+    this.sizeService.getAllSize().subscribe(data => {
+      this.listSize = data;
       console.log(data)
     })
   }
 
-  getAllProBySize( size: any ){
-    this.proService.getAllProBySize( size).subscribe( data => {
-       this.listPro = data ;
+  getAllProBySize(size: any) {
+    this.proService.getAllProBySize(size).subscribe(data => {
+      this.listPro = data;
     })
   }
 
@@ -45,38 +45,38 @@ export class ProductComponent implements OnInit {
 
   }
 
-  OpenProductView( product: any ){
-    const dialogRef = this.dialog.open( ProductViewComponent , {
-      width: '100vw' ,
-      disableClose: true ,
-      hasBackdrop: true ,
+  OpenProductView(product: any) {
+    const dialogRef = this.dialog.open(ProductViewComponent, {
+      width: '70vw',
+      disableClose: true,
+      hasBackdrop: true,
       data: {
-        product: product ,
+        product: product,
         type: 'pro'
       }
     })
 
-    dialogRef.afterClosed().subscribe( value => {
+    dialogRef.afterClosed().subscribe(value => {
 
     })
   }
 
-  getAllBySize( size: number ) {
+  getAllBySize(size: number) {
+    // @ts-ignore
+    if (this.listProBySize.includes(size)) {
       // @ts-ignore
-      if( this.listProBySize.includes(size)  ){
-        // @ts-ignore
-        this.listProBySize.splice(this.listProBySize.indexOf( size ) , 1 )
-      }else{
-        // @ts-ignore
-        this.listProBySize.push(size)
-      }
+      this.listProBySize.splice(this.listProBySize.indexOf(size), 1)
+    } else {
+      // @ts-ignore
+      this.listProBySize.push(size)
+    }
 
-      if( this.listProBySize.length == 0 ){
-        console.log('meo co gia tri')
-         this.getAllPro() ;
-      }else{
-         this.getAllProBySize( this.listProBySize )  ;
-      }
-      console.log( this.listProBySize)
+    if (this.listProBySize.length == 0) {
+      console.log('meo co gia tri')
+      this.getAllPro();
+    } else {
+      this.getAllProBySize(this.listProBySize);
+    }
+    console.log(this.listProBySize)
   }
 }
