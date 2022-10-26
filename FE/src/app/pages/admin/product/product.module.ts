@@ -21,7 +21,6 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
-import {NgSelectModule} from "@ng-select/ng-select";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
@@ -58,7 +57,6 @@ import { ProductViewImagesDialogComponent } from '../dialog/product-view-dialog/
     MatSelectModule,
     MatCheckboxModule,
     MatTreeModule,
-    NgSelectModule,
     MatTooltipModule,
     MatMenuModule,
     MatRadioModule,
