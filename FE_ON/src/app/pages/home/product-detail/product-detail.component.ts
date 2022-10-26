@@ -22,6 +22,7 @@ export class ProductDetailComponent implements OnInit {
   product: any;
   productImage: any;
   thumnail: string = '';
+  carts: any[] = [];
   sizes: any[] = [];
   colors: any[] = [];
   sizeDescription: string = '';
@@ -53,6 +54,7 @@ export class ProductDetailComponent implements OnInit {
       }
     })
     this.productQuantity = 1;
+    this.findAllByCustomerId(33);
   }
 
   getProductById(productIdFromRoute: number) {
@@ -148,10 +150,20 @@ export class ProductDetailComponent implements OnInit {
     }
 
     this.productDetailService.findProductDetailBySizeAndColor(data).subscribe((res: any) => {
-
-      if (this.productQuantity > res.quantity) {
+      if (this.productQuantity > res.quantity || this.productQuantity <= 0) {
+        this.productQuantity = 1;
         this.message = 'Số lượng không hợp lệ. Vui lòng nhập lại !';
         return;
+      }
+
+      console.log(this.carts.length)
+      if (this.carts.length > 0) {
+        for (const c of this.carts) {
+          if (c.productsDetail.id == res.id && (parseInt(c.quantity) + parseInt(this.productQuantity)) > res.quantity) {
+            alert(1)
+            return;
+          }
+        }
       }
 
       const cart = {
@@ -163,9 +175,23 @@ export class ProductDetailComponent implements OnInit {
           id: res.id
         }
       }
-      this.cartService.addToCart(cart);
-    })
 
+      this.cartService.addToCart(cart).subscribe(data => {
+        if (data) {
+          this.findAllByCustomerId(33);
+          console.log("Add")
+          this.cartService.isReload.next(false)
+        }
+      })
+
+    })
+  }
+
+  findAllByCustomerId(customerId: number) {
+    this.cartService.findAllByCustomerId(customerId).subscribe(res => {
+      this.carts = res as any[];
+      console.log("findAllByCustomerId", this.carts)
+    })
   }
 
   onChangeInput(event: any) {
