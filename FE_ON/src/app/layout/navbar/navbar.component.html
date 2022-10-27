@@ -138,7 +138,7 @@
           <!--====== List ======-->
           <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
             <li>
-              <a href="#"><i class="fas fa-home u-c-brand"></i></a>
+              <a routerLink="/home"><i class="fas fa-home u-c-brand"></i></a>
             </li>
             <li>
               <a href="#"><i class="far fa-heart"></i></a>
@@ -168,12 +168,12 @@
                       </div>
                       <div class="mini-product__info-wrapper">
                          <span class="mini-product__category">
-                           <a [routerLink]="['/product-detail/', cart.productsDetail.product.id]">
-                                    {{cart.productsDetail.product.category.name}}
-                           </a>
+                           <a> {{cart.productsDetail.product.category.name}}</a>
                          </span>
                         <span class="mini-product__name">
-                                  <a href="">{{cart.productsDetail.product.name}}</a>
+                          <a [routerLink]="['/product-detail/', cart.productsDetail.product.id]">
+                            {{cart.productsDetail.product.name}}
+                          </a>
                         </span>
 
                         <span class="mini-product__quantity">{{cart.quantity}} x</span>

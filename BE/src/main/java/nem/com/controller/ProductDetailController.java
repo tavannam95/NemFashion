@@ -47,7 +47,10 @@ public class ProductDetailController {
     public ResponseEntity<ProductsDetails> getOne(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(this.productDetailService.getOne(id), HttpStatus.OK);
     }
-
+    @GetMapping("/product/{id}")
+    public ResponseEntity<List<ProductsDetails>> getProductDetailById(@PathVariable("id") Integer id){
+        return new ResponseEntity<>(this.productDetailService.findProductsDetailsByProductId(id),HttpStatus.OK);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<ProductsDetails> update(@RequestBody ProductsDetails productsDetails) {
         return new ResponseEntity<>(this.productDetailService.update(productsDetails), HttpStatus.OK);

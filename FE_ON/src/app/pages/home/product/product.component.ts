@@ -53,6 +53,11 @@ export class ProductComponent implements OnInit {
     // this.getAllPro();
     this.getAllCategory();
     this.getAllColor() ;
+  constructor(private proService: ProductService,
+              private sizeService: SizeService,
+              private dialog: MatDialog) {
+    this.getAllProSize();
+    this.getAllPro();
   }
 
   getAllPro() {
@@ -102,6 +107,19 @@ export class ProductComponent implements OnInit {
       this.changPage( this.totalPage , this.listPage  )
     })
   }
+  
+  getAllProSize() {
+    this.sizeService.getAllSize().subscribe(data => {
+      this.listSize = data;
+      console.log(data)
+    })
+  }
+
+  getAllProBySize(size: any) {
+    this.proService.getAllProBySize(size).subscribe(data => {
+      this.listPro = data;
+    })
+  }
 
   ngOnInit(): void {
 
@@ -135,6 +153,7 @@ export class ProductComponent implements OnInit {
     }
     this.findAll()
   }
+  
   // tìm theo category
   getAllByCategory(cate: number) {
     // @ts-ignore
@@ -161,6 +180,14 @@ export class ProductComponent implements OnInit {
     }
     console.log(this.listProByColor )
     this.findAll()
+
+    if (this.listProBySize.length == 0) {
+      console.log('meo co gia tri')
+      this.getAllPro();
+    } else {
+      this.getAllProBySize(this.listProBySize);
+    }
+    console.log(this.listProBySize)
   }
 
   getAllByPrice(){

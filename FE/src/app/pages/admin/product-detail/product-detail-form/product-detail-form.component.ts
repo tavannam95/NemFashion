@@ -8,6 +8,7 @@ import { Regex } from '../../../../shared/validators/Regex';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ColorCreateDialogComponent } from '../../dialog/color-create-dialog/color-create-dialog.component';
+import { ProductService } from '../../../../shared/service/product/product.service';
 
 @Component({
   selector: 'app-product-detail-form',
@@ -56,6 +57,9 @@ export class ProductDetailFormComponent implements OnInit {
     quantity: ['']
   })
 
+  productDetailDto: any = [];
+
+
   sizes: any;
 
   s: boolean = false;
@@ -73,7 +77,8 @@ export class ProductDetailFormComponent implements OnInit {
     private readonly colorService: ColorService,
     private readonly productDetailService: ProductDetailService,
     private toastrService: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private readonly productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -105,11 +110,18 @@ export class ProductDetailFormComponent implements OnInit {
           this.productDetailFormGroup.patchValue({size: {id: Object.keys(this.sizeFormGroup.value)[i]}});
           this.productDetailFormGroup.patchValue({quantity: Object.values(this.sizeFormGroup.value)[i]});
           this.productDetailFormGroup.patchValue({product:{id: this.productId}});
-          console.log(this.productDetailFormGroup.value);
-          this.productDetailService.createProductDetail(this.productDetailFormGroup.value).subscribe();
+          // this.productDetailService.createProductDetail(this.productDetailFormGroup.value).subscribe();
+          this.productDetailDto.push(this.productDetailFormGroup.value);
         }
       }
-      console.log('Test');
+      this.productService.getProductView(this.productDetailDto).subscribe({
+        next: (res)=>{
+          this.toastrService.success('Thêm chi tiết sản phẩm thành công');
+        },
+        error: (err)=>{
+          this.toastrService.error('Thêm chi tiết sản phẩm thất bại');
+        }
+      })
       
   }
 
@@ -121,8 +133,6 @@ export class ProductDetailFormComponent implements OnInit {
 
   selectColor(code: any){
     this.selectedColor = code;
-    console.log(this.selectedColor);
-    
   }
 
   getAllColor(){

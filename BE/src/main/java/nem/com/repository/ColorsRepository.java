@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ColorsRepository extends JpaRepository<Colors, Integer> {
-    @Query("select c from Colors c where c.id in (select p.color.id from  ProductsDetails p where p.product.id = :productId)")
+    @Query("select c from Colors c where c.id in (select p.color.id from  ProductsDetails p where p.product.id = :productId and p.quantity > 0)")
     List<Colors> findAllColorInProductDetails(@Param("productId") Integer productId);
 }

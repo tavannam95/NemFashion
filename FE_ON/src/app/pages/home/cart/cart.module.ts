@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {CartRoutingModule} from "./cart-routing.module";
 import {CartComponent} from "./cart.component";
 import {MatDialogModule} from "@angular/material/dialog";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -11,7 +12,9 @@ import {MatDialogModule} from "@angular/material/dialog";
   imports: [
     CommonModule,
     CartRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 

@@ -21,11 +21,13 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSelectModule} from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatTreeModule} from '@angular/material/tree';
-import {NgSelectModule} from "@ng-select/ng-select";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
 import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-create-dialog.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { ProductViewDialogComponent } from '../dialog/product-view-dialog/product-view-dialog.component';
+import { ProductViewImagesDialogComponent } from '../dialog/product-view-dialog/product-view-images-dialog/product-view-images-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-
     ProductListComponent, 
     CategoryCreateDialogComponent, 
     ProductEditDialogComponent,
-    ColorCreateDialogComponent
+    ColorCreateDialogComponent,
+    ProductViewDialogComponent,
+    ProductViewImagesDialogComponent
   ],
   imports: [
     CommonModule,
@@ -53,10 +57,10 @@ import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-
     MatSelectModule,
     MatCheckboxModule,
     MatTreeModule,
-    NgSelectModule,
     MatTooltipModule,
     MatMenuModule,
     MatRadioModule,
+    ScrollingModule
   ],
 })
 export class ProductModule{

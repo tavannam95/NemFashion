@@ -1,6 +1,8 @@
 package nem.com.controller;
 
+import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.Products;
+import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,11 @@ public class ProductController {
         return new ResponseEntity<>(this.productService.getAll(), HttpStatus.OK);
     }
 
+    @PostMapping("view")
+    public ResponseEntity<List<ProductViewDto>> getView(@RequestBody List<ProductViewDto> listProductViewDto){
+        return new ResponseEntity<>(this.productService.createProductView(listProductViewDto),HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Products> getOne(@PathVariable("id") Integer id){
         return new ResponseEntity<>(this.productService.getOne(id),HttpStatus.OK);
@@ -46,7 +53,6 @@ public class ProductController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<Products> update(
-            @PathVariable("id") Integer id,
             @RequestBody Products products
     ){
         products.setUpdateDate(new Date());

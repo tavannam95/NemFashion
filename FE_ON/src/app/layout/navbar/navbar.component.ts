@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {CartService} from "../../shared/service/cart-service/cart-service";
-import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
-import {Constants} from "../../shared/constants/constants.module";
 
 @Component({
   selector: 'app-navbar',
@@ -18,9 +16,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cartService.isReload.subscribe(data => {
+    this.cartService.isReload.subscribe((data) => {
       if (data) {
         this.findAllByCustomerId(33);
+        this.cartService.isReload.next(false);
       } else {
         this.findAllByCustomerId(33);
       }
@@ -44,9 +43,10 @@ export class NavbarComponent implements OnInit {
 
   onDelete(id: number) {
     this.cartService.deleteCart(id);
-    this.cartService.isReload.subscribe(result => {
-      if (result) {
+    this.cartService.isReload.subscribe((data) => {
+      if (data) {
         this.findAllByCustomerId(33);
+        this.cartService.isReload.next(false);
       }
     })
   }

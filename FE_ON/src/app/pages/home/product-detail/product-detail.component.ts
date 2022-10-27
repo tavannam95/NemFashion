@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../../shared/service/product-service/product.service";
+import {BehaviorSubject} from "rxjs";
+import {NgForm} from "@angular/forms";
 import {ProductDetailService} from "../../../shared/service/product-detail-service/product-detail.service";
 import {ColorService} from "../../../shared/service/color-service/color.service";
 import {SizeService} from "../../../shared/service/size-service/size.service";
-import {BehaviorSubject} from "rxjs";
-import {NgForm} from "@angular/forms";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-product-detail',
@@ -22,6 +23,7 @@ export class ProductDetailComponent implements OnInit {
   product: any;
   productImage: any;
   thumnail: string = '';
+  carts: any[] = [];
   sizes: any[] = [];
   colors: any[] = [];
   sizeDescription: string = '';
@@ -33,13 +35,15 @@ export class ProductDetailComponent implements OnInit {
   total: any;
   productDetail: any[] = [];
   productQuantity: any;
+  message!: string;
 
   constructor(private route: ActivatedRoute,
               private ServicePro: ProductService,
               private readonly productDetailService: ProductDetailService,
               private readonly colorService: ColorService,
               private readonly sizeService: SizeService,
-              private readonly cartService: CartService) {
+              private readonly cartService: CartService,
+              private readonly toastService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -52,6 +56,7 @@ export class ProductDetailComponent implements OnInit {
       }
     })
     this.productQuantity = 1;
+    this.findAllByCustomerId(33);
   }
 
   slideConfissg = { slidesToShow: 3, slidesToScroll:1  , vertical: true ,draggable: false , infinite: false ,
@@ -135,7 +140,6 @@ export class ProductDetailComponent implements OnInit {
           if (this.countProductDetail === undefined) {
             this.disabledInput = true;
             this.test = id;
-            console.log('OK')
           }
         },
         error: (err) => {
@@ -148,7 +152,7 @@ export class ProductDetailComponent implements OnInit {
   onAddToCart(f: NgForm) {
     let pid = 0;
     this.productId.subscribe((id: number) => {
-      pid = id;
+      if (id) pid = id;
     })
 
     const data = {
@@ -156,11 +160,31 @@ export class ProductDetailComponent implements OnInit {
       sizeId: f.value.size,
       colorId: f.value.color
     }
+
     if (data.sizeId === undefined || data.colorId === undefined) {
-      console.log("Vui lòng chọn màu sắc và size")
+      this.message = 'Vui lòng chọn màu sắc và size';
       return;
+    } else {
+      this.message = ''
     }
+
     this.productDetailService.findProductDetailBySizeAndColor(data).subscribe((res: any) => {
+      if (this.productQuantity > res.quantity || this.productQuantity <= 0) {
+        this.productQuantity = 1;
+        this.message = 'Số lượng không hợp lệ. Vui lòng nhập lại !';
+        return;
+      }
+
+      console.log(this.carts.length)
+      if (this.carts.length > 0) {
+        for (const c of this.carts) {
+          if (c.productsDetail.id == res.id && (parseInt(c.quantity) + parseInt(this.productQuantity)) > res.quantity) {
+            this.toastService.warning("Sản phẩm còn lại không đủ !");
+            return;
+          }
+        }
+      }
+
       const cart = {
         quantity: f.value.quantity,
         customer: {
@@ -170,15 +194,30 @@ export class ProductDetailComponent implements OnInit {
           id: res.id
         }
       }
-      this.cartService.addToCart(cart);
+
+      this.cartService.addToCart(cart).subscribe(data => {
+        if (data) {
+          this.findAllByCustomerId(33);
+          console.log("Add")
+          this.toastService.success("Thêm sản phẩm vào giỏ hàng thành công !")
+          this.cartService.isReload.next(false)
+        } else {
+          this.toastService.error("Thêm sản phẩm vào giỏ hàng thất bại !")
+        }
+      })
+
     })
   }
 
   findAllByCustomerId(customerId: number) {
     this.cartService.findAllByCustomerId(customerId).subscribe(res => {
-      console.log(res)
+      this.carts = res as any[];
+      console.log("findAllByCustomerId", this.carts)
     })
   }
 
-
+  onChangeInput(event: any) {
+    this.productQuantity = event.target.value;
+    console.log(this.productQuantity)
+  }
 }

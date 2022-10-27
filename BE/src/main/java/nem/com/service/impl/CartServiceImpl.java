@@ -1,6 +1,5 @@
 package nem.com.service.impl;
 
-import nem.com.dto.request.CartDTO;
 import nem.com.entity.Carts;
 import nem.com.repository.CartsRepository;
 import nem.com.service.CartService;
@@ -19,7 +18,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Carts addToCart(Carts request) {
-        Carts cartExist = this.cartsRepository.findCartsByProductDetailAndCustomer(request.getProductsDetail().getId(), request.getCustomer().getId());
+        Carts cartExist = this.cartsRepository.findCartsByProductDetailAndCustomer(
+                request.getProductsDetail().getId(),
+                request.getCustomer().getId());
 
         if (cartExist == null) {
             cartExist = new Carts();
@@ -34,8 +35,22 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Carts updateCart(Carts request) {
+        Carts cartExist = this.cartsRepository.findCartsByProductDetailAndCustomer(
+                request.getProductsDetail().getId(),
+                request.getCustomer().getId());
+        cartExist.setQuantity(request.getQuantity());
+        return cartsRepository.save(cartExist);
+    }
+
+    @Override
     public void deleteCart(Integer cartId) {
         this.cartsRepository.deleteById(cartId);
+    }
+
+    @Override
+    public void deleteAllByCustomerId(Integer customerId) {
+        this.cartsRepository.deleteAllByCustomerId(customerId);
     }
 
     @Override

@@ -6,6 +6,7 @@ import { CategoryService } from '../../../../shared/service/category/category.se
 import { CategoryCreateDialogComponent } from '../category-create-dialog/category-create-dialog.component';
 import { Regex } from '../../../../shared/validators/Regex';
 import { UploadCloudinaryService } from '../../../../shared/service/cloudinary/upload-cloudinary.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-edit-dialog',
@@ -40,7 +41,8 @@ export class ProductEditDialogComponent implements OnInit {
     private categoryService: CategoryService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private uploadService: UploadCloudinaryService
+    private uploadService: UploadCloudinaryService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -62,12 +64,21 @@ export class ProductEditDialogComponent implements OnInit {
 
   async updateProduct(){
     this.productFG.markAllAsTouched();
+    console.log(this.productFG.value);
+    
     if (this.thumnailFile.length > 0) {
       await this.uploadThumnail();
       this.productFG.patchValue({thumnail: this.thumnailUrl[0]});
     }
     if (this.productFG.valid) {
-      this.productService.updateProduct(this.productFG.value, this.productFG.value.id);
+      this.productService.updateProduct(this.productFG.value, this.productFG.value.id).subscribe({
+        next: (res) =>{
+          this.toastrService.success('Cập nhật thành công');
+        },
+        error: (err)=>{
+          this.toastrService.error('Lỗi cập nhật');
+        }
+      });
     }
   }
 
