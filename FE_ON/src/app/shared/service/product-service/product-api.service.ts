@@ -34,7 +34,12 @@ export class ProductApiService {
    }
 
 //   Tình kiếm pro theo size
-   getProBySize( pahtsizes: any ){
-     return this.http.get(`${ApiConstrant.product}/findSize?${pahtsizes}`)
+   getProBySize( path: any ){
+     return this.http.get(`${ApiConstrant.product}/findSize?${path}`)
+   }
+
+//   Product new
+   getNewProduct() {
+     return this.http.get(`${ApiConstrant.product}/getNew`)
    }
 }

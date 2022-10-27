@@ -5,4 +5,5 @@ export const ApiConstrant = {
   size: 'http://localhost:8080/api/v1/size',
   color: 'http://localhost:8080/api/v1/color',
   cart: 'http://localhost:8080/api/v1/cart',
+  category: 'http://localhost:8080/api/v1/category'
 }
