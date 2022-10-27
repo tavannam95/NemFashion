@@ -13,6 +13,7 @@ import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.com
 import {HttpClientModule} from "@angular/common/http";
 import {CdkTableModule} from "@angular/cdk/table";
 import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
+import {SlickCarouselModule} from "ngx-slick-carousel";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {ProductViewComponent} from "./pages/home/home/product-view/product-view.
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CdkTableModule
+    CdkTableModule,
+    SlickCarouselModule,
   ],
   providers: [],
   exports: [

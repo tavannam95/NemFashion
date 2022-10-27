@@ -4,10 +4,11 @@ import nem.com.entity.Products;
 import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.ProductsRepository;
 import nem.com.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,8 +32,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Products> getAllBySize(Integer[] size ) {
-        return this.productsRepository.findProBySize(size );
+    public Page<Products> getAllByAllPropertites(Integer[] size, Short[] category, Integer[] color, Double max, Double min, Pageable pageable) {
+        return this.productsRepository.findProByAllProperty( size , category , color , max , min , pageable );
+    }
+
+    @Override
+    public List<Products> getAllNewPro() {
+        List<Products> listpro = new ArrayList<>();
+        int i = 0 ;
+        for( Products p : this.productsRepository.findNewPro() ){
+            listpro.add(p);
+            i++ ;
+            if( i == 10 ){
+                break;
+            }
+        }
+        return listpro;
     }
 
     @Override

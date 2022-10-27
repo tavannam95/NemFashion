@@ -22,15 +22,36 @@ export class ProductService {
     return this.proApi.getProductImage( id );
   }
 
-  getAllProBySize( sizes : any ){
+  getAllProByAllProperty( sizes : any , cate: any , color: any , max: number , min: number ,
+                          pageNo: number , pageSize: number , sortPrice: number ){
      var path = ''
      for( var x of sizes ){
         path += 'size=' + x + '&'
      }
-    path = path.slice( 0 , path.length - 1 )
+
+    for( var x of cate ){
+       path += 'category=' + x + '&'
+     }
+
+    for( var x of color ){
+       path += 'color=' + x + '&'
+    }
+
+    if( max != 0 && min != 0 ){
+      path += 'max=' + max + '&'
+      path += 'min=' + min + '&'
+    }
+
+    path += 'pageNo=' + pageNo + '&'
+    path += 'pageSize=' + pageSize + '&'
+    path += 'sortPrice=' + sortPrice
     console.log(path)
 
      return this.proApi.getProBySize(path) ;
+  }
+
+  getNewPro() {
+    return this.proApi.getNewProduct() ;
   }
 
 }

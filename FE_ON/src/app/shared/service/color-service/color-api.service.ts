@@ -14,4 +14,8 @@ export class ColorApiService {
     return this.http.get(`${ApiConstrant.color}/productId/${productId}`);
   }
 
+  getAll(){
+     return this.http.get(ApiConstrant.color ) ;
+  }
+
 }

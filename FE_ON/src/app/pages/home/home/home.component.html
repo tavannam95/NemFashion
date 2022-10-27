@@ -1,5 +1,5 @@
 <!--====== Primary Slider ======-->
-<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+<div id="carouselExampleDark" class="carousel carousel-dark slide mb-4" data-bs-ride="carousel">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true"
             aria-label="Slide 1"></button>
@@ -31,10 +31,10 @@
 <!--====== End - Primary Slider ======-->
 
 <!--====== Section 2 ======-->
-<div class="u-s-p-b-60">
+<div class="u-s-p-b-60 p-0">
   <!--====== Section Content ======-->
-  <div class="section__content mt-5">
-    <div class="container">
+  <div class="section__content">
+    <div class="container mt-5">
       <div class="row">
         <div class="col-lg-12">
           <div class="section__text-wrap">
@@ -134,7 +134,7 @@
                                   (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
                                   (beforeChange)="beforeChange($event)" >
 
-                <div ngxSlickItem *ngFor="let pro of listPro " class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                <div ngxSlickItem *ngFor="let pro of listNewPro " class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
                   <div class="product-o product-o--hover-on product-o--radius">
                       <a href="/product-detail/{{pro.id}}">
                         <div class="product-o__wrap">
