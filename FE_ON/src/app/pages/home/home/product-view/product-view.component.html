@@ -3,22 +3,24 @@
     <div class="col-lg-5 offset-1">
       <!--====== Product Detail Zoom ======-->
       <div class="pd u-s-m-b-30 row">
-        <div class="col-3 ">
+        <div class="col-3">
+          <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel" [config]="slideConfissg"
+                              (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
+                              (beforeChange)="beforeChange($event)" >
+
           <div class="row">
-            <div class="col-12 mb-2 border-1 border-dark">
-              <img src="{{product.thumnail}}" class="u-img-fluid "
-                   [class]="product.thumnail === thumnail ? 'clickImage' : '' "
-                   (click)="changThumnail( product.thumnail )">
-            </div>
-          </div>
-
-          <div class="row " *ngFor=" let x of productImage ">
             <div class="col-12 mb-2">
-              <img src="{{x.name}}" class="u-img-fluid" [class]="x.name === thumnail ? 'clickImage' : '' "
-                   (click)="changThumnail( x.name )">
+              <img src="{{product.thumnail}}" (click)="changThumnail( product.thumnail )" class="img-fluid" style="height: 150px;" [class]="product.thumnail === thumnail ? 'clickImage' : '' "
+              >
             </div>
           </div>
-
+          <div ngxSlickItem class="row " *ngFor="let x of productImage" (click)="changThumnail( x.name )">
+            <div class="col-12 mb-2">
+              <img src="{{x.name}}" class="img-fluid" style="height: 150px;" [class]="x.name === thumnail ? 'clickImage' : '' "
+                  >
+            </div>
+          </div>
+          </ngx-slick-carousel>
         </div>
         <div class="col-8 ">
           <img src="{{thumnail}}" class="u-img-fluid">
@@ -181,4 +183,3 @@
     </div>
   </div>
 </div>
-
