@@ -3,10 +3,10 @@ import {ProductService} from "../../../shared/service/product-service/product.se
 import {ProductViewComponent} from "../home/product-view/product-view.component";
 import {MatDialog} from "@angular/material/dialog";
 import {SizeService} from "../../../shared/service/size-service/size.service";
-import {CategoryService} from "../../../shared/service/category-service/category.service";
 import {ColorService} from "../../../shared/service/color-service/color.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {checkPrice} from "../../../shared/validators/checkPrice";
+import {CategoryService} from "../../../shared/service/category-service/category.service";
 
 @Component({
   selector: 'app-product',
@@ -50,14 +50,10 @@ export class ProductComponent implements OnInit {
               private cateService: CategoryService ,
               private colorService: ColorService ) {
     this.getAllSize();
-    // this.getAllPro();
     this.getAllCategory();
     this.getAllColor() ;
-  constructor(private proService: ProductService,
-              private sizeService: SizeService,
-              private dialog: MatDialog) {
-    this.getAllProSize();
-    this.getAllPro();
+    // this.getAllProSize();
+    // this.getAllPro();
   }
 
   getAllPro() {
@@ -107,7 +103,7 @@ export class ProductComponent implements OnInit {
       this.changPage( this.totalPage , this.listPage  )
     })
   }
-  
+
   getAllProSize() {
     this.sizeService.getAllSize().subscribe(data => {
       this.listSize = data;
@@ -115,11 +111,11 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  getAllProBySize(size: any) {
-    this.proService.getAllProBySize(size).subscribe(data => {
-      this.listPro = data;
-    })
-  }
+  // getAllProBySize(size: any) {
+  //   this..getAllProBySize(size).subscribe(data => {
+  //     this.listPro = data;
+  //   })
+  // }
 
   ngOnInit(): void {
 
@@ -153,7 +149,7 @@ export class ProductComponent implements OnInit {
     }
     this.findAll()
   }
-  
+
   // tìm theo category
   getAllByCategory(cate: number) {
     // @ts-ignore
@@ -181,13 +177,6 @@ export class ProductComponent implements OnInit {
     console.log(this.listProByColor )
     this.findAll()
 
-    if (this.listProBySize.length == 0) {
-      console.log('meo co gia tri')
-      this.getAllPro();
-    } else {
-      this.getAllProBySize(this.listProBySize);
-    }
-    console.log(this.listProBySize)
   }
 
   getAllByPrice(){
