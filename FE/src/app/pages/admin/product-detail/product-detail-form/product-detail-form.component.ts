@@ -16,11 +16,21 @@ import { ProductService } from '../../../../shared/service/product/product.servi
   styleUrls: ['./product-detail-form.component.scss']
 })
 export class ProductDetailFormComponent implements OnInit {
+  // NEwwwwwwwwwwwwwwwwwwwwwww
+
+  allSize: any;
+
+  quantity: any = [];
+
+  //Enddddddddddddddd
   isLoading: boolean = false;
 
   files: File[] = [];
 
   selectedColor: any;
+
+  checkColor: boolean;
+  checkSize: boolean;
 
   productId: any;
   colorId: any = {
@@ -84,8 +94,65 @@ export class ProductDetailFormComponent implements OnInit {
   ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
     this.getAllColor();
+    this.getAllSize();
+  }
+// NEWWWWWWWWWWWWWWWWWWWWWWWww
+  getAllSize(){
+    this.sizeService.getAllSize().subscribe({
+      next: (res) =>{
+        this.allSize = res;
+      },
+      error: (err) =>{
+        console.log(err);
+      }
+    });
   }
 
+  check(){
+    this.checkColor = false;
+    this.checkSize = false;
+    this.productDetailDto = [];
+    for (let i = 0; i < this.allSize.length; i++) {
+      if (this.quantity[i] == undefined ||this.quantity[i] == null) {
+        continue;
+      }
+      this.productDetailDto.push({
+        product: {id: this.productId},
+        color: {id: this.colorId.id},
+        size: this.allSize[i],
+        quantity: this.quantity[i]
+      })
+    }
+
+    if (this.colorId.id == "") {
+      this.checkColor = true;
+      this.toastrService.error('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    let check = 0;
+    for (let i = 0; i < this.productDetailDto.length; i++) {
+      if (this.productDetailDto[i].quantity == null) {
+        check++;
+      }
+    }
+    if (check == this.productDetailDto.length) {
+      this.checkSize = true;
+      this.toastrService.error('Vui lòng nhập đủ thông tin');
+      return;
+    }
+    this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
+      next: (res)=>{
+        this.toastrService.success('Thêm chi tiết thành công');
+      },
+      error: (err)=>{
+        this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
+      }
+    })
+    
+  }
+
+  // ENDDDDDDDDDDDDDDDDDDDDDddd
   createProductDetail(){
     this.sizeFormGroup.markAllAsTouched();
     this.productDetailFormGroup.markAllAsTouched();
@@ -114,7 +181,7 @@ export class ProductDetailFormComponent implements OnInit {
           this.productDetailDto.push(this.productDetailFormGroup.value);
         }
       }
-      this.productService.getProductView(this.productDetailDto).subscribe({
+      this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
         next: (res)=>{
           this.toastrService.success('Thêm chi tiết sản phẩm thành công');
         },
@@ -125,11 +192,7 @@ export class ProductDetailFormComponent implements OnInit {
       
   }
 
-  check(){
-    this.createProductDetail();
-    // console.log(Object.values( Object.values(this.productDetailFormGroup.value)[1])[0] );
-    
-  }
+  
 
   selectColor(code: any){
     this.selectedColor = code;

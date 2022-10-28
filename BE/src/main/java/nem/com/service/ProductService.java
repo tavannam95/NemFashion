@@ -7,7 +7,7 @@ import nem.com.entity.Products;
 import java.util.List;
 
 public interface ProductService {
-    List<ProductViewDto> createProductView(List<ProductViewDto> list);
+
     Products getOne(Integer id);
     List<Products> getAll();
 

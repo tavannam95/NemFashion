@@ -24,20 +24,7 @@ public class ProductServiceImpl implements ProductService {
         this.productDetailService = productDetailService;
     }
 
-    @Override
-    public List<ProductViewDto> createProductView(List<ProductViewDto> list) {
-        for (ProductViewDto p: list
-             ) {
-            ProductsDetails productsDetails = new ProductsDetails();
-            productsDetails.setProduct(p.getProduct());
-            productsDetails.setColor(p.getColor());
-            productsDetails.setSize(p.getSize());
-            productsDetails.setQuantity(p.getQuantity());
 
-            this.productDetailService.save(productsDetails);
-        }
-        return list;
-    }
 
     @Override
     public Products getOne(Integer id) {
