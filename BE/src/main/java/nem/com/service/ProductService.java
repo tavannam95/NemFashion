@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductService {
-    List<ProductViewDto> createProductView(List<ProductViewDto> list);
+
     Products getOne(Integer id);
     List<Products> getAll();
 

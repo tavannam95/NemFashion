@@ -1,6 +1,7 @@
 package nem.com.controller;
 
 import nem.com.dto.request.ProductDetailDTO;
+import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,6 @@ public class ProductDetailController {
         this.productDetailService = productDetailService;
     }
 
-
-    @PostMapping("")
-    public ResponseEntity<ProductsDetails> create(@RequestBody ProductsDetails productsDetails) {
-        return new ResponseEntity<>(this.productDetailService.save(productsDetails), HttpStatus.OK);
-    }
 
     @GetMapping("detail/{productId}")
     public ResponseEntity<List<ProductsDetails>> findProductsDetailsByProductId(@PathVariable("productId") Integer productId) {
@@ -50,6 +46,10 @@ public class ProductDetailController {
     @GetMapping("/product/{id}")
     public ResponseEntity<List<ProductsDetails>> getProductDetailById(@PathVariable("id") Integer id){
         return new ResponseEntity<>(this.productDetailService.findProductsDetailsByProductId(id),HttpStatus.OK);
+    }
+    @PostMapping("")
+    public ResponseEntity<List<ProductViewDto>> create(@RequestBody List<ProductViewDto> listProductViewDto){
+        return new ResponseEntity<>(this.productDetailService.createProductDetails(listProductViewDto),HttpStatus.OK);
     }
     @PutMapping("/{id}")
     public ResponseEntity<ProductsDetails> update(@RequestBody ProductsDetails productsDetails) {
