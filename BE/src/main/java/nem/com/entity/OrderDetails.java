@@ -28,7 +28,7 @@ public class OrderDetails {
 
     @Basic
     @Column(name = "quantity", nullable = true)
-    private Short quantity;
+    private Integer quantity;
 
     @Basic
     @Column(name = "rating_status", nullable = true)

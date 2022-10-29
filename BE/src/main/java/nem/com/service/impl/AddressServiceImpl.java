@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    private  final AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
 
     public AddressServiceImpl(AddressRepository addressRepository) {
         this.addressRepository = addressRepository;
@@ -28,12 +28,28 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public Address findAddressByStatus(Integer customerId) {
+        return this.addressRepository.findAddressByStatus(customerId);
+    }
+
+    @Override
     public Address save(Address address) {
+//        address.setStatus((byte) 0);
+        return this.addressRepository.save(address);
+    }
+
+    @Override
+    public Address update(Integer addressId, Address address) {
         return this.addressRepository.save(address);
     }
 
     @Override
     public void delete(Integer id) {
         this.addressRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Address> findAddressByCustomerId(Integer customerId) {
+        return this.addressRepository.findAddressByCustomerId(customerId);
     }
 }

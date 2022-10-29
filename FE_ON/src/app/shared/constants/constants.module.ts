@@ -13,4 +13,8 @@ export class Constants {
   public static RESPONSE_CODE = {
     SUCCESS: '200'
   }
+
+  public static ORDER_STATUS = {
+    WAITING: 0
+  }
 }

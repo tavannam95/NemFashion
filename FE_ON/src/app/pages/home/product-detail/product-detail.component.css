@@ -1,3 +1,19 @@
 .clickImage{
     border: 1px solid black;
 }
+
+.disabled-color__radio-label{
+  pointer-events: none;
+}
+
+.disabled-size{
+  color: #cccccc;
+  pointer-events: none;
+}
+
+.disabled-color{
+  pointer-events: none;
+}
+.low-opacity{
+  opacity: 0.5;
+}

@@ -7,10 +7,10 @@
           <ul class="breadcrumb__list">
             <li class="has-separator">
 
-              <a href="#">Home</a></li>
+              <a href="#">Trang chủ</a></li>
             <li class="is-marked">
 
-              <a href="#">My Account</a></li>
+              <a href="#">Chi tiết sản phẩm</a></li>
           </ul>
         </div>
       </div>
@@ -85,16 +85,20 @@
             <div class="u-s-m-b-15">
               <span class="pd-detail__label u-s-m-b-8">Màu sắc:</span>
               <div class="pd-detail__color">
-                <div class="color__radio" *ngFor="let color of colors; index as index">
+                <div class="color__radio" *ngFor="let c of listColor">
                   <input type="radio" id="jet" name="color"
-
+                         [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
                          [(ngModel)]="colorModel"
-                         [value]="color.id"
+                         [value]="c.id"
+                         [checked]="listColor.click ? listColor.click == c.id : false"
+                         (click)="color.length == 0 || color.includes(c.id) ? onClickColor(c.id) : ''"
                          (change)="onClickProductDetail()"/>
                   <label
                     class="color__radio-label"
                     for="jet"
-                    [style.background-color]="color.code"
+                    [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
+                    [class.low-opacity]="color.length > 0 ? !color.includes(c.id) :false"
+                    [style.background-color]="c.code.code"
                   ></label>
                 </div>
               </div>
@@ -102,18 +106,24 @@
             <div class="u-s-m-b-15">
               <span class="pd-detail__label u-s-m-b-8">Kích thuớc: </span>
               <div class="pd-detail__size">
-                <div class="size__radio" *ngFor="let size of sizes">
+                <div class="size__radio" *ngFor="let s of listSize">
                   <input type="radio" id="xs" name="size"
-                         [attr.disabled]="disabledInput === true && test === size.id ? '' : null"
-                         [value]="size.id"
+                         [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false"
+                         [value]="s.id"
+                         [checked]="listSize.click ? listSize.click == s.id : false"
                          [(ngModel)]="sizeModel"
-                         (change)="onClickProductDetail(size.id)"/>
-                  <label class="size__radio-label" for="xs">{{size.code}}</label>
+                         (click)="onClickSize(s.id)"
+                         (change)="onClickProductDetail()"/>
+                  <label class="size__radio-label" for="xs"
+                         [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false">
+                    {{s.code}}
+                  </label>
                 </div>
               </div>
             </div>
-            <p *ngIf="colorModel != null && sizeModel != null">
-              Số lượng còn lại: {{countProductDetail !== undefined ? countProductDetail : 0}}</p>
+            <p *ngIf="listSize.click != null && listColor.click != null">
+              Số lượng còn lại: {{countProductDetail !== undefined ? countProductDetail : 0}}
+            </p>
             <div class="pd-detail-inline-2">
               <div class="u-s-m-b-15">
                 <!--====== Input Counter ======-->
@@ -122,6 +132,7 @@
                     class="input-counter__text input-counter--text-primary-style"
                     type="number"
                     name="quantity"
+                    onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
                     [(ngModel)]="productQuantity"
                     (change)="onChangeInput($event)"
                     min="1"

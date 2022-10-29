@@ -1,13 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 a {
   text-decoration: none;
 }
 
-#topScroll{
+#topScroll {
   background-color: black;
   color: #FFFFFF;
   border-radius: 100px;
@@ -27,11 +33,11 @@ body .slick-next {
   border-radius: 100px;
 }
 
-.slick-next{
+.slick-next {
   right: 0px !important;
 }
 
-.slick-prev{
+.slick-prev {
   left: 0px !important;
 }
 
@@ -39,12 +45,50 @@ body .slick-next {
   background-color: black !important;
 }
 
-.slick-prev:before, .slick-next:before{
+.slick-prev:before, .slick-next:before {
   margin-top: 30px;
   font-size: 25px !important;
   line-height: 50px !important;
 }
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.btn-primary-custom {
+  color: #ffffff;
+  background-color: #ff4500;
+  border: 2px solid #ff4500;
+  transition: background-color 0.5s ease-in, border-color 0.5s ease-in;
+}
+.btn-primary-custom-disabled {
+  color: #ffffff;
+  background-color: #ff8371;
+  border: 2px solid #ff8371;
+  transition: background-color 0.5s ease-in, border-color 0.5s ease-in;
+}
+
+.btn-grey-custom {
+  color: #333333;
+  background-color: #f5f5f5;
+  border: 2px solid #f5f5f5;
+  transition: background-color 0.5s ease-in, border-color 0.5s ease-in;
+}
+
+.btn-custom--smooth {
+  padding: 10px 30px;
+  border-radius: 6px;
+}
+
+.hover-link:hover{
+  color: #ffffff;
+}
+.hover-link-black:hover{
+  color: #333333;
+}
