@@ -11,10 +11,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { ImportExcelDialogComponent } from './dialog/import-excel-dialog/import-excel-dialog.component';
+import {  MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [ProductDetailFormComponent],
+  declarations: [ProductDetailFormComponent, ImportExcelDialogComponent],
   imports: [
     CommonModule,
     ProductDetailRoutingModule,
@@ -26,7 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule
   ]
 })
 export class ProductDetailModule { }

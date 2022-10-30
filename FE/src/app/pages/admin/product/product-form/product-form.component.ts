@@ -31,13 +31,8 @@ export class ProductFormComponent implements OnInit {
 
   productId: number;
 
-  // categorySelectedCheck = false;
-  //
-  // categorySelected: any;
-
   isLoading: boolean = false;
 
-  // Fake category
   categories: any;
 
   formGroup = this.fb.group({
@@ -69,7 +64,6 @@ export class ProductFormComponent implements OnInit {
     private toastrService: ToastrService
   ) {}
 
-  //Get category and fill to selection
   getAllCategory(){
     this.isLoading = true;
     return this.categoryService.getAllCategory().subscribe({
@@ -95,13 +89,10 @@ export class ProductFormComponent implements OnInit {
     this.getAllCategory();
   }
 
-  // Image thumnail product
-  // On file Select
   onChange(event) {
     this.thumnailFile = event.addedFiles;
   }
 
-  // OnClick of button Upload
   onUpload() {
     this.loading = !this.loading;
     this.fileUploadService.upload(this.thumnailFile).subscribe((event: any) => {
@@ -109,13 +100,10 @@ export class ProductFormComponent implements OnInit {
         // Short link via api response
         this.shortLink = event.link;
 
-        this.loading = false; // Flag variable
+        this.loading = false;
       }
     });
   }
-
-
-  // Upload thumbnail
 
   async uploadThumnail() {
     const formData = new FormData();
@@ -126,7 +114,7 @@ export class ProductFormComponent implements OnInit {
       console.log(err);
     }
   }
-  // Create product
+
   async createProduct(stepper: MatStepper) {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
@@ -155,7 +143,6 @@ export class ProductFormComponent implements OnInit {
     }
     
   }
-  //Select image and upload
 
   async createProductImage(stepper: MatStepper){
     if(this.imagesFile.length>0){
@@ -193,26 +180,21 @@ export class ProductFormComponent implements OnInit {
     }
 		this.thumnailFile.push(...event.addedFiles);
 	}
-  // End image thumnail product
 
-  // Table Images-------------------------------------------------------------
-  //Remove image
-	onRemove(f: any) {
+  onRemove(f: any) {
       this.thumnailFile.splice(this.thumnailFile.indexOf(f), 1);
       this.thumnailUrl = '';
 	}
-  //Select image
-	onSelectDetail(event) {
+
+  onSelectDetail(event) {
 		this.imagesFile.push(...event.addedFiles);
 	}
-  //Remove image
-	onRemoveDetail(event) {
+
+  onRemoveDetail(event) {
 		this.imagesFile.splice(this.imagesFile.indexOf(event), 1);
     }
   
-  // End table image
 
-  //Dialog Create category------------------
   openDialogCreateCategory(){
     let dialogRef = this.dialog.open(CategoryCreateDialogComponent,{
       width: '700px',

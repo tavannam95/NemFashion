@@ -1,14 +1,11 @@
 package nem.com.controller;
 
-import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.Products;
-import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
