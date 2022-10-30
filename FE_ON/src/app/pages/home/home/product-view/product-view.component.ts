@@ -27,9 +27,33 @@ export class ProductViewComponent implements OnInit {
          this.productImage = value ;
     })
     console.log(this.data.type)
+    //    this.proService.getAllProduct().subscribe( data => {
+    //      this.productImage = data ;
+    //    }
+    // )
+  }
+
+  slideConfissg = { slidesToShow: 3, slidesToScroll:1  , vertical: true ,draggable: false , infinite: false ,
+    nextArrow: ' <button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute bottom-0 start-50 translate-middle-x"><i class="fas fa-arrow-down"></i></button>' ,
+    prevArrow: '<button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-0 start-50 translate-middle-x"><i class="fas fa-arrow-up  "></i></button>'};
+
+  slickInit(e: any) {
+    console.log('slick initialized');
+  }
+  breakpoint(e: any) {
+    console.log('breakpoint');
+  }
+  afterChange(e: any) {
+    console.log('afterChange');
+  }
+  beforeChange(e: any) {
+    console.log('beforeChange');
   }
 
   changThumnail( img: string ) {
+    console.log(this.thumnail)
+    console.log(img)
+    console.log(this.thumnail == img )
     this.thumnail = img ;
   }
 

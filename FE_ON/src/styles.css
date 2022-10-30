@@ -13,36 +13,9 @@ a {
   border-radius: 100px;
 }
 
-.slick-slider {
-  width: 100%;
-  margin: auto;
-}
 
-body .slick-prev,
-body .slick-next {
-  background-color: #747677;
-  width: 60px !important;
-  height: 50px !important;
-  z-index: 100;
-  border-radius: 100px;
-}
-
-.slick-next{
-  right: 0px !important;
-}
-
-.slick-prev{
-  left: 0px !important;
-}
-
-.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
-  background-color: black !important;
-}
-
-.slick-prev:before, .slick-next:before{
-  margin-top: 30px;
-  font-size: 25px !important;
-  line-height: 50px !important;
+.top-50{
+   top: 37% !important;
 }
 
 
