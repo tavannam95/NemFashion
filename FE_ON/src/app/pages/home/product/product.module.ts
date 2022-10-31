@@ -6,6 +6,9 @@ import {StarsComponent} from "../../../shared/stars/stars.component";
 import {HomeModule} from "../home/home.module";
 import { ProductViewComponent } from '../home/product-view/product-view.component';
 import {HomeComponent} from "../home/home.component";
+import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -14,7 +17,11 @@ import {HomeComponent} from "../home/home.component";
   imports: [
     CommonModule,
     ProductRoutingModule,
-    HomeModule
+    HomeModule,
+    FormsModule,
+    ReactiveFormsModule ,
+    MatFormFieldModule ,
+    MatInputModule
   ]
 })
 export class ProductModule { }

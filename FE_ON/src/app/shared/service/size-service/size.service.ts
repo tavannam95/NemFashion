@@ -13,4 +13,8 @@ export class SizeService {
     return this.sizeApiService.findAllSizeInProductDetails(productId);
   }
 
+  getAllSize() {
+    return this.sizeApiService.getAll() ;
+  }
+
 }

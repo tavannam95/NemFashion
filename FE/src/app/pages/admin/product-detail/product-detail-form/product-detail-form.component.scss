@@ -5,3 +5,8 @@ mat-checkbox{
     width: 210px !important;
     min-height: 340px !important;
   }
+  input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

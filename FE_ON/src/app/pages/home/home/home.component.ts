@@ -11,19 +11,33 @@ import {ProductViewComponent} from "./product-view/product-view.component";
 export class HomeComponent implements OnInit {
 
   listPro: any ;
+  listNewPro: any ;
 
   constructor( private proService: ProductService ,
                private dialog: MatDialog ) {
-    proService.getAllProduct().subscribe( data => {
+      this.getProduct();
+      this.getNewProduct() ;
+  }
+
+  getProduct(){
+    this.proService.getAllProduct().subscribe( data => {
       this.listPro = data
       console.log( this.listPro )
     })
   }
 
+  getNewProduct() {
+      this.proService.getNewPro().subscribe( data => {
+          this.listNewPro = data
+      })
+  }
+
   ngOnInit(): void {
   }
 
-  slideConfig = { slidesToShow: 4, slidesToScroll:1 , swipeToSlide: true};
+  slideConfig = { slidesToShow: 4, slidesToScroll:1 , swipeToSlide: true  ,
+    nextArrow: ' <button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-50  end-0 translate-middle-y"><i class="fas fa-chevron-right"></i></button>' ,
+    prevArrow: '<button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-50 start-0 translate-middle-y"><i class="fas fa-chevron-left"></i></button>'};
 
   slickInit(e: any) {
     console.log('slick initialized');

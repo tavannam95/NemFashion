@@ -13,7 +13,9 @@ import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.com
 import {HttpClientModule} from "@angular/common/http";
 import {CdkTableModule} from "@angular/cdk/table";
 import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
+import {SlickCarouselModule} from "ngx-slick-carousel";
 import {ToastrModule} from "ngx-toastr";
+
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import {ToastrModule} from "ngx-toastr";
       preventDuplicates: true,
       autoDismiss: true
     }),
+    SlickCarouselModule,
   ],
   providers: [],
   exports: [],
