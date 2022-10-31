@@ -1,8 +1,6 @@
 package nem.com.controller;
 
-//import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.Products;
-import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,10 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Array;
-import java.sql.DataTruncation;
-import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +28,6 @@ public class ProductController {
     public ResponseEntity<List<Products>> getAll(){
         return new ResponseEntity<>(this.productService.getAll(), HttpStatus.OK);
     }
-
-//    @PostMapping("view")
-//    public ResponseEntity<List<ProductViewDto>> getView(@RequestBody List<ProductViewDto> listProductViewDto){
-//        return new ResponseEntity<>(this.productService.createProductView(listProductViewDto),HttpStatus.OK);
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Products> getOne(@PathVariable("id") Integer id){

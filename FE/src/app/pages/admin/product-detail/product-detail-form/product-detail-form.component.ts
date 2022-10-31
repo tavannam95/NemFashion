@@ -9,6 +9,16 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { ColorCreateDialogComponent } from '../../dialog/color-create-dialog/color-create-dialog.component';
 import { ProductService } from '../../../../shared/service/product/product.service';
+import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
+import { Constant } from '../../../../shared/constants/Constant';
+import { ImportExcelDialogComponent } from '../dialog/import-excel-dialog/import-excel-dialog.component';
+
+export class Employee{
+  product:{id:''};
+  color: {id:''};
+  size: {id:''};
+  quantity:number;
+}
 
 @Component({
   selector: 'app-product-detail-form',
@@ -16,12 +26,15 @@ import { ProductService } from '../../../../shared/service/product/product.servi
   styleUrls: ['./product-detail-form.component.scss']
 })
 export class ProductDetailFormComponent implements OnInit {
+  willDownload = false;
+  fileName: string = "";
+  allSize: any;
+  quantity: any = [];
   isLoading: boolean = false;
-
   files: File[] = [];
-
   selectedColor: any;
-
+  checkColor: boolean;
+  checkSize: boolean;
   productId: any;
   colorId: any = {
     id: '',
@@ -33,15 +46,6 @@ export class ProductDetailFormComponent implements OnInit {
     name: ['', [Validators.required,Validators.pattern(Regex.unicode)]],
     code: ['', Validators.required],
     status: ['']
-  })
-
-  sizeFormGroup = this.fb.group({
-    1: ['',Validators.required],
-    2: ['',Validators.required],
-    3: ['',Validators.required],
-    4: ['',Validators.required],
-    5: ['',Validators.required],
-    6: ['',Validators.required],
   })
   // Size Color API create
   productDetailFormGroup = this.fb.group({
@@ -56,20 +60,8 @@ export class ProductDetailFormComponent implements OnInit {
     }),
     quantity: ['']
   })
-
   productDetailDto: any = [];
 
-
-  sizes: any;
-
-  s: boolean = false;
-  m: boolean = false;
-  l: boolean = false;
-  xl: boolean = false;
-  xxl: boolean = false;
-  xxxl: boolean = false;
-  checkSelectedSize: boolean = false;
-  
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -84,57 +76,83 @@ export class ProductDetailFormComponent implements OnInit {
   ngOnInit() {
     this.productId = this.route.snapshot.paramMap.get('id');
     this.getAllColor();
+    this.getAllSize();
+  }
+  onChange(event) {
+    this.fileName = event.target.files[0].name;
+  }
+  
+  //XLSX------------------------
+  openImportExcel(productId: any){
+    this.dialog.open(ImportExcelDialogComponent,{
+      data: productId,
+      disableClose: true,
+      width: '500px'
+    })
+  }
+  
+  
+
+  getAllSize(){
+    this.sizeService.getAllSize().subscribe({
+      next: (res) =>{
+        this.allSize = res;
+      },
+      error: (err) =>{
+        console.log(err);
+      }
+    });
   }
 
   createProductDetail(){
-    this.sizeFormGroup.markAllAsTouched();
-    this.productDetailFormGroup.markAllAsTouched();
-    if (this.s == false
-        && this.m == false
-        && this.l == false
-        && this.xl == false
-        && this.xxl == false
-        && this.xxxl == false
-      ) {
-      this.checkSelectedSize = true;
-    }
-      if (
-       Object.values( Object.values(this.productDetailFormGroup.value)[1])[0] == ""
-      ) {
-        this.toastrService.error('Bạn chưa chọn màu sắc');
-        this.sizeFormGroup.markAsUntouched();
+    this.checkColor = false;
+    this.checkSize = false;
+    this.productDetailDto = [];
+    for (let i = 0; i < this.allSize.length; i++) {
+      if (this.quantity[i] == undefined ||this.quantity[i] == null) {
+        continue;
       }
-      
-      for (let i = 0; i < Object.keys(this.sizeFormGroup.value).length; i++) {
-        if (Object.values(this.sizeFormGroup.value)[i] != "") {
-          this.productDetailFormGroup.patchValue({size: {id: Object.keys(this.sizeFormGroup.value)[i]}});
-          this.productDetailFormGroup.patchValue({quantity: Object.values(this.sizeFormGroup.value)[i]});
-          this.productDetailFormGroup.patchValue({product:{id: this.productId}});
-          // this.productDetailService.createProductDetail(this.productDetailFormGroup.value).subscribe();
-          this.productDetailDto.push(this.productDetailFormGroup.value);
-        }
-      }
-      this.productService.getProductView(this.productDetailDto).subscribe({
-        next: (res)=>{
-          this.toastrService.success('Thêm chi tiết sản phẩm thành công');
-        },
-        error: (err)=>{
-          this.toastrService.error('Thêm chi tiết sản phẩm thất bại');
-        }
+      this.productDetailDto.push({
+        product: {id: this.productId},
+        color: {id: this.colorId.id},
+        size: this.allSize[i],
+        quantity: this.quantity[i]
       })
-      
-  }
+    }
 
-  check(){
-    this.createProductDetail();
-    // console.log(Object.values( Object.values(this.productDetailFormGroup.value)[1])[0] );
+    if (this.colorId.id == "") {
+      this.checkColor = true;
+      this.toastrService.error('Vui lòng nhập đầy đủ thông tin');
+      return;
+    }
+
+    let check = 0;
+    for (let i = 0; i < this.productDetailDto.length; i++) {
+      if (this.productDetailDto[i].quantity == null) {
+        check++;
+      }
+    }
+    if (check == this.productDetailDto.length) {
+      this.checkSize = true;
+      this.toastrService.error('Vui lòng nhập đủ thông tin');
+      return;
+    }
+    console.log(this.productDetailDto);
+    
+    // this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
+    //   next: (res)=>{
+    //     this.toastrService.success('Thêm chi tiết thành công');
+    //   },
+    //   error: (err)=>{
+    //     this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
+    //   }
+    // })
     
   }
 
   selectColor(code: any){
     this.selectedColor = code;
   }
-
   getAllColor(){
     this.isLoading = true;
     this.colorService.getAllColor().subscribe({
@@ -158,55 +176,6 @@ export class ProductDetailFormComponent implements OnInit {
       this.getAllColor();
     })
   }
-
-  selectSize(size: string){
-    this.sizeFormGroup.markAsUntouched();
-    this.checkSelectedSize = false;
-    if (size == 's') {
-      this.s = !this.s;
-    }
-    if (size == 'm') {
-      this.m = !this.m;
-    }
-    if (size == 'l') {
-      this.l = !this.l;
-    }
-    if (size == 'xl') {
-      this.xl = !this.xl;
-    }
-    if (size == '2xl') {
-      this.xxl = !this.xxl;
-    }
-    if (size == '3xl') {
-      this.xxxl = !this.xxxl;
-    }
-  }
   
-  //Select image
-	onSelect(event) {
-    if(this.files){
-      this.files.splice(0,1);
-    }
-		this.files.push(...event.addedFiles);
-    
-	}
-  //Remove image
-	onRemove(event) {
-		this.files.splice(this.files.indexOf(event), 1);
-	}
-
-  onChangeColor(event){
-    this.colorFormGroup.patchValue({code: event.target.value});
-  }
-
-  // Reset when submit form
-  onSubmit(){
-    this.colorFormGroup.patchValue({code: '#ff12ff'});
-    this.files = [];
-  }
-
-  finish(){
-    
-  }
 
 }

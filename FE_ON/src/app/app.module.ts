@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutComponent } from './layout/layout/layout.component';
-import { HeaderComponent } from './layout/header/header.component';
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { FooterComponent } from './layout/footer/footer.component';
-import { NavbarComponent } from './layout/navbar/navbar.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {LayoutComponent} from './layout/layout/layout.component';
+import {HeaderComponent} from './layout/header/header.component';
+import {SidebarComponent} from './layout/sidebar/sidebar.component';
+import {FooterComponent} from './layout/footer/footer.component';
+import {NavbarComponent} from './layout/navbar/navbar.component';
 import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.component";
 import {HttpClientModule} from "@angular/common/http";
 import {CdkTableModule} from "@angular/cdk/table";
@@ -34,12 +34,15 @@ import {ToastrModule} from "ngx-toastr";
     BrowserAnimationsModule,
     HttpClientModule,
     CdkTableModule,
+    ToastrModule.forRoot({
+      maxOpened: 1,
+      preventDuplicates: true,
+      autoDismiss: true
+    }),
     SlickCarouselModule,
-    ToastrModule.forRoot(),
   ],
   providers: [],
-  exports: [
-  ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

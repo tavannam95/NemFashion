@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.ProductsDetails;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.ProductDetailService;
@@ -50,4 +51,36 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     public ProductsDetails findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId) {
         return this.productsDetailsRepository.findProductDetailBySizeAndColor(productId, sizeId, colorId);
     }
+    @Override
+    public List<ProductViewDto> createProductDetails(List<ProductViewDto> list) {
+        for (ProductViewDto p: list
+        ) {
+            ProductsDetails productsDetails = new ProductsDetails();
+            int productId = p.getProduct().getId();
+            int colorId = p.getColor().getId();
+            int sizeId = p.getSize().getId();
+            List<ProductsDetails> productsDetailsList = this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
+            if (productsDetailsList.size()>0){
+                productsDetails = this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId).get(0);
+                productsDetails.setQuantity(productsDetails.getQuantity()+p.getQuantity());
+            }else{
+                productsDetails.setProduct(p.getProduct());
+                productsDetails.setColor(p.getColor());
+                productsDetails.setSize(p.getSize());
+                productsDetails.setQuantity(p.getQuantity());
+            }
+            this.productsDetailsRepository.save(productsDetails);
+        }
+        return list;
+    }
+
+    @Override
+    public List<ProductsDetails> findProductDetailByProductSizeColor(ProductViewDto productViewDto) {
+        int productId = productViewDto.getProduct().getId();
+        int colorId = productViewDto.getColor().getId();
+        int sizeId = productViewDto.getSize().getId();
+        return this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
+    }
+
+
 }

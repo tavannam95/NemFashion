@@ -24,8 +24,7 @@ export class ProductDetailComponent implements OnInit {
   productImage: any;
   thumnail: string = '';
   carts: any[] = [];
-  sizes: any[] = [];
-  colors: any[] = [];
+
   sizeDescription: string = '';
   colorDescription: string = '';
   sizeModel: any;
@@ -86,16 +85,6 @@ export class ProductDetailComponent implements OnInit {
 
         this.getProductImageById(value.id);
         this.getProductDetailByProductId(value.id);
-
-        this.sizeService.findAllSizeInProductDetails(value.id).subscribe(res => {
-          this.sizes = res as any[];
-          this.sizeDescription = this.sizes.map(s => s.code).join(", ")
-        })
-
-        this.colorService.findAllColorInProductDetails(value.id).subscribe(res => {
-          this.colors = res as any[];
-          this.colorDescription = this.colors.map(c => c.name).join(", ")
-        })
       }
     })
   }
@@ -106,11 +95,30 @@ export class ProductDetailComponent implements OnInit {
     })
   }
 
+  listColor: any = [];
+  listSize: any = [];
+  size: any = [];
+  color: any = [];
 
   getProductDetailByProductId(productId: number) {
+    let mapSize = new Map();
+    let mapColor = new Map();
     this.productDetailService.getProductDetailByProductId(productId).subscribe({
       next: (res: any) => {
         this.productDetail = res;
+        this.productDetail.forEach(p => {
+          mapSize.set(p.size.id, p.size.code);
+          mapColor.set(p.color.id, {name: p.color.name, code: p.color.code});
+        })
+        mapSize.forEach((v, k) => {
+          this.listSize.push({id: k, code: v})
+        })
+        mapColor.forEach((v, k) => {
+          this.listColor.push({id: k, code: v})
+        })
+        this.listSize = this.listSize.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
+        this.sizeDescription = this.listSize.map((s: any) => s.code).join(", ");
+        this.colorDescription = this.listColor.map((c: any) => c.code.name).join(", ");
         this.totalQuantity.next(res.map((p: any) => p.quantity).reduce((value: any, total: any) => value + total, 0))
       },
       error: (err) => {
@@ -123,8 +131,32 @@ export class ProductDetailComponent implements OnInit {
     this.thumnail = img;
   }
 
+  onClickColor(id: any) {
+    console.log(id)
+    if (this.listColor.click === undefined || this.listColor.click != id) {
+      this.size = this.productDetail.filter(p => p.color.id === id && p.quantity > 0).map(p => p.size.id);
+      this.listColor.click = id;
+      console.log(this.size)
+    } else {
+      this.listColor.click = undefined;
+      this.size = [];
+    }
+  }
 
-  onClickProductDetail(id?: any) {
+  onClickSize(id: any) {
+    console.log(id)
+    if (this.listSize.click === undefined || this.listSize.click != id) {
+      this.color = this.productDetail.filter(p => p.size.id === id && p.quantity > 0).map(p => p.color.id);
+      this.listSize.click = id;
+      console.log(this.color)
+    } else {
+      this.listSize.click = undefined;
+      this.color = [];
+    }
+  }
+
+
+  onClickProductDetail() {
     this.productQuantity = 1;
     let pid = 0;
     this.productId.subscribe((id: number) => {
@@ -136,32 +168,32 @@ export class ProductDetailComponent implements OnInit {
         next: (res: any) => {
           res = res.filter((p: any) => p.color.id === this.colorModel && p.size.id === this.sizeModel && p.product.id === pid)
             .map((p: any) => p.quantity)
-          this.countProductDetail = res[0];
-          if (this.countProductDetail === undefined) {
-            this.disabledInput = true;
-            this.test = id;
-          }
+          this.countProductDetail = res;
         },
         error: (err) => {
           console.log(err);
         }
       })
+    } else {
+
     }
   }
 
   onAddToCart(f: NgForm) {
     let pid = 0;
     this.productId.subscribe((id: number) => {
-      if (id) pid = id;
+      if (id) {
+        pid = id;
+      }
     })
 
     const data = {
       productId: pid,
-      sizeId: f.value.size,
-      colorId: f.value.color
+      sizeId: this.listSize.click,
+      colorId: this.listColor.click
     }
-
-    if (data.sizeId === undefined || data.colorId === undefined) {
+    console.log(data.sizeId, data.colorId)
+    if (this.listColor.click === undefined || this.listSize.click === undefined) {
       this.message = 'Vui lòng chọn màu sắc và size';
       return;
     } else {
@@ -169,13 +201,12 @@ export class ProductDetailComponent implements OnInit {
     }
 
     this.productDetailService.findProductDetailBySizeAndColor(data).subscribe((res: any) => {
-      if (this.productQuantity > res.quantity || this.productQuantity <= 0) {
+      if (this.productQuantity > res.quantity || this.productQuantity <= 0 || isNaN(this.productQuantity)) {
         this.productQuantity = 1;
         this.message = 'Số lượng không hợp lệ. Vui lòng nhập lại !';
         return;
       }
 
-      console.log(this.carts.length)
       if (this.carts.length > 0) {
         for (const c of this.carts) {
           if (c.productsDetail.id == res.id && (parseInt(c.quantity) + parseInt(this.productQuantity)) > res.quantity) {
@@ -218,6 +249,5 @@ export class ProductDetailComponent implements OnInit {
 
   onChangeInput(event: any) {
     this.productQuantity = event.target.value;
-    console.log(this.productQuantity)
   }
 }
