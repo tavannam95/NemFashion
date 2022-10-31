@@ -1,0 +1,136 @@
+<div class="container-fluid">
+  <div class="row fs-5">
+     <div class="col-11">
+        FORM ĐÁNH GIÁ
+     </div>
+     <div class="col-1 d-flex flex-row-reverse align-items-center">
+       <i class="fas fa-times" (click)="onCancel()"></i>
+     </div>
+  </div>
+
+  <form class="row mt-4">
+    <div class="col-12">
+      <table class="rev-f2__table">
+        <thead>
+        <tr>
+          <th>
+            <div class="gl-rating-style-2"><i class="fas fa-star"></i>
+
+              <span>(1)</span></div>
+          </th>
+          <th>
+            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+              <span>(2)</span></div>
+          </th>
+          <th>
+            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+              <span>(3)</span></div>
+          </th>
+          <th>
+            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+              <span>(4)</span></div>
+          </th>
+          <th>
+            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+              <span>(5)</span></div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+
+            <!--====== Radio Box ======-->
+            <div class="radio-box">
+
+              <input type="radio" id="star-1" name="rating">
+              <div class="radio-box__state radio-box__state--primary">
+
+                <label class="radio-box__label" for="star-1"></label></div>
+            </div>
+            <!--====== End - Radio Box ======-->
+          </td>
+          <td>
+
+            <!--====== Radio Box ======-->
+            <div class="radio-box">
+
+              <input type="radio" id="star-2" name="rating">
+              <div class="radio-box__state radio-box__state--primary">
+
+                <label class="radio-box__label" for="star-2"></label></div>
+            </div>
+            <!--====== End - Radio Box ======-->
+          </td>
+          <td>
+
+            <!--====== Radio Box ======-->
+            <div class="radio-box">
+
+              <input type="radio" id="star-3" name="rating">
+              <div class="radio-box__state radio-box__state--primary">
+
+                <label class="radio-box__label" for="star-3"></label></div>
+            </div>
+            <!--====== End - Radio Box ======-->
+          </td>
+          <td>
+
+            <!--====== Radio Box ======-->
+            <div class="radio-box">
+
+              <input type="radio" id="star-4" name="rating">
+              <div class="radio-box__state radio-box__state--primary">
+
+                <label class="radio-box__label" for="star-4"></label></div>
+            </div>
+            <!--====== End - Radio Box ======-->
+          </td>
+          <td>
+            <!--====== Radio Box ======-->
+            <div class="radio-box">
+
+              <input type="radio" id="star-5" name="rating">
+              <div class="radio-box__state radio-box__state--primary">
+
+                <label class="radio-box__label" for="star-5"></label></div>
+            </div>
+            <!--====== End - Radio Box ======-->
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-6 mt-4">
+       <textarea rows="7" class="w-100"></textarea>
+    </div>
+      <div
+        class="custom-dropzone col-6 m-0 p-0 mt-4"
+        ngx-dropzone
+        [accept]="'image/*'"
+        (change)="onSelect($event)"
+      >
+        <ngx-dropzone-label>
+          <div>
+            <h5>Có thể chọn ảnh để đánh giá</h5>
+          </div>
+        </ngx-dropzone-label>
+        <ngx-dropzone-image-preview
+          ngProjectAs="ngx-dropzone-preview"
+          *ngFor="let f of files"
+          [file]="f"
+          [removable]="true"
+          (removed)="onRemove(f)"
+        >
+        </ngx-dropzone-image-preview>
+      </div>
+
+    <div class="col-12 mt-3">
+        <button class="btn btn-success">Gửi đánh giá</button>
+    </div>
+  </form>
+</div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {RatingComponent} from "../rating/rating.component";
 
 @Component({
   selector: 'app-user-order',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserOrderComponent implements OnInit {
 
-  constructor() { }
+  constructor( private dialog: MatDialog ) { }
 
   ngOnInit(): void {
+  }
+
+  OnpenRating() {
+     this.dialog.open( RatingComponent , {
+       width: '60vw' ,
+       disableClose: true,
+       hasBackdrop: true,
+     })
   }
 
 }

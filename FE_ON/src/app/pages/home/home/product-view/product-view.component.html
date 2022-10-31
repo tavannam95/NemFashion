@@ -49,53 +49,13 @@
             <div class="u-s-m-b-15">
               <span class="pd-detail__label u-s-m-b-8">Color:</span>
               <div class="pd-detail__color">
-                <div class="color__radio">
-                  <input type="radio" id="jet" name="color" checked/>
-
+                <div class="color__radio" *ngFor="let color of listColor " >
+                  <input type="radio" id="jet" name="color" [disabled]="checkSize(color.id )" (click)="clickColor(color.id)"/>
                   <label
                     class="color__radio-label"
                     for="jet"
-                    style="background-color: #333333"
-                  ></label>
-                </div>
-                <div class="color__radio">
-                  <input type="radio" id="folly" name="color"/>
-
-                  <label
-                    class="color__radio-label"
-                    for="folly"
-                    style="background-color: #ff0055"
-                  ></label>
-                </div>
-                <div class="color__radio">
-                  <input type="radio" id="yellow" name="color"/>
-
-                  <label
-                    class="color__radio-label"
-                    for="yellow"
-                    style="background-color: #ffff00"
-                  ></label>
-                </div>
-                <div class="color__radio">
-                  <input
-                    type="radio"
-                    id="granite-gray"
-                    name="color"
-                  />
-
-                  <label
-                    class="color__radio-label"
-                    for="granite-gray"
-                    style="background-color: #605f5e"
-                  ></label>
-                </div>
-                <div class="color__radio">
-                  <input type="radio" id="space-cadet" name="color"/>
-
-                  <label
-                    class="color__radio-label"
-                    for="space-cadet"
-                    style="background-color: #1d3461"
+                    [style.background-color]="color.code"
+                    [style.opacity]="checkSize(color.id) ? '0.5' : ''"
                   ></label>
                 </div>
               </div>
@@ -103,43 +63,9 @@
             <div class="u-s-m-b-15">
               <span class="pd-detail__label u-s-m-b-8">Size:</span>
               <div class="pd-detail__size">
-                <div class="size__radio">
-                  <input type="radio" id="xs" name="size" checked/>
-
-                  <label class="size__radio-label" for="xs">XS</label>
-                </div>
-                <div class="size__radio">
-                  <input type="radio" id="small" name="size"/>
-
-                  <label class="size__radio-label" for="xxl"
-                  >Small</label
-                  >
-                </div>
-                <div class="size__radio">
-                  <input type="radio" id="medium" name="size"/>
-
-                  <label class="size__radio-label" for="medium"
-                  >Medium</label
-                  >
-                </div>
-                <div class="size__radio">
-                  <input type="radio" id="large" name="size"/>
-
-                  <label class="size__radio-label" for="xxl"
-                  >Large</label
-                  >
-                </div>
-                <div class="size__radio">
-                  <input type="radio" id="xl" name="size"/>
-
-                  <label class="size__radio-label" for="xl">XL</label>
-                </div>
-                <div class="size__radio">
-                  <input type="radio" id="xxl" name="size"/>
-
-                  <label class="size__radio-label" for="xxl"
-                  >XXL</label
-                  >
+                <div class="size__radio" *ngFor="let size of listSize">
+                  <input type="radio" id="{{size.code}}" name="size" [disabled]=" checkColor(size.id )" (click)="clickSize(size.id)" />
+                  <label class="size__radio-label" for="{{size.code}}" [style.opacity]="checkColor(size.id) ? '0.5' : ''">{{size.code}}</label>
                 </div>
               </div>
             </div>
