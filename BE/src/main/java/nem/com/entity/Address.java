@@ -40,7 +40,7 @@ public class Address {
     private Byte status;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customers customer;
 
 }
