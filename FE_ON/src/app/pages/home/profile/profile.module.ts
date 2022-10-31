@@ -7,6 +7,10 @@ import {StrackOrderComponent} from "./strack-order/strack-order.component";
 import {UserOrderComponent} from "./user-order/user-order.component";
 import {SignupComponent} from './signup/signup.component';
 import {SigninComponent} from './signin/signin.component';
+import { RatingComponent } from './rating/rating.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatRadioModule} from "@angular/material/radio";
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 @NgModule({
   declarations: [
@@ -14,10 +18,14 @@ import {SigninComponent} from './signin/signin.component';
     StrackOrderComponent,
     SignupComponent,
     SigninComponent,
+    RatingComponent,
   ],
   imports: [
     CommonModule,
     ProfileRoutingModule,
+    MatDialogModule,
+    MatRadioModule,
+    NgxDropzoneModule
   ]
 })
 export class ProfileModule {
