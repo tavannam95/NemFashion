@@ -180,7 +180,7 @@
                     <div class="product-m__hover">
                       <div class="product-m__preview-description">
 
-                        <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span>
+                        <span>{{pro.description}}</span>
                       </div>
                       <div class="product-m__wishlist">
                         <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top"
@@ -198,7 +198,7 @@
                 </li>
                 <li class="is-active" *ngFor=" let page of listPage ">
                   <a type="button" [class]="checkPage == page ? 'bg-dark text-white' : ''"
-                     (click)="nextPage(page)">{{page + 1}}</a>
+                     (click)="nextPage(page)" >{{page + 1}}</a>
                 </li>
                 <li class="is-active">
                   <a type="button" (click)="nextPage(totalPage - 1 )"> <i class="fas fa-angle-double-right"></i> </a>
