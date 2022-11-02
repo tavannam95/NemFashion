@@ -1,6 +1,6 @@
 package nem.com.service;
 
-import nem.com.dto.response.ProductViewDto;
+import nem.com.dto.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface ProductDetailService {
     List<ProductsDetails> findProductsDetailsByProductId(Integer productId);
 
     ProductsDetails findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId);
-    List<ProductViewDto> createProductDetails(List<ProductViewDto> list);
+    List<ProductDetailResponseDTO> createProductDetails(List<ProductDetailResponseDTO> list);
 
-    List<ProductsDetails> findProductDetailByProductSizeColor(ProductViewDto productViewDto);
+    List<ProductsDetails> findProductDetailByProductSizeColor(ProductDetailResponseDTO productViewDto);
 }
