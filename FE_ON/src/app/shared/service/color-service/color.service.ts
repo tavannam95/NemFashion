@@ -13,4 +13,8 @@ export class ColorService {
     return this.colorApiService.findAllColorInProductDetails(productId);
   }
 
+  getAllByColor() {
+     return this.colorApiService.getAll() ;
+  }
+
 }

@@ -13,9 +13,11 @@ import {ConfirmDialogComponent} from "./shared/confirm-dialog/confirm-dialog.com
 import {HttpClientModule} from "@angular/common/http";
 import {CdkTableModule} from "@angular/cdk/table";
 import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
+import {SlickCarouselModule} from "ngx-slick-carousel";
 import {ToastrModule} from "ngx-toastr";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {httpInterceptorProviders} from "./shared/intercepror/http-request.interceptor";
+
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import {httpInterceptorProviders} from "./shared/intercepror/http-request.interc
     }),
     FormsModule,
     ReactiveFormsModule,
+    SlickCarouselModule,
   ],
   providers: [httpInterceptorProviders],
   exports: [],

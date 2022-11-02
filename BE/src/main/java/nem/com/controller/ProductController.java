@@ -1,16 +1,18 @@
 package nem.com.controller;
 
-import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.Products;
-import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -25,11 +27,6 @@ public class ProductController {
     @GetMapping("")
     public ResponseEntity<List<Products>> getAll(){
         return new ResponseEntity<>(this.productService.getAll(), HttpStatus.OK);
-    }
-
-    @PostMapping("view")
-    public ResponseEntity<List<ProductViewDto>> getView(@RequestBody List<ProductViewDto> listProductViewDto){
-        return new ResponseEntity<>(this.productService.createProductView(listProductViewDto),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -52,8 +49,39 @@ public class ProductController {
     }
 
     @GetMapping("findSize")
-    public ResponseEntity<List<Products>> findProBySize( @RequestParam("size") Integer[] sizes){
-        return new ResponseEntity<>(this.productService.getAllBySize(sizes) , HttpStatus.OK );
+    public ResponseEntity<Page<Products>> findProBySize(@RequestParam(value = "size"  ) Integer[] sizes  ,
+                                                        @RequestParam(value = "category" ) Short[] category ,
+                                                        @RequestParam(value = "color") Integer[] color ,
+                                                        @RequestParam(value = "max" , defaultValue = "99999999") Double max ,
+                                                        @RequestParam(value = "min" , defaultValue = "0") Double min ,
+                                                        @RequestParam(value = "pageNo")Optional<Integer> pageNo ,
+                                                        @RequestParam(value = "pageSize") Integer pageSize ,
+                                                        @RequestParam(value = "sortPrice") Integer sortPrice ){
+        Pageable pageable ;
+        if( sortPrice == 0 ){
+            pageable = PageRequest.of( pageNo.orElse(0) , pageSize ) ;
+        }else if( sortPrice == 1){
+            pageable = PageRequest.of( pageNo.orElse(0) , pageSize , Sort.by("price").ascending() ) ;
+        }else{
+            pageable = PageRequest.of( pageNo.orElse(0) , pageSize , Sort.by("price").descending() ) ;
+        }
+
+        Page<Products> page = this.productService.getAllByAllPropertites(sizes , category, color , max ,min  , pageable );
+        return new ResponseEntity<>( page , HttpStatus.OK );
     }
 
+    @GetMapping("getNew")
+    public ResponseEntity<List<Products>> findProNew(){
+         return new ResponseEntity<>(this.productService.getAllNewPro() , HttpStatus.OK ) ;
+    }
+
+    @GetMapping("getTop10Pro")
+    public ResponseEntity<List<Products>> findTop10Pro() {
+        return new ResponseEntity<>(this.productService.findTop10Pro(),  HttpStatus.OK) ;
+    }
+
+    @GetMapping("getProductNeverRating")
+    public ResponseEntity<List<Products>> getProductNeverRating( @RequestParam("id") Long id ){
+        return new ResponseEntity<>(this.productService.findProductNeverRating(id) , HttpStatus.OK ) ;
+    }
 }

@@ -12,8 +12,11 @@ import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.OrderDetailOnlineService;
 import nem.com.service.OrderServiceOnline;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -62,4 +65,18 @@ public class OrderOnlineController {
         return order;
     }
 
+    @GetMapping()
+    public ResponseEntity<List<Orders>> GetAllOrdersByStatus( @RequestParam("status") Short status ,@RequestParam("id") Integer id ){
+        return ResponseEntity.ok( this.orderOnlineService.getAllOrdersByStatus( status  , id ) );
+    }
+
+    @GetMapping("getAll")
+    public ResponseEntity<List<Orders>> getAllOrders( @RequestParam("id") Integer id ){
+        return ResponseEntity.ok( this.orderOnlineService.getAllOrders(id) );
+    }
+
+    @GetMapping("updateStatus")
+    public void updateStatusOrder( @RequestParam("status") Short status , @RequestParam("id") Long id ) {
+        this.orderOnlineService.updateStatusOrder( status , id );
+    }
 }

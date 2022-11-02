@@ -62,6 +62,10 @@ public class Orders {
     @OneToMany(mappedBy = "order")
     private List<OrderDetails> listOrderDetails;
 
+    @JsonIgnore
+    @OneToMany( mappedBy = "orders")
+    private List<Ratings> listRating ;
+
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customers customer;

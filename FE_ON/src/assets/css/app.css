@@ -3606,16 +3606,17 @@ input::-ms-clear {
 .manage-o__description {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
+  /*-ms-flex-align: center;*/
+  /*    align-items: center;*/
   -ms-flex-pack: justify;
       justify-content: space-between; }
 
 .description__container {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center; }
+  /*-ms-flex-align: center;*/
+  /*align-items: ;*/
+}
 
 .description__img-wrap {
   width: 90px;
@@ -3628,12 +3629,12 @@ input::-ms-clear {
     border-radius: 50%;
     display: block;
     min-width: 90px; }
-
 .description-title {
   margin-left: 12px;
   font-size: 14px;
   font-weight: 600;
   color: #333333; }
+
 
 .dash__address-header {
   display: -ms-flexbox;

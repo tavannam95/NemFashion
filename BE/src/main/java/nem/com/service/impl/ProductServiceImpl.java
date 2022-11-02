@@ -7,10 +7,11 @@ import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.ProductsRepository;
 import nem.com.service.ProductDetailService;
 import nem.com.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,21 +26,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductViewDto> createProductView(List<ProductViewDto> list) {
-        for (ProductViewDto p: list
-             ) {
-            ProductsDetails productsDetails = new ProductsDetails();
-            productsDetails.setProduct(p.getProduct());
-            productsDetails.setColor(p.getColor());
-            productsDetails.setSize(p.getSize());
-            productsDetails.setQuantity(p.getQuantity());
-
-            this.productDetailService.save(productsDetails);
-        }
-        return list;
-    }
-
-    @Override
     public Products getOne(Integer id) {
         return this.productsRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy khách hàng có mã: " + id));
@@ -51,8 +37,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Products> getAllBySize(Integer[] size ) {
-        return this.productsRepository.findProBySize(size );
+    public Page<Products> getAllByAllPropertites(Integer[] size, Short[] category, Integer[] color, Double max, Double min, Pageable pageable) {
+        return this.productsRepository.findProByAllProperty( size , category , color , max , min , pageable );
+    }
+
+    @Override
+    public List<Products> findTop10Pro() {
+        return this.productsRepository.findTop10Product();
+    }
+
+    @Override
+    public List<Products> findProductNeverRating(Long id) {
+        return this.productsRepository.findProductNeverRating( id) ;
+    }
+
+    @Override
+    public List<Products> getAllNewPro() {
+        return this.productsRepository.findTop10NewProduct() ;
     }
 
     @Override
