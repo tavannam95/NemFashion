@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../../shared/service/product-service/product.service";
 import {BehaviorSubject} from "rxjs";
 import {NgForm} from "@angular/forms";
@@ -8,6 +8,7 @@ import {ColorService} from "../../../shared/service/color-service/color.service"
 import {SizeService} from "../../../shared/service/size-service/size.service";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
 import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../../shared/service/storage.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -42,7 +43,9 @@ export class ProductDetailComponent implements OnInit {
               private readonly colorService: ColorService,
               private readonly sizeService: SizeService,
               private readonly cartService: CartService,
-              private readonly toastService: ToastrService) {
+              private readonly toastService: ToastrService,
+              private readonly storageService: StorageService,
+              private readonly router: Router) {
   }
 
   ngOnInit(): void {
@@ -55,7 +58,9 @@ export class ProductDetailComponent implements OnInit {
       }
     })
     this.productQuantity = 1;
-    this.findAllByCustomerId(33);
+    if (this.storageService.isLoggedIn()) {
+      this.findAllByCustomerId();
+    }
   }
 
   getProductById(productIdFromRoute: number) {
@@ -115,24 +120,24 @@ export class ProductDetailComponent implements OnInit {
 
   onClickColor(id: any) {
     console.log(id)
-    if (this.listColor.click === undefined || this.listColor.click != id) {
+    if (this.listColor.id === undefined || this.listColor.id != id) {
       this.size = this.productDetail.filter(p => p.color.id === id && p.quantity > 0).map(p => p.size.id);
-      this.listColor.click = id;
+      this.listColor.id = id;
       console.log(this.size)
     } else {
-      this.listColor.click = undefined;
+      this.listColor.id = undefined;
       this.size = [];
     }
   }
 
   onClickSize(id: any) {
     console.log(id)
-    if (this.listSize.click === undefined || this.listSize.click != id) {
+    if (this.listSize.id === undefined || this.listSize.id != id) {
       this.color = this.productDetail.filter(p => p.size.id === id && p.quantity > 0).map(p => p.color.id);
-      this.listSize.click = id;
+      this.listSize.id = id;
       console.log(this.color)
     } else {
-      this.listSize.click = undefined;
+      this.listSize.id = undefined;
       this.color = [];
     }
   }
@@ -156,12 +161,15 @@ export class ProductDetailComponent implements OnInit {
           console.log(err);
         }
       })
-    } else {
-
     }
   }
 
   onAddToCart(f: NgForm) {
+    if (!this.isLogin()) {
+      this.toastService.warning("Vui lòng đăng nhập để tiếp tục !");
+      return;
+    }
+
     let pid = 0;
     this.productId.subscribe((id: number) => {
       if (id) {
@@ -171,18 +179,18 @@ export class ProductDetailComponent implements OnInit {
 
     const data = {
       productId: pid,
-      sizeId: this.listSize.click,
-      colorId: this.listColor.click
+      sizeId: this.listSize.id,
+      colorId: this.listColor.id
     }
-    console.log(data.sizeId, data.colorId)
-    if (this.listColor.click === undefined || this.listSize.click === undefined) {
+
+    if (this.listColor.id === undefined || this.listSize.id === undefined) {
       this.message = 'Vui lòng chọn màu sắc và size';
       return;
     } else {
       this.message = ''
     }
 
-    this.productDetailService.findProductDetailBySizeAndColor(data).subscribe((res: any) => {
+    this.productDetailService.findProductDetailBySizeAndColor(data.productId, data.sizeId, data.colorId).subscribe((res: any) => {
       if (this.productQuantity > res.quantity || this.productQuantity <= 0 || isNaN(this.productQuantity)) {
         this.productQuantity = 1;
         this.message = 'Số lượng không hợp lệ. Vui lòng nhập lại !';
@@ -201,17 +209,18 @@ export class ProductDetailComponent implements OnInit {
       const cart = {
         quantity: f.value.quantity,
         customer: {
-          id: 33
+          id: this.storageService.getIdFromToken()
         },
         productsDetail: {
           id: res.id
         }
       }
 
+      console.log(cart)
+
       this.cartService.addToCart(cart).subscribe(data => {
         if (data) {
-          this.findAllByCustomerId(33);
-          console.log("Add")
+          this.findAllByCustomerId();
           this.toastService.success("Thêm sản phẩm vào giỏ hàng thành công !")
           this.cartService.isReload.next(false)
         } else {
@@ -222,8 +231,8 @@ export class ProductDetailComponent implements OnInit {
     })
   }
 
-  findAllByCustomerId(customerId: number) {
-    this.cartService.findAllByCustomerId(customerId).subscribe(res => {
+  findAllByCustomerId() {
+    this.cartService.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe(res => {
       this.carts = res as any[];
       console.log("findAllByCustomerId", this.carts)
     })
@@ -232,4 +241,13 @@ export class ProductDetailComponent implements OnInit {
   onChangeInput(event: any) {
     this.productQuantity = event.target.value;
   }
+
+  isLogin() {
+    if (!this.storageService.isLoggedIn()) {
+      void this.router.navigate(['/sign-in'], {queryParams: {redirectUrl: this.router.url}});
+      return false;
+    }
+    return true;
+  }
+
 }

@@ -1,6 +1,5 @@
 package nem.com.controller;
 
-import nem.com.dto.request.ProductDetailDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
 import org.springframework.http.HttpStatus;
@@ -30,12 +29,10 @@ public class ProductDetailController {
         return new ResponseEntity<>(this.productDetailService.findProductsDetailsByProductId(productId), HttpStatus.OK);
     }
 
-    @PostMapping("p-detail")
-    public ResponseEntity<ProductsDetails> findProductDetailBySizeAndColor(@RequestBody ProductDetailDTO productDetailDTO) {
+    @GetMapping("p-detail")
+    public ResponseEntity<ProductsDetails> findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId) {
         return new ResponseEntity<>(this.productDetailService.findProductDetailBySizeAndColor(
-                productDetailDTO.getProductId(),
-                productDetailDTO.getSizeId(),
-                productDetailDTO.getColorId()), HttpStatus.OK);
+                productId, sizeId, colorId), HttpStatus.OK);
     }
 
     @GetMapping("")
@@ -47,10 +44,12 @@ public class ProductDetailController {
     public ResponseEntity<ProductsDetails> getOne(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(this.productDetailService.getOne(id), HttpStatus.OK);
     }
+
     @GetMapping("/product/{id}")
-    public ResponseEntity<List<ProductsDetails>> getProductDetailById(@PathVariable("id") Integer id){
-        return new ResponseEntity<>(this.productDetailService.findProductsDetailsByProductId(id),HttpStatus.OK);
+    public ResponseEntity<List<ProductsDetails>> getProductDetailById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.productDetailService.findProductsDetailsByProductId(id), HttpStatus.OK);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductsDetails> update(@RequestBody ProductsDetails productsDetails) {
         return new ResponseEntity<>(this.productDetailService.update(productsDetails), HttpStatus.OK);

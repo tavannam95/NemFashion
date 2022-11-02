@@ -15,6 +15,8 @@ public interface CustomersRepository extends JpaRepository<Customers, Integer> {
 
     Optional<Customers> findCustomersByEmail(String email);
 
+    Optional<Customers> findByResetPasswordToken(String resetPasswordToken);
+
     @Modifying
     @Transactional
     @Query("update Customers c set c.status = 1 where c.id in (:id)")

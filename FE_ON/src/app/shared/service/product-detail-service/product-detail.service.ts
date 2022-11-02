@@ -13,7 +13,7 @@ export class ProductDetailService {
     return this.productDetailApi.getProductDetailByProductId(productId);
   }
 
-  findProductDetailBySizeAndColor(data: any) {
-    return this.productDetailApi.findProductDetailBySizeAndColor(data);
+  findProductDetailBySizeAndColor(productId: any, sizeId: any, colorId: any) {
+    return this.productDetailApi.findProductDetailBySizeAndColor(productId, sizeId, colorId);
   }
 }

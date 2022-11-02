@@ -14,6 +14,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {CdkTableModule} from "@angular/cdk/table";
 import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
 import {ToastrModule} from "ngx-toastr";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {httpInterceptorProviders} from "./shared/intercepror/http-request.interceptor";
 
 @NgModule({
   declarations: [
@@ -37,8 +39,10 @@ import {ToastrModule} from "ngx-toastr";
       preventDuplicates: true,
       autoDismiss: true
     }),
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   exports: [],
   bootstrap: [AppComponent]
 })

@@ -48,7 +48,7 @@
               <table class="table-p">
                 <tbody>
                 <!--====== Row ======-->
-                <tr *ngFor="let cart of carts">
+                <tr *ngFor="let cart of carts" [class.low-opacity]="cart.productsDetail.quantity < cart.quantity">
                   <td>
                     <div class="table-p__box">
                       <div class="table-p__img-wrap">
@@ -92,12 +92,18 @@
                           type="number"
                           onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
                           [value]="cart.quantity"
-                          (change)="updateCart($event, cart.customer.id, cart.productsDetail.id, cart.productsDetail.quantity, cart.quantity)"
+                          (change)="updateCart($event, cart.customer.id, cart.productsDetail.id, cart.productsDetail.quantity, cart.quantity, cart.id)"
                           min="1"
                           [max]="cart.productsDetail.quantity"/>
+                        <p class="text-danger" *ngIf="cart.productsDetail.quantity < cart.quantity">
+                          Còn {{cart.productsDetail.quantity}} sản phẩm</p>
                       </div>
                       <!--====== End - Input Counter ======-->
                     </div>
+                  </td>
+                  <td>
+                  <span
+                    class="table-p__price">{{cart.productsDetail.product.price * cart.quantity | currency: 'VND' : 'symbol' : '4.0' }}</span>
                   </td>
                   <td>
                     <div class="table-p__del-wrap">
@@ -125,7 +131,7 @@
               </div>
               <div class="route-box__g2">
                 <a class="route-box__link" href="javascript:void(0)"
-                   (click)="deleteAllByCustomerId(33)">
+                   (click)="onOpenDialogDeleteAll()">
                   <i class="fas fa-trash"></i>
                   <span>Xoá tất cả</span>
                 </a>

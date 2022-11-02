@@ -12,7 +12,7 @@
       <form class="main-form">
         <label for="main-search"></label>
         <input class="input-text input-text--border-radius input-text--style-1"
-          type="text" id="main-search" placeholder="Search"/>
+               type="text" id="main-search" placeholder="Search"/>
         <button
           class="btn btn--icon fas fa-search main-search-button"
           type="submit"
@@ -26,6 +26,7 @@
           <span class="ah-close">✕ Close</span>
           <!--====== List ======-->
           <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+            {{storageService.getFullNameFromToken()}}
             <li
               class="has-dropdown"
               data-tooltip="tooltip"
@@ -36,33 +37,37 @@
               <!--====== Dropdown ======-->
               <span class="js-menu-toggle"></span>
               <ul style="width: 120px">
-                <li>
-                  <a routerLink="profile"
-                  ><i class="fas fa-user-circle u-s-m-r-6"></i>
-                    <span>Thông tin</span></a
-                  >
-                </li>
-                <li>
-                  <a routerLink="sign-up"
-                  ><i class="fas fa-user-plus u-s-m-r-6"></i>
+                <ng-container *ngIf="storageService.isLoggedIn()">
+                  <li>
+                    <a routerLink="profile"
+                    ><i class="fas fa-user-circle u-s-m-r-6"></i>
+                      <span>Thông tin</span></a
+                    >
+                  </li>
+                  <li>
+                    <a (click)="logout()"
+                    ><i class="fas fa-lock-open u-s-m-r-6"></i>
 
-                    <span>Đăng ký</span></a
-                  >
-                </li>
-                <li>
-                  <a routerLink="sign-in"
-                  ><i class="fas fa-lock u-s-m-r-6"></i>
+                      <span>Đăng xuất</span></a
+                    >
+                  </li>
+                </ng-container>
+                <ng-container *ngIf="!storageService.isLoggedIn()">
+                  <li>
+                    <a routerLink="sign-up"
+                    ><i class="fas fa-user-plus u-s-m-r-6"></i>
 
-                    <span>Đăng nhập</span></a
-                  >
-                </li>
-                <li>
-                  <a href="#"
-                  ><i class="fas fa-lock-open u-s-m-r-6"></i>
+                      <span>Đăng ký</span></a
+                    >
+                  </li>
+                  <li>
+                    <a routerLink="sign-in"
+                    ><i class="fas fa-lock u-s-m-r-6"></i>
 
-                    <span>Đăng xuất</span></a
-                  >
-                </li>
+                      <span>Đăng nhập</span></a
+                    >
+                  </li>
+                </ng-container>
               </ul>
               <!--====== End - Dropdown ======-->
             </li>

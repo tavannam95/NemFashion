@@ -26,6 +26,7 @@ public class Customers {
     @Column(name = "email", nullable = true, length = 255)
     private String email;
 
+    @JsonIgnore
     @Basic
     @Column(name = "password", nullable = true, length = 255)
     private String password;
@@ -53,6 +54,10 @@ public class Customers {
     @Basic
     @Column(name = "status", nullable = true)
     private Short status;
+
+    @Basic
+    @Column(name = "reset_password_token", nullable = true)
+    private String resetPasswordToken;
 
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
