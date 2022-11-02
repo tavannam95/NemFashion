@@ -53,7 +53,7 @@
         <mat-tab label="{{x.name}}" *ngFor=" let x of listStatus ">
           <div class="mt-5"></div>
           <div *ngFor=" let order of listOrder">
-            <div class="m-order__get border-1" *ngIf=" order.status == x.status">
+            <div class="m-order__get border-1 mt-5" *ngIf=" order.status == x.status">
               <div class="manage-o__header u-s-m-b-30">
                 <div class="dash-l-r">
                   <div>

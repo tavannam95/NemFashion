@@ -16,13 +16,13 @@ export class UserOrderComponent implements OnInit {
 
   listOrder: any ;
   listOrderDetail: any ;
-  listRating: any ;
+  listRating: any[] = [] ;
   employeeId = 1 ;
 
   listStatus = [
     { status: 0 , name: 'Chờ xác nhận'} ,
-    { status: 1 , name: 'Đã giao'} ,
     { status: 2 , name:  'Đang giao'} ,
+    { status: 1 , name: 'Đã giao'} ,
     { status: 4 , name: 'Đã hủy'}
   ]
 
@@ -49,7 +49,7 @@ export class UserOrderComponent implements OnInit {
 
   findAllRating(){
     this.ratingService.getAllRatingByIdCustome(33).subscribe( data => {
-        this.listRating = data ;
+        this.listRating = data as any[] ;
     })
   }
 

@@ -56,12 +56,6 @@ export class ProductComponent implements OnInit {
     // this.getAllPro();
   }
 
-  getAllPro() {
-    this.proService.getAllProduct().subscribe(data => {
-      this.listPro = data
-    })
-  }
-
   getAllCategory() {
     this.cateService.getAllCategory().subscribe(data => {
       this.litsCate = data
@@ -104,12 +98,12 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  getAllProSize() {
-    this.sizeService.getAllSize().subscribe(data => {
-      this.listSize = data;
-      console.log(data)
-    })
-  }
+  // getAllProSize() {
+  //   this.sizeService.getAllSize().subscribe(data => {
+  //     this.listSize = data;
+  //     console.log(data)
+  //   })
+  // }
 
   // getAllProBySize(size: any) {
   //   this..getAllProBySize(size).subscribe(data => {
@@ -131,7 +125,6 @@ export class ProductComponent implements OnInit {
         type: 'pro'
       }
     })
-
     dialogRef.afterClosed().subscribe(value => {
 
     })
@@ -147,7 +140,8 @@ export class ProductComponent implements OnInit {
       // @ts-ignore
       this.listProBySize.push(size)
     }
-    this.findAll()
+    this.clearPage() ;
+    this.findAll() ;
   }
 
   // tìm theo category
@@ -162,7 +156,8 @@ export class ProductComponent implements OnInit {
     }
 
     console.log(this.listProByCate)
-    this.findAll()
+    this.clearPage() ;
+    this.findAll() ;
   }
   //Tìm theo color
   getAllByColor( color: number ) {
@@ -175,7 +170,8 @@ export class ProductComponent implements OnInit {
       this.listProByColor.push(color)
     }
     console.log(this.listProByColor )
-    this.findAll()
+    this.clearPage() ;
+    this.findAll() ;
 
   }
 
@@ -185,8 +181,7 @@ export class ProductComponent implements OnInit {
        return  ;
      }
 
-
-
+     this.clearPage();
      this.check = false ;
      this.findAll()
   }
@@ -240,16 +235,18 @@ export class ProductComponent implements OnInit {
   }
 
   showProInPage(){
-     this.pagaNo = 0
-     this.checkPage = 0 ;
+     this.clearPage()
       console.log(this.pageSize)
      this.findAll()
   }
 
   showProSort(){
-     this.pagaNo = 0 ;
-     this.checkPage = 0 ;
+     this.clearPage()
      this.findAll() ;
   }
 
+  clearPage(){
+    this.pagaNo = 0 ;
+    this.checkPage = 0 ;
+  }
 }
