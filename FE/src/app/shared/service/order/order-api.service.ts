@@ -14,8 +14,8 @@ getAllOrder(): Observable<any>{
   return this.http.get(ApiConstant.order);
 }
 
-verifyOrder(id: number, data: any){
-  return this.http.put(`${ApiConstant.order}/verify/${id}`,data);
+verifyOrCancelOrder(id: number, data: any, f: number){
+  return this.http.put(`${ApiConstant.order}/verifyOrCancel/${id}/${f}`,data);
 }
 
 }

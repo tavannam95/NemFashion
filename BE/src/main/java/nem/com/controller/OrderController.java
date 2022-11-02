@@ -25,9 +25,9 @@ public class OrderController {
     public ResponseEntity<List<Orders>> getAll(){
         return new ResponseEntity<>(this.orderService.getAll(), HttpStatus.OK);
     }
-    @PutMapping("/verify/{id}")
-    public ResponseEntity<Orders> verify(@PathVariable("id") Long id){
+    @PutMapping("/verifyOrCancel/{id}/{f}")
+    public ResponseEntity<Orders> verifyOrCancel(@PathVariable("id") Long id, @PathVariable("f") Integer f){
         Orders orders = this.ordersRepository.findById(id).get();
-        return new ResponseEntity<>(this.orderService.verify(orders),HttpStatus.OK);
+        return new ResponseEntity<>(this.orderService.verifyOrCancel(orders,f),HttpStatus.OK);
     }
 }

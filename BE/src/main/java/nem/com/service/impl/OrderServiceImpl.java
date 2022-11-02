@@ -25,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Orders verify(Orders orders) {
-        orders.setStatus(1);
+    public Orders verifyOrCancel(Orders orders, Integer f) {
+            orders.setStatus(f);
         this.ordersRepository.save(orders);
         return orders;
     }
