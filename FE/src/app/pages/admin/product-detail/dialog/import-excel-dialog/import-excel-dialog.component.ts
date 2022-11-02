@@ -5,6 +5,7 @@ import { ConfirmDialogComponent } from '../../../../../shared/confirm-dialog/con
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Constant } from '../../../../../shared/constants/Constant';
 import { ToastrService } from 'ngx-toastr';
+import { ColorService } from '../../../../../shared/service/color/color.service';
 
 @Component({
   selector: 'app-import-excel-dialog',
@@ -14,12 +15,14 @@ import { ToastrService } from 'ngx-toastr';
 export class ImportExcelDialogComponent implements OnInit {
   excel: any;
   productDetailDto: any = [];
+  allColor: any;
 
   constructor(
     private readonly productDetailService: ProductDetailService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private toastrService: ToastrService,
+    private colorService: ColorService
     ) { }
 
   ngOnInit() {
@@ -49,6 +52,7 @@ export class ImportExcelDialogComponent implements OnInit {
       this.toastrService.error('Bạn chưa chọn file');
       return;
     }
+    
     this.productDetailDto = [];
     for (let i = 0; i < this.excel.length; i++) {
       this.productDetailDto.push({
@@ -58,16 +62,15 @@ export class ImportExcelDialogComponent implements OnInit {
         quantity: this.excel[i].quantity
       })
     }
-    console.log(this.productDetailDto);
-    
     this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
       next: (res)=>{
         this.toastrService.success('Thêm chi tiết thành công');
       },
       error: (err)=>{
-        this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
+        this.toastrService.error('Vui lòng kiểm tra lại file excel');
       }
     })
     
   }
+
 }

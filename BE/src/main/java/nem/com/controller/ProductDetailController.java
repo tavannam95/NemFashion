@@ -1,7 +1,7 @@
 package nem.com.controller;
 
 import nem.com.dto.request.ProductDetailDTO;
-import nem.com.dto.response.ProductViewDto;
+import nem.com.dto.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
 import org.springframework.http.HttpStatus;
@@ -48,7 +48,7 @@ public class ProductDetailController {
     }
 
     @PostMapping("")
-    public ResponseEntity<List<ProductViewDto>> create(@RequestBody List<ProductViewDto> listProductViewDto){
+    public ResponseEntity<List<ProductDetailResponseDTO>> create(@RequestBody List<ProductDetailResponseDTO> listProductViewDto){
         return new ResponseEntity<>(this.productDetailService.createProductDetails(listProductViewDto),HttpStatus.OK);
     }
 

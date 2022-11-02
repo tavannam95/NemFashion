@@ -122,7 +122,7 @@ export class ProductDetailFormComponent implements OnInit {
 
     if (this.colorId.id == "") {
       this.checkColor = true;
-      this.toastrService.error('Vui lòng nhập đầy đủ thông tin');
+      this.toastrService.error('Vui lòng nhập đủ thông tin');
       return;
     }
 
