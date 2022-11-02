@@ -5,15 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nem.com.entity.Colors;
 import nem.com.entity.Products;
-import nem.com.entity.ProductsDetails;
 import nem.com.entity.Sizes;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductViewDto {
+public class ProductDetailResponseDTO {
     Products product;
     Colors color;
     int quantity;
