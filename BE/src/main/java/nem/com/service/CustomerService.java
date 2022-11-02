@@ -20,4 +20,11 @@ public interface CustomerService {
     void updateAllStatusTrue(List<Integer> listId);
 
     void updateAllStatusFalse(List<Integer> listId);
+
+    Customers findByResetPasswordToken(String token);
+
+    void  updateResetPassword(String email, String token);
+
+    boolean updatePassword(Integer id, String newPassword);
+
 }

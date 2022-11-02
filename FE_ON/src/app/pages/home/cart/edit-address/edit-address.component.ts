@@ -6,6 +6,7 @@ import {AddressService} from "../../../../shared/service/address/address.service
 import {CustomerService} from "../../../../shared/service/customer/customer.service";
 import {NgForm} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../../../shared/service/storage.service";
 
 @Component({
   selector: 'app-edit-address',
@@ -24,13 +25,18 @@ export class EditAddressComponent implements OnInit {
               private readonly addressService: AddressService,
               private readonly customerService: CustomerService,
               private readonly toastService: ToastrService,
-              @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
+              @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+              private readonly storageService: StorageService) {
   }
 
   ngOnInit(): void {
-    this.findAddressByCustomerId(33);
-    if (this.dataDialog.id) {
-      this.idAddress = this.dataDialog.id;
+    if (this.storageService.isLoggedIn()) {
+      this.findAddressByCustomerId(this.storageService.getIdFromToken());
+    }
+    if (this.dataDialog) {
+      if (this.idAddress) {
+        this.idAddress = this.dataDialog.id;
+      }
     }
   }
 
@@ -39,6 +45,7 @@ export class EditAddressComponent implements OnInit {
   }
 
   openAddNewAddress(type?: any, row?: any) {
+    let listAddress = this.addressInCustomer;
     this.matDialog.open(AddNewAddressComponent, {
       width: '40vw',
       height: '21w',
@@ -46,11 +53,12 @@ export class EditAddressComponent implements OnInit {
       hasBackdrop: true,
       data: {
         row,
-        type
+        type,
+        listAddress
       }
     }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-        this.findAddressByCustomerId(33);
+        this.findAddressByCustomerId(this.storageService.getIdFromToken());
       }
     })
   }
@@ -59,12 +67,6 @@ export class EditAddressComponent implements OnInit {
     this.addressService.findAddressByCustomerId(customerId).subscribe((res: any) => {
       this.addressInCustomer = res as any[];
       console.log(this.addressInCustomer)
-    })
-  }
-
-  findCustomerById(customerId: any) {
-    this.customerService.getCustomer(customerId).subscribe(res => {
-      this.customer = res;
     })
   }
 
@@ -84,7 +86,7 @@ export class EditAddressComponent implements OnInit {
     this.addressService.deleteAddress(id).subscribe({
       next: _ => {
         this.toastService.success("Xoá địa chỉ thành công !")
-        this.findAddressByCustomerId(33);
+        this.findAddressByCustomerId(this.storageService.getIdFromToken());
       },
       error: (err) => {
         console.log(err);

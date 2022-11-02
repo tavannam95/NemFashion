@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDetailDTO {
-    private Integer productId;
-    private Integer sizeId;
-    private Integer colorId;
+public class LoginFormUser {
+
+    private String email;
+
+    private String password;
+
 }

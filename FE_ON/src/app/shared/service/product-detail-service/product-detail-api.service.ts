@@ -14,8 +14,8 @@ export class ProductDetailApiService {
     return this.http.get(`${ApiConstrant.productDetail}/detail/${productId}`);
   }
 
-  findProductDetailBySizeAndColor(data: any) {
-    return this.http.post(`${ApiConstrant.productDetail}/p-detail`, data)
+  findProductDetailBySizeAndColor(productId: any, sizeId: any, colorId: any) {
+    return this.http.get(`${ApiConstrant.productDetail}/p-detail?productId=${productId}&sizeId=${sizeId}&colorId=${colorId}`)
   }
 
 }

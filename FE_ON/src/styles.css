@@ -58,8 +58,15 @@ body {
   border-radius: 6px;
 }
 
+.btn-custom--padding{
+  padding: 10px 30px;
+}
+
 .hover-link:hover{
   color: #ffffff;
+}
+.hover-link-orange:hover{
+  color: #ff4500;
 }
 .hover-link-black:hover{
   color: #333333;

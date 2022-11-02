@@ -95,7 +95,7 @@
                          [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
                          [(ngModel)]="colorModel"
                          [value]="c.id"
-                         [checked]="listColor.click ? listColor.click == c.id : false"
+                         [checked]="listColor.id ? listColor.id == c.id : false"
                          (click)="color.length == 0 || color.includes(c.id) ? onClickColor(c.id) : ''"
                          (change)="onClickProductDetail()"/>
                   <label
@@ -115,7 +115,7 @@
                   <input type="radio" id="xs" name="size"
                          [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false"
                          [value]="s.id"
-                         [checked]="listSize.click ? listSize.click == s.id : false"
+                         [checked]="listSize.id ? listSize.id == s.id : false"
                          [(ngModel)]="sizeModel"
                          (click)="onClickSize(s.id)"
                          (change)="onClickProductDetail()"/>
@@ -126,7 +126,7 @@
                 </div>
               </div>
             </div>
-            <p *ngIf="listSize.click != null && listColor.click != null">
+            <p *ngIf="listSize.id != null && listColor.id != null">
               Số lượng còn lại: {{countProductDetail !== undefined ? countProductDetail : 0}}
             </p>
             <div class="pd-detail-inline-2">

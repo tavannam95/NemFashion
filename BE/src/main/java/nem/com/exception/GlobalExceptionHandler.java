@@ -35,4 +35,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(LoginInvalidException.class)
+    public ResponseEntity<?> uniqueFieldExceptionHandler(LoginInvalidException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("LOGIN_INVALID", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
 }

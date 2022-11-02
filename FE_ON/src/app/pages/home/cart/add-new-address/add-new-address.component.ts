@@ -5,6 +5,7 @@ import {FormBuilder} from "@angular/forms";
 import {AddressService} from "../../../../shared/service/address/address.service";
 import {ToastrService} from "ngx-toastr";
 import {BehaviorSubject} from "rxjs";
+import {StorageService} from "../../../../shared/service/storage.service";
 
 @Component({
   selector: 'app-add-new-address',
@@ -26,7 +27,7 @@ export class AddNewAddressComponent implements OnInit {
     ward: [-1],
     other: [],
     customer: {
-      id: 33
+      id: this.storageService.getIdFromToken()
     },
     status: [0]
   })
@@ -35,7 +36,8 @@ export class AddNewAddressComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public matDataDialog: any,
               private readonly fb: FormBuilder,
               private readonly addressService: AddressService,
-              private readonly toastService: ToastrService) {
+              private readonly toastService: ToastrService,
+              private readonly storageService: StorageService) {
   }
 
   ngOnInit(): void {
@@ -87,6 +89,9 @@ export class AddNewAddressComponent implements OnInit {
     }
 
     if (this.matDataDialog.type === Constants.TYPE_DIALOG.NEW) {
+      if (this.matDataDialog.listAddress.length == 0) {
+        this.formGroup.patchValue({status: 1});
+      }
       this.addressService.createAddress(this.formGroup.getRawValue())
         .subscribe((data: any) => {
           if (data.id) {
@@ -98,7 +103,7 @@ export class AddNewAddressComponent implements OnInit {
         })
     } else {
       if (this.defaultAddress === 1) {
-        this.addressService.findAddressByStatus(33).subscribe((data: any) => {
+        this.addressService.findAddressByStatus(this.storageService.getIdFromToken()).subscribe((data: any) => {
           if (data.id != this.matDataDialog.row.id) {
             data.status = 0;
             this.addressService.updateAddress(data.id, data).subscribe(res => {

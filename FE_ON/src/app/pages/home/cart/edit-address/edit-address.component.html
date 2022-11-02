@@ -9,9 +9,14 @@
             <a (click)="openAddNewAddress(TYPE_DIALOG.NEW)">Thêm mới địa chỉ</a></div>
         </div>
       </div>
-      <form class="checkout-modal2__form" #f="ngForm">
+      <div class="row" *ngIf="addressInCustomer.length == 0">
+        <div class="col">
+          <h4 class="text-center">Danh sách địa chỉ trống !</h4>
+        </div>
+      </div>
+      <form class="checkout-modal2__form" #f="ngForm" >
         <div class="dash__table-2-wrap u-s-m-b-30 gl-scroll">
-          <table class="dash__table-2">
+          <table class="dash__table-2" *ngIf="addressInCustomer.length > 0">
             <thead>
             <tr>
               <th>Chọn</th>
@@ -22,13 +27,14 @@
               <th>Hành động</th>
             </tr>
             </thead>
-            <tbody *ngIf="addressInCustomer.length != 0">
-            <tr *ngFor="let a of addressInCustomer" >
+            <tbody>
+
+            <tr *ngFor="let a of addressInCustomer">
               <td>
                 <!--====== Radio Box ======-->
                 <div class="radio-box">
-                  <input type="radio" id="address{{a.id}}" name="checkedRadio" [value]="a.id"
-                         [checked]="a.id == dataDialog.id"
+                  <input type="radio" id="address{{a?.id}}" name="checkedRadio" [value]="a?.id"
+                         [checked]="a?.id == dataDialog?.id"
                          (click)="onClickRadio(a.id)">
                   <div class="radio-box__state radio-box__state--primary">
                     <label class="radio-box__label" for="address{{a.id}}"></label></div>
@@ -50,7 +56,7 @@
         </div>
         <div class="gl-modal-btn-group">
           <button class="btn-primary-custom btn-custom--smooth" type="button"
-                  (click)="onSaveAddress()">
+                  (click)="onSaveAddress()" *ngIf="addressInCustomer.length > 0">
             LƯU
           </button>
           <button class="btn-grey-custom btn-custom--smooth" type="button"

@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("api/v1/order-online")
+@RequestMapping("/api/v1/order-online")
 @RequiredArgsConstructor
 public class OrderOnlineController {
 
@@ -36,11 +36,11 @@ public class OrderOnlineController {
             throw new IsEmptyException("List cart is empty !");
         }
 
-        for (Carts cart : request.getListCarts()) {
-            if (cart.getQuantity() > cart.getProductsDetail().getQuantity()) {
-                throw new LimitQuantityException("Số lượng không đủ. Vui lòng cập nhật lại số lượng trong giỏ hàng !");
-            }
-        }
+//        for (Carts cart : request.getListCarts()) {
+//            if (cart.getQuantity() > cart.getProductsDetail().getQuantity()) {
+//                throw new LimitQuantityException("Số lượng không đủ. Vui lòng cập nhật lại số lượng trong giỏ hàng !");
+//            }
+//        }
         Orders order = this.orderOnlineService.save(request.getOrder());
         for (Carts cart : request.getListCarts()) {
             OrderDetails orderDetail = new OrderDetails();
@@ -53,8 +53,11 @@ public class OrderOnlineController {
             orderDetail.setDiscount(0.0);
             orderDetail.setUnitprice(cart.getQuantity() * cart.getProductsDetail().getProduct().getPrice());
             orderDetail.setStatus(1);
-            this.orderDetailOnlineService.save(orderDetail);
 
+            if (cart.getQuantity() > productsDetail.getQuantity()) {
+                throw new LimitQuantityException("Số lượng không đủ. Vui lòng cập nhật lại số lượng trong giỏ hàng !");
+            }
+            this.orderDetailOnlineService.save(orderDetail);
             productsDetail.setQuantity(productsDetail.getQuantity() - cart.getQuantity());
             this.productsDetailsRepository.save(productsDetail);
         }

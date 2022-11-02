@@ -21,6 +21,7 @@ import {CustomerService} from "../../../shared/service/customer/customer.service
 import {OrderService} from "../../../shared/service/order/order.service";
 import {OrderDetailService} from "../../../shared/service/order-detail/order-detail.service";
 import {Route, Router} from "@angular/router";
+import {StorageService} from "../../../shared/service/storage.service";
 
 @Component({
   selector: 'app-cart',
@@ -56,18 +57,21 @@ export class CartComponent implements OnInit {
               private readonly customerService: CustomerService,
               private readonly orderService: OrderService,
               private readonly orderDetailService: OrderDetailService,
-              private readonly route: Router) {
+              private readonly route: Router,
+              private readonly storageService: StorageService) {
 
   }
 
   ngOnInit(): void {
-    this.findAllByCustomerId(33);
+    if (this.storageService.isLoggedIn()) {
+      this.findAllByCustomerId();
+      this.findAddressByStatus(this.storageService.getIdFromToken());
+    }
     this.getCity();
-    this.findAddressByStatus(33);
   }
 
-  findAllByCustomerId(customerId: number) {
-    this.cartService.findAllByCustomerId(customerId).subscribe(res => {
+  findAllByCustomerId() {
+    return this.cartService.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe(res => {
       this.carts = res as any[];
       console.log("findAllByCustomerId", this.carts)
       if (this.carts.length > 0) {
@@ -80,6 +84,7 @@ export class CartComponent implements OnInit {
     })
   }
 
+  //Open dialog xoá 1 đơn hàng
   onDelete(id: number) {
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
@@ -92,7 +97,7 @@ export class CartComponent implements OnInit {
         this.cartService.deleteCart(id);
         this.cartService.isReload.subscribe((result) => {
           if (result) {
-            this.findAllByCustomerId(33);
+            this.findAllByCustomerId();
             this.cartService.isReload.next(false);
           }
         })
@@ -100,7 +105,8 @@ export class CartComponent implements OnInit {
     })
   }
 
-  deleteAllByCustomerId(customerId: any) {
+  //Dialog xoá tất cả giỏ hàng
+  onOpenDialogDeleteAll() {
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
       hasBackdrop: true,
@@ -109,10 +115,10 @@ export class CartComponent implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.cartService.deleteAllByCustomerId(customerId);
+        this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
         this.cartService.isReload.subscribe((result) => {
           if (result) {
-            this.findAllByCustomerId(customerId);
+            this.findAllByCustomerId();
             this.cartService.isReload.next(false);
           }
         })
@@ -120,10 +126,10 @@ export class CartComponent implements OnInit {
     })
   }
 
-  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any) {
+  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any, cartId?: any) {
     const data = {
       customer: {
-        id: customerId,
+        id: this.storageService.getIdFromToken(),
       },
       productsDetail: {
         id: productDetailId
@@ -136,6 +142,18 @@ export class CartComponent implements OnInit {
       return;
     }
 
+    // if (data.quantity == 0) {
+    //   this.cartService.deleteCart(cartId);
+    //   this.cartService.isReload.subscribe((result) => {
+    //     if (result) {
+    //       this.findAllByCustomerId();
+    //       this.cartService.isReload.next(false);
+    //     }
+    //   })
+    //   return;
+    // }
+
+
     if (data.quantity > quantity) {
       event.target.value = cartQuantity;
       this.toastService.warning("Số không được lớn hơn số lượng còn lại !")
@@ -144,7 +162,7 @@ export class CartComponent implements OnInit {
 
     this.cartService.updateCart(data).subscribe(data => {
       if (data) {
-        this.findAllByCustomerId(customerId)
+        this.findAllByCustomerId();
         this.cartService.isReload.next(false);
       }
     })
@@ -160,12 +178,15 @@ export class CartComponent implements OnInit {
   getDistrict(code: any) {
     this.addressService.getDistrict(code).subscribe((res: any) => {
       this.districts = res.districts as [];
+      this.formGroup.patchValue({district: this.districts[0].name});
+      this.getWard(this.districts[0].code);
     })
   }
 
   getWard(code: any) {
     this.addressService.getWard(code).subscribe((res: any) => {
       this.wards = res.wards as [];
+      this.formGroup.patchValue({ward: this.wards[0].name});
     })
   }
 
@@ -193,7 +214,7 @@ export class CartComponent implements OnInit {
       shipName: '',
       note: note?.trim(),
       customer: {
-        id: 33
+        id: this.storageService.getIdFromToken()
       },
       employee: {
         id: 1
@@ -225,6 +246,10 @@ export class CartComponent implements OnInit {
       order.shipName = shipName!.trim()
       console.log(order)
     } else {
+      if(!this.address){
+        this.toastService.warning("Vui lòng chọn địa chỉ mặc định trước khi thanh toán !");
+        return;
+      }
       address.push(this.address.ward, this.address.district, this.address.city);
       order.shipAddress = address.join(", ")
       order.shipPhone = this.address.customer.phone
@@ -241,10 +266,10 @@ export class CartComponent implements OnInit {
         next: (res) => {
           console.log(res);
           this.toastService.success("Đặt hàng thành công !")
-          this.cartService.deleteAllByCustomerId(33);
+          this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
           this.cartService.isReload.subscribe(rs => {
             if (rs) {
-              this.cartService.findAllByCustomerId(33);
+              this.cartService.findAllByCustomerId(this.storageService.getIdFromToken());
               this.carts = [];
               this.subTotal = 0;
               void this.route.navigate(["/profile/user-order"]);
@@ -301,12 +326,6 @@ export class CartComponent implements OnInit {
     this.addressService.findAddressByStatus(customerId).subscribe((res: any) => {
       this.address = res;
       console.log(this.address)
-    })
-  }
-
-  findCustomerById(customerId: any) {
-    this.customerService.getCustomer(customerId).subscribe(res => {
-      this.customer = res;
     })
   }
 

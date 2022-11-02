@@ -15,6 +15,8 @@ import {CdkTableModule} from "@angular/cdk/table";
 import {ProductViewComponent} from "./pages/home/home/product-view/product-view.component";
 import {SlickCarouselModule} from "ngx-slick-carousel";
 import {ToastrModule} from "ngx-toastr";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {httpInterceptorProviders} from "./shared/intercepror/http-request.interceptor";
 
 
 @NgModule({
@@ -39,9 +41,11 @@ import {ToastrModule} from "ngx-toastr";
       preventDuplicates: true,
       autoDismiss: true
     }),
+    FormsModule,
+    ReactiveFormsModule,
     SlickCarouselModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   exports: [],
   bootstrap: [AppComponent]
 })
