@@ -31,7 +31,9 @@ export class OrderListComponent implements OnInit {
     this.orderService.getAllOrder().subscribe({
       next: (res) =>{
         console.log(res);
-        this.toastrService.success('Load order')
+        this.dataSource = new MatTableDataSource<any>(res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       error: (err) =>{
         console.log(err);

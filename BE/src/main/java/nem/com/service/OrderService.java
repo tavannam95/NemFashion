@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OrderService {
     List<Orders> getAll();
+
+    Orders verify(Orders orders);
 }

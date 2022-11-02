@@ -56,7 +56,7 @@ public class Orders {
 
     @Basic
     @Column(name = "status", nullable = true)
-    private Short status;
+    private Integer status;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order")
