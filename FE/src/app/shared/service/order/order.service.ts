@@ -11,5 +11,7 @@ constructor(private readonly apiService: OrderApiService) { }
 getAllOrder() {
   return this.apiService.getAllOrder();
 }
-
+verifyOrCancelOrder(id: number, data: any, f: number){
+  return this.apiService.verifyOrCancelOrder(id,data,f);
+}
 }

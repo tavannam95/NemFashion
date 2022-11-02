@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import lombok.AllArgsConstructor;
 import nem.com.entity.Categories;
 import nem.com.repository.CategoriesRepository;
 import nem.com.service.CategoryService;
@@ -8,13 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoriesRepository categoriesRepository;
-
-    public CategoryServiceImpl(CategoriesRepository categoriesRepository) {
-        this.categoriesRepository = categoriesRepository;
-    }
 
     @Override
     public List<Categories> getAll() {
