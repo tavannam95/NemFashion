@@ -1,7 +1,7 @@
 package nem.com.controller;
 
 import nem.com.dto.request.ChangePasswordDTO;
-import nem.com.dto.request.LoginFormUser;
+import nem.com.dto.request.LoginForm;
 import nem.com.dto.request.RegisterFormUser;
 import nem.com.dto.response.JwtResponse;
 import nem.com.entity.Customers;
@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,14 +46,12 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManagerUser;
 
+    @Qualifier("authenticationManagerAdmin")
+    @Autowired
+    private AuthenticationManager authenticationManagerAdmin;
+
     @Autowired
     private JwtProvider jwtProvider;
-
-    @Autowired
-    private CustomerUserDetailsService customerUserDetailsService;
-
-    @Autowired
-    private EmployeeUserDetailsService employeeUserDetailsService;
 
     @Autowired
     private ModelMapper mapper;
@@ -63,8 +59,8 @@ public class AuthController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/user/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginFormUser request) {
+    @PostMapping("user/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginForm request) {
         try {
             Authentication authentication = authenticationManagerUser.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -78,29 +74,45 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/user/register")
+    @PostMapping("admin/login")
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginForm request) {
+        try {
+            Authentication authentication = authenticationManagerAdmin.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String token = jwtProvider.createTokenEmployee(authentication);
+
+            return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            throw new LoginInvalidException("Sai thông tin tài khoản hoặc mật khẩu !");
+        }
+    }
+
+    @PostMapping("user/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterFormUser request) {
         Customers customer = this.mapper.map(request, Customers.class);
         return new ResponseEntity<>(this.customerService.save(customer), HttpStatus.OK);
     }
 
     @GetMapping("user/send-email")
-    public boolean forgotPassword(@RequestParam("email") String email, @RequestParam("url") String url) throws MessagingException, UnsupportedEncodingException {
-        System.out.println(email + " " + url);
+    public ResponseEntity<Boolean> forgotPassword(@RequestParam("email") String email, @RequestParam("url") String url) throws MessagingException, UnsupportedEncodingException {
         String token = RandomString.make(45);
         this.customerService.updateResetPassword(email, token);
         String resetPasswordLink = url + "/forgot-password?token=" + token;
-        System.out.println(resetPasswordLink);
-        return emailService.sendSimpleMail(email, resetPasswordLink);
+        return new ResponseEntity<>(emailService.sendSimpleMail(email, resetPasswordLink), HttpStatus.OK);
     }
 
     @GetMapping("user/get-password-token")
-    public Customers getCustomerByPasswordToken(@RequestParam("password-token") String passwordToken) {
-        return this.customerService.findByResetPasswordToken(passwordToken);
+    public ResponseEntity<Customers> getCustomerByPasswordToken(@RequestParam("password-token") String passwordToken) {
+        return new ResponseEntity<>(this.customerService.findByResetPasswordToken(passwordToken), HttpStatus.OK);
     }
 
     @PostMapping("user/change-password")
-    public boolean changePassword(@RequestBody ChangePasswordDTO request) {
-        return this.customerService.updatePassword(request.getCustomerId(), this.passwordEncoder.encode(request.getNewPassword()));
+    public ResponseEntity<Boolean> changePassword(@RequestBody ChangePasswordDTO request) {
+        return new ResponseEntity<>(this.customerService.updatePassword(
+                request.getCustomerId(),
+                this.passwordEncoder.encode(request.getNewPassword())),
+                HttpStatus.OK);
     }
 }

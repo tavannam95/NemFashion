@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit {
 
   formGroup = this.fb.group({
     email: ['tdphuong2002@gmail.com'],
-    password: ['123456']
+    password: ['123']
   })
 
   redirectUrl!: string;

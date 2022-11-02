@@ -272,10 +272,10 @@ export class CartComponent implements OnInit {
               this.cartService.findAllByCustomerId(this.storageService.getIdFromToken());
               this.carts = [];
               this.subTotal = 0;
-              void this.route.navigate(["/profile/user-order"]);
               this.cartService.isReload.next(false);
             }
           })
+          void this.route.navigate(["/profile/user-order"]);
         },
         error: (err) => {
           if (err.error.code == 'LIMIT_QUANTITY') {
