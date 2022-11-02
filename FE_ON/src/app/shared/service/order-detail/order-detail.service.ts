@@ -11,4 +11,12 @@ export class OrderDetailService {
   createOrderDetail(data: any) {
     return this.orderApiService.createOrderDetail(data);
   }
+
+  getAllOrderDetail( idCustome: number ){
+     return this.orderApiService.getAllOrderDatailByIdOrder(idCustome) ;
+  }
+
+  getAllOrderDetailByOrderAndCustome( idCus: number , idOrder: number ){
+     return this.orderApiService.getAllOrderDetailByCustomeAndOrder( idCus, idOrder ) ;
+  }
 }

@@ -75,4 +75,13 @@ public class ProductController {
          return new ResponseEntity<>(this.productService.getAllNewPro() , HttpStatus.OK ) ;
     }
 
+    @GetMapping("getTop10Pro")
+    public ResponseEntity<List<Products>> findTop10Pro() {
+        return new ResponseEntity<>(this.productService.findTop10Pro(),  HttpStatus.OK) ;
+    }
+
+    @GetMapping("getProductNeverRating")
+    public ResponseEntity<List<Products>> getProductNeverRating( @RequestParam("id") Long id ){
+        return new ResponseEntity<>(this.productService.findProductNeverRating(id) , HttpStatus.OK ) ;
+    }
 }

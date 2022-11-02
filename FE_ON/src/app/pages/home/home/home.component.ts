@@ -15,12 +15,12 @@ export class HomeComponent implements OnInit {
 
   constructor( private proService: ProductService ,
                private dialog: MatDialog ) {
-      this.getProduct();
+      this.getTop10Pro() ;
       this.getNewProduct() ;
   }
 
-  getProduct(){
-    this.proService.getAllProduct().subscribe( data => {
+  getTop10Pro(){
+    this.proService.getTop10Pro().subscribe( data => {
       this.listPro = data
       console.log( this.listPro )
     })

@@ -11,6 +11,8 @@ import { RatingComponent } from './rating/rating.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatRadioModule} from "@angular/material/radio";
 import {NgxDropzoneModule} from "ngx-dropzone";
+import {NgxStarsModule} from "ngx-stars";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -25,7 +27,10 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     ProfileRoutingModule,
     MatDialogModule,
     MatRadioModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    NgxStarsModule,
+    FormsModule ,
+    ReactiveFormsModule ,
   ]
 })
 export class ProfileModule {

@@ -11,4 +11,16 @@ export class OrderService {
   createOrder(data: any) {
     return this.orderApiService.createOrder(data);
   }
+
+  getAllOrderByStatus( status: number , idCustome: number){
+     return this.orderApiService.getAllOrderByStatus( status , idCustome ) ;
+  }
+
+  getAllOrder(idCustome: number){
+     return this.orderApiService.getAllOrder(idCustome) ;
+  }
+
+  updateStatusOrder( status: number , id: number ){
+     return this.orderApiService.updateOrder( status , id) ;
+  }
 }
