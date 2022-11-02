@@ -1,181 +1,108 @@
 <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
   <div class="dash__pad-2">
     <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
-    <button class="btn btn-success" (click)="OnpenRating()">Nút test</button>
     <span class="dash__text u-s-m-b-30">Here you can see all products that have been delivered.</span>
     <div class="m-order__list">
       <mat-tab-group>
         <mat-tab label="Tất cả">
           <div class="mt-5"></div>
-          <div class="m-order__get mt-4 border-1">
+          <div class="m-order__get border-1" *ngFor=" let order of listOrder ">
             <div class="manage-o__header u-s-m-b-30">
               <div class="dash-l-r">
                 <div>
-                  <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                  <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
+                  <div class="manage-o__text-2 u-c-secondary">Order #{{order.id}}</div>
+                  <div class="manage-o__text u-c-silver">Placed on {{order.createDate | date: 'dd-MM-yyyy'}}</div>
                 </div>
                 <div>
                   <div class="dash__link dash__link--brand">
-                    <a href="#">đang giao hàng</a></div>
+                    <a href="#" *ngIf="order.status == 0">Chờ xác nhận</a>
+                    <a href="#" *ngIf="order.status == 1">Đã giao</a>
+                    <a href="#" *ngIf="order.status == 2">Đang giao</a>
+                    <a href="#" *ngIf="order.status == 4">Đã hủy</a>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="manage-o__description mt-3">
+            <span *ngFor="let od of listOrderDetail">
+              <div class="manage-o__description mt-3"  *ngIf="od.order.id == order.id" >
               <div class="description__container">
                 <div class="description__img-wrap">
-
-                  <img class="u-img-fluid" src="https://res.cloudinary.com/dpnmnhu1m/image/upload/v1664847958/b92834f8d2ca4fffeb42062d37f2c6bd_now9cs.jpg" alt=""></div>
-                <div class="description-title">Yellow Wireless Headphone</div>
-              </div>
-              <div class="description__info-wrap">
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Quantity:
-                <span class="manage-o__text-2 u-c-secondary">1</span></span>
-                </div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Total:
-                <span
-                  class="manage-o__text-2 u-c-secondary">$16.00</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="manage-o__description mt-3">
-              <div class="description__container">
-                <div class="description__img-wrap">
-
-                  <img class="u-img-fluid" src="https://res.cloudinary.com/dpnmnhu1m/image/upload/v1665026644/24308af274e849fb4ca3bf0de22f68a1_nypl0h.jpg" alt=""></div>
+                  <img class="img-fluid" style="height: 150px;" src="{{od.productsDetail.product.thumnail}}" alt=""></div>
                 <div class="description-title">
-                  <div  >Yellow Wireless Headphone</div>
-                  <div class="u-c-silver">Số lượng:</div>
-                  <div class="u-c-silver">Kích cỡ</div>
+                  <div class="fs-4">{{od.productsDetail.product.name}}</div>
+                  <div>Màu sắc: <span class="fw-normal"> {{od.productsDetail.color.name}}</span>  </div>
+                  <div>Kích cỡ: <span class="fw-normal"> {{od.productsDetail.size.code}} </span> </div>
                 </div>
               </div>
               <div class="description__info-wrap">
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Quantity:
-                <span class="manage-o__text-2 u-c-secondary">1</span></span>
-                </div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Total:
-                <span
-                  class="manage-o__text-2 u-c-secondary">{{10000000 | currency: 'VND' : 'symbol' : '4.0-0'}}</span></span>
+                <div class="description-title">
+                  <div class="mt-4">Số lượng: <span class="fw-normal"> {{od.quantity}} </span> </div>
+                  <div>Đơn giá: <span class="fw-normal"> {{od.unitprice | currency: 'VND' : 'symbol-narrow' : '.0-0' }} </span> </div>
                 </div>
               </div>
             </div>
-            <div class="manage-o__description mt-3">
-              <div class="description__container">
-                <div class="description__img-wrap">
-
-                  <img class="u-img-fluid" src="https://res.cloudinary.com/dpnmnhu1m/image/upload/v1665026644/24308af274e849fb4ca3bf0de22f68a1_nypl0h.jpg" alt=""></div>
-                <div class="description-title">Yellow Wireless Headphone</div>
-              </div>
-              <div class="description__info-wrap">
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Quantity:
-                <span class="manage-o__text-2 u-c-secondary">1</span></span>
-                </div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Total:
-                <span
-                  class="manage-o__text-2 u-c-secondary">$16.00</span></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="m-order__get">
-            <div class="manage-o__header u-s-m-b-30">
-              <div class="dash-l-r">
-                <div>
-                  <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                  <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
-                </div>
-                <div>
-                  <div class="dash__link dash__link--brand">
-
-                    <a href="#">MANAGE</a></div>
-                </div>
-              </div>
-            </div>
-            <div class="manage-o__description">
-              <div class="description__container">
-                <div class="description__img-wrap">
-
-                  <img class="u-img-fluid" src="assets/images/product/women/product8.jpg" alt=""></div>
-                <div class="description-title">New Dress D Nice Elegant</div>
-              </div>
-              <div class="description__info-wrap">
-                <div>
-
-                  <span class="manage-o__badge badge--shipped">Shipped</span></div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Quantity:
-                <span
-                  class="manage-o__text-2 u-c-secondary">1</span></span>
-                </div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Total:
-                <span
-                  class="manage-o__text-2 u-c-secondary">$16.00</span></span>
-                </div>
+            </span>
+            <div class="d-flex flex-row-reverse">
+              <button class="btn btn-warning mx-2">Mua lại</button>
+              <div>
+                Tổng tiền: <span class="fs-4 text-danger">{{order.total | currency: 'VND' : 'symbol-narrow' : '.0-0'}}</span>
               </div>
             </div>
           </div>
         </mat-tab>
-        <mat-tab label="Chờ xác nhận">
-          <div class="m-order__get mt-4">
-            <div class="manage-o__header u-s-m-b-30">
-              <div class="dash-l-r">
-                <div>
-                  <div class="manage-o__text-2 u-c-secondary">Order #305423126</div>
-                  <div class="manage-o__text u-c-silver">Placed on 26 Oct 2016 09:08:37</div>
+        <mat-tab label="{{x.name}}" *ngFor=" let x of listStatus ">
+          <div class="mt-5"></div>
+          <div *ngFor=" let order of listOrder">
+            <div class="m-order__get border-1" *ngIf=" order.status == x.status">
+              <div class="manage-o__header u-s-m-b-30">
+                <div class="dash-l-r">
+                  <div>
+                    <div class="manage-o__text-2 u-c-secondary">Mã đơn #{{order.id}}</div>
+                    <div class="manage-o__text u-c-silver">Ngày tạo đơn {{order.createDate | date: 'dd-MM-yyyy'}}</div>
+                  </div>
+                  <div>
+                    <div class="dash__link dash__link--brand">
+                      <a href="#" *ngIf="order.status == 0">Chờ xác nhận</a>
+                      <a href="#" *ngIf="order.status == 1">Đã giao</a>
+                      <a href="#" *ngIf="order.status == 2">Đang giao</a>
+                      <a href="#" *ngIf="order.status == 4">Đã hủy</a>
+                      <span class="ms-3" *ngIf=" order.status == 0" >
+                          <button class="btn btn-danger" (click)="openCancel(order.id)">Hủy</button>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <div class="dash__link dash__link--brand">
-
-                    <a href="#">MANAGE</a></div>
+              </div>
+              <span *ngFor="let od of listOrderDetail">
+              <div class="manage-o__description mt-3"  *ngIf="od.order.id == order.id" >
+              <div class="description__container">
+                <div class="description__img-wrap">
+                  <img class="img-fluid" style="height: 150px;" src="{{od.productsDetail.product.thumnail}}" alt=""></div>
+                <div class="description-title">
+                  <div class="fs-4">{{od.productsDetail.product.name}}</div>
+                  <div>Màu sắc: <span class="fw-normal"> {{od.productsDetail.color.name}}</span>  </div>
+                  <div>Kích cỡ: <span class="fw-normal"> {{od.productsDetail.size.code}} </span> </div>
+                </div>
+              </div>
+              <div class="description__info-wrap">
+                <div class="description-title">
+                  <div *ngIf="checkDate(order.createDate) && order.status == 1 && checkRating(order.id , od.productsDetail.product.id )">
+                      <span class="btn btn-outline-info" (click)="OnpenRating(order.id , od.productsDetail.product.id) ">đánh giá sao</span>
+                  </div>
+                  <div class="mt-4">Số lượng: <span class="fw-normal"> {{od.quantity}} </span> </div>
+                  <div>Đơn giá: <span class="fw-normal"> {{od.unitprice | currency: 'VND' : 'symbol-narrow' : '.0-0' }} </span> </div>
                 </div>
               </div>
             </div>
-            <div class="manage-o__description">
-              <div class="description__container">
-                <div class="description__img-wrap">
-
-                  <img class="u-img-fluid" src="assets/images/product/men/product8.jpg" alt=""></div>
-                <div class="description-title">New Fashion D Nice Elegant</div>
-              </div>
-              <div class="description__info-wrap">
+            </span>
+              <div class="d-flex flex-row-reverse">
+                <button class="btn btn-warning mx-2">Mua lại</button>
                 <div>
-
-                  <span class="manage-o__badge badge--delivered">Delivered</span></div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Quantity:
-                <span
-                  class="manage-o__text-2 u-c-secondary">1</span></span>
-                </div>
-                <div>
-              <span class="manage-o__text-2 u-c-silver">Total:
-                <span
-                  class="manage-o__text-2 u-c-secondary">$16.00</span></span>
+                  Tổng tiền: <span class="fs-4 text-danger">{{order.total | currency: 'VND' : 'symbol-narrow' : '.0-0'}}</span>
                 </div>
               </div>
             </div>
           </div>
-        </mat-tab>
-        <mat-tab label="Đang giao">
-           <div class="mt-5"></div>
-           <div class="bg-white position-relative" style="height: 500px">
-               <span class="position-absolute top-50 start-50">
-                  méo có dữ liệu
-               </span>
-           </div>
-        </mat-tab>
-
-        <mat-tab label="Đã giao">
-
-        </mat-tab>
-
-        <mat-tab label="Đã hủy">
-
         </mat-tab>
       </mat-tab-group>
     </div>

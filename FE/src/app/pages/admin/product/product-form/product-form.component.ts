@@ -174,6 +174,7 @@ export class ProductFormComponent implements OnInit {
       this.isLoading = false;
     }
   }
+  
 	onSelect(event) {
     if(this.thumnailFile){
       this.thumnailFile.splice(0,1);

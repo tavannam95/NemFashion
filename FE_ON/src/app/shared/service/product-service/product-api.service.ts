@@ -42,4 +42,14 @@ export class ProductApiService {
    getNewProduct() {
      return this.http.get(`${ApiConstrant.product}/getNew`)
    }
+
+//   Lấy 10 sản phẩm bán chạy
+  getTop10Pro() {
+     return this.http.get(`${ApiConstrant.product}/getTop10Pro`)
+  }
+
+//  Lấy những sản phẩm chưa được đánh giá
+  getProductNeverRating( id: number ) {
+     return this.http.get(`${ApiConstrant.product}/getProductNeverRating?id=${id}`)
+  }
 }

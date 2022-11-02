@@ -8,108 +8,17 @@
      </div>
   </div>
 
-  <form class="row mt-4">
+  <form class="row mt-4" [formGroup]="formRating">
+    <div class=" col-12 d-flex">
+       <span class="fs-4"> Đánh giá sao:</span>
+       <span class="mx-3">
+         <ngx-stars [readonly]="false" [color]="'yellow'" [wholeStars]="true" [size]="2" [maxStars]="5" (ratingOutput)="onRatingSet($event)"
+                     style="height: 30px !important; "  ></ngx-stars>
+       </span>
+    </div>
     <div class="col-12">
-      <table class="rev-f2__table">
-        <thead>
-        <tr>
-          <th>
-            <div class="gl-rating-style-2"><i class="fas fa-star"></i>
-
-              <span>(1)</span></div>
-          </th>
-          <th>
-            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-              <span>(2)</span></div>
-          </th>
-          <th>
-            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-              <span>(3)</span></div>
-          </th>
-          <th>
-            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-              <span>(4)</span></div>
-          </th>
-          <th>
-            <div class="gl-rating-style-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-
-              <span>(5)</span></div>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>
-
-            <!--====== Radio Box ======-->
-            <div class="radio-box">
-
-              <input type="radio" id="star-1" name="rating">
-              <div class="radio-box__state radio-box__state--primary">
-
-                <label class="radio-box__label" for="star-1"></label></div>
-            </div>
-            <!--====== End - Radio Box ======-->
-          </td>
-          <td>
-
-            <!--====== Radio Box ======-->
-            <div class="radio-box">
-
-              <input type="radio" id="star-2" name="rating">
-              <div class="radio-box__state radio-box__state--primary">
-
-                <label class="radio-box__label" for="star-2"></label></div>
-            </div>
-            <!--====== End - Radio Box ======-->
-          </td>
-          <td>
-
-            <!--====== Radio Box ======-->
-            <div class="radio-box">
-
-              <input type="radio" id="star-3" name="rating">
-              <div class="radio-box__state radio-box__state--primary">
-
-                <label class="radio-box__label" for="star-3"></label></div>
-            </div>
-            <!--====== End - Radio Box ======-->
-          </td>
-          <td>
-
-            <!--====== Radio Box ======-->
-            <div class="radio-box">
-
-              <input type="radio" id="star-4" name="rating">
-              <div class="radio-box__state radio-box__state--primary">
-
-                <label class="radio-box__label" for="star-4"></label></div>
-            </div>
-            <!--====== End - Radio Box ======-->
-          </td>
-          <td>
-            <!--====== Radio Box ======-->
-            <div class="radio-box">
-
-              <input type="radio" id="star-5" name="rating">
-              <div class="radio-box__state radio-box__state--primary">
-
-                <label class="radio-box__label" for="star-5"></label></div>
-            </div>
-            <!--====== End - Radio Box ======-->
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-6 mt-4">
-       <textarea rows="7" class="w-100"></textarea>
-    </div>
       <div
-        class="custom-dropzone col-6 m-0 p-0 mt-4"
+        class="custom-dropzone w-100 m-0 mt-4"
         ngx-dropzone
         [accept]="'image/*'"
         (change)="onSelect($event)"
@@ -128,9 +37,22 @@
         >
         </ngx-dropzone-image-preview>
       </div>
+    </div>
+
+    <div class="col-12 mt-4">
+       <textarea rows="7" formControlName="content" class="w-100"></textarea>
+    </div>
 
     <div class="col-12 mt-3">
-        <button class="btn btn-success">Gửi đánh giá</button>
+
+        <button class="btn btn-success d-flex align-items-center" (click)="onSave()" [disabled]="checkSprint" >
+          <span *ngIf="checkSprint" class="spinner-border fs-6" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </span>
+          <span class="mx-2">
+            Gửi đánh giá
+          </span>
+        </button>
     </div>
   </form>
 </div>

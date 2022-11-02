@@ -14,4 +14,16 @@ export class OrderApiService {
     return this.http.post(`${ApiConstrant.order}`, data);
   }
 
+  getAllOrderByStatus( status: number , idCustome: number ){
+     return this.http.get(`${ApiConstrant.order}?status=${status}&id=${idCustome}`)
+  }
+
+  getAllOrder( idCustome: number ){
+    return this.http.get(`${ApiConstrant.order}/getAll?id=${idCustome}`)
+  }
+
+  updateOrder( status: number , id: number ){
+    return this.http.get(`${ApiConstrant.order}/updateStatus?status=${status}&id=${id}`) ;
+  }
+
 }

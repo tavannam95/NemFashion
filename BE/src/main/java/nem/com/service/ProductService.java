@@ -15,8 +15,13 @@ public interface ProductService {
 
     Page<Products> getAllByAllPropertites(Integer[] size , Short[] category  , Integer[] color , Double max, Double min , Pageable pageable);
 
+    List<Products> findTop10Pro() ;
+
+    List<Products> findProductNeverRating( Long id) ;
+
     List<Products> getAllNewPro() ;
     Products save(Products products);
+
     Products update(Products products);
     void delete(Integer id);
 }

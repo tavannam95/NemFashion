@@ -38,6 +38,10 @@ public class Ratings {
     private List<RatingImages> listRatingImages;
 
     @ManyToOne
+    @JoinColumn(name = "order_id" )
+    private Orders orders ;
+
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Products product;
 

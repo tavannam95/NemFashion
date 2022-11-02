@@ -25,8 +25,6 @@ public class ProductServiceImpl implements ProductService {
         this.productDetailService = productDetailService;
     }
 
-
-
     @Override
     public Products getOne(Integer id) {
         return this.productsRepository.findById(id)
@@ -44,17 +42,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Products> findTop10Pro() {
+        return this.productsRepository.findTop10Product();
+    }
+
+    @Override
+    public List<Products> findProductNeverRating(Long id) {
+        return this.productsRepository.findProductNeverRating( id) ;
+    }
+
+    @Override
     public List<Products> getAllNewPro() {
-        List<Products> listpro = new ArrayList<>();
-        int i = 0 ;
-        for( Products p : this.productsRepository.findNewPro() ){
-            listpro.add(p);
-            i++ ;
-            if( i == 10 ){
-                break;
-            }
-        }
-        return listpro;
+        return this.productsRepository.findTop10NewProduct() ;
     }
 
     @Override

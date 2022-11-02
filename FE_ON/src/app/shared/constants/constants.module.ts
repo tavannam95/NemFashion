@@ -15,6 +15,10 @@ export class Constants {
   }
 
   public static ORDER_STATUS = {
-    WAITING: 0
+    WAITING: 0 ,
+    CONFIRM: 1 ,
+    NEVER_CONFIRM: 2 ,
+    SHIPPING: 3 ,
+    CANCEL: 4 ,
   }
 }
