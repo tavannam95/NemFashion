@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {UserOrderComponent} from "../user-order/user-order.component";
 import {Constants} from "../../../../shared/constants/constants.module";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {RatingService} from "../../../../shared/service/rating-service/rating.service";
 import {ToastrService} from "ngx-toastr";
 import {RatingImageService} from "../../../../shared/service/rating-image-service/rating-image.service";
@@ -14,13 +14,12 @@ import {UploadCloudinaryService} from "../../../../shared/service/cloudinary/upl
   styleUrls: ['./rating.component.css']
 })
 export class RatingComponent implements OnInit {
-  ratingDisplay: number;
+  ratingDisplay: number = 4;
   orderId!: number ;
   productId!: number ;
   employeeId!:number ;
   files: File[] = [];
   urlFile: any ;
-
   checkSprint = false ;
 
   onRatingSet(rating: number): void {
@@ -30,7 +29,7 @@ export class RatingComponent implements OnInit {
   formRating = this.fb.group( {
     id: '' ,
     rating: 0,
-    content: '',
+    content: ['' , Validators.required ],
     status: 1,
     orders: this.fb.group( {
       id: ''
@@ -59,7 +58,7 @@ export class RatingComponent implements OnInit {
                private cloudinaryService: UploadCloudinaryService ,
                public dialogRef: MatDialogRef<UserOrderComponent> ,
                @Inject(MAT_DIALOG_DATA) public data: any ) {
-    this.ratingDisplay = 0 ;
+
   }
 
   ngOnInit(): void {
@@ -83,6 +82,11 @@ export class RatingComponent implements OnInit {
   }
 
   onSave(){
+    this.formRating.markAllAsTouched()
+    if( this.formRating.invalid ){
+       return ;
+    }
+
     // @ts-ignore
     this.formRating.value.rating = this.ratingDisplay ;
     // @ts-ignore

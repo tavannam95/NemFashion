@@ -1,5 +1,6 @@
 package nem.com.controller;
 
+import nem.com.dto.response.ColorDTO;
 import nem.com.entity.Colors;
 import nem.com.service.ColorService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class ColorController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Colors>> getAll() {
+    public ResponseEntity<List<ColorDTO>> getAll() {
         return new ResponseEntity<>(this.colorService.getAll(), HttpStatus.OK);
     }
 
