@@ -16,7 +16,7 @@ export class OrderService {
      return this.orderApiService.getAllOrderByStatus( status , idCustome ) ;
   }
 
-  getAllOrder(idCustome: number){
+  getAllOrder(idCustome: number) {
      return this.orderApiService.getAllOrder(idCustome) ;
   }
 

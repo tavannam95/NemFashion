@@ -1,7 +1,6 @@
 <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
   <div class="dash__pad-2">
-    <h1 class="dash__h1 u-s-m-b-14">My Orders</h1>
-    <span class="dash__text u-s-m-b-30">Here you can see all products that have been delivered.</span>
+    <h1 class="dash__h1 u-s-m-b-14">Hóa đơn</h1>
     <div class="m-order__list">
       <mat-tab-group>
         <mat-tab label="Tất cả">
@@ -53,7 +52,7 @@
         <mat-tab label="{{x.name}}" *ngFor=" let x of listStatus ">
           <div class="mt-5"></div>
           <div *ngFor=" let order of listOrder">
-            <div class="m-order__get border-1" *ngIf=" order.status == x.status">
+            <div class="m-order__get border-1 mt-5" *ngIf=" order.status == x.status">
               <div class="manage-o__header u-s-m-b-30">
                 <div class="dash-l-r">
                   <div>

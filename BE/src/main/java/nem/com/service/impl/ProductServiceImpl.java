@@ -1,8 +1,6 @@
 package nem.com.service.impl;
 
-import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.Products;
-import nem.com.entity.ProductsDetails;
 import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.ProductsRepository;
 import nem.com.service.ProductDetailService;
@@ -49,6 +47,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Products> findProductNeverRating(Long id) {
         return this.productsRepository.findProductNeverRating( id) ;
+    }
+
+    @Override
+    public List<Products> getProductsSimilar(Short id) {
+        return this.productsRepository.getProductByCategory(id);
     }
 
     @Override

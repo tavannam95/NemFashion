@@ -12,4 +12,13 @@ export class RatingImageService {
   creatRatingImg( rateImg: any ){
      return this.ratingImgService.createRatingImage(rateImg) ;
   }
+
+  getRatingImgByIdRating( list:any ){
+     var a = ''
+     for( let x of list ){
+        a += 'rateImg=' + x.id + '&'
+     }
+    console.log(a) ;
+     return this.ratingImgService.getRatingImgByIdRating(a) ;
+  }
 }

@@ -58,7 +58,11 @@ export class ProductService {
     return this.proApi.getTop10Pro() ;
   }
 
-  getProductNeverRating( id : number ){
-     return this.proApi.getProductNeverRating(id) ;
+  // getProductNeverRating( id : number ){
+  //    return this.proApi.getProductNeverRating(id) ;
+  // }
+
+  getProductSimilar( idCate: number ){
+     return this.proApi.getProductSimilar(idCate) ;
   }
 }

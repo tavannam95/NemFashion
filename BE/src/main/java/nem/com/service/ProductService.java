@@ -1,7 +1,5 @@
 package nem.com.service;
 
-import nem.com.dto.response.ProductViewDto;
-import nem.com.entity.Customers;
 import nem.com.entity.Products;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +16,8 @@ public interface ProductService {
     List<Products> findTop10Pro() ;
 
     List<Products> findProductNeverRating( Long id) ;
+
+    List<Products> getProductsSimilar( Short id ) ;
 
     List<Products> getAllNewPro() ;
     Products save(Products products);

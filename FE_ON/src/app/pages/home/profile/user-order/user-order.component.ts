@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {RatingComponent} from "../rating/rating.component";
 import {OrderService} from "../../../../shared/service/order/order.service";
@@ -6,6 +6,8 @@ import {OrderDetailService} from "../../../../shared/service/order-detail/order-
 import {ConfirmDialogComponent} from "../../../../shared/confirm-dialog/confirm-dialog.component";
 import {Constants} from "../../../../shared/constants/constants.module";
 import {RatingService} from "../../../../shared/service/rating-service/rating.service";
+import {StorageService} from "../../../../shared/service/storage.service";
+import {ProfileComponent} from "../profile.component";
 
 @Component({
   selector: 'app-user-order',
@@ -16,13 +18,14 @@ export class UserOrderComponent implements OnInit {
 
   listOrder: any ;
   listOrderDetail: any ;
-  listRating: any ;
+  listRating: any[] = [] ;
   employeeId = 1 ;
+  @ViewChild(ProfileComponent) profile!: ProfileComponent ;
 
   listStatus = [
     { status: 0 , name: 'Chờ xác nhận'} ,
-    { status: 1 , name: 'Đã giao'} ,
     { status: 2 , name:  'Đang giao'} ,
+    { status: 1 , name: 'Đã giao'} ,
     { status: 4 , name: 'Đã hủy'}
   ]
 
@@ -30,7 +33,8 @@ export class UserOrderComponent implements OnInit {
   constructor( private dialog: MatDialog ,
                private orderService: OrderService ,
                private orderDetailService: OrderDetailService ,
-               private ratingService: RatingService ) { }
+               private ratingService: RatingService ,
+               private storageService: StorageService ) { }
 
   ngOnInit(): void {
      this.findAllOrder() ;
@@ -48,20 +52,20 @@ export class UserOrderComponent implements OnInit {
   }
 
   findAllRating(){
-    this.ratingService.getAllRatingByIdCustome(33).subscribe( data => {
-        this.listRating = data ;
+    this.ratingService.getAllRatingByIdCustome(this.storageService.getIdFromToken() ).subscribe( data => {
+        this.listRating = data as any[] ;
     })
   }
 
   findAllOrder(){
-    this.orderService.getAllOrder(  33).subscribe( data => {
+    this.orderService.getAllOrder(  this.storageService.getIdFromToken() ).subscribe( data => {
       this.listOrder = data ;
       console.log(1)
     })
   }
 
   findAllOrderDetail(){
-     this.orderDetailService.getAllOrderDetail(33 ).subscribe( data => {
+     this.orderDetailService.getAllOrderDetail(this.storageService.getIdFromToken() ).subscribe( data => {
          return this.listOrderDetail = data ;
      })
   }
@@ -101,9 +105,9 @@ export class UserOrderComponent implements OnInit {
             this.orderService.updateStatusOrder( 4 , id ).subscribe(
               () => {
                 this.findAllOrder() ;
+                this.profile.cancelCount(1);
               }
             );
-
          }
      })
   }
@@ -117,4 +121,5 @@ export class UserOrderComponent implements OnInit {
      }
      return false ;
   }
+
 }
