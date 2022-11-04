@@ -26,7 +26,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     const userToken = this.storageService.getToken();
     let httpHeader = new HttpHeaders({
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',

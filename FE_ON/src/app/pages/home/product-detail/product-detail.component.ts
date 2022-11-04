@@ -9,6 +9,8 @@ import {SizeService} from "../../../shared/service/size-service/size.service";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
 import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../../shared/service/storage.service";
+import {RatingService} from "../../../shared/service/rating-service/rating.service";
+import {RatingImageService} from "../../../shared/service/rating-image-service/rating-image.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -37,6 +39,16 @@ export class ProductDetailComponent implements OnInit {
   productQuantity: any;
   message!: string;
 
+  pageNum = 0 ;
+  listRatingByPro: any ;
+  listRatingImage: any[] = [] ;
+  listPro: any ;
+  checkLength = 0;
+
+  listAvgRating: any[] = []
+  totalPage: any ;
+  checkPage = 0 ;
+
   constructor(private route: ActivatedRoute,
               private ServicePro: ProductService,
               private readonly productDetailService: ProductDetailService,
@@ -45,6 +57,8 @@ export class ProductDetailComponent implements OnInit {
               private readonly cartService: CartService,
               private readonly toastService: ToastrService,
               private readonly storageService: StorageService,
+              private readonly ratingService: RatingService ,
+              private readonly ratingImageService: RatingImageService ,
               private readonly router: Router) {
   }
 
@@ -61,11 +75,17 @@ export class ProductDetailComponent implements OnInit {
     if (this.storageService.isLoggedIn()) {
       this.findAllByCustomerId();
     }
+    this.getRatingByIdPro( productIdFromRoute , 0);
+    this.getAvgRating() ;
   }
 
   slideConfissg = { slidesToShow: 3, slidesToScroll:1  , vertical: true ,draggable: false , infinite: false ,
     nextArrow: ' <button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute bottom-0 start-50 translate-middle-x"><i class="fas fa-arrow-down"></i></button>' ,
     prevArrow: '<button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-0 start-50 translate-middle-x"><i class="fas fa-arrow-up  "></i></button>'};
+
+  slideConfig = { slidesToShow: 4 , slidesToScroll:1  ,
+    nextArrow: ' <button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-50  end-0 translate-middle-y"><i class="fas fa-chevron-right"></i></button>' ,
+    prevArrow: '<button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-50 start-0 translate-middle-y"><i class="fas fa-chevron-left"></i></button>'};
 
   slickInit(e: any) {
     console.log('slick initialized');
@@ -80,6 +100,23 @@ export class ProductDetailComponent implements OnInit {
     console.log('beforeChange');
   }
 
+  getProductSimilar( idCate: number ){
+     this.ServicePro.getProductSimilar(idCate).subscribe( data => {
+          this.listPro = data
+          this.checkLength = this.listPro.length ;
+     })
+  }
+
+  getRatingByIdPro( idPro: number , pageNo: number  ){
+     this.ratingService.getRatingPro( idPro , pageNo ).subscribe( (data:any) => {
+         this.listRatingByPro = data.content ;
+         this.totalPage = data.totalPages ;
+         this.changPage()
+         this.ratingImageService.getRatingImgByIdRating( this.listRatingByPro ).subscribe( data => {
+             this.listRatingImage = data as any[] ;
+         })
+     })
+  }
 
   getProductById(productIdFromRoute: number) {
     this.ServicePro.getProductById(productIdFromRoute).subscribe(value => {
@@ -87,7 +124,7 @@ export class ProductDetailComponent implements OnInit {
         this.thumnail = value.thumnail;
         this.product = value;
         this.productId.next(value.id);
-
+        this.getProductSimilar( this.product.category.id) ;
         this.getProductImageById(value.id);
         this.getProductDetailByProductId(value.id);
       }
@@ -159,7 +196,6 @@ export class ProductDetailComponent implements OnInit {
       this.color = [];
     }
   }
-
 
   onClickProductDetail() {
     this.productQuantity = 1;
@@ -268,4 +304,41 @@ export class ProductDetailComponent implements OnInit {
     return true;
   }
 
+  takeListRatingImage( id: number ):any{
+     var list = [] ;
+     for( let x of this.listRatingImage ){
+        if( x.rating.id == id ){
+           list.push(x) ;
+        }
+     }
+     return list ;
+  }
+
+  getAvgRating(){
+    this.ratingService.getArgRating().subscribe( data => {
+      this.listAvgRating = data as any[] ;
+    })
+  }
+
+  takeRatingPro( id: number){
+    for( let x of this.listAvgRating ){
+      if( x.id == id ){
+        return x.numberStar ;
+      }
+    }
+    return 5 ;
+  }
+
+  nextPage( id: number){
+     this.getRatingByIdPro( this.product.id , id) ;
+  }
+
+  changPage(){
+     const list = []
+     for( var  i=0 ; i< this.totalPage ; i++ ){
+        list.push(i);
+     }
+    console.log(list)
+     return list ;
+  }
 }

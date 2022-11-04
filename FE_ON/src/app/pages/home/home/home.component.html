@@ -95,7 +95,7 @@
                     <span class="product-o__name">
                       <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a>
                     </span>
-                    <app-stars [rating]="2"></app-stars>
+                    <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
                     <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
                       <span class="product-o__discount">$160.00</span>
                     </span>
@@ -180,7 +180,7 @@
                     <span class="product-o__name">
                       <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a>
                     </span>
-                    <app-stars [rating]="2"></app-stars>
+                    <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
                     <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
                       <span class="product-o__discount">$160.00</span>
                     </span>

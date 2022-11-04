@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Constants} from "../../constants/constants.module";
 import {ApiConstrant} from "../../constants/ApiConstrants.module";
 
 @Injectable({
@@ -15,5 +14,13 @@ export class RatingApiService {
 
   getAllRatingByIdCustome( id: number ){
      return this.http.get(`${ApiConstrant.rating}?id=${id}`)
+  }
+
+  getAvgRating(){
+    return this.http.get(`${ApiConstrant.rating}/getAvgRating`)
+  }
+
+  getRatingPro( idPro: number , pageNo: number ) {
+     return this.http.get(`${ApiConstrant.rating}/getRatingPro?idPro=${idPro}&pageNo=${pageNo}`)
   }
 }

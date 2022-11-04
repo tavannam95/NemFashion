@@ -1,9 +1,13 @@
 package nem.com.service.impl;
 
+import nem.com.dto.response.RatingAvgDTO;
+import nem.com.dto.response.RatingProductDTO;
 import nem.com.entity.Ratings;
 import nem.com.repository.RatingsRepository;
 import nem.com.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +29,15 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public Ratings createRating(Ratings ratings) {
         return this.ratingsRepository.save(ratings);
+    }
+
+    @Override
+    public List<RatingAvgDTO> getAvgRating() {
+        return this.ratingsRepository.getAvgRating();
+    }
+
+    @Override
+    public Page<RatingProductDTO> getRatingPro(Integer id , Pageable pageable ) {
+        return this.ratingsRepository.getRatingProduct(id , pageable );
     }
 }

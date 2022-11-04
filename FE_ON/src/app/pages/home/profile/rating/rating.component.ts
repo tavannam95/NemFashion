@@ -24,12 +24,12 @@ export class RatingComponent implements OnInit {
   checkSprint = false ;
 
   onRatingSet(rating: number): void {
-    console.log( rating)
+    this.ratingDisplay = rating ;
   }
 
   formRating = this.fb.group( {
     id: '' ,
-    rating: '',
+    rating: 0,
     content: '',
     status: 1,
     orders: this.fb.group( {
@@ -40,7 +40,8 @@ export class RatingComponent implements OnInit {
     }),
     employee: this.fb.group( {
       id: ''
-    })
+    }),
+    createDate: new Date()
   })
 
   formImageRating = this.fb.group( {
@@ -58,7 +59,7 @@ export class RatingComponent implements OnInit {
                private cloudinaryService: UploadCloudinaryService ,
                public dialogRef: MatDialogRef<UserOrderComponent> ,
                @Inject(MAT_DIALOG_DATA) public data: any ) {
-    this.ratingDisplay = 5 ;
+    this.ratingDisplay = 0 ;
   }
 
   ngOnInit(): void {

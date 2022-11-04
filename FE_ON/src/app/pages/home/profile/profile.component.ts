@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {OrderService} from "../../../shared/service/order/order.service";
+import {StorageService} from "../../../shared/service/storage.service";
 
 @Component({
   selector: 'app-profile',
@@ -12,12 +13,14 @@ export class ProfileComponent implements OnInit {
   countCancel = 0 ;
   listOrder: any[] = [] ;
   checkColor = 1 ;
+  fullname: any ;
 
-  constructor( private orderService: OrderService ) {
+  constructor( private orderService: OrderService ,
+               private storageService: StorageService ) {
   }
 
   getAllOrder(){
-    this.orderService.getAllOrder(33).subscribe( data => {
+    this.orderService.getAllOrder(this.storageService.getIdFromToken()).subscribe( data => {
         this.listOrder =  data as any[] ;
         this.countAll = this.listOrder.length ;
         this.countOrder() ;
@@ -35,8 +38,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllOrder() ;
+    this.fullname = this.storageService.getFullNameFromToken() ;
   }
 
-
-
+  cancelCount( id: number ){
+    this.countCancel += id ;
+  }
 }

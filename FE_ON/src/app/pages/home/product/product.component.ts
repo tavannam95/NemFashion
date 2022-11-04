@@ -7,6 +7,7 @@ import {ColorService} from "../../../shared/service/color-service/color.service"
 import {FormBuilder, Validators} from "@angular/forms";
 import {checkPrice} from "../../../shared/validators/checkPrice";
 import {CategoryService} from "../../../shared/service/category-service/category.service";
+import {RatingService} from "../../../shared/service/rating-service/rating.service";
 
 @Component({
   selector: 'app-product',
@@ -18,7 +19,7 @@ export class ProductComponent implements OnInit {
   listSize: any;
   litsCate: any;
   listColor: any ;
-  listPros: any ;
+  listRating: any[] = [] ;
 
   listProBySize = [];
   listProByCate = [];
@@ -35,6 +36,7 @@ export class ProductComponent implements OnInit {
   pageSize = 8 ;
   sortPrice = 0 ;
   check = true ;
+  checkLoadData = true ;
 
   formPrice = this.fb.group( {
       max: ['' ] ,
@@ -48,12 +50,28 @@ export class ProductComponent implements OnInit {
               private sizeService: SizeService,
               private dialog: MatDialog,
               private cateService: CategoryService ,
-              private colorService: ColorService ) {
-    this.getAllSize();
-    this.getAllCategory();
-    this.getAllColor() ;
+              private colorService: ColorService ,
+              private ratingService: RatingService ) {
+
+    setTimeout( () => {
+      this.getAllColor() ;
+      this.getAllSize();
+      this.getAllCategory();
+          setTimeout( () => {
+             this.findAll();
+             this.checkLoadData = false ;
+             } , 500)
+    }, 500)
+
+    this.getAvgRating() ;
     // this.getAllProSize();
     // this.getAllPro();
+  }
+
+  getAvgRating(){
+     this.ratingService.getArgRating().subscribe( data => {
+         this.listRating = data as any[]
+     })
   }
 
   getAllCategory() {
@@ -77,8 +95,6 @@ export class ProductComponent implements OnInit {
      this.colorService.getAllByColor().subscribe( data => {
          this.listColor = data ;
          this.changeValue( data , this.defaultValueColor )
-       console.log( this.defaultValueColor)
-         this.findAll() ;
      })
   }
 
@@ -89,27 +105,13 @@ export class ProductComponent implements OnInit {
   }
 
   getAllProByAllProperty(size: any, cate: any , color: any , max: number , min: number , pageNo: number , pageSize: number , sortPrice: number) {
-    this.proService.getAllProByAllProperty(size, cate , color , max , min , pageNo , pageSize , sortPrice ).subscribe(data => {
+    this.proService.getAllProByAllProperty(size, cate , color , max , min , pageNo , pageSize , sortPrice ).subscribe((data:any) => {
       console.log(data)
-      this.listPros = data ;
-      this.listPro = this.listPros.content ;
-      this.totalPage = this.listPros.totalPages ;
+      this.listPro = data.content ;
+      this.totalPage = data.totalPages ;
       this.changPage( this.totalPage , this.listPage  )
     })
   }
-
-  // getAllProSize() {
-  //   this.sizeService.getAllSize().subscribe(data => {
-  //     this.listSize = data;
-  //     console.log(data)
-  //   })
-  // }
-
-  // getAllProBySize(size: any) {
-  //   this..getAllProBySize(size).subscribe(data => {
-  //     this.listPro = data;
-  //   })
-  // }
 
   ngOnInit(): void {
 
@@ -187,7 +189,7 @@ export class ProductComponent implements OnInit {
   }
 
   // Tìm kiếm theo các trường
-  findAll() {
+  async findAll() {
     var size: any;
     var cate: any;
     var color: any ;
@@ -248,5 +250,14 @@ export class ProductComponent implements OnInit {
   clearPage(){
     this.pagaNo = 0 ;
     this.checkPage = 0 ;
+  }
+
+  takeRatingPro( id: number){
+    for( let x of this.listRating ){
+      if( x.id == id ){
+        return x.numberStar ;
+      }
+    }
+    return 5 ;
   }
 }

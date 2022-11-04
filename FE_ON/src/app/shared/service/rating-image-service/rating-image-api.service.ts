@@ -13,4 +13,7 @@ export class RatingImageApiService {
     return this.http.post(`${ApiConstrant.ratingImage}` , rateImg )
   }
 
+  getRatingImgByIdRating( url: any ){
+    return this.http.get(`${ApiConstrant.ratingImage}/getRatingImg?${url}` )
+  }
 }

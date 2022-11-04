@@ -52,4 +52,8 @@ export class ProductApiService {
   getProductNeverRating( id: number ) {
      return this.http.get(`${ApiConstrant.product}/getProductNeverRating?id=${id}`)
   }
+
+  getProductSimilar(idCate: number ){
+     return this.http.get(`${ApiConstrant.product}/getProSimilar?idCate=${idCate}`)
+  }
 }

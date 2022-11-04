@@ -25,4 +25,9 @@ public class RatingImageServiceImpl implements RatingImageService {
     public List<RatingImages> getAll() {
         return this.repository.findAll();
     }
+
+    @Override
+    public List<RatingImages> getRatingImgByIdRating(Long[] id) {
+        return this.repository.getRatingImgByIdRating(id);
+    }
 }
