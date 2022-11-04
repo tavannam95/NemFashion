@@ -5,7 +5,9 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {content_admin} from './shared/router/admin_router';
-import {SellingComponent} from "./pages/admin/selling/selling/selling.component";
+import {SellingComponent} from './pages/admin/selling/selling/selling.component';
+import {AuthGuard} from './shared/guard/auth.guard';
+import {RoleGuard} from './shared/guard/role.guard';
 
 const routes: Routes = [
     {
@@ -16,11 +18,13 @@ const routes: Routes = [
     {
         path: '',
         component: AdminLayoutComponent,
-        children: content_admin
+        children: content_admin,
+        canActivate: [AuthGuard],
     },
     {
         path: 'selling',
-        loadChildren: () => import('./pages/admin/selling/selling.module').then(m => m.SellingModule)
+        loadChildren: () => import('./pages/admin/selling/selling.module').then(m => m.SellingModule),
+        canActivate: [AuthGuard],
     },
     {
         path: 'login',

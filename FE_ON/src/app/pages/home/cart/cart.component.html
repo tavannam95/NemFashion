@@ -181,7 +181,7 @@
                     <span class="gl-text u-s-m-b-30">Nhập thông tin địa chỉ mà bạn muốn gửi hàng</span>
 
                     <div class="row">
-                      <div class="u-s-m-b-30 col-4">
+                      <div class="u-s-m-b-30 col-6">
                         <!--======TỈNH / THÀNH PHỐ ======-->
                         <label class="gl-label" for="shipping-country">TỈNH / THÀNH PHỐ *</label>
                         <mat-select
@@ -197,7 +197,7 @@
                         </mat-select>
                         <!--====== TỈNH / THÀNH PHỐ ======-->
                       </div>
-                      <div class="u-s-m-b-30 col-4">
+                      <div class="u-s-m-b-30 col-6">
                         <!--====== QUẬN / HUYỆN  ======-->
                         <label class="gl-label" for="shipping-state">QUẬN / HUYỆN *</label>
                         <mat-select
@@ -213,7 +213,10 @@
                         </mat-select>
                         <!--====== QUẬN / HUYỆN  ======-->
                       </div>
-                      <div class="u-s-m-b-30 col-4">
+
+                    </div>
+                    <div class="row">
+                      <div class="u-s-m-b-30 col-6">
                         <!--====== PHƯỜNG / XÃ * ======-->
                         <label class="gl-label" for="shipping-state">PHƯỜNG / XÃ *</label>
                         <mat-select
@@ -223,6 +226,11 @@
                           <mat-option *ngFor="let w of wards" [value]="w.name">{{w.name}}</mat-option>
                         </mat-select>
                         <!--======PHƯỜNG / XÃ * ======-->
+                      </div>
+                      <div class="u-s-m-b-30 col-6">
+                        <label for="customer-other-address" class="gl-label">KHÁC *</label>
+                        <input type="text" class="input-text input-text--primary-style" id="customer-other-address"
+                               formControlName="other">
                       </div>
                     </div>
                     <div class="row">
@@ -283,11 +291,11 @@
                             <tbody>
                             <tr>
                               <td>SHIPPING</td>
-                              <td>$4.00</td>
+                              <td>{{0 | currency: 'VND' : 'symbol' : '4.0' }}</td>
                             </tr>
                             <tr>
                               <td>SUBTOTAL</td>
-                              <td>$379.00</td>
+                              <td>{{0 | currency: 'VND' : 'symbol' : '4.0' }}</td>
                             </tr>
                             <tr>
                               <td>Tổng tiền</td>

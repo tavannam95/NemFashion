@@ -6,6 +6,8 @@ import {MenuItems} from '../../shared/menu/menuItems';
 import {MatDialog} from '@angular/material/dialog';
 import {EmployeeDetailComponent} from '../../pages/admin/employee-manager/employee-detail/employee-detail.component';
 import {EmployeeService} from '../../shared/service/employee/employee.service';
+import {AuthService} from '../../shared/service/auth/auth.service';
+import {StorageService} from '../../shared/service/storage.service';
 
 @Component({
     selector: 'app-navbar',
@@ -20,7 +22,7 @@ export class NavbarComponent implements OnInit {
     private sidebarVisible: boolean;
 
     constructor(location: Location, private element: ElementRef, private router: Router , private dialog: MatDialog ,
-                private employeeService: EmployeeService ) {
+                private employeeService: EmployeeService , private readonly authService: AuthService, public readonly storageService: StorageService) {
         this.location = location;
         this.sidebarVisible = false;
     }
@@ -139,5 +141,9 @@ export class NavbarComponent implements OnInit {
         dialog.afterClosed().subscribe( value => {
 
         })
+    }
+
+    logout() {
+        this.authService.logout();
     }
 }

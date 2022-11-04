@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-@Order(1)
+@Order(2)
 public class WebSecurityUserConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

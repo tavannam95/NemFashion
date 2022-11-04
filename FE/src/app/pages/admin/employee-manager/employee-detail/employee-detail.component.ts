@@ -5,6 +5,7 @@ import {EmployeeService} from '../../../../shared/service/employee/employee.serv
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {checkPassword, checkSpace, Regex} from '../../../../shared/validators/Regex';
 import {EmployeeImageComponent} from '../employee-image/employee-image.component';
+import {StorageService} from '../../../../shared/service/storage.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class EmployeeDetailComponent implements OnInit {
             validators: checkPassword
         })
     })
+    st = new StorageService();
 
     constructor( private fb: FormBuilder ,
                 private employeeServive: EmployeeService,
@@ -49,7 +51,7 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     getAllEmployee(){
-        this.employeeServive.getEmployeeById(3).subscribe(value => {
+        this.employeeServive.getEmployeeById(this.st.getIdFromToken()).subscribe(value => {
             this.employee.patchValue( value) ;
         });
     }

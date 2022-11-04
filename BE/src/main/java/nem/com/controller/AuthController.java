@@ -6,6 +6,9 @@ import nem.com.dto.request.RegisterFormUser;
 import nem.com.dto.response.JwtResponse;
 import nem.com.entity.Customers;
 import nem.com.exception.LoginInvalidException;
+import nem.com.exception.ResourceNotFoundException;
+import nem.com.exception.UserInactiveException;
+import nem.com.repository.CustomersRepository;
 import nem.com.security.jwt.JwtProvider;
 import nem.com.security.userprincipal.customer.CustomerUserDetailsService;
 import nem.com.security.userprincipal.staff.EmployeeUserDetailsService;
@@ -61,6 +64,10 @@ public class AuthController {
 
     @PostMapping("user/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginForm request) {
+        Customers customer = this.customerService.findCustomerByEmail(request.getEmail());
+        if (customer.getStatus() == 0) {
+            throw new UserInactiveException("Tài khoản đã bị vô hiệu hoá !");
+        }
         try {
             Authentication authentication = authenticationManagerUser.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));

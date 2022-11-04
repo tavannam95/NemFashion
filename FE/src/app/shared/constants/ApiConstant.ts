@@ -9,6 +9,6 @@ export const ApiConstant = {
   color: 'http://localhost:8080/api/v1/color',
   cloudinary: 'http://localhost:8080/api/image',
   auth: {
-        login: 'http://localhost:8080/auth/admin/login',
+        login: 'http://localhost:8080/api/auth/admin/login',
     }
 };

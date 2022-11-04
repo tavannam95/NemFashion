@@ -69,10 +69,15 @@ export class SigninComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log(err)
         if (err.error.code == 'LOGIN_INVALID') {
           this.toastService.error(err.error.message);
+          return;
         }
+        if (err.error.code == 'INACTIVE') {
+          this.toastService.error(err.error.message);
+          return;
+        }
+        this.toastService.error('Đăng nhập thất bại !');
       }
     })
   }

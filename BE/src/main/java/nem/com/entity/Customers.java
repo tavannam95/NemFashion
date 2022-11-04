@@ -26,7 +26,7 @@ public class Customers {
     @Column(name = "email", nullable = true, length = 255)
     private String email;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Basic
     @Column(name = "password", nullable = true, length = 255)
     private String password;

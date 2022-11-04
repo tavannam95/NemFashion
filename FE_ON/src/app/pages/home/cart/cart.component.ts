@@ -3,24 +3,14 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {Constants} from "../../../shared/constants/constants.module";
 import {CartService} from "../../../shared/service/cart-service/cart-service";
-import {FormBuilder, FormControl, Validator, Validators} from "@angular/forms";
-import {
-  BehaviorSubject,
-  debounce,
-  debounceTime,
-  distinctUntilChanged,
-  shareReplay,
-  Subject,
-  switchMap,
-  timeout
-} from "rxjs";
+import {FormBuilder} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {EditAddressComponent} from "./edit-address/edit-address.component";
 import {AddressService} from "../../../shared/service/address/address.service";
 import {CustomerService} from "../../../shared/service/customer/customer.service";
 import {OrderService} from "../../../shared/service/order/order.service";
 import {OrderDetailService} from "../../../shared/service/order-detail/order-detail.service";
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {StorageService} from "../../../shared/service/storage.service";
 
 @Component({
@@ -45,6 +35,7 @@ export class CartComponent implements OnInit {
     ward: [-1],
     shipName: [''],
     shipPhone: [''],
+    other: [''],
     note: ['']
   })
   defaultInfoModel: boolean = false;
@@ -73,7 +64,7 @@ export class CartComponent implements OnInit {
   findAllByCustomerId() {
     return this.cartService.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe(res => {
       this.carts = res as any[];
-      console.log("findAllByCustomerId", this.carts)
+      console.log("findAllByCustomerId cart", this.carts)
       if (this.carts.length > 0) {
         this.subTotal = this.carts
           .map(c => c.productsDetail.product.price * c.quantity)
@@ -240,13 +231,13 @@ export class CartComponent implements OnInit {
         this.toastService.warning("Số điện thoại không đúng định dạng !")
         return;
       }
-      address.push(this.formGroup.getRawValue().ward, this.formGroup.getRawValue().district, this.formGroup.getRawValue().city)
+      address.push(this.formGroup.getRawValue().other, this.formGroup.getRawValue().ward, this.formGroup.getRawValue().district, this.formGroup.getRawValue().city)
       order.shipAddress = address.join(", ")
       order.shipPhone = shipPhone.trim()
       order.shipName = shipName!.trim()
       console.log(order)
     } else {
-      if(!this.address){
+      if (!this.address) {
         this.toastService.warning("Vui lòng chọn địa chỉ mặc định trước khi thanh toán !");
         return;
       }

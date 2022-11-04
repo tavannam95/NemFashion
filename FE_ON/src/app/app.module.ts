@@ -39,7 +39,10 @@ import {httpInterceptorProviders} from "./shared/intercepror/http-request.interc
     ToastrModule.forRoot({
       maxOpened: 1,
       preventDuplicates: true,
-      autoDismiss: true
+      autoDismiss: true,
+      progressBar: true,
+      timeOut: 2000,
+      resetTimeoutOnDuplicate: true
     }),
     FormsModule,
     ReactiveFormsModule,

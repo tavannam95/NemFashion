@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -57,8 +58,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customers update(Customers customers) {
+        Customers customer = this.customersRepository.findById(customers.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Id not found " + customers.getId()));
+
         Roles role = rolesRepository.findRolesByName("ROLE_CUSTOMER");
         customers.setRole(role);
+        customers.setSiginDate(customer.getSiginDate());
 
         return customersRepository.save(customers);
     }
@@ -92,6 +97,13 @@ public class CustomerServiceImpl implements CustomerService {
     public Customers findByResetPasswordToken(String token) {
         return this.customersRepository.findByResetPasswordToken(token)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer by token not found"));
+    }
+
+    @Override
+    public Customers findCustomerByEmail(String email) {
+        return this.customersRepository.findCustomersByEmail(email).orElseThrow(() -> {
+            throw new ResourceNotFoundException("Email not exist !");
+        });
     }
 
     @Override

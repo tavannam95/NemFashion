@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../../shared/service/product-service/product.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subscription} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {ProductDetailService} from "../../../shared/service/product-detail-service/product-detail.service";
 import {ColorService} from "../../../shared/service/color-service/color.service";
@@ -19,6 +19,7 @@ export class ProductDetailComponent implements OnInit {
 
   productId: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   totalQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  subscription$ = new Subscription();
 
   test: any = ''
   product: any;
@@ -266,6 +267,10 @@ export class ProductDetailComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  ngOnDestroy(): void {
+    console.log('Destroy')
   }
 
 }

@@ -2,3 +2,8 @@
 .btn--e-brand-hover:hover{
   color: white;
 }
+
+.disabled-a{
+  pointer-events: none;
+  cursor: not-allowed;
+}

@@ -23,6 +23,8 @@ public interface CustomerService {
 
     Customers findByResetPasswordToken(String token);
 
+    Customers findCustomerByEmail(String email);
+
     void  updateResetPassword(String email, String token);
 
     boolean updatePassword(Integer id, String newPassword);
