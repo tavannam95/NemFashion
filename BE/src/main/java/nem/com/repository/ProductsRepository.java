@@ -38,4 +38,11 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
             " ) and p.id not in ( select r.product_id from ratings r where r.order_id = :id) " , nativeQuery = true)
     List<Products> findProductNeverRating( @Param("id") Long id );
 
+    @Query(value = "select distinct  p.*  from products p join products_details pd on p.id = pd.product_id join order_details od  on od.product_detail_id = pd.id \n" +
+            "                                 join orders o on o.id = od.order_id \n" +
+            "                                 where o.status = 1 and p.category_id = :id\n" +
+            "                                 group by p.id\n" +
+            "                                 order by sum(od.quantity) desc \n" +
+            "                                 limit 0 , 10 " , nativeQuery = true)
+    List<Products> getProductByCategory( @Param("id") Short id ) ;
 }

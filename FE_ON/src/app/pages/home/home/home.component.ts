@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ProductService} from "../../../shared/service/product-service/product.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductViewComponent} from "./product-view/product-view.component";
+import {RatingService} from "../../../shared/service/rating-service/rating.service";
 
 @Component({
   selector: 'app-home',
@@ -12,11 +13,20 @@ export class HomeComponent implements OnInit {
 
   listPro: any ;
   listNewPro: any ;
+  listAvgRating: any[] = [] ;
 
   constructor( private proService: ProductService ,
-               private dialog: MatDialog ) {
+               private dialog: MatDialog ,
+               private ratingService: RatingService ) {
       this.getTop10Pro() ;
       this.getNewProduct() ;
+      this.getAvgRating() ;
+  }
+
+  getAvgRating(){
+     this.ratingService.getArgRating().subscribe( data => {
+         this.listAvgRating = data as any[] ;
+     })
   }
 
   getTop10Pro(){
@@ -68,4 +78,12 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  takeRatingPro( id: number){
+      for( let x of this.listAvgRating ){
+        if( x.id == id ){
+           return x.numberStar ;
+        }
+      }
+      return 5 ;
+  }
 }

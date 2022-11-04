@@ -52,6 +52,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Products> getProductsSimilar(Short id) {
+        return this.productsRepository.getProductByCategory(id);
+    }
+
+    @Override
     public List<Products> getAllNewPro() {
         return this.productsRepository.findTop10NewProduct() ;
     }

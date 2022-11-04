@@ -9,4 +9,6 @@ public interface RatingImageService {
     RatingImages createRatingImage( RatingImages ratingImages );
 
     List<RatingImages> getAll() ;
+
+    List<RatingImages> getRatingImgByIdRating( Long[] id );
 }

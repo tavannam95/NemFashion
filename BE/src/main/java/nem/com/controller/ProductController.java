@@ -84,4 +84,9 @@ public class ProductController {
     public ResponseEntity<List<Products>> getProductNeverRating( @RequestParam("id") Long id ){
         return new ResponseEntity<>(this.productService.findProductNeverRating(id) , HttpStatus.OK ) ;
     }
+
+    @GetMapping("getProSimilar")
+    public ResponseEntity<List<Products>> getProductsSimilar( @RequestParam("idCate") Short id ) {
+        return ResponseEntity.ok(this.productService.getProductsSimilar(id) );
+    }
 }

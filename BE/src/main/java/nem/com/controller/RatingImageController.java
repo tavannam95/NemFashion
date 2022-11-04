@@ -27,4 +27,9 @@ public class RatingImageController {
         return ResponseEntity.ok(this.ratingImageService.getAll() ) ;
     }
 
+    @GetMapping("getRatingImg")
+    public ResponseEntity<List<RatingImages>> getRatingImgByIdRating( @RequestParam("rateImg") Long[] id ){
+        return ResponseEntity.ok( this.ratingImageService.getRatingImgByIdRating(id) );
+    }
+
 }

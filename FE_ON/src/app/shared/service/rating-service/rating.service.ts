@@ -15,4 +15,12 @@ export class RatingService {
   createRating( rate: any ){
      return this.ratingService.createRating(rate) ;
   }
+
+  getArgRating(){
+     return this.ratingService.getAvgRating() ;
+  }
+
+  getRatingPro( idPro: number , pageNo: number ) {
+     return this.ratingService.getRatingPro( idPro , pageNo) ;
+  }
 }

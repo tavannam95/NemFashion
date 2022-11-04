@@ -19,6 +19,8 @@ public interface ProductService {
 
     List<Products> findProductNeverRating( Long id) ;
 
+    List<Products> getProductsSimilar( Short id ) ;
+
     List<Products> getAllNewPro() ;
     Products save(Products products);
 

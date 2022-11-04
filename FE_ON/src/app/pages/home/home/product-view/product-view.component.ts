@@ -169,4 +169,6 @@ export class ProductViewComponent implements OnInit {
     this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.CLOSE) ;
   }
 
+
+
 }

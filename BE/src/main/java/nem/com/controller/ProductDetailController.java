@@ -1,6 +1,5 @@
 package nem.com.controller;
 
-import nem.com.dto.request.ProductDetailDTO;
 import nem.com.dto.response.ProductViewDto;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
