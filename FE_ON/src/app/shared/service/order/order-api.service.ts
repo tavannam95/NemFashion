@@ -19,11 +19,11 @@ export class OrderApiService {
   }
 
   getAllOrder( idCustome: number ){
-    return this.http.get(`${ApiConstrant.order}/getAll?id=${idCustome}`)
+     return this.http.get(`${ApiConstrant.order}/getAll?id=${idCustome}`)
   }
 
-  updateOrder( status: number , id: number ){
-    return this.http.get(`${ApiConstrant.order}/updateStatus?status=${status}&id=${id}`) ;
+  updateOrder( status: number , id: any ){
+     return this.http.get(`${ApiConstrant.order}/updateStatus?status=${status}&&id=${id}`) ;
   }
 
 }

@@ -16,8 +16,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("select o from Orders o where o.customer.id = :id order by o.createDate desc")
     List<Orders> getAllOrders( @Param("id") Integer id );
 
+    @Query("Update Orders o set o.status = :status where o.id = :id ")
     @Modifying
     @Transactional
-    @Query("Update Orders o set o.status = :status where o.id = :id ")
-    void updateStatusOrder( @Param("status") Short status , @Param("id") Long id ) ;
+    void updateStatusOrder( @Param("status") Integer status , @Param("id") Long id ) ;
 }

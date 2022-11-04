@@ -76,7 +76,7 @@ public class OrderOnlineController {
     }
 
     @GetMapping("updateStatus")
-    public void updateStatusOrder( @RequestParam("status") Short status , @RequestParam("id") Long id ) {
+    public void updateStatusOrder( @RequestParam("status") Integer status , @RequestParam("id") Long id ) {
         this.orderOnlineService.updateStatusOrder( status , id );
     }
 }

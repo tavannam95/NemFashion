@@ -20,7 +20,7 @@ export class OrderService {
      return this.orderApiService.getAllOrder(idCustome) ;
   }
 
-  updateStatusOrder( status: number , id: number ){
+  updateStatusOrder( status: number , id: any ){
      return this.orderApiService.updateOrder( status , id) ;
   }
 }
