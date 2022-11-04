@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {CartApiService} from "./cart-api.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  isReload: BehaviorSubject<any> = new BehaviorSubject<any>(false);
-  quantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  isReload: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly cartApi: CartApiService,
   ) {

@@ -1,7 +1,8 @@
-import {Component, HostListener, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnDestroy, OnInit} from '@angular/core';
 import {CartService} from "../../shared/service/cart-service/cart-service";
 import {StorageService} from "../../shared/service/storage.service";
 import {DOCUMENT} from "@angular/common";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private readonly cartService: CartService,
               public readonly storageService: StorageService,
-              ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -35,8 +36,6 @@ export class NavbarComponent implements OnInit {
   findAllByCustomerId(customerId: number) {
     this.cartService.findAllByCustomerId(customerId).subscribe((res: any) => {
       this.carts = res as any[];
-      console.log(res)
-      console.log("Nav bar findAllByCustomerId: " + customerId)
       console.log("Nav bar findAllByCustomerId: " + this.carts)
       if (this.carts.length > 0) {
         this.subTotal = this.carts
@@ -57,6 +56,7 @@ export class NavbarComponent implements OnInit {
         this.findAllByCustomerId(this.storageService.getIdFromToken());
         this.cartService.isReload.next(false);
       }
-    })
+    }).unsubscribe();
   }
+
 }

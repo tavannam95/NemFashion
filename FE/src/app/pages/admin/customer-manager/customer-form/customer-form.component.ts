@@ -5,6 +5,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {CustomerService} from '../../../../shared/service/customer/customer.service';
 import {UploadCloudinaryService} from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 import {Regex} from '../../../../shared/validators/Regex';
+import {StorageService} from '../../../../shared/service/storage.service';
 
 @Component({
     selector: 'app-customer-form',
@@ -40,6 +41,7 @@ export class CustomerFormComponent implements OnInit {
                 private readonly dialogRef: MatDialogRef<CustomerFormComponent>,
                 private readonly customerService: CustomerService,
                 private readonly uploadService: UploadCloudinaryService,
+                private readonly storageService: StorageService,
                 @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
     }
 
@@ -79,6 +81,7 @@ export class CustomerFormComponent implements OnInit {
 
     async save() {
         this.formGroup.markAllAsTouched();
+        console.log(this.formGroup.getRawValue())
         if (this.formGroup.invalid) {
             return;
         }

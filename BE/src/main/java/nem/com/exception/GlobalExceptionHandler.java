@@ -41,4 +41,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserInactiveException.class)
+    public ResponseEntity<?> userInactiveException(UserInactiveException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("INACTIVE", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-@Order(2)
+@Order(1)
 public class WebSecurityAdminConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -53,7 +53,7 @@ public class WebSecurityAdminConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().disable().csrf().disable();
         http.authorizeRequests()
-//                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
 //                .antMatchers(HttpMethod.GET, "/api/v1/category/**", "/api/v1/product/**", "/api/v1/productDetail/**", "/api/v1/productImage/**", "/api/v1/color/**", "/api/v1/size/**").permitAll()
 //                .antMatchers("/api/v1/customer/**", "/api/v1/address/**", "/api/v1/cart/**", "/api/v1/order-online", "/api/v1/order-detail-online").hasAnyRole("CUSTOMER", "ADMIN")
 //                .antMatchers("/api/v1/employee/**", "/api/v1/customer/**", "/api/v1/category/**", "/api/v1/product/**",

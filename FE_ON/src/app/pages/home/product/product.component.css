@@ -3,6 +3,11 @@
   color: white;
 }
 
+.disabled-a{
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .loading {
   background: rgba(0, 0, 0, 0.5);
   width: 100%;

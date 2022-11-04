@@ -6,16 +6,22 @@ import {TypographyComponent} from '../../typography/typography.component';
 import {IconsComponent} from '../../icons/icons.component';
 import {NotificationsComponent} from '../../notifications/notifications.component';
 import {ProductModule} from '../../pages/admin/product/product.module';
+import {RoleGuard} from '../guard/role.guard';
 
 
 export const content_admin: Routes = [
     {
         path: 'dashboard',
-        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule),
+
     },
     {
         path: 'staff',
         loadChildren: () => import('../../pages/admin/employee-manager/employee.modules').then(m => m.EmployeeModules),
+        canActivate: [RoleGuard],
+        data: {
+            role: 'SUPER_ADMIN'
+        }
     },
     {
         path: 'customer',

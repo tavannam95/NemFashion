@@ -20,6 +20,7 @@ import {NgxDropzoneModule} from 'ngx-dropzone';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { ProductImageCreateDialogComponent } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
+import {httpInterceptorProviders} from './shared/intercepror/http-request.interceptor';
 
 
 @NgModule({
@@ -48,7 +49,7 @@ import { ProductImageCreateDialogComponent } from './pages/admin/dialog/product-
         EmployeeImageComponent,
         ProductImageCreateDialogComponent,
     ],
-    providers: [],
+    providers: [httpInterceptorProviders],
     bootstrap: [AppComponent]
 })
 export class AppModule {

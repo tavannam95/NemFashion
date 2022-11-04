@@ -36,11 +36,6 @@ public class OrderOnlineController {
             throw new IsEmptyException("List cart is empty !");
         }
 
-//        for (Carts cart : request.getListCarts()) {
-//            if (cart.getQuantity() > cart.getProductsDetail().getQuantity()) {
-//                throw new LimitQuantityException("Số lượng không đủ. Vui lòng cập nhật lại số lượng trong giỏ hàng !");
-//            }
-//        }
         Orders order = this.orderOnlineService.save(request.getOrder());
         for (Carts cart : request.getListCarts()) {
             OrderDetails orderDetail = new OrderDetails();
