@@ -47,7 +47,7 @@ public class ProductDetailController {
     }
 
     @PostMapping("")
-    public ResponseEntity<List<ProductViewDto>> create(@RequestBody List<ProductViewDto> listProductViewDto){
+    public ResponseEntity<List<ProductDetailResponseDTO>> create(@RequestBody List<ProductDetailResponseDTO> listProductViewDto){
         return new ResponseEntity<>(this.productDetailService.createProductDetails(listProductViewDto),HttpStatus.OK);
     }
 

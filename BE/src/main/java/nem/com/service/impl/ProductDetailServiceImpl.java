@@ -1,10 +1,12 @@
 package nem.com.service.impl;
 
-import nem.com.dto.response.ProductViewDto;
+import nem.com.dto.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
+import nem.com.exception.UniqueFieldException;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.ProductDetailService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,10 +54,13 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         return this.productsDetailsRepository.findProductDetailBySizeAndColor(productId, sizeId, colorId);
     }
     @Override
-    public List<ProductViewDto> createProductDetails(List<ProductViewDto> list) {
-        for (ProductViewDto p: list
+    @Transactional(rollbackFor = Exception.class)
+    public List<ProductDetailResponseDTO> createProductDetails(List<ProductDetailResponseDTO> list) {
+        for (ProductDetailResponseDTO p: list
         ) {
-            ProductsDetails productsDetails = new ProductsDetails();
+            try {
+                ProductsDetails productsDetails = new ProductsDetails();
+
             int productId = p.getProduct().getId();
             int colorId = p.getColor().getId();
             int sizeId = p.getSize().getId();
@@ -69,13 +74,17 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 productsDetails.setSize(p.getSize());
                 productsDetails.setQuantity(p.getQuantity());
             }
-            this.productsDetailsRepository.save(productsDetails);
+                this.productsDetailsRepository.save(productsDetails);
+            }catch (Exception e){
+                throw new UniqueFieldException("ABC");
+            }
         }
+
         return list;
     }
 
     @Override
-    public List<ProductsDetails> findProductDetailByProductSizeColor(ProductViewDto productViewDto) {
+    public List<ProductsDetails> findProductDetailByProductSizeColor(ProductDetailResponseDTO productViewDto) {
         int productId = productViewDto.getProduct().getId();
         int colorId = productViewDto.getColor().getId();
         int sizeId = productViewDto.getSize().getId();

@@ -1,0 +1,126 @@
+<div *ngIf="isLoading" class="loading">
+  <div
+          class="spinner-border text-danger spinner-center"
+          role="status"
+  ></div>
+</div>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card custom-card">
+      <div class="card-body">
+        <!-- Content -->
+        <div class="row">
+          <div class="col-2">
+            <div class="mx-2">
+              <a
+                class="btn btn-danger d-flex align-items-center justify-content-center"
+                style="height: 50px"
+                routerLink="/selling"
+                mat-button
+                >Thêm mới
+              </a>
+            </div>
+          </div>
+          <div class="col-10">
+            <mat-form-field appearance="outline">
+              <mat-label>Tìm kiếm</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Nhập thông tin đơn hàng" #input>
+            </mat-form-field>
+          </div>
+        </div>
+        
+
+       
+        
+        <div class="font-weight-bold">
+          <table mat-table [dataSource]="dataSource" matSort>
+        
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+              <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            </ng-container>
+        
+            <!-- Progress Column -->
+            <ng-container matColumnDef="customer">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Người mua </th>
+              <td mat-cell *matCellDef="let row"> {{row.customer.fullname}} </td>
+            </ng-container>
+        
+            <!-- Name Column -->
+            <ng-container matColumnDef="employee">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Người bán </th>
+              <td mat-cell *matCellDef="let row"> {{row.employee.fullname}} </td>
+            </ng-container>
+        
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng giá </th>
+              <td mat-cell *matCellDef="let row"> {{row.total| currency:' ':'symbol':'0.0-2'}} VNĐ</td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái </th>
+              <td mat-cell *matCellDef="let row">
+                <div [ngSwitch]="row.status">
+                  <span *ngSwitchCase="0">Chờ xác nhận</span>
+                  <span class="text-success" *ngSwitchCase="1">Đã xác nhận</span>
+                  <span *ngSwitchCase="2">Đang giao</span>
+                  <span *ngSwitchCase="3">Đã giao</span>
+                  <span class="text-danger" *ngSwitchCase="4">Đã hủy</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="note">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Ghi chú </th>
+              <td mat-cell *matCellDef="let row"> {{row.note}} </td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="feature">
+              <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header> Thao tác </th>
+              <td class="text-center" mat-cell *matCellDef="let row">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button *ngIf="row.status == 0" (click)="verifyOrCancelOrder(row,1)" mat-menu-item>
+                    <span>Xác nhận đơn</span>
+                  </button>
+                  <button *ngIf="row.status == 0 || row.status == 1" (click)="verifyOrCancelOrder(row,4)" mat-menu-item>
+                    <span>Hủy hóa đơn</span>
+                  </button>
+                  <button *ngIf="row.status == 4" (click)="verifyOrCancelOrder(row,0)" mat-menu-item>
+                    <span>Khôi phục đơn</span>
+                  </button>
+                  
+                  <button mat-menu-item>
+                    <span>Xem chi tiết</span>
+                  </button>
+                  <button mat-menu-item>
+                    Sửa hóa đơn
+                  </button>
+                 
+                </mat-menu>
+              </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+          </table>
+        
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

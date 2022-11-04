@@ -15,4 +15,7 @@ createColor(data: any){
 getAllColor(){
   return this.apiService.getAllColor();
 }
+getOneColor(id: number){
+  return this.apiService.getOneColor(id);
+}
 }
