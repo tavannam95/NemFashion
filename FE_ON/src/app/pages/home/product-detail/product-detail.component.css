@@ -27,3 +27,7 @@
   top: 40% ;
 }
 
+.disabled-a{
+  pointer-events: none;
+  cursor: not-allowed;
+}

@@ -46,6 +46,33 @@ export class HomeComponent implements OnInit {
   }
 
   slideConfig = { slidesToShow: 4, slidesToScroll:1 , swipeToSlide: true  ,
+    responsive: [
+      {
+        breakpoint: 700,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 2
+        }
+      },
+      {
+        breakpoint: 1000,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 1
+        }} ],
     nextArrow: ' <button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-50  end-0 translate-middle-y"><i class="fas fa-chevron-right"></i></button>' ,
     prevArrow: '<button type="button" style="z-index: 3" class="text-white btn btn-dark opacity-50 position-absolute top-50 start-0 translate-middle-y"><i class="fas fa-chevron-left"></i></button>'};
 

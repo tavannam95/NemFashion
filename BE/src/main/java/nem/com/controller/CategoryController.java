@@ -1,5 +1,6 @@
 package nem.com.controller;
 
+import nem.com.dto.response.CategoryDTO;
 import nem.com.entity.Categories;
 import nem.com.service.CategoryService;
 import nem.com.service.impl.CategoryServiceImpl;
@@ -22,7 +23,7 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Categories>> getAll(){
+    public ResponseEntity<List<CategoryDTO>> getAll(){
         return new ResponseEntity<>(this.categoryService.getAll(), HttpStatus.OK);
     }
 

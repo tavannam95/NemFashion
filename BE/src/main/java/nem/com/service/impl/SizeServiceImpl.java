@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.dto.response.SizeDTO;
 import nem.com.entity.Sizes;
 import nem.com.repository.SizesRepository;
 import nem.com.service.SizeService;
@@ -19,8 +20,8 @@ public class SizeServiceImpl implements SizeService {
 
 
     @Override
-    public List<Sizes> getAll() {
-        return this.sizesRepository.findAll();
+    public List<SizeDTO> getAll() {
+        return this.sizesRepository.getSizes();
     }
 
     @Override

@@ -9,9 +9,9 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatRadioModule} from "@angular/material/radio";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {NgxStarsModule} from "ngx-stars";
-import {SigninComponent} from "./signin/signin.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SigninComponent} from "./signin/signin.component";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import {SigninComponent} from "./signin/signin.component";
     MatRadioModule,
     NgxDropzoneModule,
     NgxStarsModule,
+    MatFormFieldModule,
   ]
 })
 export class ProfileModule {
