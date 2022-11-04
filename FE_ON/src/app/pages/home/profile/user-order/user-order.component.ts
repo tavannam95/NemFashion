@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {RatingComponent} from "../rating/rating.component";
 import {OrderService} from "../../../../shared/service/order/order.service";
@@ -7,7 +7,6 @@ import {ConfirmDialogComponent} from "../../../../shared/confirm-dialog/confirm-
 import {Constants} from "../../../../shared/constants/constants.module";
 import {RatingService} from "../../../../shared/service/rating-service/rating.service";
 import {StorageService} from "../../../../shared/service/storage.service";
-import {ProfileComponent} from "../profile.component";
 
 @Component({
   selector: 'app-user-order',
@@ -20,7 +19,6 @@ export class UserOrderComponent implements OnInit {
   listOrderDetail: any ;
   listRating: any[] = [] ;
   employeeId = 1 ;
-  @ViewChild(ProfileComponent) profile!: ProfileComponent ;
 
   listStatus = [
     { status: 0 , name: 'Chờ xác nhận'} ,
@@ -28,7 +26,6 @@ export class UserOrderComponent implements OnInit {
     { status: 1 , name: 'Đã giao'} ,
     { status: 4 , name: 'Đã hủy'}
   ]
-
 
   constructor( private dialog: MatDialog ,
                private orderService: OrderService ,
@@ -105,13 +102,11 @@ export class UserOrderComponent implements OnInit {
             this.orderService.updateStatusOrder( 4 , id ).subscribe(
               () => {
                 this.findAllOrder() ;
-                this.profile.cancelCount(1);
               }
             );
          }
      })
   }
-
 
   checkDate( a: any ){
      let date = new Date() ;
@@ -121,5 +116,4 @@ export class UserOrderComponent implements OnInit {
      }
      return false ;
   }
-
 }

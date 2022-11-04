@@ -12,5 +12,5 @@ public interface OrderServiceOnline {
 
     List<Orders> getAllOrders( Integer id ) ;
 
-    void updateStatusOrder( Short status , Long id ) ;
+    void updateStatusOrder( Integer status , Long id ) ;
 }
