@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -24,11 +24,11 @@ public class Orders {
 
     @Basic
     @Column(name = "create_date", nullable = true)
-    private Timestamp createDate;
+    private Date createDate;
 
     @Basic
     @Column(name = "shipped_date", nullable = true)
-    private Timestamp shippedDate;
+    private Date shippedDate;
 
     @Basic
     @Column(name = "freight", nullable = true, precision = 0)
