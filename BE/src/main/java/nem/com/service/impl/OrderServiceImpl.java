@@ -1,11 +1,10 @@
 package nem.com.service.impl;
 
-import com.cloudinary.transformation.BaseExpression;
-import java.util.Collections;
-import lombok.RequiredArgsConstructor;
 import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;
 import nem.com.service.OrderService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +21,11 @@ public class OrderServiceImpl implements OrderService {
     public List<Orders> getAll() {
 
         return this.ordersRepository.findAll();
+    }
+
+    @Override
+    public List<Orders> getAllOrderSort() {
+        return this.ordersRepository.getAllOrderSort(PageRequest.of(0,10));
     }
 
     @Override

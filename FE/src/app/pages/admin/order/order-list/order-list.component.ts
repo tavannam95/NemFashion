@@ -12,12 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class OrderListComponent implements OnInit {
   isLoading: boolean = false;
-  displayedColumns: string[] = ['id', 'customer', 'employee', 'total', 'status', 'note', 'feature'];
-  dataSource: MatTableDataSource<any>;
-  
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
+  allOrder: any;
   constructor(
     private orderService: OrderService,
     private toastrService: ToastrService
@@ -30,9 +25,9 @@ export class OrderListComponent implements OnInit {
   getAllOrder(){
     this.orderService.getAllOrder().subscribe({
       next: (res) =>{
-        this.dataSource = new MatTableDataSource<any>(res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.allOrder = res;
+        console.log(this.allOrder);
+        
       },
       error: (err) =>{
         console.log(err);
@@ -69,15 +64,5 @@ export class OrderListComponent implements OnInit {
         
       }
     });
-  }
-
-  //Tim kiem
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 }

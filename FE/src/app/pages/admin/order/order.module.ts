@@ -14,6 +14,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTabsModule} from "@angular/material/tabs";
 import { OrderListComponent } from './order-list/order-list.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
 @NgModule({
     declarations: [
         OrderListComponent
@@ -32,7 +34,9 @@ import { OrderListComponent } from './order-list/order-list.component';
         MatCheckboxModule,
         ReactiveFormsModule,
         MatDialogModule,
-        MatTabsModule
+        MatTabsModule,
+        MatDividerModule,
+        MatCardModule
     ]
 })
 export class OrderModule {
