@@ -4,7 +4,6 @@ import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;
 import nem.com.service.OrderService;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +20,11 @@ public class OrderServiceImpl implements OrderService {
     public List<Orders> getAll() {
 
         return this.ordersRepository.findAll();
+    }
+
+    @Override
+    public List<Orders> findByStatusOrderByCreateDateDesc(Integer status) {
+        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(0,10));
     }
 
     @Override

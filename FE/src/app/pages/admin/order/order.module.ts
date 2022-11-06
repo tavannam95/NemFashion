@@ -16,9 +16,11 @@ import {MatTabsModule} from "@angular/material/tabs";
 import { OrderListComponent } from './order-list/order-list.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
+import { PreparingProductComponent } from './dialog/preparing-product/preparing-product.component';
 @NgModule({
     declarations: [
-        OrderListComponent
+        OrderListComponent,
+        PreparingProductComponent
     ],
     imports: [
         CommonModule,
