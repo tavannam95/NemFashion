@@ -6,6 +6,7 @@ import java.util.List;
 public interface OrderService {
     List<Orders> getAll();
 
+    List<Orders> findByStatusOrderByCreateDateDesc(Integer status);
     List<Orders> getAllOrderSort();
     Orders verifyOrCancel(Orders orders, Integer f);
 }

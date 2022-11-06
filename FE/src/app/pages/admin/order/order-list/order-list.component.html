@@ -1,18 +1,19 @@
 <div *ngIf="isLoading" class="loading">
-  <div
-          class="spinner-border text-danger spinner-center"
-          role="status"
-  ></div>
+  <div class="spinner-border text-danger spinner-center" role="status"></div>
 </div>
 <div class="main-content">
   <div class="container-fluid">
     <div class="card custom-card">
       <div class="card-body">
 
-        <mat-tab-group animationDuration="0ms">
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="findByStatus($event.index - 1)">
 
-          <mat-tab label="Tất cả">
-
+          <mat-tab *ngFor="let s of listStatus">
+            <ng-template mat-tab-label>
+              <span>
+                {{s}}
+              </span>
+            </ng-template>
             <mat-card *ngFor="let order of allOrder" class="border mt-3">
               <mat-card-title>
                 <div class="row">
@@ -29,11 +30,7 @@
                 <table>
                   <thead>
                     <tr>
-                      <!-- <th>Hình ảnh</th> -->
                       <th class="w-50 text-center">Thông tin sản phẩm</th>
-                      <!-- <th>Màu sắc</th>
-                      <th>Kích thước</th>
-                      <th>Số lượng</th> -->
                       <th>Tổng giá</th>
                       <th>Trạng thái</th>
                       <th>Thao tác</th>
@@ -41,11 +38,6 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <!-- <td>
-                        <div *ngFor="let od of order.orderDetailsList">
-                          <img class="img-product" [src]="od.productsDetail.product.thumnail" alt="">
-                        </div>
-                      </td> -->
                       <td class="align-self-center">
                         <div *ngFor="let od of order.orderDetailsList">
                           <div class="row mb-3">
@@ -62,34 +54,28 @@
                               Màu: {{od.productsDetail.color.name}}
                             </div>
                             <div class="col-2 d-flex align-items-center">
-                               x{{od.quantity}}
+                              x{{od.quantity}}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <!-- <td>
-                        <div *ngFor="let od of order.orderDetailsList">
-                          {{od.productsDetail.color.name}}
-                        </div>
-                      </td>
-                      <td>
-                        <div *ngFor="let od of order.orderDetailsList">
-                          {{od.productsDetail.size.code}}
-                        </div>
-                      </td>
-                      <td class="">
-                        <div *ngFor="let od of order.orderDetailsList">
-                          {{od.quantity}}
-                        </div>
-                      </td> -->
                       <td>
                         {{order.orders.total| currency:' ':'symbol':'0.0-2'}} VNĐ
                       </td>
                       <td>
-                        {{order.orders.status}}
+                        {{getStatus(order.orders.status)}}
                       </td>
                       <td>
-                        Thao tac
+                        <div *ngIf="order.orders.status==0">
+                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
+                            Chuẩn bị hàng
+                          </a>
+                        </div>
+                        <div *ngIf="order.orders.status!=0">
+                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
+                            Xem thông tin
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -98,16 +84,8 @@
             </mat-card>
 
           </mat-tab>
-
-          <mat-tab label="Chờ xác nhận">Content 2</mat-tab>
-          <mat-tab label="Chờ lấy hàng">Content 3</mat-tab>
-          <mat-tab label="Đang giao">Content 1</mat-tab>
-          <mat-tab label="Đã giao">Content 2</mat-tab>
-          <mat-tab label="Đơn hủy">Content 3</mat-tab>
-          <mat-tab label="Trả hàng/Hoàn tiền">Content 3</mat-tab>
-          
         </mat-tab-group>
-        
+
       </div>
     </div>
   </div>

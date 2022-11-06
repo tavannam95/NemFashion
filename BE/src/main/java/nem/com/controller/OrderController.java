@@ -41,9 +41,25 @@ public class OrderController {
         }
         return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
     }
-    @PutMapping("/verifyOrCancel/{id}/{f}")
-    public ResponseEntity<Orders> verifyOrCancel(@PathVariable("id") Long id, @PathVariable("f") Integer f){
-        Orders orders = this.ordersRepository.findById(id).get();
-        return new ResponseEntity<>(this.orderService.verifyOrCancel(orders,f),HttpStatus.OK);
+
+    @GetMapping("/{status}")
+    public ResponseEntity<List<OrderResponseDTO>> findByStatus(@PathVariable("status") Integer status){
+        List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
+        List<Orders> ordersList = this.orderService.findByStatusOrderByCreateDateDesc(status);
+        for (Orders orders: ordersList
+        ) {
+            OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+            orderResponseDTO.setOrders(orders);
+            List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
+            orderResponseDTO.setOrderDetailsList(orderDetailsList);
+            orderResponseDTOList.add(orderResponseDTO);
+        }
+        return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
+    }
+
+    @PutMapping("/updateStatus/{status}")
+    public ResponseEntity<Orders> updateStatus(@PathVariable("status") Integer status, @RequestBody Orders orders){
+        orders.setStatus(1);
+        return new ResponseEntity<>(this.orderService.verifyOrCancel(orders,status),HttpStatus.OK);
     }
 }

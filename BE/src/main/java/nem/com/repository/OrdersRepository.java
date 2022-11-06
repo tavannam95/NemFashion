@@ -20,6 +20,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("select o from Orders o order by o.createDate desc")
     List<Orders> getAllOrderSort(Pageable pageable);
 
+    List<Orders> findByStatusOrderByCreateDateDesc(Integer status, Pageable pageable);
+
     @Query("Update Orders o set o.status = :status where o.id = :id ")
     @Modifying
     @Transactional
