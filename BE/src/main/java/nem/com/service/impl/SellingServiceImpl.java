@@ -1,10 +1,5 @@
 package nem.com.service.impl;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import nem.com.dto.request.ProductDetailsDTO;
 import nem.com.dto.request.SellingDTO;
 import nem.com.dto.request.ServiceResult;
@@ -63,7 +58,7 @@ public class SellingServiceImpl implements SellingService {
         orders.setNote(sellingDTO.getNote());
         orders.setTotal(sellingDTO.getTotalPrice());
         orders.setCreateDate(date);
-        orders.setStatus((short)6);
+        orders.setStatus(6);
         orders.setEmployee(employees);
         orders.setDiscount(sellingDTO.getDiscount()*sellingDTO.getTotalPrice()/100);
         orders = ordersRepository.save(orders);

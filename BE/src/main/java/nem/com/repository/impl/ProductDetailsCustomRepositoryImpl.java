@@ -35,7 +35,7 @@ public class ProductDetailsCustomRepositoryImpl implements ProductDetailsCustomR
         NativeQuery<ProductDetailsDTO> query = ((Session) entityManager.getDelegate()).createNativeQuery(sql.toString());
         query
                 .addScalar("id", new IntegerType())
-                .addScalar("quantity", new ShortType())
+                .addScalar("quantity", new IntegerType())
                 .addScalar("colorId", new IntegerType())
                 .addScalar("nameColor", new StringType())
                 .addScalar("sizeId", new IntegerType())

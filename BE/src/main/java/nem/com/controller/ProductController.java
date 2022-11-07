@@ -49,8 +49,9 @@ public class ProductController {
     }
 
     @GetMapping("/findByCate/{id}")
-    public ResponseEntity<List<Products>> findByCate(@PathVariable("id") Short id){
+    public ResponseEntity<List<Products>> findByCate(@PathVariable("id") Short id) {
         return ResponseEntity.ok(this.productService.findByCate(id));
+    }
     @GetMapping("findSize")
     public ResponseEntity<Page<Products>> findProBySize(@RequestParam(value = "size"  ) Integer[] sizes  ,
                                                         @RequestParam(value = "category" ) Short[] category ,
