@@ -76,4 +76,8 @@ public class ProductServiceImpl implements ProductService {
         products.setStatus(0);
         this.productsRepository.save(products);
     }
+    @Override
+    public List<Products> findByCate(Short id){
+        return productsRepository.findByCate(id);
+    };
 }

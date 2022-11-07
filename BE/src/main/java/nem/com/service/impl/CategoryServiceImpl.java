@@ -3,6 +3,7 @@ package nem.com.service.impl;
 import lombok.AllArgsConstructor;
 import nem.com.dto.response.CategoryDTO;
 import nem.com.entity.Categories;
+import nem.com.entity.Products;
 import nem.com.repository.CategoriesRepository;
 import nem.com.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,5 @@ public class CategoryServiceImpl implements CategoryService {
     public Categories save(Categories categories) {
         return this.categoriesRepository.save(categories);
     }
+
 }

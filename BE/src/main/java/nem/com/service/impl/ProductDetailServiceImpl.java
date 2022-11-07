@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.dto.request.ProductDetailsDTO;
 import nem.com.dto.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.exception.UniqueFieldException;
@@ -45,6 +46,9 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
+    public List<ProductDetailsDTO> getByIdProduct(Integer id) {
+        return this.productsDetailsRepository.getProductDetailsByIdPro(id);
+    }
     public List<ProductsDetails> findProductsDetailsByProductId(Integer productId) {
         return this.productsDetailsRepository.findProductsDetailsByProductId(productId);
     }
@@ -90,6 +94,4 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         int sizeId = productViewDto.getSize().getId();
         return this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
     }
-
-
 }

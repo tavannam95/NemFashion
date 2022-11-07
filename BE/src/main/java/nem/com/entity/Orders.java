@@ -59,6 +59,10 @@ public class Orders {
     @Column(name = "status", nullable = true)
     private Integer status;
 
+    @Basic
+    @Column(name = "discount", nullable = true, precision = 0)
+    private Double discount;
+
     @JsonIgnore
     @OneToMany(mappedBy = "order")
     private List<OrderDetails> listOrderDetails;
