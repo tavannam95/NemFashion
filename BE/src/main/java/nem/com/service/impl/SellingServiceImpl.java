@@ -52,7 +52,7 @@ public class SellingServiceImpl implements SellingService {
         Orders orders = new Orders();
         Customers customers = new Customers();
         Employees employees = new Employees();
-        employees.setId(1); // Gán tạm dữ liệu employee;
+        employees.setId(sellingDTO.getEmployee()); // Gán tạm dữ liệu employee;
         customers.setId(sellingDTO.getCustomer()!=null?sellingDTO.getCustomer():0);
         orders.setCustomer(customers);
         orders.setNote(sellingDTO.getNote());

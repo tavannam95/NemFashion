@@ -16,6 +16,7 @@ import * as es6printJS from "print-js";
 // import printJS = require("print-js");
 import printJS from 'print-js';
 import {ProductService} from "../../../../shared/service/product/product.service";
+import {StorageService} from "../../../../shared/service/storage.service";
 
 @Component({
     selector: 'selling',
@@ -31,7 +32,8 @@ export class SellingComponent implements OnInit, OnDestroy {
                 private customerService: CustomerService,
                 private currencyPipe: CurrencyPipe,
                 private toast: ToastrService,
-                private productService: ProductService) {
+                private productService: ProductService,
+                private  storageService: StorageService) {
     }
 
     options = {prefix: '', thousands: ',', precision: '0', allowNegative: 'false'}
@@ -551,6 +553,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     selling() {
         this.order.discount = this.discount;
+        this.order.employee = this.storageService.getIdFromToken();
         this.sellingService.paymentSelling(this.order).subscribe({
                 next: resp => {
                     this.drawer.close();
