@@ -19,7 +19,6 @@ import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-im
 import {NgxDropzoneModule} from 'ngx-dropzone'
 import {LoadingComponent} from './shared/loading/loading.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { LoadingComponent } from './shared/loading/loading.component';
 import { ProductImageCreateDialogComponent } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
 import {httpInterceptorProviders} from './shared/intercepror/http-request.interceptor';
 import { RatingComponent } from './pages/admin/rating-manager/rating.component';

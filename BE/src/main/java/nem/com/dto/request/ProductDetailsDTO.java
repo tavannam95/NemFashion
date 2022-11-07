@@ -8,7 +8,7 @@ import java.util.List;
 public class ProductDetailsDTO {
     private Integer id;
 
-    private Short quantity;
+    private Integer quantity;
 
     private Integer colorId;
 
@@ -46,11 +46,11 @@ public class ProductDetailsDTO {
         this.id = id;
     }
 
-    public Short getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Short quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
