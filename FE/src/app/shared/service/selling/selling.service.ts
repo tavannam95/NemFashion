@@ -19,4 +19,22 @@ export class SellingService {
   getProductDetail(id: any){
     return this.sellingApiService.getProductDetail(id);
   }
+
+  paymentSelling(obj:any){
+    return this.sellingApiService.paymentSelling(obj);
+  }
+
+  printfPDFHtml(obj:any){
+    return `<html>
+               <head>
+              <title>NemPhaSun</title>
+              <style type="text/css">
+              
+            </style>
+            <body>
+               
+</body>
+          </head>
+        </html>`
+  }
 }

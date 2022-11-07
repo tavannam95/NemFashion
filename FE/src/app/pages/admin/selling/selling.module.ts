@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, CurrencyPipe} from '@angular/common';
 import {MatTabsModule} from "@angular/material/tabs";
 import {SellingComponent} from "./selling/selling.component";
 import {SellingRoutingModule} from "./selling-routing.module";
@@ -15,6 +15,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {NgxCurrencyModule} from "ngx-currency";
+
+
 @NgModule({
     declarations: [SellingComponent, ProductDetailOrderComponent],
     imports: [
@@ -32,8 +35,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         ReactiveFormsModule,
         MatMenuModule,
         MatIconModule,
-        MatTooltipModule
-    ]
+        MatTooltipModule,
+        NgxCurrencyModule
+    ],
+    providers: [CurrencyPipe]
 })
 export class SellingModule {
 

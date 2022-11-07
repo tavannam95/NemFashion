@@ -23,4 +23,8 @@ export class SellingApiService {
   getProductDetail(id: any): Observable<any>{
     return this.http.get(`${this.api}productDetail/getByProduct/${id}`)
   }
+
+  paymentSelling(obj: any): Observable<any>{
+    return this.http.post(`${this.api}selling/payment`,obj);
+  }
 }

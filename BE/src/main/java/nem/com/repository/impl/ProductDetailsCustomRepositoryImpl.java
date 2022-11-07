@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
+import org.hibernate.type.ShortType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,7 @@ public class ProductDetailsCustomRepositoryImpl implements ProductDetailsCustomR
         NativeQuery<ProductDetailsDTO> query = ((Session) entityManager.getDelegate()).createNativeQuery(sql.toString());
         query
                 .addScalar("id", new IntegerType())
-                .addScalar("quantity", new IntegerType())
+                .addScalar("quantity", new ShortType())
                 .addScalar("colorId", new IntegerType())
                 .addScalar("nameColor", new StringType())
                 .addScalar("sizeId", new IntegerType())

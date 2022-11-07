@@ -23,4 +23,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(LitmitQuantitySellingException.class)
+    public ResponseEntity<?> LitmitQuantitySellingException(LitmitQuantitySellingException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("LIMIT_QUANTITY", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
 }

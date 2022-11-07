@@ -8,7 +8,7 @@ import java.util.List;
 public class ProductDetailsDTO {
     private Integer id;
 
-    private Integer quantity;
+    private Short quantity;
 
     private Integer colorId;
 
@@ -18,6 +18,26 @@ public class ProductDetailsDTO {
 
     private String nameSize;
 
+    private Double price;
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -26,11 +46,11 @@ public class ProductDetailsDTO {
         this.id = id;
     }
 
-    public Integer getQuantity() {
+    public Short getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Short quantity) {
         this.quantity = quantity;
     }
 

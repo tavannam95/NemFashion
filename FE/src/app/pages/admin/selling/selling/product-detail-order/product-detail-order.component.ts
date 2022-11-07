@@ -123,19 +123,19 @@ export class ProductDetailOrderComponent implements OnInit {
 
     checkQuantityInput() {
         this.message = '';
-        let pattern = /^[0-9]*$/
-        if (this.quantityinput == ''){
-            this.quantityinput = 1;
-        }
-        if (pattern.test(this.quantityinput)) {
-            this.quantityinput = parseInt(this.quantityinput);
-            if (this.quantityinput > this.quantityInventory) {
-                this.quantityinput = this.quantityInventory
-            }
-            this.quantityOld = this.quantityinput
-        } else {
-            this.quantityinput = this.quantityOld;
-        }
+        // let pattern = /^[0-9]*$/
+        // if (this.quantityinput == ''){
+        //     this.quantityinput = 1;
+        // }
+        // if (pattern.test(this.quantityinput)) {
+        //     this.quantityinput = parseInt(this.quantityinput);
+        //     if (this.quantityinput > this.quantityInventory) {
+        //         this.quantityinput = this.quantityInventory
+        //     }
+        //     this.quantityOld = this.quantityinput
+        // } else {
+        //     this.quantityinput = this.quantityOld;
+        // }
     }
 
     plusQuantity() {

@@ -29,7 +29,13 @@
         <span>Số lượng: </span>
         <div class="quantity-input">
             <button (click)="minusQuantity()"><i class="fa-solid fa-minus"></i></button>
-            <input type="text" class="quantity-detail" (keyup)="checkQuantityInput()" [(ngModel)]="quantityinput">
+            <input type="text" class="quantity-detail"
+                   (keyup)="checkQuantityInput()"
+                   [(ngModel)]="quantityinput"
+                   currencyMask
+                   [options]="{ prefix: '', thousands: ',',precision: '0' , align:'center',
+                                                                   allowNegative :'false',max:quantityInventory, min: 1}"
+            >
             <button (click)="plusQuantity()"><i class="fa-solid fa-plus"></i></button>
             <div style="margin-left: 10px" *ngIf="quantityInventory>0">Còn lại trong kho {{quantityInventory}}</div>
         </div>
