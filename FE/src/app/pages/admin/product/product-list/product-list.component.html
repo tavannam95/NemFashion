@@ -1,3 +1,9 @@
+<div *ngIf="isLoading" class="loading">
+  <div
+          class="spinner-border text-danger spinner-center"
+          role="status"
+  ></div>
+</div>
 <div class="main-content">
   <div class="container-fluid">
     <div class="card custom-card">
@@ -23,18 +29,18 @@
             <mat-form-field appearance="outline">
               <mat-label>
                 <i class="fas fa-search"></i>
-                Tìm Kiếm...
+                Tìm Kiếm
               </mat-label>
               <input
                 matInput
                 (keyup)="applyFilter($event)"
-                placeholder="..."
+                placeholder=""
                 #input
               />
             </mat-form-field>
           </div>
         </div>
-        <div class="">
+        <div class="font-weight-bold">
           <table mat-table [dataSource]="dataSource" matSort>
             
             <!-- ID Column -->
@@ -100,10 +106,13 @@
                     <span>Sửa thông tin</span>
                   </button>
                   <button mat-menu-item [routerLink]="['/productDetail',row.id]">
-                    Thêm chi tiết
+                    Nhập hàng
                   </button>
-                  <button mat-menu-item>
+                  <button mat-menu-item (click)="openDialogProductView(row)">
                     <span>Xem chi tiết</span>
+                  </button>
+                  <button mat-menu-item (click)="openProductViewImagesDialog(row)">
+                    <span>Ảnh sản phẩm</span>
                   </button>
                 </mat-menu>
               </td>

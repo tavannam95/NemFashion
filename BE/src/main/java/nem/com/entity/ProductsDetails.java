@@ -41,4 +41,8 @@ public class ProductsDetails {
     @ManyToOne
     @JoinColumn(name = "size_id", referencedColumnName = "id")
     private Sizes size;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "productsDetail")
+    private List<Carts> listCarts;
 }

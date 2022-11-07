@@ -1,0 +1,92 @@
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-danger spinner-center" role="status"></div>
+</div>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card custom-card">
+      <div class="card-body">
+
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="findByStatus($event.index - 1)">
+
+          <mat-tab *ngFor="let s of listStatus">
+            <ng-template mat-tab-label>
+              <span>
+                {{s}}
+              </span>
+            </ng-template>
+            <mat-card *ngFor="let order of allOrder" class="border mt-3">
+              <mat-card-title>
+                <div class="row">
+                  <div class="col-6">
+                    {{order.orders.customer.fullname}}
+                  </div>
+                  <div class="col-6 d-flex justify-content-end">
+                    Mã hóa đơn: #{{order.orders.id}}
+                  </div>
+                </div>
+              </mat-card-title>
+              <mat-divider inset></mat-divider>
+              <mat-card-content>
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="w-50 text-center">Thông tin sản phẩm</th>
+                      <th>Tổng giá</th>
+                      <th>Trạng thái</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="align-self-center">
+                        <div *ngFor="let od of order.orderDetailsList">
+                          <div class="row mb-3">
+                            <div class="col-2">
+                              <img class="img-product" [src]="od.productsDetail.product.thumnail" alt="">
+                            </div>
+                            <div class="col-4 d-flex align-items-center">
+                              {{od.productsDetail.product.name}}
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                              Size: {{od.productsDetail.size.code}}
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                              Màu: {{od.productsDetail.color.name}}
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                              x{{od.quantity}}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {{order.orders.total| currency:' ':'symbol':'0.0-2'}} VNĐ
+                      </td>
+                      <td>
+                        {{getStatus(order.orders.status)}}
+                      </td>
+                      <td>
+                        <div *ngIf="order.orders.status==0">
+                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
+                            Chuẩn bị hàng
+                          </a>
+                        </div>
+                        <div *ngIf="order.orders.status!=0">
+                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
+                            Xem thông tin
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </mat-card-content>
+            </mat-card>
+
+          </mat-tab>
+        </mat-tab-group>
+
+      </div>
+    </div>
+  </div>
+</div>

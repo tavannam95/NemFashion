@@ -7,9 +7,14 @@ export const ApiConstant = {
   productDetail: 'http://localhost:8080/api/v1/productDetail',
   size: 'http://localhost:8080/api/v1/size',
   color: 'http://localhost:8080/api/v1/color',
+  order: 'http://localhost:8080/api/v1/order',
   cloudinary: 'http://localhost:8080/api/image',
   auth: {
         login: 'http://localhost:8080/auth/admin/login',
     },
   api:"http://localhost:8080/api/v1/"
+        login: 'http://localhost:8080/api/auth/admin/login',
+    },
+  rating: 'http://localhost:8080/api/v1/rating',
+  ratingImg: 'http://localhost:8080/api/v1/rating-images'
 };

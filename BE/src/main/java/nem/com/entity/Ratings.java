@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -33,9 +34,17 @@ public class Ratings {
     @Column(name = "status", nullable = true)
     private Short status;
 
+    @Basic
+    @Column(name = "create_date" , nullable = true )
+    private Date createDate ;
+
     @JsonIgnore
     @OneToMany(mappedBy = "rating")
     private List<RatingImages> listRatingImages;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id" )
+    private Orders orders ;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")

@@ -19,4 +19,10 @@ getProductImage(id: number) {
 createProductImage(data: any) {
   return this.apiService.createProductImage(data);
 }
+getProductImageById(id: any){
+  return this.apiService.getProductImageById(id);
+}
+deleteProductImage(data: any, id: number){
+  return this.apiService.deleteProductImage(data,id);
+}
 }

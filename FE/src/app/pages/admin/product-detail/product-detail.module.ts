@@ -9,11 +9,14 @@ import { ProductDetailFormComponent } from './product-detail-form/product-detail
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { ImportExcelDialogComponent } from './dialog/import-excel-dialog/import-excel-dialog.component';
+import {  MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
-  declarations: [ProductDetailFormComponent],
+  declarations: [ProductDetailFormComponent, ImportExcelDialogComponent],
   imports: [
     CommonModule,
     ProductDetailRoutingModule,
@@ -23,7 +26,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgxDropzoneModule,
     MatCheckboxModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectModule,
+    FormsModule,
+    MatDialogModule
   ]
 })
 export class ProductDetailModule { }

@@ -10,6 +10,10 @@ constructor(
   private readonly apiService: ProductDetailApiService
 ) { }
 createProductDetail(data: any){
-  this.apiService.createProductDetail(data);
+   return this.apiService.createProductDetail(data);
+}
+
+getProductDetailById(data: any){
+  return this.apiService.getProductDetailById(data);
 }
 }

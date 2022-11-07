@@ -1,5 +1,7 @@
 package nem.com.service.impl;
 
+import lombok.AllArgsConstructor;
+import nem.com.dto.response.CategoryDTO;
 import nem.com.entity.Categories;
 import nem.com.entity.Products;
 import nem.com.repository.CategoriesRepository;
@@ -9,17 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoriesRepository categoriesRepository;
 
-    public CategoryServiceImpl(CategoriesRepository categoriesRepository) {
-        this.categoriesRepository = categoriesRepository;
-    }
-
     @Override
-    public List<Categories> getAll() {
-        return this.categoriesRepository.findAll();
+    public List<CategoryDTO> getAll() {
+        return this.categoriesRepository.getCategories();
     }
 
     @Override

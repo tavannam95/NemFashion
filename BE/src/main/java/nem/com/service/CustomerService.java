@@ -17,7 +17,16 @@ public interface CustomerService {
 
     void delete(Integer id);
 
-    void updateAllStatusTrue(List<Integer> id);
+    void updateAllStatusTrue(List<Integer> listId);
 
-    void updateAllStatusFalse(List<Integer> id);
+    void updateAllStatusFalse(List<Integer> listId);
+
+    Customers findByResetPasswordToken(String token);
+
+    Customers findCustomerByEmail(String email);
+
+    void  updateResetPassword(String email, String token);
+
+    boolean updatePassword(Integer id, String newPassword);
+
 }

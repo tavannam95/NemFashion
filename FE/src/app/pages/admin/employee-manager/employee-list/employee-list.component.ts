@@ -18,7 +18,7 @@ export class EmployeeListComponent implements OnInit {
     TYPE_DIALOG = Constant.TYPE_DIALOG ;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    displayedColumns: string[] = [ 'photo' , 'fullname', 'email', 'password', 'birthday', 'phone' , 'address', 'role', 'status' ,'control'];
+    displayedColumns: string[] = [ 'photo' , 'fullname', 'email',  'birthday', 'phone' , 'address', 'role', 'status' ,'control'];
     dataSource = new MatTableDataSource();
     message = ''
 

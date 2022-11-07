@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {OrderManagerComponent} from './order-manager/order-manager.component';
 import {OrderRoutingModule} from "./order-routing.module";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -12,13 +11,16 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ReactiveFormsModule} from "@angular/forms";
-import {OrderDetailComponent} from "./order-manager/order-detail/order-detail.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTabsModule} from "@angular/material/tabs";
+import { OrderListComponent } from './order-list/order-list.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
+import { PreparingProductComponent } from './dialog/preparing-product/preparing-product.component';
 @NgModule({
     declarations: [
-        OrderManagerComponent,
-        OrderDetailComponent,
+        OrderListComponent,
+        PreparingProductComponent
     ],
     imports: [
         CommonModule,
@@ -34,9 +36,10 @@ import {MatTabsModule} from "@angular/material/tabs";
         MatCheckboxModule,
         ReactiveFormsModule,
         MatDialogModule,
-        MatTabsModule
-    ],
-    providers: [OrderDetailComponent]
+        MatTabsModule,
+        MatDividerModule,
+        MatCardModule
+    ]
 })
 export class OrderModule {
 }

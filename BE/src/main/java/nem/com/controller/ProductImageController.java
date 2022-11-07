@@ -26,6 +26,12 @@ public class ProductImageController {
     public ResponseEntity<ProductImages> getOne(@PathVariable("id") Integer id){
         return new ResponseEntity<>(this.productImageService.getOne(id),HttpStatus.OK);
     }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<List<ProductImages>> getProductImagesById(@PathVariable("id") Integer id){
+        return new ResponseEntity<>(this.productImageService.getProductsImagesById(id),HttpStatus.OK);
+    }
+
     @PostMapping("")
     public ResponseEntity<ProductImages> save(@RequestBody ProductImages productImages){
         return new ResponseEntity<>(this.productImageService.save(productImages),HttpStatus.OK);
@@ -35,4 +41,10 @@ public class ProductImageController {
     public void delete(@PathVariable("id") Integer id){
         this.productImageService.delete(id);
     }
+
+    @GetMapping("list-proId/{id}")
+    public ResponseEntity<List<ProductImages>> findByProId( @PathVariable("id") Integer id ){
+        return ResponseEntity.ok( this.productImageService.findByProId(id) ) ;
+    }
+
 }

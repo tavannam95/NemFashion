@@ -3,21 +3,25 @@ package nem.com.service.impl;
 import nem.com.entity.Products;
 import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.ProductsRepository;
+import nem.com.service.ProductDetailService;
 import nem.com.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductsRepository productsRepository;
 
-    public ProductServiceImpl(ProductsRepository productsRepository) {
-        this.productsRepository = productsRepository;
-    }
+    private final ProductDetailService productDetailService;
 
+    public ProductServiceImpl(ProductsRepository productsRepository, ProductDetailService productDetailService) {
+        this.productsRepository = productsRepository;
+        this.productDetailService = productDetailService;
+    }
 
     @Override
     public Products getOne(Integer id) {
@@ -28,6 +32,31 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Products> getAll() {
         return this.productsRepository.findAll();
+    }
+
+    @Override
+    public Page<Products> getAllByAllPropertites(Integer[] size, Short[] category, Integer[] color, Double max, Double min, Pageable pageable) {
+        return this.productsRepository.findProByAllProperty( size , category , color , max , min , pageable );
+    }
+
+    @Override
+    public List<Products> findTop10Pro() {
+        return this.productsRepository.findTop10Product();
+    }
+
+    @Override
+    public List<Products> findProductNeverRating(Long id) {
+        return this.productsRepository.findProductNeverRating( id) ;
+    }
+
+    @Override
+    public List<Products> getProductsSimilar(Short id) {
+        return this.productsRepository.getProductByCategory(id);
+    }
+
+    @Override
+    public List<Products> getAllNewPro() {
+        return this.productsRepository.findTop10NewProduct() ;
     }
 
     @Override

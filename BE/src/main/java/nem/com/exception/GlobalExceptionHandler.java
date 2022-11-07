@@ -23,9 +23,27 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(LitmitQuantitySellingException.class)
-    public ResponseEntity<?> LitmitQuantitySellingException(LitmitQuantitySellingException exception) {
+    @ExceptionHandler(LimitQuantityException.class)
+    public ResponseEntity<?> uniqueFieldExceptionHandler(LimitQuantityException exception) {
         ErrorMessage errorMessage = new ErrorMessage("LIMIT_QUANTITY", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IsEmptyException.class)
+    public ResponseEntity<?> uniqueFieldExceptionHandler(IsEmptyException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("EMPTY", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LoginInvalidException.class)
+    public ResponseEntity<?> uniqueFieldExceptionHandler(LoginInvalidException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("LOGIN_INVALID", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserInactiveException.class)
+    public ResponseEntity<?> userInactiveException(UserInactiveException exception) {
+        ErrorMessage errorMessage = new ErrorMessage("INACTIVE", exception.getMessage(), new Date());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 

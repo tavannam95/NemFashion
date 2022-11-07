@@ -10,6 +10,12 @@ constructor(
   private readonly apiService: ColorApiService
 ) { }
 createColor(data: any){
-  return this.apiService.createSize(data);
+  return this.apiService.createColor(data);
+}
+getAllColor(){
+  return this.apiService.getAllColor();
+}
+getOneColor(id: number){
+  return this.apiService.getOneColor(id);
 }
 }

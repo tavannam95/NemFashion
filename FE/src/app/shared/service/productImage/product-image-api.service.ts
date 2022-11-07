@@ -26,4 +26,7 @@ createProductImage(data: any): Observable<any> {
 deleteProductImage(data: any, id: number){
   return this.http.delete(`${ApiConstant.productImage}/${id}`, data)
 }
+getProductImageById(id: any): Observable<any>{
+  return this.http.get(`${ApiConstant.productImage}/product/${id}`);
+}
 }

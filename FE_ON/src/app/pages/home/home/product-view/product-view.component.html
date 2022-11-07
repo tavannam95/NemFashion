@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 offset-1">
+      <!--====== Product Detail Zoom ======-->
+      <div class="pd u-s-m-b-30 row">
+        <div class="col-3">
+          <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel" [config]="slideConfissg"
+                              (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
+                              (beforeChange)="beforeChange($event)" >
+
+          <div class="row">
+            <div class="col-12 mb-2">
+              <img src="{{product.thumnail}}" (click)="changThumnail( product.thumnail )" class="img-fluid" style="height: 150px;" [class]="product.thumnail === thumnail ? 'clickImage' : '' "
+              >
+            </div>
+          </div>
+          <div ngxSlickItem class="row " *ngFor="let x of productImage" (click)="changThumnail( x.name )">
+            <div class="col-12 mb-2">
+              <img src="{{x.name}}" class="img-fluid" style="height: 150px;" [class]="x.name === thumnail ? 'clickImage' : '' "
+                  >
+            </div>
+          </div>
+          </ngx-slick-carousel>
+        </div>
+        <div class="col-8 ">
+          <img src="{{thumnail}}" class="u-img-fluid">
+        </div>
+      </div>
+      <!--====== End - Product Detail Zoom ======-->
+    </div>
+    <div class="col-lg-5">
+      <!--====== Product Right Side Details ======-->
+      <div class="pd-detail">
+        <div>
+          <span class="pd-detail__name fs-4">{{product.name}}</span>
+        </div>
+        <div>
+          <div class="pd-detail__inline">
+            <span class="pd-detail__price">{{product.price | currency: 'VND' : 'symbol' : '4.0' }}</span>
+
+            <span class="pd-detail__discount">(76% OFF)</span
+            >
+            <del class="pd-detail__del">$28.97</del>
+          </div>
+        </div>
+<!--        Star ở đây-->
+        <div class="u-s-m-b-15">
+          <form class="pd-detail__form">
+            <div class="u-s-m-b-15">
+              <span class="pd-detail__label u-s-m-b-8">Color:</span>
+              <div class="pd-detail__color">
+                <div class="color__radio" *ngFor="let color of listColor " >
+                  <input type="radio" id="jet" name="color" [disabled]="checkSize(color.id )" (click)="clickColor(color.id)"/>
+                  <label
+                    class="color__radio-label"
+                    for="jet"
+                    [style.background-color]="color.code"
+                    [style.opacity]="checkSize(color.id) ? '0.5' : ''"
+                  ></label>
+                </div>
+              </div>
+            </div>
+            <div class="u-s-m-b-15">
+              <span class="pd-detail__label u-s-m-b-8">Size:</span>
+              <div class="pd-detail__size">
+                <div class="size__radio" *ngFor="let size of listSize">
+                  <input type="radio" id="{{size.code}}" name="size" [disabled]=" checkColor(size.id )" (click)="clickSize(size.id)" />
+                  <label class="size__radio-label" for="{{size.code}}" [style.opacity]="checkColor(size.id) ? '0.5' : ''">{{size.code}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="pd-detail-inline-2">
+              <div class="u-s-m-b-15">
+                <!--====== Input Counter ======-->
+                <div class="input-counter">
+                            <span
+                              class="input-counter__minus fas fa-minus"
+                            ></span>
+
+                  <input
+                    class="input-counter__text input-counter--text-primary-style"
+                    type="text"
+                    value="1"
+                    data-min="1"
+                    data-max="1000"
+                  />
+
+                  <span
+                    class="input-counter__plus fas fa-plus"
+                  ></span>
+                </div>
+                <!--====== End - Input Counter ======-->
+              </div>
+            </div>
+            <div class="u-s-m-b-15">
+              <button class="btn btn-warning" type="submit">
+                Add to Cart
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!--====== End - Product Right Side Details ======-->
+    </div>
+    <div class="col-1">
+         <span (click)="onCancel()" class="fs-4">
+              <i class="fas fa-times"></i>
+          </span>
+    </div>
+  </div>
+</div>

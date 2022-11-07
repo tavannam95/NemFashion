@@ -24,9 +24,21 @@ import {MatTreeModule} from '@angular/material/tree';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRadioModule} from '@angular/material/radio';
+import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-create-dialog.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { ProductViewDialogComponent } from '../dialog/product-view-dialog/product-view-dialog.component';
+import { ProductViewImagesDialogComponent } from '../dialog/product-view-dialog/product-view-images-dialog/product-view-images-dialog.component';
 
 @NgModule({
-  declarations: [ProductFormComponent, ProductListComponent, CategoryCreateDialogComponent, ProductEditDialogComponent],
+  declarations: [
+    ProductFormComponent, 
+    ProductListComponent, 
+    CategoryCreateDialogComponent, 
+    ProductEditDialogComponent,
+    ColorCreateDialogComponent,
+    ProductViewDialogComponent,
+    ProductViewImagesDialogComponent
+  ],
   imports: [
     CommonModule,
     ProductRoutingModule,
@@ -47,7 +59,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatTreeModule,
     MatTooltipModule,
     MatMenuModule,
-    MatRadioModule
+    MatRadioModule,
+    ScrollingModule
   ],
 })
 export class ProductModule{
