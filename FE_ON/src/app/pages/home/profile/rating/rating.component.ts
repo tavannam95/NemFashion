@@ -30,7 +30,7 @@ export class RatingComponent implements OnInit {
     id: '' ,
     rating: 0,
     content: ['' , Validators.required ],
-    status: 1,
+    status: 0,
     orders: this.fb.group( {
       id: ''
     }),

@@ -11,4 +11,6 @@ public interface RatingImageService {
     List<RatingImages> getAll() ;
 
     List<RatingImages> getRatingImgByIdRating( Long[] id );
+
+    void deleteRatingImage( Long[] id ) ;
 }

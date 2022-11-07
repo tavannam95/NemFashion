@@ -8,6 +8,10 @@
   cursor: not-allowed;
 }
 
+.shop-p__pagination > li{
+  margin: 0px ;
+}
+
 .loading {
   background: rgba(0, 0, 0, 0.5);
   width: 100%;

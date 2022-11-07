@@ -4,6 +4,7 @@ import nem.com.dto.response.RatingAvgDTO;
 import nem.com.dto.response.RatingProductDTO;
 import nem.com.entity.Products;
 import nem.com.entity.Ratings;
+import nem.com.repository.RatingImagesRepository;
 import nem.com.service.RatingService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +22,16 @@ import java.util.Optional;
 public class RatingController {
 
     private final RatingService ratingService ;
+    private final RatingImagesRepository ratingImagesRepository ;
 
-    public RatingController( RatingService ratingService ){
+    public RatingController( RatingService ratingService , RatingImagesRepository ratingImagesRepository ){
+        this.ratingImagesRepository = ratingImagesRepository ;
         this.ratingService = ratingService ;
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Ratings>> getAllRatingByCustome(@RequestParam("id") Integer id ){
-        return ResponseEntity.ok( this.ratingService.getAllRatingByCustom(id) );
+    public ResponseEntity<List<Ratings>> getAllRatingByCustome(@RequestParam("id") Integer id , @RequestParam("status") Short status ){
+        return ResponseEntity.ok( this.ratingService.getAllRatingByCustom(id , status ) );
     }
 
     @PostMapping("")
@@ -47,10 +49,23 @@ public class RatingController {
     public ResponseEntity<Page<RatingProductDTO>> getRatingPro( @RequestParam("idPro") Integer idPro ,
                                                                 @RequestParam("pageNo") Optional<Integer> pageNo ){
         Pageable pageable = PageRequest.of( pageNo.orElse(0) , 6 ) ;
-
         Page<RatingProductDTO> page =  this.ratingService.getRatingPro(idPro , pageable );
-
         return new ResponseEntity<>(page , HttpStatus.OK) ;
     }
 
+    @GetMapping("getRatingWithStatus")
+    public ResponseEntity<List<Ratings>> getRatings(){
+        return ResponseEntity.ok(this.ratingService.getAllRatingWithStatus() );
+    }
+
+    @GetMapping("updateRatingImage")
+    public void updateRatingImage( @RequestParam("rateImg") Long[] id ) {
+        this.ratingService.UpdateStatusOrder( id );
+    }
+
+    @GetMapping("deleteRating")
+    public void deleteRating(  @RequestParam("rateImg") Long[] id  ){
+        this.ratingImagesRepository.deleteRatingImg(id);
+        this.ratingService.deleteRating(id);
+    }
 }
