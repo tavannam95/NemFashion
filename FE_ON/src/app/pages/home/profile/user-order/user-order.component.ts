@@ -22,9 +22,11 @@ export class UserOrderComponent implements OnInit {
 
   listStatus = [
     { status: 0 , name: 'Chờ xác nhận'} ,
+    { status: 1 , name: 'Đã xác nhận'} ,
     { status: 2 , name:  'Đang giao'} ,
-    { status: 1 , name: 'Đã giao'} ,
-    { status: 4 , name: 'Đã hủy'}
+    { status: 3 , name: 'Đã giao'} ,
+    { status: 4 , name: 'Đã hủy'} ,
+    // { status: 5 , name: 'Trả hàng hoàn tiền'}
   ]
 
   constructor( private dialog: MatDialog ,
@@ -49,7 +51,7 @@ export class UserOrderComponent implements OnInit {
   }
 
   findAllRating(){
-    this.ratingService.getAllRatingByIdCustome(this.storageService.getIdFromToken() ).subscribe( data => {
+    this.ratingService.getAllRatingByIdCustome(this.storageService.getIdFromToken()  ).subscribe( data => {
         this.listRating = data as any[] ;
     })
   }
@@ -68,8 +70,6 @@ export class UserOrderComponent implements OnInit {
   }
 
   OnpenRating( orderId: number , productId: number   ) {
-    console.log( orderId)
-    console.log(productId)
     this.dialog.open(RatingComponent, {
       width: '30vw',
       disableClose: true,
@@ -110,7 +110,7 @@ export class UserOrderComponent implements OnInit {
 
   checkDate( a: any ){
      let date = new Date() ;
-     date.setDate( date.getDate() - 5 )
+     date.setDate( date.getDate() -5 )
      if( date <= new Date(a) ){
         return true ;
      }

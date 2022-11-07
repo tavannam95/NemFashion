@@ -57,7 +57,7 @@
                                   (afterChange)="afterChange($event)"
                                   (beforeChange)="beforeChange($event)">
                 <div ngxSlickItem *ngFor="let pro of listPro "
-                     class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                     class="slide col-12">
                   <div class="product-o product-o--hover-on product-o--radius">
                     <a [routerLink]="['/product-detail/', pro.id]">
                       <div class="product-o__wrap">
@@ -136,7 +136,7 @@
                                   (afterChange)="afterChange($event)"
                                   (beforeChange)="beforeChange($event)">
 
-                <div ngxSlickItem *ngFor="let pro of listNewPro " class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                <div ngxSlickItem *ngFor="let pro of listNewPro " class="slide col-12">
                   <div class="product-o product-o--hover-on product-o--radius">
                     <a [routerLink]="['/product-detail/', pro.id]">
                       <div class="product-o__wrap">

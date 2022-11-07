@@ -30,4 +30,9 @@ public class RatingImageServiceImpl implements RatingImageService {
     public List<RatingImages> getRatingImgByIdRating(Long[] id) {
         return this.repository.getRatingImgByIdRating(id);
     }
+
+    @Override
+    public void deleteRatingImage(Long[] id) {
+        this.repository.deleteRatingImg(id); ;
+    }
 }

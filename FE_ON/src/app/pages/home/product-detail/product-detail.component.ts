@@ -111,6 +111,7 @@ export class ProductDetailComponent implements OnInit {
   getRatingByIdPro( idPro: number , pageNo: number  ){
      this.ratingService.getRatingPro( idPro , pageNo ).subscribe( (data:any) => {
          this.listRatingByPro = data.content ;
+       console.log('list pro' , this.listRatingByPro)
          this.totalPage = data.totalPages ;
          this.changPage()
          this.ratingImageService.getRatingImgByIdRating( this.listRatingByPro ).subscribe( data => {
