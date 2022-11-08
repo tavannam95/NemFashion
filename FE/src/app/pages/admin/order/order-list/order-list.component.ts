@@ -100,7 +100,7 @@ export class OrderListComponent implements OnInit {
   }
 
   verifyOrCancelOrder(row: any, f: number){
-    this.orderService.verifyOrCancelOrder(row,f).subscribe({
+    this.orderService.updateStatus(row,f).subscribe({
       next: (res)=>{
         if (f == 1) {
           this.toastrService.success('Xác nhận đơn hàng thành công');

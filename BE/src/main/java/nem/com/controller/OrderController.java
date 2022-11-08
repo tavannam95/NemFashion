@@ -59,7 +59,7 @@ public class OrderController {
 
     @PutMapping("/updateStatus/{status}")
     public ResponseEntity<Orders> updateStatus(@PathVariable("status") Integer status, @RequestBody Orders orders){
-        orders.setStatus(1);
+        orders.setStatus(status);
         return new ResponseEntity<>(this.orderService.verifyOrCancel(orders,status),HttpStatus.OK);
     }
 }
