@@ -14,7 +14,7 @@ getAllOrder() {
 findByStatus(status: any){
   return this.apiService.findByStatus(status);
 }
-verifyOrCancelOrder(data: any, status: number){
-  return this.apiService.verifyOrCancelOrder(data,status);
+updateStatus(data: any, status: number){
+  return this.apiService.updateStatus(data,status);
 }
 }

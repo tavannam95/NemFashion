@@ -18,7 +18,7 @@ findByStatus(status: any): Observable<any>{
   return this.http.get(`${ApiConstant.order}/${status}`);
 }
 
-verifyOrCancelOrder(data: any, status: number){
+updateStatus(data: any, status: number){
   return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
 }
 

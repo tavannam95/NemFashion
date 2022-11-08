@@ -23,7 +23,7 @@ export class PreparingProductComponent implements OnInit {
   }
 
   verifyOrCancelOrder(){
-    this.OrderService.verifyOrCancelOrder(this.dataDialog,1).subscribe({
+    this.OrderService.updateStatus(this.dataDialog,1).subscribe({
       next:(res)=>{
         this.ToastrService.success('Chuẩn bị hàng thành công')
       },
