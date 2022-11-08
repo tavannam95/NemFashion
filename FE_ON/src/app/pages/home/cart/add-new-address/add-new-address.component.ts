@@ -15,16 +15,24 @@ import {StorageService} from "../../../../shared/service/storage.service";
 export class AddNewAddressComponent implements OnInit {
   title: string = '';
 
-  cities!: any[];
+  provinces!: any[];
   districts!: any[];
   wards!: any[];
   defaultAddress: number = 0;
+  provinceName: any;
+  districtName: any;
+  wardName: any;
 
   formGroup = this.fb.group({
     id: [null],
-    city: [-1],
-    district: [-1],
-    ward: [-1],
+    fullname: [''],
+    phone: [''],
+    provinceId: [-1],
+    provinceName: [''],
+    districtId: [-1],
+    districtName: [''],
+    wardId: [-1],
+    wardName: [''],
     other: [],
     customer: {
       id: this.storageService.getIdFromToken()
@@ -48,32 +56,43 @@ export class AddNewAddressComponent implements OnInit {
       this.formGroup.patchValue(this.matDataDialog.row);
       console.log(this.matDataDialog.row)
     }
-    this.getCity();
+    this.getProvince();
   }
 
-  getCity() {
-    this.addressService.getCity().subscribe(res => {
-      this.cities = res as any[];
+  getProvince() {
+    this.addressService.getProvince().subscribe((res: any) => {
+      this.provinces = res.data;
     })
   }
 
-  getDistrict(code: any) {
-    this.addressService.getDistrict(code).subscribe((res: any) => {
-      this.districts = res.districts as [];
-      if (this.matDataDialog.type === Constants.TYPE_DIALOG.NEW) {
-        this.formGroup.patchValue({district: this.districts[0].name});
-        this.getWard(this.districts[0].code);
-      }
+  getDistrict(provinceId: any, provinceName: any) {
+    this.addressService.getDistrict(provinceId).subscribe((res: any) => {
+      this.districts = res.data;
     })
+    this.provinceName = provinceName;
   }
 
-  getWard(code: any) {
-    this.addressService.getWard(code).subscribe((res: any) => {
-      this.wards = res.wards as [];
-      if (this.matDataDialog.type === Constants.TYPE_DIALOG.NEW) {
-        this.formGroup.patchValue({ward: this.wards[0].name});
-      }
+  getWard(districtId: any, districtName: any) {
+    this.addressService.getWard(districtId).subscribe((res: any) => {
+      this.wards = res.data;
     })
+    this.districtName = districtName;
+  }
+
+  resetDistrictAndWard() {
+    this.formGroup.patchValue({districtId: -1});
+    this.formGroup.patchValue({wardId: -1});
+    this.districts = [];
+    this.wards = [];
+  }
+
+  resetWard() {
+    this.formGroup.patchValue({wardId: -1});
+    this.wards = [];
+  }
+
+  getWardName(wardName: any) {
+    this.wardName = wardName;
   }
 
   onClose() {
@@ -81,15 +100,28 @@ export class AddNewAddressComponent implements OnInit {
   }
 
   onSave() {
-    if (this.formGroup.getRawValue().city === -1 ||
-      this.formGroup.getRawValue().district === -1 ||
-      this.formGroup.getRawValue().ward === -1) {
+    console.log(this.formGroup.getRawValue())
+    if (this.formGroup.getRawValue().provinceId === -1 ||
+    this.formGroup.getRawValue().districtId === -1 ||
+    this.formGroup.getRawValue().wardId === -1 ||
+    this.formGroup.getRawValue().fullname === '' ||
+    this.formGroup.getRawValue().phone === '') {
       this.toastService.warning("Vui lòng chọn đầy đủ thông tin !")
+      return;
+    }
+    // @ts-ignore
+    if (!this.formGroup.getRawValue().phone.match("^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$")) {
+      this.toastService.warning("Số điện thoại không đúng định dạng !")
       return;
     }
 
     if (this.matDataDialog.type === Constants.TYPE_DIALOG.NEW) {
-      if (this.matDataDialog.listAddress.length == 0) {
+      this.formGroup.patchValue({
+        wardName: this.wardName,
+        districtName: this.districtName,
+        provinceName: this.provinceName
+      })
+      if (this.matDataDialog.listAddress.length == 0) { //Đặt địa chỉ đầu tiên làm mặc định
         this.formGroup.patchValue({status: 1});
       }
       this.addressService.createAddress(this.formGroup.getRawValue())
@@ -124,7 +156,6 @@ export class AddNewAddressComponent implements OnInit {
           }
         })
     }
-
     this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
   }
 

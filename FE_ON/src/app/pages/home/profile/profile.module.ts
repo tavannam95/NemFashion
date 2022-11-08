@@ -11,7 +11,6 @@ import {NgxDropzoneModule} from "ngx-dropzone";
 import {NgxStarsModule} from "ngx-stars";
 import {SigninComponent} from "./signin/signin.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {SigninComponent} from "./signin/signin.component";
 
 @NgModule({
   declarations: [

@@ -29,7 +29,7 @@ export class CustomerFormComponent implements OnInit {
         fullname: ['', [Validators.required, Validators.pattern(Regex.unicode)]],
         photo: ['', []],
         email: ['', [Validators.required, Validators.pattern(Regex.email)]],
-        password: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
         phone: ['', [Validators.required, Validators.pattern(Regex.phone)]],
         birthDate: ['', [Validators.required]],
         siginDate: new Date(),

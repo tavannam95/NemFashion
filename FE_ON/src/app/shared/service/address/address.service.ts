@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {ApiConstrant} from "../../constants/ApiConstrants.module";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +10,24 @@ export class AddressService {
   constructor(private readonly http: HttpClient) {
   }
 
-  getCity() {
-    return this.http.get('https://provinces.open-api.vn/api/p/');
+  getProvince() {
+    return this.http.get('https://online-gateway.ghn.vn/shiip/public-api/master-data/province');
   }
 
-  getDistrict(code: any) {
-    return this.http.get('https://provinces.open-api.vn/api/p/' + code + '?depth=2');
+  getDistrict(provinceId: any) {
+    return this.http.get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`);
   }
 
-  getWard(code: any) {
-    return this.http.get('https://provinces.open-api.vn/api/d/' + code + '?depth=2');
+  getWard(districtId: any) {
+    return this.http.get(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`);
+  }
+
+  getService(data: any) {
+    return this.http.post('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services', data);
+  }
+
+  getShippingOrder(data: any) {
+    return this.http.post('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', data);
   }
 
   findAddressByCustomerId(customerId: any) {
@@ -42,7 +50,7 @@ export class AddressService {
     return this.http.delete(`${ApiConstrant.address}/${id}`);
   }
 
-  findAddressByStatus(customerId: number){
+  findAddressByStatus(customerId: number) {
     return this.http.get(`${ApiConstrant.address}/status/${customerId}`);
   }
 }

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
-import {AuthService} from "../service/auth/auth.service";
 import {StorageService} from "../service/storage.service";
 
 @Injectable({
@@ -9,8 +8,7 @@ import {StorageService} from "../service/storage.service";
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(public readonly authService: AuthService,
-              public readonly storageService: StorageService,
+  constructor(public readonly storageService: StorageService,
               public readonly router: Router) {
   }
 

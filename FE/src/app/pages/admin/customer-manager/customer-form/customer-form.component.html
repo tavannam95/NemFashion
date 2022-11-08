@@ -71,7 +71,7 @@
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Mật khẩu</mat-label>
                         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
-                               autocomplete="off">
+                               autocomplete="off" minlength="6">
                         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                                 [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -80,6 +80,11 @@
                                    *ngIf="formGroup.get('password')?.hasError('required') &&
                                       formGroup.get('password')?.touched">
                             Mật khẩu không được để trống
+                        </mat-error>
+                        <mat-error class="text-danger"
+                                   *ngIf="formGroup.get('password')?.hasError('minlength') &&
+                                      formGroup.get('password')?.touched">
+                            Mật khẩu không được nhỏ hơn 6 ký tự
                         </mat-error>
                     </mat-form-field>
                 </ng-container>

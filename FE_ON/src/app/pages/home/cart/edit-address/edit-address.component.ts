@@ -29,19 +29,16 @@ export class EditAddressComponent implements OnInit {
               private readonly storageService: StorageService) {
   }
 
+  idTest: any;
+
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
       this.findAddressByCustomerId(this.storageService.getIdFromToken());
     }
-    if (this.dataDialog) {
-      if (this.idAddress) {
-        this.idAddress = this.dataDialog.id;
-      }
+    if (this.dataDialog && this.idAddress) {
+      this.idAddress = this.dataDialog.id;
+      this.idTest = this.dataDialog.id;
     }
-  }
-
-  onClose() {
-    this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.CLOSE);
   }
 
   openAddNewAddress(type?: any, row?: any) {
@@ -70,12 +67,17 @@ export class EditAddressComponent implements OnInit {
     })
   }
 
+  onClickRadio(id: any) {
+    console.log(id)
+    this.idAddress = id;
+  }
+
   onSaveAddress() {
     this.matDialogRef.close(this.idAddress);
   }
 
-  onClickRadio(id: any) {
-    this.idAddress = id;
+  onClose() {
+      this.matDialogRef.close(this.idAddress); //Not clean
   }
 
   onDelete(id: number, status: number) {
@@ -87,6 +89,9 @@ export class EditAddressComponent implements OnInit {
       next: _ => {
         this.toastService.success("Xoá địa chỉ thành công !")
         this.findAddressByCustomerId(this.storageService.getIdFromToken());
+        if (this.addressInCustomer.length > 0) {
+          this.idAddress = this.addressInCustomer.filter(a => a.status === 1)[0].id;
+        }
       },
       error: (err) => {
         console.log(err);

@@ -69,4 +69,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeesRepository.findById( id ).get();
     }
 
+    @Override
+    public Employees findEmployeeByEmail(String email) {
+        return this.employeesRepository.findByEmail(email);
+    }
+
 }

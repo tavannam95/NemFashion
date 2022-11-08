@@ -30,7 +30,6 @@ public class OrderServiceOnlineImpl implements OrderServiceOnline {
 
     @Override
     public Orders save(Orders order) {
-        order.setFreight(0.0);
         order.setCreateDate(new Timestamp(System.currentTimeMillis()));
         return this.ordersRepository.save(order);
     }

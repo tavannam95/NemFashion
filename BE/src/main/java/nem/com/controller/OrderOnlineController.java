@@ -46,7 +46,7 @@ public class OrderOnlineController {
             orderDetail.setProductsDetail(productsDetail);
             orderDetail.setQuantity(cart.getQuantity());
             orderDetail.setDiscount(0.0);
-            orderDetail.setUnitprice(cart.getQuantity() * cart.getProductsDetail().getProduct().getPrice());
+            orderDetail.setUnitprice(cart.getProductsDetail().getProduct().getPrice());
             orderDetail.setStatus(1);
 
             if (cart.getQuantity() > productsDetail.getQuantity()) {

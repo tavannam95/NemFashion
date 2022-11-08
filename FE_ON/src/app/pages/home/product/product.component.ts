@@ -119,8 +119,8 @@ export class ProductComponent implements OnInit {
 
   OpenProductView(product: any) {
     const dialogRef = this.dialog.open(ProductViewComponent, {
-      width: '100vw',
-      disableClose: true,
+      width: '60vw',
+      disableClose: false,
       hasBackdrop: true,
       data: {
         product: product,

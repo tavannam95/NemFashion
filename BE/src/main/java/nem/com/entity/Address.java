@@ -20,16 +20,36 @@ public class Address {
     private Integer id;
 
     @Basic
-    @Column(name = "city", nullable = true, length = 255)
-    private String city;
+    @Column(name = "province_id", nullable = true)
+    private Integer provinceId;
 
     @Basic
-    @Column(name = "district", nullable = true, length = 255)
-    private String district;
+    @Column(name = "province_name", nullable = true, length = 50)
+    private String provinceName;
 
     @Basic
-    @Column(name = "ward", nullable = true, length = 255)
-    private String ward;
+    @Column(name = "district_id", nullable = true)
+    private Integer districtId;
+
+    @Basic
+    @Column(name = "district_name", nullable = true, length = 50)
+    private String districtName;
+
+    @Basic
+    @Column(name = "ward_id", nullable = true, length = 50)
+    private String wardId;
+
+    @Basic
+    @Column(name = "ward_name", nullable = true, length = 50)
+    private String wardName;
+
+    @Basic
+    @Column(name = "fullname", nullable = true, length = 255)
+    private String fullname;
+
+    @Basic
+    @Column(name = "phone", nullable = true, length = 15)
+    private String phone;
 
     @Basic
     @Column(name = "other", nullable = true, length = 255)
@@ -44,3 +64,4 @@ public class Address {
     private Customers customer;
 
 }
+
