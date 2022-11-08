@@ -34,16 +34,16 @@
                 <!--====== Radio Box ======-->
                 <div class="radio-box">
                   <input type="radio" id="address{{a?.id}}" name="checkedRadio" [value]="a?.id"
-                         [checked]="a?.id == dataDialog?.id"
+                         [checked]="a?.id == dataDialog?.id || a?.id == idAddress"
                          (click)="onClickRadio(a.id)">
                   <div class="radio-box__state radio-box__state--primary">
                     <label class="radio-box__label" for="address{{a.id}}"></label></div>
                 </div>
                 <!--====== End - Radio Box ======-->
               </td>
-              <td>{{a.customer.fullname}}</td>
-              <td>{{a.ward + ', ' + a.district + ', ' + a.city}}</td>
-              <td>{{a.customer.phone}}</td>
+              <td>{{a.fullname}}</td>
+              <td>{{a.wardName + ', ' + a.districtName + ', ' + a.provinceName}}</td>
+              <td>{{a.phone}}</td>
               <td>{{a.other == null ? 'Trống' : a.other}}</td>
               <td>
                 <a style="margin-right: 15px" class="fas fa-sync table-p__delete-link p-0"

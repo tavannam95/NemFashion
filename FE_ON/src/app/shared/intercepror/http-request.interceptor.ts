@@ -30,6 +30,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      'token': 'cff0fcca-5ddf-11ed-ad26-3a4226f77ff0'
     });
 
     if (userToken != null) {

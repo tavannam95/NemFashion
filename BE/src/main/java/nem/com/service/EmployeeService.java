@@ -17,4 +17,6 @@ public interface EmployeeService {
 
     Employees findById( Integer id ) ;
 
+    Employees findEmployeeByEmail(String email);
+
 }
