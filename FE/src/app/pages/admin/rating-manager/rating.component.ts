@@ -4,6 +4,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {RatingService} from '../../../shared/service/rating/rating.service';
 import {ToastrService} from 'ngx-toastr';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {Constant} from '../../../shared/constants/Constant';
 
 @Component({
   selector: 'rating',
@@ -21,7 +24,8 @@ export class RatingComponent implements OnInit {
 
 
   constructor( private ratingService: RatingService ,
-               private toast: ToastrService ) {
+               private toast: ToastrService ,
+               private dialog: MatDialog ) {
       this.getAllRating() ;
   }
 
@@ -65,16 +69,29 @@ export class RatingComponent implements OnInit {
   }
 
   deleteRating(){
-      this.ratingService.deleteRating( this.array ).subscribe( {
-          next: () => {
-              this.toast.success("Xóa thành công");
-              this.array = [] ;
-              this.getAllRating() ;
-          },
-          error: () => {
-              this.toast.error("Xóa thất bại");
+      this.dialog.open( ConfirmDialogComponent , {
+            hasBackdrop: true ,
+            width: '30vw' ,
+            disableClose: true ,
+            data: {
+                message: 'Bạn có chắc muốn xóa chứ ?' ,
+                title: 'Xác nhận'
+            }
+      }).afterClosed().subscribe( value => {
+          if( value == Constant.RESULT_CLOSE_DIALOG.CONFIRM  ){
+              this.ratingService.deleteRating( this.array ).subscribe( {
+                  next: () => {
+                      this.toast.success("Xóa thành công");
+                      this.array = [] ;
+                      this.getAllRating() ;
+                  },
+                  error: () => {
+                      this.toast.error("Xóa thất bại");
+                  }
+              })
           }
       })
+
   }
 
   ngOnInit(): void {
