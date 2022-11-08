@@ -1,6 +1,7 @@
 package nem.com.service;
 
 import nem.com.entity.Products;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,4 +25,5 @@ public interface ProductService {
 
     Products update(Products products);
     void delete(Integer id);
+    List<Products> findByCate(Short id);
 }

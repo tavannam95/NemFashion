@@ -48,6 +48,10 @@ public class ProductController {
         return new ResponseEntity<>(this.productService.update(products),HttpStatus.OK);
     }
 
+    @GetMapping("/findByCate/{id}")
+    public ResponseEntity<List<Products>> findByCate(@PathVariable("id") Short id) {
+        return ResponseEntity.ok(this.productService.findByCate(id));
+    }
     @GetMapping("findSize")
     public ResponseEntity<Page<Products>> findProBySize(@RequestParam(value = "size"  ) Integer[] sizes  ,
                                                         @RequestParam(value = "category" ) Short[] category ,

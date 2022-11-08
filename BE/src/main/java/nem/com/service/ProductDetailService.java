@@ -1,5 +1,6 @@
 package nem.com.service;
 
+import nem.com.dto.request.ProductDetailsDTO;
 import nem.com.dto.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 
@@ -17,6 +18,7 @@ public interface ProductDetailService {
 
     ProductsDetails save(ProductsDetails productsDetails);
 
+    List<ProductDetailsDTO> getByIdProduct(Integer id);
     List<ProductsDetails> findProductsDetailsByProductId(Integer productId);
 
     ProductsDetails findProductDetailBySizeAndColor(Integer productId, Integer sizeId, Integer colorId);

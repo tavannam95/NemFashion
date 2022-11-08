@@ -16,11 +16,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-image/employee-image.component';
-import {NgxDropzoneModule} from 'ngx-dropzone';
+import {NgxDropzoneModule} from 'ngx-dropzone'
+import {LoadingComponent} from './shared/loading/loading.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { LoadingComponent } from './shared/loading/loading.component';
 import { ProductImageCreateDialogComponent } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
 import {httpInterceptorProviders} from './shared/intercepror/http-request.interceptor';
+import { RatingComponent } from './pages/admin/rating-manager/rating.component';
 
 
 @NgModule({
@@ -39,7 +40,6 @@ import {httpInterceptorProviders} from './shared/intercepror/http-request.interc
         MatDatepickerModule,
         MatNativeDateModule,
         NgxDropzoneModule,
-        NgSelectModule,
     ],
     declarations: [
         AppComponent,

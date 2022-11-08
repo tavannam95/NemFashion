@@ -1,6 +1,7 @@
 package nem.com.repository;
 
 import nem.com.entity.Orders;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,8 +17,13 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("select o from Orders o where o.customer.id = :id order by o.createDate desc")
     List<Orders> getAllOrders( @Param("id") Integer id );
 
+    @Query("select o from Orders o order by o.createDate desc")
+    List<Orders> getAllOrderSort(Pageable pageable);
+
+    List<Orders> findByStatusOrderByCreateDateDesc(Integer status, Pageable pageable);
+
+    @Query("Update Orders o set o.status = :status where o.id = :id ")
     @Modifying
     @Transactional
-    @Query("Update Orders o set o.status = :status where o.id = :id ")
-    void updateStatusOrder( @Param("status") Short status , @Param("id") Long id ) ;
+    void updateStatusOrder( @Param("status") Integer status , @Param("id") Long id ) ;
 }

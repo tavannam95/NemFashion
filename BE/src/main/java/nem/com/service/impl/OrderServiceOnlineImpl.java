@@ -44,7 +44,7 @@ public class OrderServiceOnlineImpl implements OrderServiceOnline {
         return this.ordersRepository.getAllOrders(id) ;
     }
     @Override
-    public void updateStatusOrder(Short status, Long id) {
+    public void updateStatusOrder(Integer status, Long id) {
         List<OrderDetails> listOrderDetail = this.orderDetailsRepository.getOrderDetailsByOrder(id);
         for(OrderDetails x : listOrderDetail ){
             Integer a = x.getQuantity() + x.getProductsDetail().getQuantity() ;
@@ -52,6 +52,4 @@ public class OrderServiceOnlineImpl implements OrderServiceOnline {
         }
         this.ordersRepository.updateStatusOrder( status , id );
     }
-
-
 }

@@ -1,5 +1,6 @@
 package nem.com.service;
 
+import nem.com.dto.response.ColorDTO;
 import nem.com.entity.Colors;
 import nem.com.entity.Sizes;
 
@@ -10,7 +11,7 @@ public interface ColorService {
 
     Colors getOne(Integer id);
 
-    List<Colors> getAll();
+    List<ColorDTO> getAll();
 
     List<Colors> findAllColorInProductDetails(Integer productId);
 }

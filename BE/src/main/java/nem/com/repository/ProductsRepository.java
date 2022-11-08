@@ -10,6 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProductsRepository extends JpaRepository<Products, Integer> {
+
+    @Query("SELECT p FROM Products p WHERE p.category.id = :id and p.status = 1")
+    List<Products> findByCate(@Param("id") Short id);
     @Query("select p from Products p where p.id in " +
             "( select pb.product.id from ProductsDetails pb where pb.size.id in (:size) and pb.color.id in (:color) ) " +
             " and p.category.id in (:category) and p.price between :min and :max")

@@ -42,6 +42,10 @@ export const content_admin: Routes = [
     {
         path: 'category',
         loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
+    },
+    {
+        path: 'rating' ,
+        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule )
     }
 
 ]

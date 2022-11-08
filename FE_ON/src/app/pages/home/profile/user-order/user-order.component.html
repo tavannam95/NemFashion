@@ -15,8 +15,9 @@
                 <div>
                   <div class="dash__link dash__link--brand">
                     <a href="#" *ngIf="order.status == 0">Chờ xác nhận</a>
-                    <a href="#" *ngIf="order.status == 1">Đã giao</a>
+                    <a href="#" *ngIf="order.status == 1">Đã xác nhận</a>
                     <a href="#" *ngIf="order.status == 2">Đang giao</a>
+                    <a href="#" *ngIf="order.status == 3">Đã giao</a>
                     <a href="#" *ngIf="order.status == 4">Đã hủy</a>
                   </div>
                 </div>
@@ -62,8 +63,9 @@
                   <div>
                     <div class="dash__link dash__link--brand">
                       <a href="#" *ngIf="order.status == 0">Chờ xác nhận</a>
-                      <a href="#" *ngIf="order.status == 1">Đã giao</a>
+                      <a href="#" *ngIf="order.status == 1">Đã xác nhận</a>
                       <a href="#" *ngIf="order.status == 2">Đang giao</a>
+                      <a href="#" *ngIf="order.status == 3">Đã giao</a>
                       <a href="#" *ngIf="order.status == 4">Đã hủy</a>
                       <span class="ms-3" *ngIf=" order.status == 0" >
                           <button class="btn btn-danger" (click)="openCancel(order.id)">Hủy</button>
@@ -85,7 +87,7 @@
               </div>
               <div class="description__info-wrap">
                 <div class="description-title">
-                  <div *ngIf="checkDate(order.createDate) && order.status == 1 && checkRating(order.id , od.productsDetail.product.id )">
+                  <div *ngIf="checkDate(order.createDate) && order.status == 3 && checkRating(order.id , od.productsDetail.product.id )">
                       <span class="btn btn-outline-info" (click)="OnpenRating(order.id , od.productsDetail.product.id) ">đánh giá sao</span>
                   </div>
                   <div class="mt-4">Số lượng: <span class="fw-normal"> {{od.quantity}} </span> </div>

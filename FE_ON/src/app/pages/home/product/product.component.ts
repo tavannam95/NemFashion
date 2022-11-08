@@ -260,4 +260,11 @@ export class ProductComponent implements OnInit {
     }
     return 5 ;
   }
+
+  showPage( check: number , page: number ){
+     if( page == check || check - 1 == page || check - 2 == page || check + 1 == page || check + 2 == page ){
+         return true ;
+     }
+     return false ;
+  }
 }

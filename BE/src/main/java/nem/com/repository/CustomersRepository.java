@@ -26,4 +26,7 @@ public interface CustomersRepository extends JpaRepository<Customers, Integer> {
     @Transactional
     @Query("update Customers c set c.status = 0 where c.id in (:id)")
     void updateAllStatusFalse(List<Integer> id);
+
+    @Query("SELECT c FROM Customers  c where c.id > 0")
+    List<Customers> fillAllCus();
 }

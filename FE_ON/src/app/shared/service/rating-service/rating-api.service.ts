@@ -13,7 +13,7 @@ export class RatingApiService {
   }
 
   getAllRatingByIdCustome( id: number ){
-     return this.http.get(`${ApiConstrant.rating}?id=${id}`)
+     return this.http.get(`${ApiConstrant.rating}?id=${id}&status=3`)
   }
 
   getAvgRating(){

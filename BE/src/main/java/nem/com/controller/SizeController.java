@@ -1,5 +1,6 @@
 package nem.com.controller;
 
+import nem.com.dto.response.SizeDTO;
 import nem.com.entity.Sizes;
 import nem.com.service.SizeService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class SizeController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Sizes>> getAll() {
+    public ResponseEntity<List<SizeDTO>> getAll() {
         return new ResponseEntity<>(this.sizeService.getAll(), HttpStatus.OK);
     }
 

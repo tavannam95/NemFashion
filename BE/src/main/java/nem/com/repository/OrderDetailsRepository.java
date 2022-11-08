@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
 
+    @Query("select od from OrderDetails od where od.order.id = :orderId")
+    List<OrderDetails> findByOrderId(Long orderId);
+
     @Query("select od from OrderDetails od where od.order.customer.id = :id ")
     List<OrderDetails> getOrderDetailsById(@Param("id") Integer id ) ;
 

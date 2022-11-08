@@ -10,11 +10,17 @@ import java.util.List;
 
 public interface RatingService {
 
-    List<Ratings> getAllRatingByCustom( Integer id ) ;
+    List<Ratings> getAllRatingByCustom( Integer id , Short status ) ;
 
     Ratings createRating( Ratings ratings ) ;
 
     List<RatingAvgDTO> getAvgRating() ;
 
     Page<RatingProductDTO> getRatingPro(Integer id , Pageable pageable) ;
+
+    List<Ratings> getAllRatingWithStatus() ;
+
+    void UpdateStatusOrder( Long[] id ) ;
+
+    void deleteRating( Long[] id ) ;
 }

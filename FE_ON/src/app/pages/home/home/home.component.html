@@ -56,9 +56,8 @@
                                   (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
                                   (afterChange)="afterChange($event)"
                                   (beforeChange)="beforeChange($event)">
-
                 <div ngxSlickItem *ngFor="let pro of listPro "
-                     class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                     class="slide col-12">
                   <div class="product-o product-o--hover-on product-o--radius">
                     <a [routerLink]="['/product-detail/', pro.id]">
                       <div class="product-o__wrap">
@@ -97,7 +96,6 @@
                     </span>
                     <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
                     <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
-                      <span class="product-o__discount">$160.00</span>
                     </span>
                   </div>
                 </div>
@@ -138,7 +136,7 @@
                                   (afterChange)="afterChange($event)"
                                   (beforeChange)="beforeChange($event)">
 
-                <div ngxSlickItem *ngFor="let pro of listNewPro " class="slide col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
+                <div ngxSlickItem *ngFor="let pro of listNewPro " class="slide col-12">
                   <div class="product-o product-o--hover-on product-o--radius">
                     <a [routerLink]="['/product-detail/', pro.id]">
                       <div class="product-o__wrap">
@@ -182,7 +180,6 @@
                     </span>
                     <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
                     <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
-                      <span class="product-o__discount">$160.00</span>
                     </span>
                   </div>
                 </div>
