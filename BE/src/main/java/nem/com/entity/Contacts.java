@@ -27,20 +27,32 @@ public class Contacts {
     private String phone;
 
     @Basic
-    @Column(name = "address_name", nullable = true, length = 255)
-    private String addressName;
+    @Column(name = "ward_code", nullable = true, length = 255)
+    private String ward_code;
 
     @Basic
-    @Column(name = "ward", nullable = true, length = 50)
-    private String ward;
+    @Column(name = "district_code", nullable = true, length = 255)
+    private String district_code;
 
     @Basic
-    @Column(name = "district", nullable = true, length = 50)
-    private String district;
+    @Column(name = "city_code", nullable = true, length = 255)
+    private String city_code;
 
     @Basic
-    @Column(name = "province", nullable = true, length = 50)
-    private String province;
+    @Column(name = "ward_name", nullable = true, length = 255)
+    private String ward_name;
+
+    @Basic
+    @Column(name = "district_name", nullable = true, length = 255)
+    private String district_name;
+
+    @Basic
+    @Column(name = "city_name", nullable = true, length = 255)
+    private String city_name;
+
+    @Basic
+    @Column(name = "other", nullable = true, length = 255)
+    private String other;
 
     @Basic
     @Column(name = "status", nullable = true)
