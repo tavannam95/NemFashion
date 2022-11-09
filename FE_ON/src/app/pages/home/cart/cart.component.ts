@@ -110,6 +110,7 @@ export class CartComponent implements OnInit {
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
       hasBackdrop: true,
+      width:"25vw",
       data: {
         message: 'Bạn có muốn xoá tất cả sản phẩm khỏi giỏ hàng?'
       }
@@ -197,6 +198,7 @@ export class CartComponent implements OnInit {
     this.formGroup.patchValue({ward: -1});
     this.districts = [];
     this.wards = [];
+    this.shippingTotal = 0;
   }
 
   resetWard() {
