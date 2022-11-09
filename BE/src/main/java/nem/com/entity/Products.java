@@ -32,6 +32,10 @@ public class Products {
     private Double price;
 
     @Basic
+    @Column(name = "weight", nullable = true, precision = 0)
+    private Double weight;
+
+    @Basic
     @Column(name = "description", nullable = true, length = 255)
     private String description;
 

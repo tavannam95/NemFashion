@@ -23,14 +23,4 @@ public class ContactController {
     public ResponseEntity<Contacts> getDefaultContact(){
         return new ResponseEntity<>(this.contactService.getDefaultContact(), HttpStatus.OK);
     }
-    @GetMapping("/response-entity-builder-with-http-headers")
-    public ResponseEntity<String> usingResponseEntityBuilderAndHttpHeaders() {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Baeldung-Example-Header",
-                "Value-ResponseEntityBuilderWithHttpHeaders");
-
-        return ResponseEntity.ok()
-                .headers(responseHeaders)
-                .body("Response with header using ResponseEntity");
-    }
 }
