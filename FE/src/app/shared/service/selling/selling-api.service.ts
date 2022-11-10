@@ -27,4 +27,8 @@ export class SellingApiService {
   paymentSelling(obj: any): Observable<any>{
     return this.http.post(`${this.api}selling/payment`,obj);
   }
+
+  resetQuantityInventory(lst: any):Observable<any>{
+    return this.http.post(`${this.api}selling/resetQuantityInventory`,lst);
+  }
 }

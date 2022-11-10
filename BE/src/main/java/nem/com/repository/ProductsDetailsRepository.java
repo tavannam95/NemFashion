@@ -25,4 +25,5 @@ public interface ProductsDetailsRepository extends JpaRepository<ProductsDetails
     @Modifying
     @Query("update ProductsDetails p set p.quantity = :quantity where p.id = :id ")
     void updateSoLuong( @Param("quantity") Integer quantity , @Param("id") Integer id ) ;
+
 }

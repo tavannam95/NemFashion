@@ -24,17 +24,7 @@ export class SellingService {
     return this.sellingApiService.paymentSelling(obj);
   }
 
-  printfPDFHtml(obj:any){
-    return `<html>
-               <head>
-              <title>NemPhaSun</title>
-              <style type="text/css">
-              
-            </style>
-            <body>
-               
-</body>
-          </head>
-        </html>`
+  resetQuantityInventory(lst:any){
+    return this.sellingApiService.resetQuantityInventory(lst);
   }
 }
