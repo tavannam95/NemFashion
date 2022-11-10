@@ -74,7 +74,7 @@
 
 
 // TAB
-.mat-tab-label {
+.car .mat-tab-label {
     min-width: 130px !important;
     margin-top: 10px;
     color: white;
@@ -82,15 +82,20 @@
     opacity: 1 !important;
 }
 
-.mat-tab-body-content {
+.car .mat-tab-body-content {
     overflow: unset !important;
+}
+
+.car .mat-tab-group {
+    height: 100vh;
+    background-color: rgb(26, 148, 255);
 }
 
 .last {
     border: 1px solid black;
 }
 
-.mat-tab-header {
+.car .mat-tab-header {
     max-width: 100%;
     margin-left: 500px;
     margin-right: 123px;
@@ -274,7 +279,7 @@ div#mat-menu-panel-0 {
     display: none;
 }
 
-.mat-tab-body-wrapper {
+.car .mat-tab-body-wrapper {
     padding-top: 15px;
     background-color: white;
 }
@@ -287,7 +292,7 @@ div#mat-menu-panel-0 {
     font-size: 16px;
 }
 
-.mat-tab-header-pagination {
+.car .mat-tab-header-pagination {
     margin-top: 10px;
 }
 
@@ -505,10 +510,6 @@ textarea.note {
     text-align: center;
 }
 
-.mat-tab-group {
-    height: 100vh;
-    background-color: rgb(26, 148, 255);
-}
 
 .mat-drawer-content,
 mat-drawer-container {

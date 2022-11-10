@@ -143,12 +143,13 @@
                                                             <button (click)="minusQuantity(index)"><i
                                                                     class="fa-solid fa-minus"></i></button>
                                                             <input type="text"
+                                                                   [style.background-color]="quantityDetail[index]>orderDetail.quantityInventory?'red':''"
                                                                    matTooltip="Kho: {{orderDetail.quantityInventory}}"
                                                                    (keyup)="setOrderLocalStorage(listOrders);checkQuantityInput(index)"
                                                                    [(ngModel)]="quantityDetail[index]"
                                                                    currencyMask
                                                                    [options]="{ prefix: '', thousands: ',',precision: '0' , align:'center',
-                                                                   allowNegative :'false',max:orderDetail.quantityInventory, min: 1}">
+                                                                   allowNegative :'false'}">
                                                             <button (click)="plusQuantity(index)"><i
                                                                     class="fa-solid fa-plus"></i></button>
                                                         </div>
