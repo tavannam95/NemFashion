@@ -16,17 +16,6 @@ export class GhnApiService {
     ) { }
 
   createOrderGhn(data: any){
-    let header = new HttpHeaders();
-    header.set('Token', Ghn.TOKEN);
-    header.set('ShopId', Ghn.SHOP_ID);
-    header.set('Content-Type', Ghn.CONTENT_TYPE);
-    console.log(header);
-    axios({
-      method: 'POST',
-      url: ApiConstant.ghn,
-      data: data,
-      headers: 
-    })
-    // return this.http.post(`${ApiConstant.ghn}/create`,{'header': header, 'data-raw': data});
+    return this.http.post(`${ApiConstant.ghn}/create`,data);
   }
 }

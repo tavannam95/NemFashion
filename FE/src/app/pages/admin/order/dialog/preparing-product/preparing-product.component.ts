@@ -53,9 +53,8 @@ export class PreparingProductComponent implements OnInit {
     "insurance_value": [''],
     "service_id": 0,
     "service_type_id":2,
-    "coupon":null,
+    "coupon":[''],
     "pick_shift":null,
-    "pickup_time": [''],
     "items": ['']
   });
 
@@ -105,14 +104,14 @@ export class PreparingProductComponent implements OnInit {
         this.items.push({
           name: this.orderDetails[i].productsDetail.product.name,
           quantity: this.orderDetails[i].quantity,
-          weight: this.orderDetails[i].productsDetail.product.weight
+          // weight: this.orderDetails[i].productsDetail.product.weight
         });
       }
       this.weight = weight;
     })
   }
 
-  check(){
+  createOrderGhn(){
     let insurance_value = 0;
     if (this.dataDialog.total<=1000000) {
       insurance_value = 1000000;
@@ -161,10 +160,20 @@ export class PreparingProductComponent implements OnInit {
       "required_note": this.requiredNote,
       "weight": this.weight,
       "items": this.items,
-      "client_order_code": this.dataDialog.customer.id,
+      "client_order_code": this.dataDialog.customer.id+"",
       "note": this.dataDialog.note
     })
-    this.ghnService.createOrderGhn(this.data.value);
+    console.log(this.data.value);
+    
+    this.ghnService.createOrderGhn(this.data.value).subscribe({
+      next: (res)=>{
+        this.toastrService.success('OK');
+      },
+      error: (e)=>{
+        console.log(e);
+        
+      }
+    });
   }
 
 }
