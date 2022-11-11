@@ -10,6 +10,8 @@ import {
 import {Observable} from 'rxjs';
 import {StorageService} from "../service/storage.service";
 import {Router} from "@angular/router";
+import { ApiConstant } from '../constants/ApiConstant';
+import { Ghn } from '../constants/Ghn';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
@@ -34,6 +36,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     if (userToken != null) {
       httpHeader = httpHeader.append('Authorization', 'Bearer ' + userToken)
+    }
+    if (req.url.includes(ApiConstant.ghn)) {
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+      httpHeader = httpHeader.append('ShopId', Ghn.SHOP_ID);
     }
 
     req = req.clone({

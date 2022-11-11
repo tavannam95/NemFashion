@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
 import { FormBuilder } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
+import { GhnApiService } from '../../../../../shared/service/ghn/ghn-api.service';
 
 @Component({
   selector: 'app-preparing-product',
@@ -65,11 +66,12 @@ export class PreparingProductComponent implements OnInit {
     private matDialogRef: MatDialogRef<PreparingProductComponent>,
     private contactService: ContactService,
     private fb: FormBuilder,
-    private orderDetailService: OrderDetailService
+    private orderDetailService: OrderDetailService,
+    private ghnService: GhnApiService
   ) { }
 
   ngOnInit() {
-    // console.log(this.dataDialog);
+    console.log(this.dataDialog);
     
     this.getDefaultContact();
     this.getWeight();
@@ -97,8 +99,6 @@ export class PreparingProductComponent implements OnInit {
   getWeight(){
     this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.id).subscribe(res=>{
       this.orderDetails = res;
-      console.log(this.orderDetails);
-      
       let weight = 0;
       for (let i = 0; i < this.orderDetails.length; i++) {
         weight += (this.orderDetails[i].productsDetail.product.weight*this.orderDetails[i].quantity);
@@ -109,8 +109,6 @@ export class PreparingProductComponent implements OnInit {
         });
       }
       this.weight = weight;
-      console.log(this.items);
-      
     })
   }
 
@@ -162,11 +160,11 @@ export class PreparingProductComponent implements OnInit {
       "insurance_value": insurance_value,
       "required_note": this.requiredNote,
       "weight": this.weight,
-      "items": this.items
+      "items": this.items,
+      "client_order_code": this.dataDialog.customer.id,
+      "note": this.dataDialog.note
     })
-    
-    console.log(this.data.value);
-    
+    this.ghnService.createOrderGhn(this.data.value);
   }
 
 }
