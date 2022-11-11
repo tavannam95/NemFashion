@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
 import { FormBuilder } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
+import { GhnApiService } from '../../../../../shared/service/ghn/ghn-api.service';
 
 @Component({
   selector: 'app-preparing-product',
@@ -52,9 +53,8 @@ export class PreparingProductComponent implements OnInit {
     "insurance_value": [''],
     "service_id": 0,
     "service_type_id":2,
-    "coupon":null,
+    "coupon":[''],
     "pick_shift":null,
-    "pickup_time": [''],
     "items": ['']
   });
 
@@ -65,11 +65,12 @@ export class PreparingProductComponent implements OnInit {
     private matDialogRef: MatDialogRef<PreparingProductComponent>,
     private contactService: ContactService,
     private fb: FormBuilder,
-    private orderDetailService: OrderDetailService
+    private orderDetailService: OrderDetailService,
+    private ghnService: GhnApiService
   ) { }
 
   ngOnInit() {
-    // console.log(this.dataDialog);
+    console.log(this.dataDialog);
     
     this.getDefaultContact();
     this.getWeight();
@@ -97,24 +98,20 @@ export class PreparingProductComponent implements OnInit {
   getWeight(){
     this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.id).subscribe(res=>{
       this.orderDetails = res;
-      console.log(this.orderDetails);
-      
       let weight = 0;
       for (let i = 0; i < this.orderDetails.length; i++) {
         weight += (this.orderDetails[i].productsDetail.product.weight*this.orderDetails[i].quantity);
         this.items.push({
           name: this.orderDetails[i].productsDetail.product.name,
           quantity: this.orderDetails[i].quantity,
-          weight: this.orderDetails[i].productsDetail.product.weight
+          // weight: this.orderDetails[i].productsDetail.product.weight
         });
       }
       this.weight = weight;
-      console.log(this.items);
-      
     })
   }
 
-  check(){
+  createOrderGhn(){
     let insurance_value = 0;
     if (this.dataDialog.total<=1000000) {
       insurance_value = 1000000;
@@ -162,11 +159,21 @@ export class PreparingProductComponent implements OnInit {
       "insurance_value": insurance_value,
       "required_note": this.requiredNote,
       "weight": this.weight,
-      "items": this.items
+      "items": this.items,
+      "client_order_code": this.dataDialog.customer.id+"",
+      "note": this.dataDialog.note
     })
-    
     console.log(this.data.value);
     
+    this.ghnService.createOrderGhn(this.data.value).subscribe({
+      next: (res)=>{
+        this.toastrService.success('OK');
+      },
+      error: (e)=>{
+        console.log(e);
+        
+      }
+    });
   }
 
 }

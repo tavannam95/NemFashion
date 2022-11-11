@@ -20,15 +20,14 @@
 
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
-  <button (click)="check()">check</button>
   <div *ngIf="dataDialog.status==0" class="row">
-    <button class="btn btn-danger" mat-button mat-dialog-close>Hủy</button>
+    <button mat-button mat-dialog-close class="btn btn-danger" mat-button mat-dialog-close>Hủy</button>
     <button 
       class="btn btn-info" 
       mat-button 
       mat-dialog-close 
       cdkFocusInitial
-      (click)="verifyOrCancelOrder()"
+      (click)="createOrderGhn()"
       >Đồng ý</button>
   </div>
   <div *ngIf="dataDialog.status!=0" class="row">
