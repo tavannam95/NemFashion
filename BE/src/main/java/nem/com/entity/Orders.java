@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +49,10 @@ public class Orders {
     @Basic
     @Column(name = "note", nullable = true, length = 255)
     private String note;
+
+    @Basic
+    @Column(name = "order_code", nullable = true, length = 255)
+    private String orderCode;
 
     @Basic
     @Column(name = "total", nullable = true, precision = 0)
