@@ -40,7 +40,6 @@ public class ProductDetailsCustomRepositoryImpl implements ProductDetailsCustomR
                 .addScalar("nameSize", new StringType())
                 .setResultTransformer(Transformers.aliasToBean(ProductDetailsDTO.class));
         query.setParameter("id", id);
-
         return query.list();
     }
 

@@ -12,6 +12,9 @@ public interface ProductsDetailsRepository extends JpaRepository<ProductsDetails
     @Query("SELECT pd FROM ProductsDetails pd WHERE pd.product.id = :id")
     public List<ProductsDetails> getByIdProduct(@Param("id") Integer id);
 
+    @Query("SELECT pd FROM ProductsDetails pd WHERE pd.barCode = :barcode ")
+    public ProductsDetails getByBarCode(@Param("barcode") String barcode);
+
     @Query("select p from ProductsDetails p where  p.product.id = :id")
     List<ProductsDetails> findProductsDetailsByProductId(@Param("id") Integer productId);
 

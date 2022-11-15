@@ -68,4 +68,9 @@ public class ProductDetailController {
     public ResponseEntity<List<ProductDetailsDTO>> getByIdProduct(@PathVariable("id") Integer id){
         return ResponseEntity.ok(this.productDetailService.getByIdProduct(id));
     }
+
+    @GetMapping("/getByBarcode/{barcode}")
+    public ResponseEntity<ProductsDetails> getByBarcode(@PathVariable("barcode") String barcode){
+        return ResponseEntity.ok(this.productDetailService.getByBarcode(barcode));
+    }
 }

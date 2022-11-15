@@ -94,4 +94,9 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         int sizeId = productViewDto.getSize().getId();
         return this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
     }
+
+    @Override
+    public ProductsDetails getByBarcode(String barcode){
+        return this.productsDetailsRepository.getByBarCode(barcode);
+    }
 }

@@ -32,4 +32,6 @@ public class SellingController {
         List<ProductDetailsDTO> lstQuantityProduct = sellingService.resetQuantityInventory(lstId);
         return ResponseEntity.ok(lstQuantityProduct);
     }
+
+
 }
