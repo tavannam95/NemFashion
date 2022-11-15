@@ -38,4 +38,9 @@ public class OrderServiceImpl implements OrderService {
         this.ordersRepository.save(orders);
         return orders;
     }
+
+    @Override
+    public List<Orders> getOrderGhn() {
+        return this.ordersRepository.getOrderGhn();
+    }
 }

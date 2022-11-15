@@ -16,6 +16,7 @@ import * as es6printJS from "print-js";
 // import printJS = require("print-js");
 import printJS from 'print-js';
 import {ProductService} from "../../../../shared/service/product/product.service";
+import {StorageService} from "../../../../shared/service/storage.service";
 
 @Component({
     selector: 'selling',
@@ -31,7 +32,8 @@ export class SellingComponent implements OnInit, OnDestroy {
                 private customerService: CustomerService,
                 private currencyPipe: CurrencyPipe,
                 private toast: ToastrService,
-                private productService: ProductService) {
+                private productService: ProductService,
+                private storageService: StorageService) {
     }
 
     options = {prefix: '', thousands: ',', precision: '0', allowNegative: 'false'}
@@ -330,13 +332,16 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     minusQuantity(index) {
         let orderDetail = this.order.orderDetail[index];
-        if (orderDetail.quantity > 1) {
+        if (orderDetail.quantity > 0) {
             orderDetail.quantity -= 1;
             this.order.orderDetail[index] = orderDetail;
             this.order.totalQuantity -= 1;
             this.order.totalPrice -= orderDetail.price;
         }
         this.quantityDetail[index] = this.order.orderDetail[index].quantity;
+        if (orderDetail.quantity == 0) {
+            this.deleteDetail(index);
+        }
         this.setOrderLocalStorage(this.listOrders);
     }
 
@@ -358,10 +363,10 @@ export class SellingComponent implements OnInit, OnDestroy {
         //     return;
         // }
         // if (!isNaN(this.quantityDetail[index])) {
-            this.order.orderDetail[index].quantity = parseInt(this.quantityDetail[index]);
-            if (this.order.orderDetail[index].quantity > this.order.orderDetail[index].quantityInventory) {
-                this.order.orderDetail[index].quantity = this.order.orderDetail[index].quantityInventory;
-            }
+        this.order.orderDetail[index].quantity = parseInt(this.quantityDetail[index]);
+        if (this.order.orderDetail[index].quantity > this.order.orderDetail[index].quantityInventory) {
+            this.order.orderDetail[index].quantity = this.order.orderDetail[index].quantityInventory;
+        }
         // } else {
         //     this.quantityDetail[index] = 1;
         // }
@@ -410,7 +415,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     deleteDetail(index) {
         let oderDetailDelete = this.order.orderDetail.splice(index, 1);
-        this.quantityDetail.splice(index,1);
+        this.quantityDetail.splice(index, 1);
         this.order.totalPrice -= (oderDetailDelete[0].price * oderDetailDelete[0].quantity);
         this.order.totalQuantity -= oderDetailDelete[0].quantity;
         this.setOrderLocalStorage(this.listOrders);
@@ -544,32 +549,50 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.customerPayment = this.listTien[index];
     }
 
-    focusDiscout() {
+    resetQuantityInventory() {
+        let lstProductId = [];
+        this.order.orderDetail.forEach(pro => lstProductId.push(pro.id));
+        this.sellingService.resetQuantityInventory(lstProductId).subscribe({
+            next: resp => {
+                let lst = resp;
+                lst.forEach(pro => {
+                    let index = this.order.orderDetail.findIndex(orderDetal => orderDetal.id == pro.id);
+                    this.order.orderDetail[index].quantityInventory = pro.quantity;
+                });
+            },
+            error: err => {
 
+            }
+        })
+        console.log(lstProductId);
     }
 
 
     selling() {
+        for(let i = 0; i < this.quantityDetail.length;i++){
+            if(this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == ''){
+                this.toast.error("Vui lòng kiểm tra lại số lượng của sản phẩm!");
+                return;
+            }
+        }
+
         this.order.discount = this.discount;
+        this.order.employee = this.storageService.getIdFromToken();
         this.sellingService.paymentSelling(this.order).subscribe({
                 next: resp => {
                     this.drawer.close();
                     // this.print(resp); // Test
-                    if (resp.status === 'OK') {
                         this.toast.success("Thành công");
                         this.print(resp.data);
                         this.removeTab(this.selected.value);
-                    } else {
-                        console.log(resp.data);
-                        if (resp.data) {
-                            this.toast.error(resp.message);
-                            let orderDetail = this.order.orderDetail.find(od => od.id === resp.data.id);
-                            orderDetail.quantityInventory = resp.data.quantity;
-                        }
-                    }
                 },
                 error: err => {
-                    this.toast.error("Lỗi thanh toán");
+                    if(err.error?.code == 'LIMIT_QUANTITY'){
+                        this.toast.error(err.error.message);
+                        this.resetQuantityInventory();
+                    }else{
+                        this.toast.error("Lỗi thanh toán!");
+                    }
                 }
             }
         )

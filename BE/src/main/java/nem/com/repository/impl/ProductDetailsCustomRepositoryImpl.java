@@ -43,4 +43,23 @@ public class ProductDetailsCustomRepositoryImpl implements ProductDetailsCustomR
 
         return query.list();
     }
+
+    @Override
+    public List<ProductDetailsDTO> getProductDetailsByListID(List<Long> lstId){
+        StringBuilder sql = new StringBuilder("select pd.id, pd.quantity from products_details pd where 1 = 1 ");
+        if (lstId.size() > 0){
+            sql.append("and pd.id in (");
+            for(Long id:lstId){
+                sql.append(id +",");
+            }
+            sql.replace(sql.length() -1 ,sql.length(),")");
+        }
+        System.out.println(sql);
+        NativeQuery<ProductDetailsDTO> query = ((Session) entityManager.getDelegate()).createNativeQuery(sql.toString());
+        query
+                .addScalar("id", new IntegerType())
+                .addScalar("quantity", new IntegerType())
+                .setResultTransformer(Transformers.aliasToBean(ProductDetailsDTO.class));
+        return query.list();
+    }
 }

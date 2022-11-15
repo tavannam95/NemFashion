@@ -62,4 +62,9 @@ public class OrderController {
         orders.setStatus(status);
         return new ResponseEntity<>(this.orderService.verifyOrCancel(orders,status),HttpStatus.OK);
     }
+
+    @GetMapping("/ghn")
+    public ResponseEntity<List<Orders>> getOrderGhn(){
+        return new ResponseEntity<>(this.orderService.getOrderGhn(),HttpStatus.OK);
+    }
 }

@@ -25,5 +25,6 @@ public class SellingDTO {
 
     private Double discount;
 
+    private Integer employee;
 
 }

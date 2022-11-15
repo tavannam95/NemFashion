@@ -9,4 +9,6 @@ public interface OrderService {
     List<Orders> findByStatusOrderByCreateDateDesc(Integer status);
     List<Orders> getAllOrderSort();
     Orders verifyOrCancel(Orders orders, Integer f);
+
+    List<Orders> getOrderGhn();
 }
