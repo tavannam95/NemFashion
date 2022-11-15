@@ -1,4 +1,5 @@
 package nem.com.controller;
+import nem.com.domain.request.ProductDetailsDTO;
 import nem.com.domain.request.SellingDTO;
 import nem.com.domain.request.ServiceResult;
 import nem.com.dto.request.ProductDetailsDTO;
