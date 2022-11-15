@@ -1,7 +1,7 @@
 package nem.com.service.impl;
 
-import nem.com.dto.request.ProductDetailsDTO;
-import nem.com.dto.response.ProductDetailResponseDTO;
+import nem.com.domain.request.ProductDetailsDTO;
+import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.exception.UniqueFieldException;
 import nem.com.repository.ProductsDetailsRepository;

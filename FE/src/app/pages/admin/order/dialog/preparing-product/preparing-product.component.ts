@@ -13,11 +13,14 @@ import { GhnApiService } from '../../../../../shared/service/ghn/ghn-api.service
   styleUrls: ['./preparing-product.component.scss']
 })
 export class PreparingProductComponent implements OnInit {
+  isLoading: boolean = false;
   requiredNote: string = 'KHONGCHOXEMHANG';
   contact: any;
   orderDetails: any[];
   weight: any;
   items: any[] = [];
+  order: any;
+  resultOrder: any;
 
   data = this.fb.group({
     "payment_type_id": 2,
@@ -70,22 +73,11 @@ export class PreparingProductComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.dataDialog);
+    this.order = this.dataDialog;
+    console.log(this.order);
     
     this.getDefaultContact();
     this.getWeight();
-  }
-
-  verifyOrCancelOrder(){
-    this.orderService.updateStatus(this.dataDialog,1).subscribe({
-      next:(res)=>{
-        this.toastrService.success('Chuẩn bị hàng thành công')
-      },
-      error:(e)=>{
-        this.toastrService.error('Lỗi chuẩn bị hàng, vui lòng thử lại');
-      }
-    })
-    this.matDialogRef.close('OK');
   }
 
   getDefaultContact(){
@@ -96,7 +88,7 @@ export class PreparingProductComponent implements OnInit {
   }
 
   getWeight(){
-    this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.id).subscribe(res=>{
+    this.orderDetailService.getOrderDetailByOrderId(this.order.id).subscribe(res=>{
       this.orderDetails = res;
       let weight = 0;
       for (let i = 0; i < this.orderDetails.length; i++) {
@@ -112,14 +104,15 @@ export class PreparingProductComponent implements OnInit {
   }
 
   createOrderGhn(){
+    this.isLoading = true;
     let insurance_value = 0;
-    if (this.dataDialog.total<=1000000) {
+    if (this.order.total<=1000000) {
       insurance_value = 1000000;
     }else{
       insurance_value = 5000000;
     }
 
-    let address = this.dataDialog.shipAddress+"";
+    let address = this.order.shipAddress+"";
     let addressArr = address.split(', ');
     let to_address;
     let to_ward_name;
@@ -131,6 +124,7 @@ export class PreparingProductComponent implements OnInit {
       to_district_name = addressArr[2];
       to_province_name = addressArr[3];
     }else{
+      to_address = "Đc: ";
       to_ward_name = addressArr[0];
       to_district_name = addressArr[1];
       to_province_name = addressArr[2];
@@ -148,30 +142,37 @@ export class PreparingProductComponent implements OnInit {
       "return_district_name":this.contact.district_name,
       "return_province_name":this.contact.city_name,
       "return_phone":this.contact.phone,
-      "to_name": this.dataDialog.shipName,
+      "to_name": this.order.shipName,
       "to_address":to_address,
       "to_ward_name":to_ward_name,
       "to_district_name":to_district_name,
       "to_province_name":to_province_name,
-      "to_phone":this.dataDialog.shipPhone,
-      "cod_amount": this.dataDialog.total,
-      "content": this.dataDialog.note,
+      "to_phone":this.order.shipPhone,
+      "cod_amount": this.order.total,
+      "content": this.order.note,
       "insurance_value": insurance_value,
       "required_note": this.requiredNote,
       "weight": this.weight,
       "items": this.items,
-      "client_order_code": this.dataDialog.customer.id+"",
-      "note": this.dataDialog.note
+      "client_order_code": this.order.id+"",
+      "note": this.order.note
     })
     console.log(this.data.value);
     
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
-        this.toastrService.success('OK');
+        this.resultOrder = res;
+        this.orderService.updateStatus(this.order,1).subscribe(res=>{
+          this.order.orderCode = this.resultOrder.data.order_code;
+          this.matDialogRef.close('OK');
+          this.toastrService.success(this.resultOrder.message_display);
+          this.isLoading = false;
+        });
       },
       error: (e)=>{
+        this.isLoading = false;
         console.log(e);
-        
+        this.toastrService.error('Lỗi xác nhận đơn')
       }
     });
   }

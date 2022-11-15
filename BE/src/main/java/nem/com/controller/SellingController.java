@@ -1,7 +1,7 @@
 package nem.com.controller;
 
-import nem.com.dto.request.SellingDTO;
-import nem.com.dto.request.ServiceResult;
+import nem.com.domain.request.SellingDTO;
+import nem.com.domain.request.ServiceResult;
 import nem.com.service.SellingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

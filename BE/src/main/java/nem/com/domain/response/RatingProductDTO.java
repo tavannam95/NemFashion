@@ -1,4 +1,4 @@
-package nem.com.dto.response;
+package nem.com.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

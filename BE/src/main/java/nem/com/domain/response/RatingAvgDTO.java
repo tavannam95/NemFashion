@@ -1,4 +1,4 @@
-package nem.com.dto.response;
+package nem.com.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,14 +6,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class CategoryDTO {
+public class RatingAvgDTO implements Serializable {
+
     @Id
-    private Short id ;
-    private String name ;
-    private Long quantity ;
+    private Integer id ;
+    private Integer numberStar ;
 }

@@ -1,6 +1,6 @@
 package nem.com.repository;
 
-import nem.com.dto.response.CategoryDTO;
+import nem.com.domain.response.CategoryDTO;
 import nem.com.entity.Categories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

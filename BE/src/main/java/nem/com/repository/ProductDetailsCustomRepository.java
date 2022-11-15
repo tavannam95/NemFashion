@@ -1,6 +1,6 @@
 package nem.com.repository;
 
-import nem.com.dto.request.ProductDetailsDTO;
+import nem.com.domain.request.ProductDetailsDTO;
 
 import java.util.List;
 

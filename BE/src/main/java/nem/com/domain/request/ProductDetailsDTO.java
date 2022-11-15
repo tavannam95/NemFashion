@@ -1,9 +1,4 @@
-package nem.com.dto.request;
-
-import nem.com.entity.Colors;
-import nem.com.entity.Products;
-import nem.com.entity.Sizes;
-import java.util.List;
+package nem.com.domain.request;
 
 public class ProductDetailsDTO {
     private Integer id;

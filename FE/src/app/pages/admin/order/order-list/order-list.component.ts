@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Constant } from '../../../../shared/constants/Constant';
 import { MatDialog } from '@angular/material/dialog';
 import { PreparingProductComponent } from '../dialog/preparing-product/preparing-product.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-order-list',
@@ -15,6 +16,7 @@ import { PreparingProductComponent } from '../dialog/preparing-product/preparing
 })
 export class OrderListComponent implements OnInit {
   isLoading: boolean = false;
+  tabIndex: number = -1;
   allOrder: any;
   status: any;
   listStatus: string[] = [
@@ -43,18 +45,25 @@ export class OrderListComponent implements OnInit {
       data: data
     });
     dialogRef.afterClosed().subscribe(res=>{
-      if (res=='OK') {
-        window.location.reload();
+      if (res == 'OK') {
+        if (this.tabIndex==-1) {
+          this.getAllOrder();
+        }else{
+          this.orderService.findByStatus(this.tabIndex).subscribe(res=>{
+            this.allOrder = res;
+          });
+        }
       }
     })
   }
 
   findByStatus(event: any){
+    this.tabIndex = event;
     if (event==-1) {
       this.getAllOrder();
     }else{
       this.isLoading = true;
-      this.orderService.findByStatus(event).subscribe({
+      this.orderService.findByStatus(this.tabIndex).subscribe({
         next:(res)=>{
           this.allOrder = res;
           this.isLoading = false;
@@ -74,7 +83,6 @@ export class OrderListComponent implements OnInit {
       next: (res) =>{
         this.allOrder = res;
         this.isLoading = false;
-        console.log(this.allOrder);
       },
       error: (err) =>{
         console.log(err);

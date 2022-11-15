@@ -1,4 +1,4 @@
-package nem.com.dto.request;
+package nem.com.domain.request;
 
 import org.springframework.http.HttpStatus;
 

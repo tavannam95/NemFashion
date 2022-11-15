@@ -1,7 +1,7 @@
 package nem.com.service;
 
-import nem.com.dto.request.SellingDTO;
-import nem.com.dto.request.ServiceResult;
+import nem.com.domain.request.SellingDTO;
+import nem.com.domain.request.ServiceResult;
 
 public interface SellingService {
     ServiceResult<?> selling(SellingDTO sellingDTO);

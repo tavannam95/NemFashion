@@ -1,27 +1,18 @@
 package nem.com.service.impl;
 
-import nem.com.dto.request.ProductDetailsDTO;
-import nem.com.dto.request.SellingDTO;
-import nem.com.dto.request.ServiceResult;
+import nem.com.domain.request.ProductDetailsDTO;
+import nem.com.domain.request.SellingDTO;
+import nem.com.domain.request.ServiceResult;
 import nem.com.entity.*;
-import nem.com.exception.LitmitQuantitySellingException;
 import nem.com.repository.OrderDetailsRepository;
 import nem.com.repository.OrdersRepository;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.SellingService;
-import org.hibernate.criterion.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 
 

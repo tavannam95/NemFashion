@@ -1,7 +1,7 @@
 package nem.com.controller;
 
 import lombok.AllArgsConstructor;
-import nem.com.dto.response.OrderGhnResponse;
+import nem.com.domain.response.OrderGhnResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

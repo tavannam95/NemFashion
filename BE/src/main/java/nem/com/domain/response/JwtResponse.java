@@ -1,10 +1,8 @@
-package nem.com.dto.response;
+package nem.com.domain.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import nem.com.entity.Roles;
 
 @Getter
 @Setter

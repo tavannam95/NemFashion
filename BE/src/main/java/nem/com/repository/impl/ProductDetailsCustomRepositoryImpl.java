@@ -1,18 +1,16 @@
 package nem.com.repository.impl;
 
-import nem.com.dto.request.ProductDetailsDTO;
+import nem.com.domain.request.ProductDetailsDTO;
 import nem.com.repository.ProductDetailsCustomRepository;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
-import org.hibernate.type.ShortType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
