@@ -97,7 +97,7 @@
 
 .car .mat-tab-header {
     max-width: 100%;
-    margin-left: 500px;
+    margin-left: 520px;
     margin-right: 123px;
 }
 
@@ -343,7 +343,7 @@ div#mat-menu-panel-0 {
 }
 
 .card-product {
-    height: 75px;
+    height: 95px;
     background-color: white;
     border-radius: 5px;
     border: 1px solid #237fcd;
@@ -374,7 +374,7 @@ div#mat-menu-panel-0 {
 
 .name-product {
     line-height: 1.1;
-    max-height: 38px;
+    max-height: 52px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
@@ -833,7 +833,7 @@ mat-drawer {
 }
 
 .img-product-search {
-    max-width: 60px;
+    max-width: 50px;
 }
 
 .img-product-search img {
@@ -850,6 +850,51 @@ mat-drawer {
 .mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
     background: rgb(0 152 255 / 64%);
     border-radius: 8px;
+}
+
+//SCANNER
+
+.scanner{
+    position: absolute;
+    z-index: 1;
+    left: 482px;
+    top: 8px;
+    font-size: 27px;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 4px;
+    cursor: pointer;
+}
+.results {
+
+    position: sticky;
+    bottom: 0;
+    padding: 15px;
+    background: #02c3c3;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    small {
+        font-weight: bolder;
+        display: block;
+        font-size: 60%;
+        margin: -.6em 0 0 0;
+    }
+
+    button {
+        background: none;
+        border: none;
+        line-height: 1;
+        font-weight: bolder;
+        font-size: 120%;
+        float: right;
+        color: #fff;
+        $mg: 8px;
+        margin: (-$mg) (-$mg) (-$mg) $mg;
+    }
 }
 
 

@@ -6,7 +6,7 @@ import {ProductDetailOrderComponent} from "./product-detail-order/product-detail
 import {Constant} from "../../../../shared/constants/Constant";
 import {btoa} from "buffer";
 import {CustomerService} from "../../../../shared/service/customer/customer.service";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import {CustomerFormComponent} from "../../customer-manager/customer-form/customer-form.component";
 import {CurrencyPipe} from "@angular/common";
@@ -59,6 +59,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     openModal: boolean = false;
     listTien: any = [];
     customerPayment;
+    scanner2: any;
 
     ngOnInit(): void {
         this.getListCate();
@@ -310,7 +311,6 @@ export class SellingComponent implements OnInit, OnDestroy {
             // }
             this.setOrderLocalStorage(orderLocalArray);
             this.listOrders = orderLocalArray;
-            console.log(this.quantityDetail);
         }
     }
 
@@ -488,6 +488,16 @@ export class SellingComponent implements OnInit, OnDestroy {
             }
         }).afterClosed().subscribe(result => {
             // this.customerService.response.subscribe(data=>console.log(data))
+            this.customerService.response.subscribe(
+                resp => {
+                    if (resp != null) {
+                        this.order.customer = resp?.id;
+                        this.customerName = resp?.fullname;
+                        this.customerService.response.next(null);
+                    }
+                }
+            )
+
             this.getListCustomer();
         })
     }
@@ -569,8 +579,8 @@ export class SellingComponent implements OnInit, OnDestroy {
 
 
     selling() {
-        for(let i = 0; i < this.quantityDetail.length;i++){
-            if(this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == ''){
+        for (let i = 0; i < this.quantityDetail.length; i++) {
+            if (this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == '') {
                 this.toast.error("Vui lòng kiểm tra lại số lượng của sản phẩm!");
                 return;
             }
@@ -582,21 +592,30 @@ export class SellingComponent implements OnInit, OnDestroy {
                 next: resp => {
                     this.drawer.close();
                     // this.print(resp); // Test
-                        this.toast.success("Thành công");
-                        this.print(resp.data);
-                        this.removeTab(this.selected.value);
+                    this.toast.success("Thành công");
+                    this.print(resp.data);
+                    this.removeTab(this.selected.value);
                 },
                 error: err => {
-                    if(err.error?.code == 'LIMIT_QUANTITY'){
+                    if (err.error?.code == 'LIMIT_QUANTITY') {
                         this.toast.error(err.error.message);
                         this.resetQuantityInventory();
-                    }else{
+                    } else {
                         this.toast.error("Lỗi thanh toán!");
                     }
                 }
             }
         )
     }
+
+    openDialogSacnner(template: TemplateRef<any>) {
+        this.scanner2 = this.dialog.open(template, {
+            width: '500px',
+            disableClose: true,
+            hasBackdrop: true,
+        });
+    }
+
 
     print(data) {
         console.log(data);
@@ -683,5 +702,106 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
 
+    availableDevices: MediaDeviceInfo[];
+    currentDevice: MediaDeviceInfo = null;
+    hasDevices: boolean;
+    hasPermission: boolean;
+
+    qrResultString: string;
+
+    torchEnabled = false;
+    torchAvailable$ = new BehaviorSubject<boolean>(false);
+    tryHarder = false;
+
+
+    clearResult(): void {
+        this.qrResultString = null;
+    }
+
+    onCamerasFound(devices: MediaDeviceInfo[]): void {
+        this.availableDevices = devices;
+        this.hasDevices = Boolean(devices && devices.length);
+    }
+
+    onCodeResult(resultString: string) {
+        console.log(resultString);
+        this.qrResultString = "";
+        let qrResult = resultString.substring(0, resultString.length - 1);
+        this.productService.getByBarcode(qrResult).subscribe({
+                next: resp => {
+                    if (resp != null) {
+                        if (resp.quantity > 0 && resp.color.status == 1) {
+                            let hd: any = {};
+                            hd.id = this.tabs[this.selected.value];
+                            hd.note = '';
+                            hd.customer = '';
+                            hd.detail = {
+                                id: resp.id,
+                                price: resp.product.price,
+                                quantity: 1,
+                                quantityInventory: resp.quantity,
+                                colorId: resp.color.id,
+                                colorCode: resp.color.code,
+                                sizeId: resp.size.id,
+                                sizeCode: resp.size.code,
+                                name: resp.product.name,
+                            };
+                            this.pushDataToLocalStorage(hd);
+                            document.getElementById("qrResult").innerHTML = `${resp.product.name}(
+                                                    <span style="width: 15px;height: 15px;background-color: ${resp.color.code}">
+                                                    </span>/${resp.size.code})`;
+                        }else{
+                            this.toast.error("Số lượng không đủ hoặc đã ngừng bán");
+                        }
+                    } else {
+                        this.toast.error("Không tìm thấy sản phẩm");
+                    }
+                },
+                error: err => {
+                    console.log(err);
+                    this.toast.error("Lỗi quét Barcode");
+                }
+            }
+        )
+    }
+
+    onDeviceSelectChange(selected: string) {
+        const device = this.availableDevices.find(x => x.deviceId === selected);
+        this.currentDevice = device || null;
+    }
+
+    onHasPermission(has: boolean) {
+        this.hasPermission = has;
+    }
+
+    onTorchCompatible(isCompatible: boolean): void {
+        this.torchAvailable$.next(isCompatible || false);
+    }
+
+    toggleTorch(): void {
+        this.torchEnabled = !this.torchEnabled;
+    }
+
+    toggleTryHarder(): void {
+        this.tryHarder = !this.tryHarder;
+    }
+
+    printQR(){
+        printJS({
+            printable: 'demo',
+            properties: [{
+                field: ' ',
+                displayName: ' '
+            }],
+            documentTitle: 'NemPhaSun',
+
+            type: 'html',
+            maxWidth: 826,
+            font: 'Thoma',
+            font_size: '12pt',
+    })
+    }
+
 }
+
 

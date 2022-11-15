@@ -45,4 +45,8 @@ public class ProductsDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "productsDetail")
     private List<Carts> listCarts;
+
+    @Basic
+    @Column(name = "bar_code", length = 15)
+    private String barCode;
 }

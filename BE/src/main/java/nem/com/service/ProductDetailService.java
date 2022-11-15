@@ -25,4 +25,6 @@ public interface ProductDetailService {
     List<ProductDetailResponseDTO> createProductDetails(List<ProductDetailResponseDTO> list);
 
     List<ProductsDetails> findProductDetailByProductSizeColor(ProductDetailResponseDTO productViewDto);
+
+    ProductsDetails getByBarcode(String barcode);
 }
