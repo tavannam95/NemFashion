@@ -1,6 +1,6 @@
 package nem.com.repository;
 
-import nem.com.dto.response.SizeDTO;
+import nem.com.domain.response.SizeDTO;
 import nem.com.entity.Sizes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

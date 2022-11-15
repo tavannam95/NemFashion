@@ -1,9 +1,8 @@
 package nem.com.controller;
 
-import nem.com.dto.response.CategoryDTO;
+import nem.com.domain.response.CategoryDTO;
 import nem.com.entity.Categories;
 import nem.com.service.CategoryService;
-import nem.com.service.impl.CategoryServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

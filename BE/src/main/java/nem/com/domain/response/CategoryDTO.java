@@ -1,4 +1,4 @@
-package nem.com.dto.response;
+package nem.com.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,12 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class SizeDTO {
+public class CategoryDTO {
     @Id
-    private Integer id ;
-    private String code ;
+    private Short id ;
+    private String name ;
     private Long quantity ;
 }

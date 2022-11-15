@@ -1,4 +1,4 @@
-package nem.com.dto.request;
+package nem.com.domain.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginForm {
-
-    private String email;
-
-    private String password;
-
+public class ChangePasswordDTO {
+    private Integer customerId;
+    private String newPassword;
 }

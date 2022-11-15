@@ -1,7 +1,7 @@
 package nem.com.controller;
 
 import lombok.RequiredArgsConstructor;
-import nem.com.dto.response.OrderResponseDTO;
+import nem.com.domain.response.OrderResponseDTO;
 import nem.com.entity.OrderDetails;
 import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;

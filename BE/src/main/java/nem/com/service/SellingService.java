@@ -1,5 +1,6 @@
 package nem.com.service;
-
+import nem.com.domain.request.SellingDTO;
+import nem.com.domain.request.ServiceResult;
 import nem.com.dto.request.ProductDetailsDTO;
 import nem.com.dto.request.SellingDTO;
 import nem.com.dto.request.ServiceResult;

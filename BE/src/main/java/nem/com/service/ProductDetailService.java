@@ -1,7 +1,7 @@
 package nem.com.service;
 
-import nem.com.dto.request.ProductDetailsDTO;
-import nem.com.dto.response.ProductDetailResponseDTO;
+import nem.com.domain.request.ProductDetailsDTO;
+import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 
 import java.util.List;

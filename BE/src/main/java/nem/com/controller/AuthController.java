@@ -1,18 +1,14 @@
 package nem.com.controller;
 
-import nem.com.dto.request.ChangePasswordDTO;
-import nem.com.dto.request.LoginForm;
-import nem.com.dto.request.RegisterFormUser;
-import nem.com.dto.response.JwtResponse;
+import nem.com.domain.request.ChangePasswordDTO;
+import nem.com.domain.request.LoginForm;
+import nem.com.domain.request.RegisterFormUser;
+import nem.com.domain.response.JwtResponse;
 import nem.com.entity.Customers;
 import nem.com.entity.Employees;
 import nem.com.exception.LoginInvalidException;
-import nem.com.exception.ResourceNotFoundException;
 import nem.com.exception.UserInactiveException;
-import nem.com.repository.CustomersRepository;
 import nem.com.security.jwt.JwtProvider;
-import nem.com.security.userprincipal.customer.CustomerUserDetailsService;
-import nem.com.security.userprincipal.staff.EmployeeUserDetailsService;
 import nem.com.service.CustomerService;
 import nem.com.service.EmailService;
 import nem.com.service.EmployeeService;

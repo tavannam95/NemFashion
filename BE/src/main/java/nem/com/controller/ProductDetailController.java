@@ -1,9 +1,9 @@
 package nem.com.controller;
 
 
-import nem.com.dto.request.ProductDetailsDTO;
+import nem.com.domain.request.ProductDetailsDTO;
 //import nem.com.dto.response.ProductViewDto;
-import nem.com.dto.response.ProductDetailResponseDTO;
+import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
 import org.springframework.http.HttpStatus;

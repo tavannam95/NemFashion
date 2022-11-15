@@ -1,6 +1,6 @@
 package nem.com.controller;
 
-import nem.com.dto.response.ColorDTO;
+import nem.com.domain.response.ColorDTO;
 import nem.com.entity.Colors;
 import nem.com.service.ColorService;
 import org.springframework.http.HttpStatus;

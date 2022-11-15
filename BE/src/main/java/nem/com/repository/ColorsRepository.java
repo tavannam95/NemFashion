@@ -1,6 +1,6 @@
 package nem.com.repository;
 
-import nem.com.dto.response.ColorDTO;
+import nem.com.domain.response.ColorDTO;
 import nem.com.entity.Colors;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

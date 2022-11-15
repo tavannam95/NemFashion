@@ -1,8 +1,7 @@
 package nem.com.controller;
 
-import nem.com.dto.response.RatingAvgDTO;
-import nem.com.dto.response.RatingProductDTO;
-import nem.com.entity.Products;
+import nem.com.domain.response.RatingAvgDTO;
+import nem.com.domain.response.RatingProductDTO;
 import nem.com.entity.Ratings;
 import nem.com.repository.RatingImagesRepository;
 import nem.com.service.RatingService;
