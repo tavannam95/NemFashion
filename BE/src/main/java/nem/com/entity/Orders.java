@@ -53,7 +53,7 @@ public class Orders {
     @Basic
     @Column(name = "note", nullable = true, length = 255)
     private String note;
-    
+
     @Basic
     @Column(name = "total", nullable = true, precision = 0)
     private Double total;
