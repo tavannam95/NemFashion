@@ -36,6 +36,10 @@ public class Orders {
     private Double freight;
 
     @Basic
+    @Column(name = "order_code", nullable = true, length = 255)
+    private String orderCode;
+
+    @Basic
     @Column(name = "ship_name", nullable = true, length = 255)
     private String shipName;
 
