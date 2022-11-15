@@ -286,10 +286,9 @@
                        (torchCompatible)="onTorchCompatible($event)"
                        [formats]="['QR_CODE', 'EAN_13', 'EAN_8']"></zxing-scanner>
 
-        <section class="results" *ngIf="qrResultString">
+        <section class="results">
             <div>
-                <small>Result</small>
-                <strong id="qrResult">{{ qrResultString }}</strong>
+                <span id="qrResult"></span>
             </div>
             <button mat-icon-button (click)="clearResult()">&times;</button>
         </section>

@@ -725,12 +725,13 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     onCodeResult(resultString: string) {
         console.log(resultString);
-        this.qrResultString = "";
+        this.qrResultString = "0";
         let qrResult = resultString.substring(0, resultString.length - 1);
         this.productService.getByBarcode(qrResult).subscribe({
                 next: resp => {
                     if (resp != null) {
                         if (resp.quantity > 0 && resp.color.status == 1) {
+                            this.qrResultString = "1";
                             let hd: any = {};
                             hd.id = this.tabs[this.selected.value];
                             hd.note = '';
@@ -746,20 +747,25 @@ export class SellingComponent implements OnInit, OnDestroy {
                                 sizeCode: resp.size.code,
                                 name: resp.product.name,
                             };
+
                             this.pushDataToLocalStorage(hd);
+                            this.toast.success("Thêm sản phẩm thành công");
                             document.getElementById("qrResult").innerHTML = `${resp.product.name}(
-                                                    <span style="width: 15px;height: 15px;background-color: ${resp.color.code}">
+                                                    <span style="width: 15px;height: 15px;background-color: ${resp.color.code}; display: inline-block">
                                                     </span>/${resp.size.code})`;
                         }else{
                             this.toast.error("Số lượng không đủ hoặc đã ngừng bán");
+                            document.getElementById("qrResult").innerHTML = '';
                         }
                     } else {
                         this.toast.error("Không tìm thấy sản phẩm");
+                        document.getElementById("qrResult").innerHTML = '';
                     }
                 },
                 error: err => {
                     console.log(err);
                     this.toast.error("Lỗi quét Barcode");
+                    document.getElementById("qrResult").innerHTML ='';
                 }
             }
         )
