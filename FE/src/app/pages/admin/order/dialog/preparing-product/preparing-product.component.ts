@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
 import { FormBuilder } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
-import { GhnApiService } from '../../../../../shared/service/ghn/ghn-api.service';
+import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 
 @Component({
   selector: 'app-preparing-product',
@@ -69,7 +69,7 @@ export class PreparingProductComponent implements OnInit {
     private contactService: ContactService,
     private fb: FormBuilder,
     private orderDetailService: OrderDetailService,
-    private ghnService: GhnApiService
+    private ghnService: GhnService
   ) { }
 
   ngOnInit() {

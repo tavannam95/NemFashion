@@ -6,7 +6,7 @@
     <div class="card custom-card">
       <div class="card-body">
 
-        <mat-tab-group animationDuration="0ms" (selectedTabChange)="findByStatus($event.index - 1)">
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="selectTab($event.index)">
 
           <mat-tab *ngFor="let s of listStatus">
             <ng-template mat-tab-label>
@@ -63,9 +63,18 @@
                         {{order.orders.total| currency:' ':'symbol':'0.0-2'}} VNĐ
                       </td>
                       <td>
-                        {{getStatus(order.orders.status)}}
+                        <div [ngSwitch]="order.orders.status">
+                          <div *ngSwitchCase="0">
+                            Chờ xác nhận
+                          </div>
+                          <div *ngSwitchCase="1">
+                            Chờ lấy hàng
+                          </div>
+                        </div>
                       </td>
                       <td>
+                        <button class="btn btn-danger" (click)="check()">Check</button>
+                        <button class="btn btn-danger" (click)="getStatusGhn()">getStatusGhn</button>
                         <div *ngIf="order.orders.status==0">
                           <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
                             Chuẩn bị hàng

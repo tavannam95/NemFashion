@@ -10,16 +10,20 @@ export class OrderApiService {
 
 constructor(private readonly http: HttpClient) { }
 
-getAllOrder(): Observable<any>{
-  return this.http.get(ApiConstant.order);
-}
+  getAllOrder(): Observable<any>{
+    return this.http.get(ApiConstant.order);
+  }
 
-findByStatus(status: any): Observable<any>{
-  return this.http.get(`${ApiConstant.order}/${status}`);
-}
+  getOrderGhn(): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/ghn`);
+  }
 
-updateStatus(data: any, status: number){
-  return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
-}
+  findByStatus(status: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/${status}`);
+  }
+
+  updateStatus(data: any, status: number){
+    return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
+  }
 
 }
