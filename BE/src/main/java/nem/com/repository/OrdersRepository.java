@@ -27,6 +27,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Transactional
     void updateStatusOrder( @Param("status") Integer status , @Param("id") Long id ) ;
 
-    @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> ''")
+    @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> '' and o.status not in (0,1)")
     List<Orders> getOrderGhn();
 }

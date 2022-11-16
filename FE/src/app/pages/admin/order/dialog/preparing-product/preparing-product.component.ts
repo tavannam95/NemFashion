@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
 import { FormBuilder } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
-import { GhnApiService } from '../../../../../shared/service/ghn/ghn-api.service';
+import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 
 @Component({
   selector: 'app-preparing-product',
@@ -69,7 +69,7 @@ export class PreparingProductComponent implements OnInit {
     private contactService: ContactService,
     private fb: FormBuilder,
     private orderDetailService: OrderDetailService,
-    private ghnService: GhnApiService
+    private ghnService: GhnService
   ) { }
 
   ngOnInit() {
@@ -157,13 +157,12 @@ export class PreparingProductComponent implements OnInit {
       "client_order_code": this.order.id+"",
       "note": this.order.note
     })
-    console.log(this.data.value);
     
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
         this.resultOrder = res;
+        this.order.orderCode = this.resultOrder.data.order_code;
         this.orderService.updateStatus(this.order,1).subscribe(res=>{
-          this.order.orderCode = this.resultOrder.data.order_code;
           this.matDialogRef.close('OK');
           this.toastrService.success(this.resultOrder.message_display);
           this.isLoading = false;
