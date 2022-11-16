@@ -157,13 +157,12 @@ export class PreparingProductComponent implements OnInit {
       "client_order_code": this.order.id+"",
       "note": this.order.note
     })
-    console.log(this.data.value);
     
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
         this.resultOrder = res;
+        this.order.orderCode = this.resultOrder.data.order_code;
         this.orderService.updateStatus(this.order,1).subscribe(res=>{
-          this.order.orderCode = this.resultOrder.data.order_code;
           this.matDialogRef.close('OK');
           this.toastrService.success(this.resultOrder.message_display);
           this.isLoading = false;

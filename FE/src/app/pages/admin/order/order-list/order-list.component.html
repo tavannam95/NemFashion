@@ -67,8 +67,14 @@
                           <div *ngSwitchCase="0">
                             Chờ xác nhận
                           </div>
-                          <div *ngSwitchCase="1">
+                          <div *ngSwitchCase="ready_to_pick">
                             Chờ lấy hàng
+                          </div>
+                          <div *ngSwitchCase="transporting">
+                            Đang giao
+                          </div>
+                          <div *ngSwitchDefault>
+                            {{order.orders.status}}
                           </div>
                         </div>
                       </td>
