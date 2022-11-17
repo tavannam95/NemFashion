@@ -3,37 +3,47 @@
   </div>
 </div>
 <h1 mat-dialog-title class="text-center h3 font-weight-bold">
-  <div *ngIf="dataDialog.status==0">Chuẩn bị hàng</div>
-  <div *ngIf="dataDialog.status==1">Chờ lấy hàng</div>
-  <div *ngIf="dataDialog.status==2">Đang giao</div>
-  <div *ngIf="dataDialog.status==3">Đã giao</div>
-  <div *ngIf="dataDialog.status==4">Đơn hủy</div>
-  <div *ngIf="dataDialog.status==5">Trả hàng/Hoàn tiền</div>
+  <div *ngIf="order.status==0">Chuẩn bị hàng</div>
+  <div *ngIf="order.status==1">Chờ lấy hàng</div>
+  <div *ngIf="order.status==2">Đang giao</div>
+  <div *ngIf="order.status==3">Đã giao</div>
+  <div *ngIf="order.status==4">Đơn hủy</div>
+  <div *ngIf="order.status==5">Trả hàng/Hoàn tiền</div>
 </h1>
 <div mat-dialog-content>
-  
+
   <div class="row">
-      <span class="h4 font-weight-bold col-12">ID Đơn hàng</span>
-      <span class="col-12">#{{dataDialog.id}}</span>
-      <span class="h4 font-weight-bold col-12 mt-3">Địa chỉ nhận hàng</span>
-      <span class="col-12">{{dataDialog.shipName}} : {{dataDialog.shipPhone}}</span>
-      <span class="col-12">{{dataDialog.shipAddress}}</span>
-      <span class="h4 font-weight-bold col-12 mt-3">Giá trị đơn hàng</span>
-      <span class="col-12">{{dataDialog.total| currency:' ':'symbol':'0.0-2'}}VNĐ</span>
+    <span class="h4 font-weight-bold col-12">ID Đơn hàng</span>
+    <span class="col-12">#{{order.id}}</span>
+    <span class="h4 font-weight-bold col-12 mt-3">Địa chỉ nhận hàng</span>
+    <span class="col-12">{{order.shipName}} : {{order.shipPhone}}</span>
+    <span class="col-12">{{order.shipAddress}}</span>
+    <span class="h4 font-weight-bold col-12 mt-3">Giá trị đơn hàng</span>
+    <span class="col-12">{{order.total| currency:' ':'symbol':'0.0-2'}}VNĐ</span>
+    <span *ngIf="order.status == 0" class="h4 font-weight-bold col-12 mt-3">Chọn ca lấy hàng</span>
+    <mat-error class="text-danger col-12" style="font-size: 14px;" *ngIf="data.get('pickup_time')?.hasError('required') &&
+          data.get('pickup_time')?.touched">
+            Bạn chưa chọn ca lấy hàng
+          </mat-error>
+    <div class="col-12" *ngIf="order.status == 0">
+      <form [formGroup]="data">
+        <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="pickup_time" class="example-radio-group">
+          <mat-radio-button class="example-radio-button" *ngFor="let date of dateShift" [value]="date.from_time">
+            {{date.title}}
+          </mat-radio-button>
+        </mat-radio-group>
+        
+      </form>
+    </div>
   </div>
 
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
-  <div *ngIf="dataDialog.status==0" class="row">
+  <div *ngIf="order.status==0" class="row">
     <button mat-button mat-dialog-close class="btn btn-danger" mat-button mat-dialog-close>Hủy</button>
-    <button 
-      class="btn btn-info" 
-      mat-button 
-      cdkFocusInitial
-      (click)="createOrderGhn()"
-      >Đồng ý</button>
+    <button class="btn btn-info" mat-button cdkFocusInitial [disabled]="!isFormValid()" (click)="createOrderGhn()">Đồng ý</button>
   </div>
-  <div *ngIf="dataDialog.status!=0" class="row">
+  <div *ngIf="order.status!=0" class="row">
     <button class="btn btn-danger" mat-button mat-dialog-close>Đóng</button>
   </div>
 </div>

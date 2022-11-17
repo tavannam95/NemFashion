@@ -79,15 +79,13 @@
                         </div>
                       </td>
                       <td>
-                        <button class="btn btn-danger" (click)="check()">Check</button>
-                        <button class="btn btn-danger" (click)="getStatusGhn()">getStatusGhn</button>
                         <div *ngIf="order.orders.status==0">
-                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
+                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders,dateShift)">
                             Chuẩn bị hàng
                           </a>
                         </div>
                         <div *ngIf="order.orders.status!=0">
-                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders)">
+                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders,dateShift)">
                             Xem thông tin
                           </a>
                         </div>
