@@ -16,6 +16,7 @@ export class OrderListComponent implements OnInit {
   allOrder: any;
   status: any;
   orderGhn: any[] = [];
+  dateShift: any[] = [];
   listStatus: string[] = [
     'Tất cả',
     'Chờ xác nhận',
@@ -36,15 +37,10 @@ export class OrderListComponent implements OnInit {
   ngOnInit() {
     this.getAllOrder();
     this.getAllOrderGhn();
-  }
-
-  check(){
-    console.log(this.orderGhn);
-    
+    this.getDate();
   }
 
   selectTab(index: any){
-    console.log(index);
     if (index == 0) {
       this.getAllOrder();
     }else if (index == 1 || index == 2) {
@@ -81,11 +77,23 @@ export class OrderListComponent implements OnInit {
     })
   }
 
-  openPreparingDialog(data: any){
+  
+  getDate(){
+    this.ghnService.getDate().subscribe({
+      next: (res)=>{
+        this.dateShift = res.data;
+      }
+    })
+  }
+
+  openPreparingDialog(data: any, dateShift: any){
     let dialogRef = this.matDialog.open(PreparingProductComponent,{
       width: '1000px',
       disableClose: true,
-      data: data
+      data: {
+        data,
+        dateShift
+      }
     });
     dialogRef.afterClosed().subscribe(res=>{
       if (res == 'OK') {
@@ -134,7 +142,6 @@ export class OrderListComponent implements OnInit {
             })
           }
         }
-        console.log(this.allOrder);
         
         this.isLoading = false;
       },

@@ -16,5 +16,8 @@ export class GhnService {
   getOrderGhn(orderCode: any){
     return this.ghnApiService.getOrderGhn(orderCode);
   }
+  getDate(){
+    return this.ghnApiService.getDate();
+  }
 
 }

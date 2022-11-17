@@ -41,6 +41,9 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
       httpHeader = httpHeader.append('ShopId', Ghn.SHOP_ID);
     }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
 
     req = req.clone({
       headers: httpHeader

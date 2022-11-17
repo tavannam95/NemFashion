@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OrderService } from '../../../../../shared/service/order/order.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
 import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 
@@ -21,6 +21,7 @@ export class PreparingProductComponent implements OnInit {
   items: any[] = [];
   order: any;
   resultOrder: any;
+  dateShift: any[] = [];
 
   data = this.fb.group({
     "payment_type_id": 2,
@@ -57,7 +58,8 @@ export class PreparingProductComponent implements OnInit {
     "service_id": 0,
     "service_type_id":2,
     "coupon":[''],
-    "pick_shift":null,
+    "pick_shift": null,
+    "pickup_time": ['',Validators.required],
     "items": ['']
   });
 
@@ -73,8 +75,9 @@ export class PreparingProductComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.order = this.dataDialog;
-    console.log(this.order);
+    this.order = this.dataDialog.data;
+    this.dateShift = this.dataDialog.dateShift;
+    console.log(this.dateShift);
     
     this.getDefaultContact();
     this.getWeight();
@@ -84,7 +87,6 @@ export class PreparingProductComponent implements OnInit {
     this.contactService.getDafaultContact().subscribe(res=>{
       this.contact = res;
     })
-    
   }
 
   getWeight(){
@@ -101,6 +103,10 @@ export class PreparingProductComponent implements OnInit {
       }
       this.weight = weight;
     })
+  }
+
+  isFormValid() : boolean { 
+    return this.data.disabled ? true : this.data.valid
   }
 
   createOrderGhn(){
@@ -157,7 +163,6 @@ export class PreparingProductComponent implements OnInit {
       "client_order_code": this.order.id+"",
       "note": this.order.note
     })
-    
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
         this.resultOrder = res;

@@ -23,4 +23,8 @@ export class GhnApiService {
   getOrderGhn(orderCode: any): Observable<any>{
     return this.http.post(`${ApiConstant.ghn}/detail`,orderCode);
   }
+
+  getDate(): Observable<any>{
+    return this.http.get('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift/date');
+  }
 }
