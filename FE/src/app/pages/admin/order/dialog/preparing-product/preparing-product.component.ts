@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { OrderService } from '../../../../../shared/service/order/order.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
 import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
+import { PrintOrderDialogComponent } from '../print-order-dialog/print-order-dialog.component';
 
 @Component({
   selector: 'app-preparing-product',
@@ -22,6 +23,7 @@ export class PreparingProductComponent implements OnInit {
   order: any;
   resultOrder: any;
   dateShift: any[] = [];
+  printOrder: any;
 
   data = this.fb.group({
     "payment_type_id": 2,
@@ -71,16 +73,19 @@ export class PreparingProductComponent implements OnInit {
     private contactService: ContactService,
     private fb: FormBuilder,
     private orderDetailService: OrderDetailService,
-    private ghnService: GhnService
+    private ghnService: GhnService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.order = this.dataDialog.data;
     this.dateShift = this.dataDialog.dateShift;
-    console.log(this.dateShift);
-    
     this.getDefaultContact();
     this.getWeight();
+  }
+
+  check(){
+    
   }
 
   getDefaultContact(){
@@ -167,11 +172,26 @@ export class PreparingProductComponent implements OnInit {
       next: (res)=>{
         this.resultOrder = res;
         this.order.orderCode = this.resultOrder.data.order_code;
+        this.ghnService.genToken({order_codes:[this.order.orderCode]}).subscribe({
+          next: (res)=>{
+            this.printOrder = res.data.token;
+            this.matDialog.open(PrintOrderDialogComponent,{
+              data: this.printOrder,
+              disableClose: true
+            })
+          },
+          error: (e)=>{
+            console.log(e);
+            
+          }
+        });
         this.orderService.updateStatus(this.order,1).subscribe(res=>{
           this.matDialogRef.close('OK');
           this.toastrService.success(this.resultOrder.message_display);
           this.isLoading = false;
         });
+        // console.log({order_codes: [this.order.orderCode]});
+        
       },
       error: (e)=>{
         this.isLoading = false;

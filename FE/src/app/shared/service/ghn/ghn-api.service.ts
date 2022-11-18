@@ -27,4 +27,7 @@ export class GhnApiService {
   getDate(): Observable<any>{
     return this.http.get('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift/date');
   }
+  genToken(orderCode: any):Observable<any>{
+    return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',orderCode);
+  }
 }

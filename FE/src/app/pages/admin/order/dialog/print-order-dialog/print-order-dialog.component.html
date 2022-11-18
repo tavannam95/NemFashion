@@ -1,0 +1,11 @@
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-danger spinner-center" role="status">
+  </div>
+</div>
+<h1 mat-dialog-title class="text-center h3 font-weight-bold">
+  Bạn có muốn in mã vận đơn không?
+</h1>
+<div mat-dialog-actions class="text-center">
+    <button mat-button mat-dialog-close class="btn btn-danger" mat-button mat-dialog-close>Hủy</button>
+    <a class="btn btn-info" mat-button cdkFocusInitial mat-dialog-close [href]="'https://dev-online-gateway.ghn.vn/a5/public-api/printA5?token='+dataDialog">Đồng ý</a>
+</div>
