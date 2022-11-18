@@ -17,6 +17,7 @@ import * as es6printJS from "print-js";
 import printJS from 'print-js';
 import {ProductService} from "../../../../shared/service/product/product.service";
 import {StorageService} from "../../../../shared/service/storage.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'selling',
@@ -33,7 +34,8 @@ export class SellingComponent implements OnInit, OnDestroy {
                 private currencyPipe: CurrencyPipe,
                 private toast: ToastrService,
                 private productService: ProductService,
-                private storageService: StorageService) {
+                private storageService: StorageService,
+                private sanitizer: DomSanitizer) {
     }
 
     options = {prefix: '', thousands: ',', precision: '0', allowNegative: 'false'}
@@ -790,22 +792,6 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     toggleTryHarder(): void {
         this.tryHarder = !this.tryHarder;
-    }
-
-    printQR(){
-        printJS({
-            printable: 'demo',
-            properties: [{
-                field: ' ',
-                displayName: ' '
-            }],
-            documentTitle: 'NemPhaSun',
-
-            type: 'html',
-            maxWidth: 826,
-            font: 'Thoma',
-            font_size: '12pt',
-    })
     }
 
 }

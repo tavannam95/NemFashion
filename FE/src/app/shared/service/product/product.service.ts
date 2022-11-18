@@ -35,4 +35,8 @@ export class ProductService {
         return this.apiService.getByBarcode(barcode);
     }
 
+    generateBarcode(id:any){
+        return this.apiService.generateBarcode(id);
+    }
+
 }
