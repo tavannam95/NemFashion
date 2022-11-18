@@ -1,10 +1,13 @@
 package nem.com.service;
 
 import nem.com.domain.request.ProductDetailsDTO;
+import nem.com.domain.request.ServiceResult;
 import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductDetailService {
 
@@ -27,4 +30,6 @@ public interface ProductDetailService {
     List<ProductsDetails> findProductDetailByProductSizeColor(ProductDetailResponseDTO productViewDto);
 
     ProductsDetails getByBarcode(String barcode);
+
+    ServiceResult<?> generateBarcode(Integer id);
 }
