@@ -21,8 +21,12 @@ export class OrderService {
     return this.apiService.getOrderGhn();
   }
 
-  findByStatus(status: any){
-    return this.apiService.findByStatus(status);
+  findByStatus(status: any, page: any, size: any){
+    return this.apiService.findByStatus(status,page,size);
+  }
+
+  findAllByStatus(status: any){
+    return this.apiService.findAllByStatus(status);
   }
 
   updateStatus(data: any, status: number){
