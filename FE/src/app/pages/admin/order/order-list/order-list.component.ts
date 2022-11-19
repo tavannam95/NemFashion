@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { PreparingProductComponent } from '../dialog/preparing-product/preparing-product.component';
 import { GhnService } from '../../../../shared/service/ghn/ghn.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-order-list',
@@ -13,8 +14,9 @@ import { GhnService } from '../../../../shared/service/ghn/ghn.service';
 export class OrderListComponent implements OnInit {
   isLoading: boolean = false;
   tabIndex: number = -1;
-  allOrder: any;
+  allOrder: any[] = [];
   status: any;
+  totalPage: any;
   orderGhn: any[] = [];
   dateShift: any[] = [];
   listStatus: string[] = [
@@ -26,6 +28,22 @@ export class OrderListComponent implements OnInit {
     'Đơn hủy',
     'Trả hàng/Hoàn tiền'
   ]
+
+  dataOrder: any[] = [];
+
+  //Paginator
+  length = 0;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
+
+  hidePageSize = false;
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  disabled = false;
+
+  pageEvent: PageEvent;
+
   constructor(
     private orderService: OrderService,
     private toastrService: ToastrService,
@@ -35,14 +53,23 @@ export class OrderListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllOrder();
+    this.getDataOrder();
+    this.getAllOrder(0);
     this.getAllOrderGhn();
     this.getDate();
   }
 
+  handlePageEvent(e: PageEvent) {
+    this.pageEvent = e;
+    this.length = e.length;
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
+    this.getAllOrder(this.pageIndex);
+  }
+
   selectTab(index: any){
     if (index == 0) {
-      this.getAllOrder();
+      this.getAllOrder(0);
     }else if (index == 1 || index == 2) {
       this.findByStatus(index-1);
     }else if (index == 3) {
@@ -98,7 +125,7 @@ export class OrderListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res=>{
       if (res == 'OK') {
         if (this.tabIndex==-1) {
-          this.getAllOrder();
+          this.getAllOrder(0);
         }else{
           this.orderService.findByStatus(this.tabIndex).subscribe(res=>{
             this.allOrder = res;
@@ -111,12 +138,15 @@ export class OrderListComponent implements OnInit {
   findByStatus(event: any){
     this.tabIndex = event;
     if (event==-1) {
-      this.getAllOrder();
+      this.getAllOrder(0);
     }else{
       this.isLoading = true;
       this.orderService.findByStatus(this.tabIndex).subscribe({
         next:(res)=>{
           this.allOrder = res;
+          if (this.allOrder.length>0) {
+            this.totalPage = this.allOrder[0].totalPage;
+          }
           this.isLoading = false;
         },
         error:(e)=>{
@@ -128,11 +158,22 @@ export class OrderListComponent implements OnInit {
     }
   }
 
-  getAllOrder(){
+  getDataOrder(){
+    this.orderService.getDataOrder().subscribe(res=>{
+      this.dataOrder = res;
+      this.length = this.dataOrder.length;
+    })
+  }
+
+  getAllOrder(page: any){
     this.isLoading = true;
-    this.orderService.getAllOrder().subscribe({
+    this.orderService.getAllOrder(page,this.pageSize).subscribe({
       next: (res) =>{
         this.allOrder = res;
+        this.totalPage = res.totalPage;
+        if (this.allOrder.length>0) {
+          this.totalPage = this.allOrder[0].totalPage;
+        }
         for (let i = 0; i < this.allOrder.length; i++) {
           if (this.allOrder[i].orders.orderCode != null && this.allOrder[i].orders.status != 0) {
             this.ghnService.getOrderGhn({order_code : this.allOrder[i].orders.orderCode}).subscribe({

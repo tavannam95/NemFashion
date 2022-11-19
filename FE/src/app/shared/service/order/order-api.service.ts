@@ -10,8 +10,12 @@ export class OrderApiService {
 
 constructor(private readonly http: HttpClient) { }
 
-  getAllOrder(): Observable<any>{
-    return this.http.get(ApiConstant.order);
+  getDataOrder(): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/data`);
+  }
+
+  getAllOrder(page: any, size: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}?page=${page}&size=${size}`);
   }
 
   getOrderGhn(): Observable<any>{
