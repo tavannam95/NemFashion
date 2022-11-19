@@ -63,20 +63,40 @@
                         {{order.orders.total| currency:' ':'symbol':'0.0-2'}} VNĐ
                       </td>
                       <td>
-                        <div [ngSwitch]="order.orders.status">
-                          <div *ngSwitchCase="0">
-                            Chờ xác nhận
-                          </div>
-                          <div *ngSwitchCase="'ready_to_pick'">
-                            Chờ lấy hàng
-                          </div>
-                          <div *ngSwitchCase="'transporting'">
-                            Đang giao
-                          </div>
-                          <!-- <div *ngSwitchDefault>
-                            {{order.orders.status}}
-                          </div> -->
+                        <div *ngIf="tabIndex==6">
+                          Trả hàng/Hoàn tiền
                         </div>
+                        <div *ngIf="tabIndex==5">
+                          Đơn hủy
+                        </div>
+                        <div *ngIf="tabIndex==4">
+                          Đã giao
+                        </div>
+                        <div *ngIf="tabIndex==3">
+                          Đang giao
+                        </div>
+                        <div *ngIf="tabIndex==2">
+                          Chờ lấy hàng
+                        </div>
+                        <div *ngIf="tabIndex==1">
+                          Chờ xác nhận
+                        </div>
+                        <div *ngIf="tabIndex==0">
+                          <div [ngSwitch]="order.orders.status">
+                            <div *ngSwitchCase="0">
+                              Chờ xác nhận
+                            </div>
+                            <div *ngSwitchCase="'ready_to_pick'">
+                              Chờ lấy hàng
+                            </div>
+                            <div *ngSwitchCase="'transporting'">
+                              Đang giao
+                            </div>
+                            <!-- <div *ngSwitchDefault>
+                              {{order.orders.status}}
+                            </div> -->
+                          </div>
+                      </div>
                       </td>
                       <td>
                         <div *ngIf="order.orders.status==0">
