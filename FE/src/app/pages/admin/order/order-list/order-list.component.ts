@@ -72,6 +72,8 @@ export class OrderListComponent implements OnInit {
     this.pageIndex = e.pageIndex;
     if (this.tabIndex == 0) {
       this.getAllOrder(this.pageIndex);
+    }else if (this.tabIndex == 1 || this.tabIndex ==2) {
+      this.findByStatus(this.tabIndex-1);
     }
   }
 
