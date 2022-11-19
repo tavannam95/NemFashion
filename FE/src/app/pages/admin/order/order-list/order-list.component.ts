@@ -13,8 +13,9 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class OrderListComponent implements OnInit {
   isLoading: boolean = false;
-  tabIndex: number = -1;
+  tabIndex: number = 0;
   allOrder: any[] = [];
+  allOrderStatus: any[] = [];
   status: any;
   totalPage: any;
   orderGhn: any[] = [];
@@ -59,21 +60,33 @@ export class OrderListComponent implements OnInit {
     this.getDate();
   }
 
+  setDefaultPageEvent(){
+    this.pageSize = 10;
+    this.pageIndex = 0;
+  }
+
   handlePageEvent(e: PageEvent) {
     this.pageEvent = e;
     this.length = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    this.getAllOrder(this.pageIndex);
+    if (this.tabIndex == 0) {
+      this.getAllOrder(this.pageIndex);
+    }
   }
 
   selectTab(index: any){
+    this.tabIndex = index;
     if (index == 0) {
+      this.setDefaultPageEvent();
       this.getAllOrder(0);
     }else if (index == 1 || index == 2) {
-      this.findByStatus(index-1);
-    }else if (index == 3) {
-      
+      this.orderService.findAllByStatus(this.tabIndex-1).subscribe(res=>{
+        this.allOrderStatus = res;
+        this.length = this.allOrderStatus.length;
+      })
+      this.setDefaultPageEvent();
+      this.findByStatus(this.tabIndex-1);
     }
   }
 
@@ -124,10 +137,10 @@ export class OrderListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res=>{
       if (res == 'OK') {
-        if (this.tabIndex==-1) {
+        if (this.tabIndex==0) {
           this.getAllOrder(0);
         }else{
-          this.orderService.findByStatus(this.tabIndex).subscribe(res=>{
+          this.orderService.findByStatus(this.tabIndex-1, this.pageIndex, this.pageSize).subscribe(res=>{
             this.allOrder = res;
           });
         }
@@ -135,18 +148,14 @@ export class OrderListComponent implements OnInit {
     })
   }
 
-  findByStatus(event: any){
-    this.tabIndex = event;
-    if (event==-1) {
+  findByStatus(index: any){
+    if (index==-1) {
       this.getAllOrder(0);
     }else{
       this.isLoading = true;
-      this.orderService.findByStatus(this.tabIndex).subscribe({
+      this.orderService.findByStatus(index, this.pageIndex, this.pageSize).subscribe({
         next:(res)=>{
           this.allOrder = res;
-          if (this.allOrder.length>0) {
-            this.totalPage = this.allOrder[0].totalPage;
-          }
           this.isLoading = false;
         },
         error:(e)=>{

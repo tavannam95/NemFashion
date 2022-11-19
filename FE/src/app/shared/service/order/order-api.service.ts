@@ -22,8 +22,12 @@ constructor(private readonly http: HttpClient) { }
     return this.http.get(`${ApiConstant.order}/ghn`);
   }
 
-  findByStatus(status: any): Observable<any>{
-    return this.http.get(`${ApiConstant.order}/${status}`);
+  findByStatus(status: any, page: any, size: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/data/${status}?page=${page}&size=${size}`);
+  }
+
+  findAllByStatus(stt: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/${stt}`);
   }
 
   updateStatus(data: any, status: number){

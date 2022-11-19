@@ -24,8 +24,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<Orders> findByStatusOrderByCreateDateDesc(Integer status) {
-        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(0,10));
+    public Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Integer page, Integer size) {
+        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(page,size));
+    }
+
+    @Override
+    public List<Orders> findByStatus(Integer status) {
+        return this.ordersRepository.findByStatus(status);
     }
 
     @Override

@@ -8,7 +8,6 @@ import nem.com.repository.OrdersRepository;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.OrderDetailService;
 import nem.com.service.OrderService;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,10 +49,19 @@ public class OrderController {
         return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
     }
 
-    @GetMapping("/{status}")
-    public ResponseEntity<List<OrderResponseDTO>> findByStatus(@PathVariable("status") Integer status){
+    @GetMapping("/{stt}")
+    public ResponseEntity<List<Orders>> findAllByStatus(@PathVariable("stt") Integer stautus){
+        return new ResponseEntity<>(this.orderService.findByStatus(stautus), HttpStatus.OK);
+    }
+
+    @GetMapping("/data/{status}")
+    public ResponseEntity<List<OrderResponseDTO>> findByStatus(
+            @PathVariable("status") Integer status,
+            @RequestParam(value = "page",defaultValue = "0") Integer page,
+            @RequestParam(value = "size",defaultValue = "10") Integer size
+    ){
         List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
-        Page<Orders> ordersList = this.orderService.findByStatusOrderByCreateDateDesc(status);
+        Page<Orders> ordersList = this.orderService.findByStatusOrderByCreateDateDesc(status, page, size);
         for (Orders orders: ordersList
         ) {
             OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
