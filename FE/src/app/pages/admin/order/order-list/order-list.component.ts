@@ -82,7 +82,7 @@ export class OrderListComponent implements OnInit {
     if (index == 0) {
       this.setDefaultPageEvent();
       this.getAllOrder(0);
-    }else if (index == 1 || index == 2) {
+    }else{
       this.orderService.findAllByStatus(this.tabIndex-1).subscribe(res=>{
         this.allOrderStatus = res;
         this.length = this.allOrderStatus.length;
@@ -159,6 +159,15 @@ export class OrderListComponent implements OnInit {
         next:(res)=>{
           this.allOrder = res;
           this.isLoading = false;
+          // for (let i = 0; i < this.allOrder.length; i++) {
+          //   if (this.allOrder[i].orders.orderCode != null && this.allOrder[i].orders.status != 0) {
+          //     this.ghnService.getOrderGhn({order_code : this.allOrder[i].orders.orderCode}).subscribe({
+          //       next: (r)=>{
+          //         this.allOrder[i].orders.status = r.data.status;
+          //       }
+          //     })
+          //   }
+          // }
         },
         error:(e)=>{
           console.log(e);
