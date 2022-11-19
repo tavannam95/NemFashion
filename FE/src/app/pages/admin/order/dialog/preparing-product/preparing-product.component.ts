@@ -176,8 +176,7 @@ export class PreparingProductComponent implements OnInit {
           next: (res)=>{
             this.printOrder = res.data.token;
             this.matDialog.open(PrintOrderDialogComponent,{
-              data: this.printOrder,
-              disableClose: true
+              data: this.printOrder
             })
           },
           error: (e)=>{

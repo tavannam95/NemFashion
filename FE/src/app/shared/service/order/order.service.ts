@@ -9,8 +9,12 @@ export class OrderService {
 
   constructor(private readonly apiService: OrderApiService) { }
 
-  getAllOrder() {
-    return this.apiService.getAllOrder();
+  getDataOrder(){
+    return this.apiService.getDataOrder();
+  }
+
+  getAllOrder(page: any, size: any) {
+    return this.apiService.getAllOrder(page,size);
   }
 
   getOrderGhn(){

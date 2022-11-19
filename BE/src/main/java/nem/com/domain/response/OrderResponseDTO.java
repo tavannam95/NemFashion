@@ -16,4 +16,5 @@ import java.util.List;
 public class OrderResponseDTO {
     private List<OrderDetails> orderDetailsList;
     private Orders orders;
+    private int totalPage;
 }

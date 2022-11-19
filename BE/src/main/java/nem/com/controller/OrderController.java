@@ -8,6 +8,8 @@ import nem.com.repository.OrdersRepository;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.OrderDetailService;
 import nem.com.service.OrderService;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,16 +29,22 @@ public class OrderController {
     private final OrdersRepository ordersRepository;
     private final ProductsDetailsRepository productsDetailsRepository;
 
+    @GetMapping("/data")
+    public ResponseEntity<List<Orders>> getData(){
+        return new ResponseEntity<>(this.ordersRepository.findAll(),HttpStatus.OK);
+    }
+
     @GetMapping("")
-    public ResponseEntity<List<OrderResponseDTO>> getAll(){
+    public ResponseEntity<List<OrderResponseDTO>> getAll(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size){
         List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
-        List<Orders> ordersList = this.orderService.getAllOrderSort();
+        Page<Orders> ordersList = this.orderService.getAllOrderSort(page,size);
         for (Orders orders: ordersList
              ) {
             OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
             orderResponseDTO.setOrders(orders);
             List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
             orderResponseDTO.setOrderDetailsList(orderDetailsList);
+            orderResponseDTO.setTotalPage(ordersList.getTotalPages());
             orderResponseDTOList.add(orderResponseDTO);
         }
         return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
@@ -45,13 +53,14 @@ public class OrderController {
     @GetMapping("/{status}")
     public ResponseEntity<List<OrderResponseDTO>> findByStatus(@PathVariable("status") Integer status){
         List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
-        List<Orders> ordersList = this.orderService.findByStatusOrderByCreateDateDesc(status);
+        Page<Orders> ordersList = this.orderService.findByStatusOrderByCreateDateDesc(status);
         for (Orders orders: ordersList
         ) {
             OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
             orderResponseDTO.setOrders(orders);
             List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
             orderResponseDTO.setOrderDetailsList(orderDetailsList);
+            orderResponseDTO.setTotalPage(ordersList.getTotalPages());
             orderResponseDTOList.add(orderResponseDTO);
         }
         return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
