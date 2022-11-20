@@ -3,9 +3,10 @@ import {Constant} from '../../../../shared/constants/Constant';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {EmployeeService} from '../../../../shared/service/employee/employee.service';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
-import {checkPassword, checkSpace, Regex} from '../../../../shared/validators/Regex';
+import {MustMatch, checkSpace, Regex} from '../../../../shared/validators/Regex';
 import {EmployeeImageComponent} from '../employee-image/employee-image.component';
 import {StorageService} from '../../../../shared/service/storage.service';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -33,17 +34,17 @@ export class EmployeeDetailComponent implements OnInit {
 
     changePassword = this.fb.group( {
         oldPassword: ['' , checkSpace ],
-        pw: this.fb.group( {
-            newPassword: ['' , checkSpace ] ,
-            confirmPassword: ['' , [checkSpace  ]]
-        } ,{
-            validators: checkPassword
-        })
+        newPassword: ['' , checkSpace ] ,
+        confirmPassword: ['' , [checkSpace  ]]
+    } , {
+        validators : MustMatch('newPassword' , 'confirmPassword' )
     })
+
     st = new StorageService();
 
     constructor( private fb: FormBuilder ,
                 private employeeServive: EmployeeService,
+                 private toast: ToastrService ,
                  private dialog: MatDialog ,
                  @Inject(MAT_DIALOG_DATA) public dataDialog?: any,
                 private dialogRef?: MatDialogRef<EmployeeDetailComponent>) {
@@ -94,8 +95,25 @@ export class EmployeeDetailComponent implements OnInit {
         return this.employee.get(name).hasError(error) && this.employee.get(name).touched ;
     }
 
-    saveChangePassword() {
+    changPassword() {
+        this.changePassword.markAllAsTouched() ;
+        if( this.changePassword.invalid ){
+            return  ;
+        }
 
+        this.employeeServive.changPassword( this.employee.value.id , this.changePassword.value.oldPassword ,
+            this.changePassword.value.newPassword ).subscribe( {
+            next: () => {
+                this.changePassword.reset() ;
+                this.toast.success("Sửa mật khẩu thành công")
+            },
+            error: ( err) => {
+                if (err.error.code == "UNIQUE_FIELD") {
+                    this.toast.error(err.error.message);
+                }
+                this.toast.error("Sưa thất bại")
+            }
+        })
     }
 
 

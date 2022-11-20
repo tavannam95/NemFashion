@@ -30,4 +30,8 @@ export class EmployeeApiService {
   getById( id: number ): Observable<any> {
     return this.http.get(`${ ApiConstant.employee }/${id}`) ;
   }
+
+  changPassword( id: number , oldPassword: any , newPassword: any ){
+     return this.http.get(`${ApiConstant.employee}/changPassword?id=${id}&&oldPassword=${oldPassword}&&newPassword=${newPassword}`);
+  }
 }
