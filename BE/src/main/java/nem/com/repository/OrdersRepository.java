@@ -24,6 +24,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Pageable pageable);
 
     List<Orders> findByStatus(Integer status);
+
     @Query("Update Orders o set o.status = :status where o.id = :id ")
     @Modifying
     @Transactional
@@ -31,4 +32,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> '' and o.status not in (0,1)")
     List<Orders> getOrderGhn();
+
+    @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> '' and o.status = 2")
+    List<Orders> getOrderGhnByStatus();
 }
