@@ -39,7 +39,7 @@ public class ScheduledUpdateOrderStatus {
         SpringApplication.run(ScheduledUpdateOrderStatus.class, args);
     }
 
-    @Scheduled(cron = "* */5 * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void scheduledUpdateOrderStatus() throws IOException {
         log.info("--ScheduledUpdateOrderStatus--");
         //Call api ghn

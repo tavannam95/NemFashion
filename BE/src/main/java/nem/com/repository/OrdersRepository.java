@@ -33,6 +33,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> '' and o.status not in (0,1)")
     List<Orders> getOrderGhn();
 
-    @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> '' and o.status = 2")
+    @Query("SELECT o from Orders o where o.orderCode is not null and o.orderCode <> '' and o.status = 0")
     List<Orders> getOrderGhnByStatus();
 }
