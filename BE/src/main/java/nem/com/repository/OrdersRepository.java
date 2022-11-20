@@ -1,5 +1,8 @@
 package nem.com.repository;
 
+import nem.com.dto.response.BuyMostProductDTO;
+import nem.com.dto.response.CustomerBuyMostProductDTO;
+import nem.com.dto.response.OverviewStatisticalDTO;
 import nem.com.entity.Orders;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
@@ -26,4 +30,15 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Modifying
     @Transactional
     void updateStatusOrder( @Param("status") Integer status , @Param("id") Long id ) ;
+
+//  Thống kê khách mua hàng nhiều nhất
+
+    @Query(name = "CustomerBuyMostProductDTO" , nativeQuery = true)
+    List<CustomerBuyMostProductDTO> CustomerBuyMostProduct( @Param("startDate") Date startDate , @Param("endDate") Date endDate ) ;
+
+    @Query(name = "overview_statical" , nativeQuery = true )
+    OverviewStatisticalDTO getOverview() ;
+
+    @Query(name = "BuyMostProductDTO" , nativeQuery = true )
+    List<BuyMostProductDTO> buyMostProductDTO(@Param("startDate") Date startDate , @Param("endDate") Date endDate ) ;
 }

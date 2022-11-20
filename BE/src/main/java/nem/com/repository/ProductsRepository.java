@@ -14,11 +14,11 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
     @Query("SELECT p FROM Products p WHERE p.category.id = :id and p.status = 1")
     List<Products> findByCate(@Param("id") Short id);
     @Query("select p from Products p where p.id in " +
-            "( select pb.product.id from ProductsDetails pb where pb.size.id in (:size) and pb.color.id in (:color) ) " +
-            " and p.category.id in (:category) and p.price between :min and :max")
+            "( select distinct pb.product.id from ProductsDetails pb where pb.size.id in (:size) and pb.color.id in (:color) ) " +
+            " and p.category.id in (:category) and p.price >= :min and p.price <= :max")
     Page<Products> findProByAllProperty(@Param("size") Integer[] size , @Param("category") Short[] category ,
-                                        @Param("color") Integer[] color , @Param("max") Double max ,
-                                        @Param("min") Double min , Pageable pageable)   ;
+                                        @Param("color") Integer[] color , @Param("min") Double min ,
+                                        @Param("max") Double max , Pageable pageable)   ;
 
     @Query(value = "select distinct  p.*  from products p join products_details pd on p.id = pd.product_id\n" +
             "                        join order_details od  on od.product_detail_id = pd.id \n" +
