@@ -62,9 +62,9 @@
             <mat-label>
               Số lượng của size {{s.code|uppercase}}
             </mat-label>
-            <input
-              onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
-              matInput name="{{s.id}}" [(ngModel)]="quantity[index]" type="number" placeholder="Nhập số lượng" />
+            <input name="{{s.id}}" [(ngModel)]="quantity[index]" type="text"  currencyMask 
+            [options]="{ prefix: '', thousands: ',',precision: '0' ,allowNegative :'false',max: '999999999999', align: 'left'}" 
+            matInput type="text" />
           </mat-form-field>
         </div>
       </div>

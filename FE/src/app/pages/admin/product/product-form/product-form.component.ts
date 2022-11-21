@@ -40,7 +40,8 @@ export class ProductFormComponent implements OnInit {
     category: this.fb.group({
       id: ['',Validators.required]
     }),
-    price: ['',[Validators.min(1),Validators.required]],
+    price: ['',[Validators.min(10000),Validators.required]],
+    weight: ['',[Validators.min(1),Validators.required]],
     description: [''],
     thumnail: ['']
   })

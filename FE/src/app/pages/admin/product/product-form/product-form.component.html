@@ -10,9 +10,12 @@
       <div class="card-body">
         <mat-stepper linear #stepper>
           <mat-step [stepControl]="formGroup" [editable]="false">
+            
             <form [formGroup]="formGroup">
               <ng-template matStepLabel>Thông tin sản phẩm</ng-template>
+
               <div class="row">
+                <!-- Thumbnail product -->
                 <div class="col-3 p-0">
                   <div class="custom-dropzone" style="height: 360px; width: 234px;" ngx-dropzone [accept]="'image/*'"
                     [multiple]="false" (change)="onSelect($event)">
@@ -27,6 +30,7 @@
                     </ngx-dropzone-image-preview>
                   </div>
                 </div>
+                <!-- Info product -->
                 <div class="col-9">
                   <mat-form-field appearance="outline">
                     <mat-label>Tên sản phẩm</mat-label>
@@ -62,14 +66,29 @@
                   </div>
                   <mat-form-field appearance="outline">
                     <mat-label>Giá</mat-label>
-                    <input formControlName="price" matInput type="number" />
+                    <input formControlName="price" matInput type="text" currencyMask 
+                      [options]="{ prefix: '', suffix: ' VNĐ', thousands: ',',precision: '0'  ,allowNegative :'false',max: '999999999999', align: 'left'}"
+                      />
                     <mat-error class="text-danger" *ngIf="formGroup.get('price')?.hasError('min') &&
                                       formGroup.get('price')?.touched">
-                      Giá sản phẩm phải lớn hơn 0
+                      Giá sản phẩm thấp nhất là 10.000 VNĐ
                     </mat-error>
                     <mat-error class="text-danger" *ngIf="formGroup.get('price')?.hasError('required') &&
                                       formGroup.get('price')?.touched">
                       Giá sản phẩm không được để trống
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Trọng lượng</mat-label>
+                    <input formControlName="weight" matInput  type="text" currencyMask 
+                    [options]="{ prefix: '', suffix: ' gam', thousands: ',',precision: '0' ,allowNegative :'false',max: '999999999999', align: 'left'}"/>
+                    <mat-error class="text-danger" *ngIf="formGroup.get('weight')?.hasError('min') &&
+                                      formGroup.get('weight')?.touched">
+                      Trọng lượng phải lớn hơn 1
+                    </mat-error>
+                    <mat-error class="text-danger" *ngIf="formGroup.get('weight')?.hasError('required') &&
+                                      formGroup.get('weight')?.touched">
+                      Trọng lượng không được để trống
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
