@@ -80,6 +80,8 @@ public class SellingServiceImpl implements SellingService {
             orderDetails.setUnitprice(productsDetails.getProduct().getPrice());
             orderDetailsRepository.save(orderDetails);
             productsDetails.setQuantity(productsDetails.getQuantity()-productDetailsDTO.getQuantity());
+            productDetailsDTO.setNameColor(productsDetails.getColor().getName());
+            productDetailsDTO.setNameSize(productsDetails.getSize().getCode());
         }
         sellingDTO.setId(orders.getId());
         serviceResult.setData(sellingDTO);

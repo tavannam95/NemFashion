@@ -194,6 +194,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                 // this.getItemLocalStorage();
 
             }
+            console.log(value);
         })
     }
 
@@ -626,7 +627,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         let text = '';
         data.orderDetail.forEach(od => {
             text += `<tr>
-                            <td ><div>${od.name}</div>
+                            <td ><div>${od.name} (${od.nameSize}/${od.nameColor})</div>
                                 <div>${od.quantity}</div></td>
                             <td style="text-align: center">${formatter.format(od.price)}</td>
                             <td style="text-align: end">${formatter.format(od.quantity * od.price)}</td>
