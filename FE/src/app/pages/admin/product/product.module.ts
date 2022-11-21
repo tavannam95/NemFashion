@@ -28,6 +28,7 @@ import { ColorCreateDialogComponent } from '../dialog/color-create-dialog/color-
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { ProductViewDialogComponent } from '../dialog/product-view-dialog/product-view-dialog.component';
 import { ProductViewImagesDialogComponent } from '../dialog/product-view-dialog/product-view-images-dialog/product-view-images-dialog.component';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ProductViewImagesDialogComponent } from '../dialog/product-view-dialog/
     MatTooltipModule,
     MatMenuModule,
     MatRadioModule,
-    ScrollingModule
+    ScrollingModule,
+    NgxCurrencyModule,
   ],
 })
 export class ProductModule{

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
@@ -19,7 +19,7 @@ import { ProductViewImagesDialogComponent } from '../../dialog/product-view-dial
 
 export class ProductListComponent implements OnInit  {
   
-  displayedColumns: string[] = ['id', 'name', 'category', 'price', 'thumnail', 'status', 'function'];
+  displayedColumns: string[] = ['id', 'name', 'category', 'price', 'thumnail', 'weight', 'status', 'function'];
   dataSource: MatTableDataSource<any>;
 
 
@@ -31,11 +31,13 @@ export class ProductListComponent implements OnInit  {
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
               private dialog: MatDialog,
-              private toastrService: ToastrService
+              private toastrService: ToastrService,
+              public _MatPaginatorIntl: MatPaginatorIntl
               ) { 
   }
   ngOnInit(): void {
     this.getAllProduct();
+    // this._MatPaginatorIntl.itemsPerPageLabel = 'Số sản phẩm';
   }
   
   openProductViewImagesDialog(data: any){
@@ -53,6 +55,7 @@ export class ProductListComponent implements OnInit  {
           this.isLoading = false;
           this.dataSource = new MatTableDataSource<any>(res);
           this.dataSource.data = res;
+          console.log(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
       },
