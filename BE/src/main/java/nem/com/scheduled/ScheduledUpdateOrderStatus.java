@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nem.com.constant.GhnConstant;
+import nem.com.constant.enums.OrderStatus;
 import nem.com.constant.enums.OrderStatusEnum;
 import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;
@@ -39,25 +40,23 @@ public class ScheduledUpdateOrderStatus {
         SpringApplication.run(ScheduledUpdateOrderStatus.class, args);
     }
 
-    @Scheduled(cron = "* */5 * * * *")
+    @Scheduled(cron = "* * */1 * * *")
     public void scheduledUpdateOrderStatus() throws IOException {
-        log.info("--ScheduledUpdateOrderStatus--");
-        //Call api ghn
         this.updateStatus();
     }
     private void updateStatus() throws IOException{
-            log.info("--Update Status--");
-
             List<Orders> ordersStatus = this.ordersRepository.getOrderGhnByStatus();
             if (!ordersStatus.isEmpty()){
                 for (int i = 0; i < ordersStatus.size(); i++) {
                     String statusGhn = this.getStatusGhn(ordersStatus.get(i).getOrderCode());
-                    int statusGhnNumber = Objects.requireNonNull(OrderStatusEnum.valueOfStatus(statusGhn)).getValueNumber();
-                    if (ordersStatus.get(i).getStatus() != statusGhnNumber){
-                        Orders orders = ordersStatus.get(i);
-                        orders.setStatus(statusGhnNumber);
-                        log.info("--Cập nhật trạng thái đơn hàng: {} --",ordersStatus.get(i).getOrderCode());
-                        this.ordersRepository.save(orders);
+                    if (OrderStatus.checkStatusOrder(statusGhn)){
+                        int statusGhnNumber = Objects.requireNonNull(OrderStatusEnum.valueOfStatus(statusGhn)).getValueNumber();
+                        if (ordersStatus.get(i).getStatus() != statusGhnNumber){
+                            Orders orders = ordersStatus.get(i);
+                            orders.setStatus(statusGhnNumber);
+                            log.info("--Cập nhật trạng thái đơn hàng: {} --",ordersStatus.get(i).getOrderCode());
+                            this.ordersRepository.save(orders);
+                        }
                     }
                 }
             }
@@ -82,7 +81,6 @@ public class ScheduledUpdateOrderStatus {
 
     private String getStatusGhn(String orderCode) throws IOException{
         try (CloseableHttpClient client = HttpClients.createDefault()){
-            log.info("--Call API GHN--");
             //Call api ghn
             CloseableHttpResponse response = client.execute(this.setHeader(orderCode));
             //Read result
