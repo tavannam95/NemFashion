@@ -18,6 +18,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import { PreparingProductComponent } from './dialog/preparing-product/preparing-product.component';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
     declarations: [
         OrderListComponent,
@@ -40,7 +41,8 @@ import {MatRadioModule} from '@angular/material/radio';
         MatTabsModule,
         MatDividerModule,
         MatCardModule,
-        MatRadioModule
+        MatRadioModule,
+        MatExpansionModule,
     ]
 })
 export class OrderModule {

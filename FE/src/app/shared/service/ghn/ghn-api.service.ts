@@ -30,4 +30,7 @@ export class GhnApiService {
   genToken(orderCode: any):Observable<any>{
     return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',orderCode);
   }
+  cancelOrderGhn(orderCode: any): Observable<any>{
+    return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel',orderCode);
+  }
 }

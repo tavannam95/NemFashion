@@ -56,7 +56,6 @@ export class OrderListComponent implements OnInit {
   ngOnInit() {
     this.getDataOrder();
     this.getAllOrder(0);
-    this.getAllOrderGhn();
     this.getDate();
   }
 
@@ -91,34 +90,6 @@ export class OrderListComponent implements OnInit {
       this.findByStatus(this.tabIndex-1);
     }
   }
-
-  getStatusGhn(){
-    for (let i = 0; i < this.orderGhn.length; i++) {
-      this.ghnService.getOrderGhn({order_code : this.orderGhn[i].orderCode}).subscribe(res=>{
-        if (res.data.status == 'transporting') {
-          this.orderGhn[i].status = 2;
-        }else if (res.data.status == 'delivered') {
-          this.orderGhn[i].status = 3;
-        }else if ('cancel') {
-          
-        }
-      })
-    }
-    // this.ghnService.getOrderGhn({order_code : this.orderGhn[0].orderCode}).subscribe(res=>{
-    //   // this.orderGhn[i].ghnStatus = res.
-    //   console.log(res);
-      
-    // })
-  }
-
-  getAllOrderGhn(){
-    this.orderService.getOrderGhn().subscribe({
-      next: (res) =>{
-        this.orderGhn = res;
-      }
-    })
-  }
-
   
   getDate(){
     this.ghnService.getDate().subscribe({
@@ -159,15 +130,6 @@ export class OrderListComponent implements OnInit {
         next:(res)=>{
           this.allOrder = res;
           this.isLoading = false;
-          // for (let i = 0; i < this.allOrder.length; i++) {
-          //   if (this.allOrder[i].orders.orderCode != null && this.allOrder[i].orders.status != 0) {
-          //     this.ghnService.getOrderGhn({order_code : this.allOrder[i].orders.orderCode}).subscribe({
-          //       next: (r)=>{
-          //         this.allOrder[i].orders.status = r.data.status;
-          //       }
-          //     })
-          //   }
-          // }
         },
         error:(e)=>{
           console.log(e);
@@ -194,16 +156,6 @@ export class OrderListComponent implements OnInit {
         if (this.allOrder.length>0) {
           this.totalPage = this.allOrder[0].totalPage;
         }
-        for (let i = 0; i < this.allOrder.length; i++) {
-          if (this.allOrder[i].orders.orderCode != null && this.allOrder[i].orders.status != 0) {
-            this.ghnService.getOrderGhn({order_code : this.allOrder[i].orders.orderCode}).subscribe({
-              next: (r)=>{
-                this.allOrder[i].orders.status = r.data.status;
-              }
-            })
-          }
-        }
-        
         this.isLoading = false;
       },
       error: (err) =>{

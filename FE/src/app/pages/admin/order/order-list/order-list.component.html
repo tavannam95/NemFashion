@@ -5,8 +5,50 @@
   <div class="container-fluid">
     <div class="card custom-card">
       <div class="card-body">
-
-        <mat-tab-group animationDuration="0ms" (selectedTabChange)="selectTab($event.index)">
+        <!-- Search -->
+        <mat-accordion class="example-headers-align">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <i class="fas fa-search" style="margin-left: 0.5rem; margin-right: 0.5rem;"></i> 
+                Tìm kiếm đơn hàng
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>First name</mat-label>
+                  <input matInput>
+                </mat-form-field>
+            
+                <mat-form-field appearance="outline">
+                  <mat-label>Age</mat-label>
+                  <input matInput type="number" min="1">
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>First name</mat-label>
+                  <input matInput>
+                </mat-form-field>
+            
+                <mat-form-field appearance="outline">
+                  <mat-label>Age</mat-label>
+                  <input matInput type="number" min="1">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 d-flex justify-content-end">
+                <button class="btn btn-success">Tìm kiếm</button>
+              </div>
+            </div>
+            
+        
+          </mat-expansion-panel>
+        </mat-accordion>
+        <!-- Show -->
+        <mat-tab-group class="mt-3" animationDuration="0ms" (selectedTabChange)="selectTab($event.index)">
 
           <mat-tab *ngFor="let s of listStatus">
             <ng-template mat-tab-label>
@@ -63,49 +105,41 @@
                         {{order.orders.total| currency:' ':'symbol':'0.0-2'}} VNĐ
                       </td>
                       <td>
-                        <div *ngIf="tabIndex==6">
-                          Trả hàng/Hoàn tiền
-                        </div>
-                        <div *ngIf="tabIndex==5">
-                          Đơn hủy
-                        </div>
-                        <div *ngIf="tabIndex==4">
-                          Đã giao
-                        </div>
-                        <div *ngIf="tabIndex==3">
-                          Đang giao
-                        </div>
-                        <div *ngIf="tabIndex==2">
-                          Chờ lấy hàng
-                        </div>
-                        <div *ngIf="tabIndex==1">
-                          Chờ xác nhận
-                        </div>
-                        <div *ngIf="tabIndex==0">
                           <div [ngSwitch]="order.orders.status">
                             <div *ngSwitchCase="0">
                               Chờ xác nhận
                             </div>
-                            <div *ngSwitchCase="'ready_to_pick'">
+                            <div *ngSwitchCase="1">
                               Chờ lấy hàng
                             </div>
-                            <div *ngSwitchCase="'transporting'">
+                            <div *ngSwitchCase="2">
                               Đang giao
+                            </div>
+                            <div *ngSwitchCase="3">
+                              Đã giao
+                            </div>
+                            <div *ngSwitchCase="4">
+                              Đơn hủy
+                            </div>
+                            <div *ngSwitchCase="5">
+                              Trả hàng/Hoàn tiền
+                            </div>
+                            <div *ngSwitchCase="6">
+                              Bán tại quầy
                             </div>
                             <!-- <div *ngSwitchDefault>
                               {{order.orders.status}}
                             </div> -->
                           </div>
-                      </div>
                       </td>
                       <td>
                         <div *ngIf="order.orders.status==0">
-                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders,dateShift)">
+                          <a class="btn btn-info" (click)="openPreparingDialog(order.orders,dateShift)">
                             Chuẩn bị hàng
                           </a>
                         </div>
                         <div *ngIf="order.orders.status!=0">
-                          <a class="btn btn-outline-dark" (click)="openPreparingDialog(order.orders,dateShift)">
+                          <a class="btn btn-info" (click)="openPreparingDialog(order.orders,dateShift)">
                             Xem thông tin
                           </a>
                         </div>

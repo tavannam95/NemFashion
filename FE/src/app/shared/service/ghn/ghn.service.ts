@@ -22,5 +22,8 @@ export class GhnService {
   genToken(orderCode: any){
     return this.ghnApiService.genToken(orderCode);
   }
+  cancelOrder(orderCode: any){
+    return this.ghnApiService.cancelOrderGhn(orderCode);
+  }
 
 }

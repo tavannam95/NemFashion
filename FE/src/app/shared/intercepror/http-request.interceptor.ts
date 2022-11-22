@@ -15,6 +15,7 @@ import { Ghn } from '../constants/Ghn';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
+  cancelOrderGhn = 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel';
 
   constructor(private readonly storageService: StorageService,
               private readonly router: Router) {
@@ -37,7 +38,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (userToken != null) {
       httpHeader = httpHeader.append('Authorization', 'Bearer ' + userToken)
     }
-    if (req.url.includes(ApiConstant.ghn)) {
+    if (req.url.includes(ApiConstant.ghn)||req.url.includes(this.cancelOrderGhn)) {
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
       httpHeader = httpHeader.append('ShopId', Ghn.SHOP_ID);
     }

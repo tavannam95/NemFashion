@@ -7,6 +7,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
 import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 import { PrintOrderDialogComponent } from '../print-order-dialog/print-order-dialog.component';
+import { ConfirmDialogComponent } from '../../../../../shared/confirm-dialog/confirm-dialog.component';
+import { Constant } from '../../../../../shared/constants/Constant';
 
 @Component({
   selector: 'app-preparing-product',
@@ -14,6 +16,7 @@ import { PrintOrderDialogComponent } from '../print-order-dialog/print-order-dia
   styleUrls: ['./preparing-product.component.scss']
 })
 export class PreparingProductComponent implements OnInit {
+  checkCancelOrder = false;
   isLoading: boolean = false;
   requiredNote: string = 'KHONGCHOXEMHANG';
   contact: any;
@@ -79,9 +82,55 @@ export class PreparingProductComponent implements OnInit {
 
   ngOnInit() {
     this.order = this.dataDialog.data;
+    console.log(this.order);
+    
     this.dateShift = this.dataDialog.dateShift;
     this.getDefaultContact();
     this.getWeight();
+  }
+
+  closeDialog(){
+    if(this.checkCancelOrder){
+      this.matDialogRef.close('OK');
+    }
+  }
+
+  cancelOrder(orderCode: any){
+    this.isLoading = true;
+    this.matDialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+          message: 'Bạn có muốn hủy đơn?'
+      }
+    }).afterClosed().subscribe(result => {
+      if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+        //Hủy đơn trên GHN
+        this.ghnService.cancelOrder({order_codes:[this.order.orderCode]}).subscribe({
+          next: (res) =>{
+            //Update order status DB
+            this.orderService.updateStatus(this.order,4).subscribe({
+              next: (res)=>{
+                this.isLoading = false;
+                this.checkCancelOrder = true;
+                this.toastrService.success('Hủy đơn hàng thành công');
+              },
+              error:(e)=>{
+                console.log(e);
+                this.isLoading = false;
+                this.toastrService.error('Hủy đơn thất bại');
+              }
+            });
+          },
+          error: (e)=>{
+            console.log(e);
+            this.isLoading = false;
+            this.toastrService.error('Hủy đơn thất bại');
+          }
+        })
+      }
+    })
+    
   }
 
   check(){
@@ -113,6 +162,7 @@ export class PreparingProductComponent implements OnInit {
   isFormValid() : boolean { 
     return this.data.disabled ? true : this.data.valid
   }
+
 
   createOrderGhn(){
     this.isLoading = true;
