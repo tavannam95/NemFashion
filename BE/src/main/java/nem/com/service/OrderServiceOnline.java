@@ -1,6 +1,6 @@
 package nem.com.service;
 
-import nem.com.dto.request.OrderDTO;
+import nem.com.domain.request.OrderDTO;
 import nem.com.entity.Orders;
 
 import java.util.List;

@@ -80,7 +80,7 @@ public class ProductDetailController {
 //    public String generateBarcode(@RequestBody Long id){
 //        List<String>
 //    }
-    @GetMapping("/generateBacode/{id}")
+    @GetMapping("/generateBarcode/{id}")
     public ResponseEntity<?> generateBarcode(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.productDetailService.generateBarcode(id));
     }
