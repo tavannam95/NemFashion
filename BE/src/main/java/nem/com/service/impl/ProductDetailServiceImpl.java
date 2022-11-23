@@ -123,7 +123,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 .orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
         String barCode = productsDetails.getBarCode();
         ServiceResult<?> result = new ServiceResult<>();
-       result.setMessage(BarcodeUtils.generateBarcode(barCode,300,100));
+       result.setMessage(BarcodeUtils.generateBarcode(barCode,productsDetails.getProduct().getPrice(),300,100));
         return result;
     }
 }
