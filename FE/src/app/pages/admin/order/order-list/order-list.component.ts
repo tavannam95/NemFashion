@@ -27,7 +27,8 @@ export class OrderListComponent implements OnInit {
     'Đang giao',
     'Đã giao',
     'Đơn hủy',
-    'Trả hàng/Hoàn tiền'
+    'Trả hàng/Hoàn tiền',
+    'Bán tại cửa hàng'
   ]
 
   dataOrder: any[] = [];
