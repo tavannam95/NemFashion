@@ -89,7 +89,7 @@
               <div class="pd-detail__color">
                 <div class="color__radio" *ngFor="let c of listColor">
                   <input type="radio" id="jet" name="color"
-                         [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
+                         [class.disabled-color]="listSize.id != undefined ? !color.includes(c.id) :false"
                          [(ngModel)]="colorModel"
                          [value]="c.id"
                          [checked]="listColor.id ? listColor.id == c.id : false"
@@ -98,8 +98,8 @@
                   <label
                     class="color__radio-label"
                     for="jet"
-                    [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
-                    [class.low-opacity]="color.length > 0 ? !color.includes(c.id) :false"
+                    [class.disabled-color]=" listSize.id != undefined ? !color.includes(c.id)  :false"
+                    [class.low-opacity]=" listSize.id != undefined ?!color.includes(c.id)  :false"
                     [style.background-color]="c.code.code"
                   ></label>
                 </div>
@@ -110,14 +110,14 @@
               <div class="pd-detail__size">
                 <div class="size__radio" *ngFor="let s of listSize">
                   <input type="radio" id="xs" name="size"
-                         [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false"
+                         [class.disabled-size]=" listColor.id != undefined ?!size.includes(s.id) : false"
                          [value]="s.id"
                          [checked]="listSize.id ? listSize.id == s.id : false"
                          [(ngModel)]="sizeModel"
                          (click)="onClickSize(s.id)"
                          (change)="onClickProductDetail()"/>
                   <label class="size__radio-label" for="xs"
-                         [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false">
+                         [class.disabled-size]=" listColor.id != undefined ?!size.includes(s.id) : false">
                     {{s.code}}
                   </label>
                 </div>

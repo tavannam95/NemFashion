@@ -3,6 +3,7 @@ package nem.com.service.impl;
 import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;
 import nem.com.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +24,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> findByStatusOrderByCreateDateDesc(Integer status) {
-        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(0,10));
+    public Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Integer page, Integer size) {
+        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(page,size));
     }
 
     @Override
-    public List<Orders> getAllOrderSort() {
-        return this.ordersRepository.getAllOrderSort(PageRequest.of(0,10));
+    public List<Orders> findByStatus(Integer status) {
+        return this.ordersRepository.findByStatus(status);
+    }
+
+    @Override
+    public Page<Orders> getAllOrderSort(Integer page, Integer size) {
+        return this.ordersRepository.getAllOrderSort(PageRequest.of(page,size));
     }
 
     @Override
@@ -37,5 +43,10 @@ public class OrderServiceImpl implements OrderService {
             orders.setStatus(f);
         this.ordersRepository.save(orders);
         return orders;
+    }
+
+    @Override
+    public List<Orders> getOrderGhn() {
+        return this.ordersRepository.getOrderGhn();
     }
 }

@@ -8,6 +8,9 @@ export const ApiConstant = {
   size: 'http://localhost:8080/api/v1/size',
   color: 'http://localhost:8080/api/v1/color',
   order: 'http://localhost:8080/api/v1/order',
+  orderDetail: 'http://localhost:8080/api/v1/orderDetail',
+  ghn: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order',
+  contact: 'http://localhost:8080/api/v1/contact',
   cloudinary: 'http://localhost:8080/api/image',
   auth: {
         login: 'http://localhost:8080/api/auth/admin/login',

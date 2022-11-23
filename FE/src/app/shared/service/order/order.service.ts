@@ -7,14 +7,30 @@ import { OrderApiService } from './order-api.service';
 })
 export class OrderService {
 
-constructor(private readonly apiService: OrderApiService) { }
-getAllOrder() {
-  return this.apiService.getAllOrder();
-}
-findByStatus(status: any){
-  return this.apiService.findByStatus(status);
-}
-verifyOrCancelOrder(data: any, status: number){
-  return this.apiService.verifyOrCancelOrder(data,status);
-}
+  constructor(private readonly apiService: OrderApiService) { }
+
+  getDataOrder(){
+    return this.apiService.getDataOrder();
+  }
+
+  getAllOrder(page: any, size: any) {
+    return this.apiService.getAllOrder(page,size);
+  }
+
+  getOrderGhn(){
+    return this.apiService.getOrderGhn();
+  }
+
+  findByStatus(status: any, page: any, size: any){
+    return this.apiService.findByStatus(status,page,size);
+  }
+
+  findAllByStatus(status: any){
+    return this.apiService.findAllByStatus(status);
+  }
+
+  updateStatus(data: any, status: number){
+    return this.apiService.updateStatus(data,status);
+  }
+
 }

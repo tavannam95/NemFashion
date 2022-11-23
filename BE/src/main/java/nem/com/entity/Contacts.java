@@ -16,7 +16,7 @@ public class Contacts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
-    private Short id;
+    private int id;
 
     @Basic
     @Column(name = "name", nullable = true, length = 255)
@@ -27,6 +27,34 @@ public class Contacts {
     private String phone;
 
     @Basic
-    @Column(name = "address", nullable = true, length = 255)
-    private String address;
+    @Column(name = "ward_code", nullable = true, length = 255)
+    private String ward_code;
+
+    @Basic
+    @Column(name = "district_code", nullable = true, length = 255)
+    private String district_code;
+
+    @Basic
+    @Column(name = "city_code", nullable = true, length = 255)
+    private String city_code;
+
+    @Basic
+    @Column(name = "ward_name", nullable = true, length = 255)
+    private String ward_name;
+
+    @Basic
+    @Column(name = "district_name", nullable = true, length = 255)
+    private String district_name;
+
+    @Basic
+    @Column(name = "city_name", nullable = true, length = 255)
+    private String city_name;
+
+    @Basic
+    @Column(name = "other", nullable = true, length = 255)
+    private String other;
+
+    @Basic
+    @Column(name = "status", nullable = true)
+    private Short status;
 }

@@ -189,6 +189,7 @@ export class ProductDetailComponent implements OnInit {
 
   onClickSize(id: any) {
     console.log(id)
+
     if (this.listSize.id === undefined || this.listSize.id != id) {
       this.color = this.productDetail.filter(p => p.size.id === id && p.quantity > 0).map(p => p.color.id);
       this.listSize.id = id;

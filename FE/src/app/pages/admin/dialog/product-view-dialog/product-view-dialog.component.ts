@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductViewImagesDialogComponent } from './product-view-images-dialog/product-view-images-dialog.component';
+import printJS from "print-js";
+import {ProductService} from "../../../../shared/service/product/product.service";
 
 @Component({
   selector: 'app-product-view-dialog',
@@ -32,7 +34,8 @@ export class ProductViewDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private poductDetailService: ProductDetailService,
     private toastrService: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -76,6 +79,19 @@ export class ProductViewDialogComponent implements OnInit {
         this.toastrService.error('Không tải được chi tiết sản phẩm')
       }
     })
+  }
+
+  printQR(){
+    let id = 36; // Cái này a truyền nó nó là id của detail
+    this.productService.generateBarcode(id).subscribe(
+        {
+          next: resp => {
+            console.log(resp);
+            printJS({printable: [resp.message,resp.message],type: 'image',imageStyle: 'width:100%;margin-bottom:20px;'})
+          }
+        }
+    )
+
   }
 
 }

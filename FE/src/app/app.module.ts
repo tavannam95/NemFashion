@@ -23,7 +23,9 @@ import {
     ProductImageCreateDialogComponent
 } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
 import {httpInterceptorProviders} from './shared/intercepror/http-request.interceptor';
-import {RatingComponent} from './pages/admin/rating-manager/rating.component';
+import { RatingComponent } from './pages/admin/rating-manager/rating.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from './shared/util/CustomPaginatorConfiguration';
 
 
 @NgModule({
@@ -58,7 +60,7 @@ import {RatingComponent} from './pages/admin/rating-manager/rating.component';
         EmployeeImageComponent,
         ProductImageCreateDialogComponent,
     ],
-    providers: [httpInterceptorProviders],
+    providers: [httpInterceptorProviders,{ provide: MatPaginatorIntl, useValue: CustomPaginator() }],
     bootstrap: [AppComponent]
 })
 export class AppModule {

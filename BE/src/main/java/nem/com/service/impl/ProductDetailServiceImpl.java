@@ -1,15 +1,22 @@
 package nem.com.service.impl;
 
-import nem.com.dto.request.ProductDetailsDTO;
-import nem.com.dto.response.ProductDetailResponseDTO;
+import nem.com.domain.request.ProductDetailsDTO;
+import nem.com.domain.request.ServiceResult;
+import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
+import nem.com.exception.ResourceNotFoundException;
 import nem.com.exception.UniqueFieldException;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.ProductDetailService;
+import nem.com.utils.BarcodeUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 public class ProductDetailServiceImpl implements ProductDetailService {
@@ -77,6 +84,16 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 productsDetails.setColor(p.getColor());
                 productsDetails.setSize(p.getSize());
                 productsDetails.setQuantity(p.getQuantity());
+                while(true){
+                    Random generator = new Random();
+                    int barCode = generator.nextInt((9999999 - 1000000) + 1) + 1000000;
+                    ProductsDetails productsDetails1 = this.productsDetailsRepository.getByBarCode(barCode+"");
+                    System.out.println(productsDetails1);
+                    if (productsDetails1 == null){
+                        productsDetails.setBarCode(barCode+"");
+                        break;
+                    }
+                }
             }
                 this.productsDetailsRepository.save(productsDetails);
             }catch (Exception e){
@@ -93,5 +110,20 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         int colorId = productViewDto.getColor().getId();
         int sizeId = productViewDto.getSize().getId();
         return this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
+    }
+
+    @Override
+    public ProductsDetails getByBarcode(String barcode){
+        return this.productsDetailsRepository.getByBarCode(barcode);
+    }
+
+    @Override
+    public ServiceResult<?> generateBarcode(Integer id){
+        ProductsDetails productsDetails = productsDetailsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
+        String barCode = productsDetails.getBarCode();
+        ServiceResult<?> result = new ServiceResult<>();
+       result.setMessage(BarcodeUtils.generateBarcode(barCode,300,100));
+        return result;
     }
 }

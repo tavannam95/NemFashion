@@ -24,7 +24,8 @@ export class ProductEditDialogComponent implements OnInit {
   productFG = this.fb.group({
     id: [''],
     name: ['', [Validators.required, Validators.pattern(Regex.unicodeAndNumber)]],
-    price: ['',[Validators.min(1),Validators.required]],
+    price: ['',[Validators.min(10000),Validators.required]],
+    weight: ['',[Validators.min(1),Validators.required]],
     status: [''],
     thumnail: [''],
     updateDate: [''],
@@ -46,10 +47,14 @@ export class ProductEditDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.productFG.patchValue(this.dataDialog);
-    
-    // this.getProductById();
+    this.getProductById();
     this.getAllCategory();
+  }
+
+  getProductById(){
+    this.productService.getOneProduct(this.dataDialog.id).subscribe(res=>{
+      this.productFG.patchValue(res);
+    })
   }
 
   async uploadThumnail() {

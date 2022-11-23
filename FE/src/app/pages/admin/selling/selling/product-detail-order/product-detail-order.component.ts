@@ -67,6 +67,9 @@ export class ProductDetailOrderComponent implements OnInit {
 
     clickSizeOrColor(key: any, id: any) {
         if (key === 'color') {
+            if(this.color.length  == 0 && this.listSizeOfProduct.click != undefined){
+                return;
+            }
             if (this.listColorOfProduct.click === undefined || this.listColorOfProduct.click != id) {
                 this.size = this.product.productDetail.filter(pd => pd.colorId === id && pd.quantity > 0).map(pd => {
                     return pd.sizeId
@@ -78,6 +81,10 @@ export class ProductDetailOrderComponent implements OnInit {
                 this.quantityInventory = 0;
             }
         } else {
+            if(this.size.length  == 0 && this.listColorOfProduct.click != undefined){
+                return;
+            }
+
             if (this.listSizeOfProduct.click === undefined || this.listSizeOfProduct.click != id) {
                 this.color = this.product.productDetail.filter(pd => pd.sizeId === id && pd.quantity > 0).map(pd => {
                     return pd.colorId

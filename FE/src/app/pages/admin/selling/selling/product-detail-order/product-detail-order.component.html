@@ -5,11 +5,13 @@
     <div class="color flex">
         <span style="padding-top: 5px">Color: </span>
         <div class="button-color">
-            <button class="button" *ngFor="let item of listColorOfProduct"
+            <div  *ngFor="let item of listColorOfProduct">
+            <button class="button"
                     [style.background-color]="item.code"
-                    [class.checked-btn]="listColorOfProduct.click?listColorOfProduct.click == item.id:false"
+                    [class.checked-btn]="listColorOfProduct.click != undefined?listColorOfProduct.click == item.id:false"
                     (click)="color.length == 0||color.includes(item.id)?clickSizeOrColor('color',item.id):''"
-                    [class.disabled-btn]="color.length > 0?!color.includes(item.id):false"></button>
+                    [class.disabled-btn]="listSizeOfProduct.click?!color.includes(item.id):false"></button>
+            </div>
         </div>
     </div>
     <div class="size flex">
@@ -18,9 +20,9 @@
             <button class="button" *ngFor="let item of listSizeOfProduct"
                     [class.checked-btn]="listSizeOfProduct.click?listSizeOfProduct.click == item.id:false"
                     (click)="size.length == 0||size.includes(item.id)?clickSizeOrColor('size',item.id):''"
-                    [class.disabled-btn]="size.length > 0?!size.includes(item.id):false">
+                    [class.disabled-btn]="listColorOfProduct.click != undefined?!size.includes(item.id):false">
                 <label style="margin: 0;color:black;cursor: pointer"
-                       [class.disabled-btn]="size.length > 0?!size.includes(item.id):false">
+                       [class.disabled-btn]="listColorOfProduct.click != undefined?!size.includes(item.id):false">
                     {{item.code}}<img class="img-checked" src="../../../../../../assets/img/imgok.png" alt=""></label>
                 </button>
         </div>
