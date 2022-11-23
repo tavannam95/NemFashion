@@ -91,7 +91,7 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     isValidatorEmployee(name: string , error: string ){
-        return this.employee.get(name).hasError(error) && this.employee.get(name).touched ;
+            return this.employee.get(name).hasError(error) && this.employee.get(name).touched ;
     }
 
     saveChangePassword() {

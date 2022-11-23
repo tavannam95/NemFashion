@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductViewDialogComponent } from '../../dialog/product-view-dialog/product-view-dialog.component';
 import { filter } from 'rxjs';
 import { ProductViewImagesDialogComponent } from '../../dialog/product-view-dialog/product-view-images-dialog/product-view-images-dialog.component';
+import {StorageService} from '../../../../shared/service/storage.service';
 
 @Component({
   selector: 'product-list',
@@ -18,7 +19,7 @@ import { ProductViewImagesDialogComponent } from '../../dialog/product-view-dial
 })
 
 export class ProductListComponent implements OnInit  {
-  
+
   displayedColumns: string[] = ['id', 'name', 'category', 'price', 'thumnail', 'status', 'function'];
   dataSource: MatTableDataSource<any>;
 
@@ -27,17 +28,18 @@ export class ProductListComponent implements OnInit  {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   constructor(private formBuilder: FormBuilder,
               private productService: ProductService,
               private dialog: MatDialog,
-              private toastrService: ToastrService
-              ) { 
+              private toastrService: ToastrService,
+              private  readonly storageService: StorageService
+              ) {
   }
   ngOnInit(): void {
     this.getAllProduct();
   }
-  
+
   openProductViewImagesDialog(data: any){
     this.dialog.open(ProductViewImagesDialogComponent,{
       width: '1000px',
@@ -65,11 +67,15 @@ export class ProductListComponent implements OnInit  {
 
 
   checkData(){
-    
+
   }
 
 
   openDialogProductEdit(data: any){
+    if(this.storageService.getRoleFromToken() != 'ROLE_SUPER_ADMIN'){
+        this.toastrService.warning("Bạn không có quyền truy câp chức năng này !")
+      return;
+    }
     let dialogRef = this.dialog.open(ProductEditDialogComponent,{
       data: data,
       width: '1000px',
@@ -96,7 +102,7 @@ export class ProductListComponent implements OnInit  {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-  
+
   }
 }
 

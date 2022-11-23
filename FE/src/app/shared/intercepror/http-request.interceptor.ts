@@ -32,6 +32,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
     });
 
+    if(req.url.includes("Duong dan api ")){
+      httpHeader = httpHeader.append("Token", "value");
+    }
+
     if (userToken != null) {
       httpHeader = httpHeader.append('Authorization', 'Bearer ' + userToken)
     }

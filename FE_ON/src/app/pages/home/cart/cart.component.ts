@@ -110,7 +110,7 @@ export class CartComponent implements OnInit {
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
       hasBackdrop: true,
-      width:"25vw",
+      width: "25vw",
       data: {
         message: 'Bạn có muốn xoá tất cả sản phẩm khỏi giỏ hàng?'
       }
@@ -142,18 +142,6 @@ export class CartComponent implements OnInit {
       event.target.value = cartQuantity;
       return;
     }
-
-    // if (data.quantity == 0) {
-    //   this.cartService.deleteCart(cartId);
-    //   this.cartService.isReload.subscribe((result) => {
-    //     if (result) {
-    //       this.findAllByCustomerId();
-    //       this.cartService.isReload.next(false);
-    //     }
-    //   })
-    //   return;
-    // }
-
 
     if (data.quantity > quantity) {
       event.target.value = cartQuantity;
@@ -246,7 +234,10 @@ export class CartComponent implements OnInit {
       this.formGroup.patchValue({
         province: -1,
         district: -1,
-        ward: -1
+        ward: -1,
+        shipPhone: '',
+        shipName: '',
+        other: ''
       })
     } else {
       this.defaultInfoModel = false;
@@ -318,40 +309,51 @@ export class CartComponent implements OnInit {
         address.push(this.address.wardName, this.address.districtName, this.address.provinceName);
       }
       order.shipAddress = address.join(", ")
-      order.shipPhone = this.address.customer.phone
-      order.shipName = this.address.customer.fullname
-      order.total = this.subTotal
-      order.status = Constants.ORDER_STATUS.WAITING
+      order.shipPhone = this.address.phone
+      order.shipName = this.address.fullname
     }
     const checkOutData = {
       order: order,
       listCarts: this.carts
     }
     console.log(checkOutData)
-    this.orderService.createOrder(checkOutData).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.toastService.success("Đặt hàng thành công !")
-          this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
-          this.cartService.isReload.subscribe(rs => {
-            if (rs) {
-              this.cartService.findAllByCustomerId(this.storageService.getIdFromToken());
-              this.carts = [];
-              this.subTotal = 0;
-              this.cartService.isReload.next(false);
-            }
-          })
-          void this.route.navigate(["/profile/user-order"]);
-        },
-        error: (err) => {
-          if (err.error.code == 'LIMIT_QUANTITY') {
-            this.toastService.warning(err.error.message);
-            return;
-          }
-          this.toastService.error("Đặt hàng không thành công !");
-        }
+
+    this.matDialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      width: "25vw",
+      data: {
+        message: 'Bạn có muốn thanh toán đơn hàng này?'
       }
-    )
+    }).afterClosed().subscribe((result) => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.orderService.createOrder(checkOutData).subscribe({
+            next: (res) => {
+              console.log(res);
+              this.toastService.success("Đặt hàng thành công !")
+              this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
+              this.cartService.isReload.subscribe(rs => {
+                if (rs) {
+                  this.cartService.findAllByCustomerId(this.storageService.getIdFromToken());
+                  this.carts = [];
+                  this.subTotal = 0;
+                  this.cartService.isReload.next(false);
+                }
+              })
+              void this.route.navigate(["/profile/user-order"]);
+            },
+            error: (err) => {
+              if (err.error.code == 'LIMIT_QUANTITY') {
+                this.toastService.warning(err.error.message);
+                return;
+              }
+              this.toastService.error("Đặt hàng không thành công !");
+            }
+          }
+        )
+      }
+    })
+
   }
 
   openEditAddressDialog() {

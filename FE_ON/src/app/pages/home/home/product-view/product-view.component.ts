@@ -30,8 +30,6 @@ export class ProductViewComponent implements OnInit {
   thumnail: string = '';
   carts: any[] = [];
 
-  sizeDescription: string = '';
-  colorDescription: string = '';
   sizeModel: any;
   colorModel: any;
   countProductDetail!: number;
@@ -147,8 +145,6 @@ export class ProductViewComponent implements OnInit {
           this.listColor.push({id: k, code: v})
         })
         this.listSize = this.listSize.sort((a: { id: number; }, b: { id: number; }) => a.id - b.id);
-        this.sizeDescription = this.listSize.map((s: any) => s.code).join(", ");
-        this.colorDescription = this.listColor.map((c: any) => c.code.name).join(", ");
         this.totalQuantity.next(res.map((p: any) => p.quantity).reduce((value: any, total: any) => value + total, 0))
       },
       error: (err) => {

@@ -20,7 +20,8 @@ export const content_admin: Routes = [
         loadChildren: () => import('../../pages/admin/employee-manager/employee.modules').then(m => m.EmployeeModules),
         canActivate: [RoleGuard],
         data: {
-            role: 'SUPER_ADMIN'
+            role: 'ROLE_SUPER_ADMIN',
+            message: 'Bạn không có quyền truy cập chúc năng này !'
         }
     },
     {
@@ -38,14 +39,19 @@ export const content_admin: Routes = [
     {
         path: 'productDetail/:id',
         loadChildren: () => import('../../pages/admin/product-detail/product-detail.module').then(m => m.ProductDetailModule),
+        canActivate: [RoleGuard],
+        data: {
+            role: 'ROLE_SUPER_ADMIN',
+            message: 'Bạn không có quyển truy cập chức năng này !'
+        }
     },
     {
         path: 'category',
         loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
     },
     {
-        path: 'rating' ,
-        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule )
+        path: 'rating',
+        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule)
     }
 
 ]

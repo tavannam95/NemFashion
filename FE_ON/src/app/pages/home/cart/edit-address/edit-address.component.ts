@@ -68,7 +68,6 @@ export class EditAddressComponent implements OnInit {
   }
 
   onClickRadio(id: any) {
-    console.log(id)
     this.idAddress = id;
   }
 

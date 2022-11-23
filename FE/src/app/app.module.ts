@@ -18,10 +18,12 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-image/employee-image.component';
 import {NgxDropzoneModule} from 'ngx-dropzone'
 import {LoadingComponent} from './shared/loading/loading.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { ProductImageCreateDialogComponent } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
+import {NgSelectModule} from '@ng-select/ng-select';
+import {
+    ProductImageCreateDialogComponent
+} from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
 import {httpInterceptorProviders} from './shared/intercepror/http-request.interceptor';
-import { RatingComponent } from './pages/admin/rating-manager/rating.component';
+import {RatingComponent} from './pages/admin/rating-manager/rating.component';
 
 
 @NgModule({
@@ -33,7 +35,14 @@ import { RatingComponent } from './pages/admin/rating-manager/rating.component';
         ComponentsModule,
         RouterModule,
         AppRoutingModule,
-        ToastrModule.forRoot(),
+        ToastrModule.forRoot({
+            maxOpened: 1,
+            preventDuplicates: true,
+            autoDismiss: true,
+            progressBar: true,
+            timeOut: 2000,
+            resetTimeoutOnDuplicate: true
+        }),
         MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
