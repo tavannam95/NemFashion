@@ -17,34 +17,51 @@
             <div class="row">
               <div class="col-6">
                 <mat-form-field appearance="outline">
-                  <mat-label>First name</mat-label>
+                  <mat-label>Tên khách hàng</mat-label>
                   <input matInput>
-                </mat-form-field>
-            
-                <mat-form-field appearance="outline">
-                  <mat-label>Age</mat-label>
-                  <input matInput type="number" min="1">
                 </mat-form-field>
               </div>
               <div class="col-6">
                 <mat-form-field appearance="outline">
-                  <mat-label>First name</mat-label>
-                  <input matInput>
-                </mat-form-field>
-            
-                <mat-form-field appearance="outline">
-                  <mat-label>Age</mat-label>
-                  <input matInput type="number" min="1">
+                  <mat-label>Tên sản phẩm</mat-label>
+                  <input matInput type="text" min="1">
                 </mat-form-field>
               </div>
             </div>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Mã đơn</mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Mã đơn Giao hàng nhanh</mat-label>
+                  <input matInput type="text" min="1">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tổng giá thấp nhất</mat-label>
+                  <input matInput>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tổng giá cao nhất</mat-label>
+                  <input matInput type="text" min="1">
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- Button tìm kiếm -->
             <div class="row">
               <div class="col-12 d-flex justify-content-end">
                 <button class="btn btn-success">Tìm kiếm</button>
               </div>
             </div>
-            
-        
           </mat-expansion-panel>
         </mat-accordion>
         <!-- Show -->
@@ -63,7 +80,12 @@
                     {{order.orders.customer.fullname}}
                   </div>
                   <div class="col-6 d-flex justify-content-end">
-                    Mã hóa đơn: #{{order.orders.id}}
+                    <div *ngIf="order.orders.status==0">
+                      Mã đơn: #{{order.orders.id}}
+                    </div>
+                    <div *ngIf="order.orders.status!=0">
+                      Mã đơn: {{order.orders.orderCode}}
+                    </div>
                   </div>
                 </div>
               </mat-card-title>

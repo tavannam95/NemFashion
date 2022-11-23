@@ -17,6 +17,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIconModule} from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import {MatIconModule} from '@angular/material/icon';
         MatSlideToggleModule,
         FormsModule,
         MatIconModule,
+        MatMenuModule,
     ],
     entryComponents: [EmployeeFormComponent]
 })

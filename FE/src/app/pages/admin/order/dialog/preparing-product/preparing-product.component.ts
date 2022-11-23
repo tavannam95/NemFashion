@@ -89,13 +89,7 @@ export class PreparingProductComponent implements OnInit {
     this.getWeight();
   }
 
-  closeDialog(){
-    if(this.checkCancelOrder){
-      this.matDialogRef.close('OK');
-    }
-  }
-
-  cancelOrder(orderCode: any){
+  cancelOrder(){
     this.isLoading = true;
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
@@ -113,6 +107,7 @@ export class PreparingProductComponent implements OnInit {
               next: (res)=>{
                 this.isLoading = false;
                 this.checkCancelOrder = true;
+                this.matDialogRef.close('OK');
                 this.toastrService.success('Hủy đơn hàng thành công');
               },
               error:(e)=>{
@@ -129,6 +124,7 @@ export class PreparingProductComponent implements OnInit {
           }
         })
       }
+      this.isLoading = false;
     })
     
   }

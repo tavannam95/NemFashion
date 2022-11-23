@@ -1,9 +1,13 @@
 package nem.com.constant.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Objects;
 
+@AllArgsConstructor
+@Getter
 public enum OrderStatusEnum {
     READY_TO_PICK(1,"ready_to_pick"),
     TRANSPORTING(2,"transporting"),
@@ -13,11 +17,6 @@ public enum OrderStatusEnum {
 
     private final int valueNumber;
     private final String valueString;
-
-    OrderStatusEnum(int valueNumber, String valueString){
-        this.valueNumber = valueNumber;
-        this.valueString = valueString;
-    }
 
     public static OrderStatusEnum valueOfStatus(String status){
         if (Objects.nonNull(status)){
@@ -29,11 +28,4 @@ public enum OrderStatusEnum {
         }
         return null;
     }
-
-    @JsonValue
-    public String getValueString(){return valueString;}
-
-    @JsonValue
-    public int getValueNumber(){return valueNumber;}
-
 }
