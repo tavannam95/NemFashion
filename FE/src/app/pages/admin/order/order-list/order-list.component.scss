@@ -3,7 +3,8 @@ table {
   }
   ::ng-deep{
     .car1 .mat-tab-label {
-      min-width: 140px !important; // In addition to mat-strech-tabs allowing tabs to fill remaining space in parent container
+      min-width: 140px !important;
+      font-weight: bold;
     }
   }
   
