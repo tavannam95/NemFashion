@@ -17,7 +17,7 @@ import {ProductService} from "../../../../shared/service/product/product.service
 })
 export class ProductViewDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'color', 'size', 'quantity'];
+  displayedColumns: string[] = ['id', 'color', 'size', 'quantity', 'func'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -81,8 +81,7 @@ export class ProductViewDialogComponent implements OnInit {
     })
   }
 
-  printQR(){
-    let id = 36; // Cái này a truyền nó nó là id của detail
+  printQR(id: any){
     this.productService.generateBarcode(id).subscribe(
         {
           next: resp => {

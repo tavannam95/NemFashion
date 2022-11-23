@@ -71,6 +71,14 @@
             <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
           </ng-container>
 
+          <!-- Price Column -->
+          <ng-container matColumnDef="func">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Chức năng</th>
+            <td mat-cell *matCellDef="let row">
+              <a class="nav-link text-info font-weight-bold" (click)="printQR(row.id)" style="cursor: pointer;">In barcode</a>
+            </td>
+          </ng-container>
+
           <!-- Pagination -->
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

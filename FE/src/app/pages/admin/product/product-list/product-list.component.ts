@@ -57,7 +57,6 @@ export class ProductListComponent implements OnInit  {
           this.isLoading = false;
           this.dataSource = new MatTableDataSource<any>(res);
           this.dataSource.data = res;
-          console.log(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
       },
