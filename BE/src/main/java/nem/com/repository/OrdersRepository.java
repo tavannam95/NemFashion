@@ -23,6 +23,18 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Pageable pageable);
 
+    @Query("select o from Orders o " +
+            "where (:fullname is null or o.customer.fullname like concat('%',:fullname,'%')) " +
+            "and (:id is null or o.id = :id) " +
+            "and (:orderCode is null or o.orderCode like concat('%',:orderCode,'%')) " +
+            "and o.status = :status")
+    Page<Orders> searchOrderByStatus(String fullname, Long id, String orderCode, Integer status, Pageable pageable);
+
+    @Query("select o from Orders o " +
+            "where (:fullName is null or o.customer.fullname like concat('%',:fullName,'%')) " +
+            "and (:id is null or o.id = :id) " +
+            "and (:orderCode is null or o.orderCode like concat('%',:orderCode,'%')) ")
+    Page<Orders> searchAllOrder(String fullName, Long id, String orderCode, Pageable pageable);
     List<Orders> findByStatus(Integer status);
 
     @Query("Update Orders o set o.status = :status where o.id = :id ")

@@ -17,4 +17,5 @@ public class OrderResponseDTO {
     private List<OrderDetails> orderDetailsList;
     private Orders orders;
     private int totalPage;
+    private Long totalElements;
 }

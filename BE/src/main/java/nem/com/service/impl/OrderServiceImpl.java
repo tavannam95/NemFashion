@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.domain.dto.SearchOrderDTO;
 import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;
 import nem.com.service.OrderService;
@@ -26,6 +27,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Integer page, Integer size) {
         return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(page,size));
+    }
+
+    @Override
+    public Page<Orders> searchOrderByStatus(SearchOrderDTO searchOrderDTO, Integer page, Integer size) {
+        return this.ordersRepository.searchOrderByStatus(searchOrderDTO.getFullName(),
+                searchOrderDTO.getId(),searchOrderDTO.getOrderCode(),
+                searchOrderDTO.getStatus(),PageRequest.of(page,size));
+    }
+
+    @Override
+    public Page<Orders> searchAllOrder(SearchOrderDTO searchOrderDTO, Integer page, Integer size) {
+        return this.ordersRepository.searchAllOrder(searchOrderDTO.getFullName(),
+                searchOrderDTO.getId(),searchOrderDTO.getOrderCode(),PageRequest.of(page,size));
     }
 
     @Override

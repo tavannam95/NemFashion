@@ -1,6 +1,7 @@
 package nem.com.controller;
 
 import lombok.RequiredArgsConstructor;
+import nem.com.domain.dto.SearchOrderDTO;
 import nem.com.domain.response.OrderResponseDTO;
 import nem.com.entity.OrderDetails;
 import nem.com.entity.Orders;
@@ -9,6 +10,7 @@ import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.OrderDetailService;
 import nem.com.service.OrderService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +46,48 @@ public class OrderController {
             List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
             orderResponseDTO.setOrderDetailsList(orderDetailsList);
             orderResponseDTO.setTotalPage(ordersList.getTotalPages());
+            orderResponseDTO.setTotalElements(ordersList.getTotalElements());
             orderResponseDTOList.add(orderResponseDTO);
         }
         return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<OrderResponseDTO>> searchOrder(
+            @RequestBody SearchOrderDTO searchOrderDTO,
+            @RequestParam(value = "page",defaultValue = "0") Integer page,
+            @RequestParam(value = "size",defaultValue = "10") Integer size
+    ){
+        if (searchOrderDTO.getStatus() != -1){
+            List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
+            Page<Orders> ordersList = this.orderService.searchOrderByStatus(searchOrderDTO,page,size);
+            for (Orders orders: ordersList
+            ) {
+                OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+                orderResponseDTO.setOrders(orders);
+                List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
+                orderResponseDTO.setOrderDetailsList(orderDetailsList);
+                orderResponseDTO.setTotalPage(ordersList.getTotalPages());
+                orderResponseDTO.setTotalElements(ordersList.getTotalElements());
+                orderResponseDTOList.add(orderResponseDTO);
+            }
+            return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
+        }else {
+            List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
+            Page<Orders> ordersList = this.orderService.searchAllOrder(searchOrderDTO,page,size);
+            for (Orders orders: ordersList
+            ) {
+                OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+                orderResponseDTO.setOrders(orders);
+                List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
+                orderResponseDTO.setOrderDetailsList(orderDetailsList);
+                orderResponseDTO.setTotalPage(ordersList.getTotalPages());
+                orderResponseDTO.setTotalElements(ordersList.getTotalElements());
+                orderResponseDTOList.add(orderResponseDTO);
+            }
+            return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
+        }
+
     }
 
     @GetMapping("/{stt}")

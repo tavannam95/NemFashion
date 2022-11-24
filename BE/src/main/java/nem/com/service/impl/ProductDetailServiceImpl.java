@@ -76,7 +76,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
             int colorId = p.getColor().getId();
             int sizeId = p.getSize().getId();
             List<ProductsDetails> productsDetailsList = this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
-            if (productsDetailsList.size()>0){
+            if (!productsDetailsList.isEmpty()){
                 productsDetails = this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId).get(0);
                 productsDetails.setQuantity(productsDetails.getQuantity()+p.getQuantity());
             }else{
