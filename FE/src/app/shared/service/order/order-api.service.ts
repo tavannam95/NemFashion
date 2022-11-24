@@ -26,6 +26,10 @@ constructor(private readonly http: HttpClient) { }
     return this.http.get(`${ApiConstant.order}/data/${status}?page=${page}&size=${size}`);
   }
 
+  searchOrder(searchOrderDTO: any, page: any, size: any): Observable<any>{
+    return this.http.post(`${ApiConstant.order}/search?page=${page}&size=${size}`, searchOrderDTO);
+  }
+
   findAllByStatus(stt: any): Observable<any>{
     return this.http.get(`${ApiConstant.order}/${stt}`);
   }
