@@ -99,7 +99,7 @@
                         <th class="w-50 text-center">Thông tin sản phẩm</th>
                         <th>Tổng giá</th>
                         <th>Trạng thái</th>
-                        <th>Thao tác</th>
+                        <th class="text-center">Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -156,7 +156,7 @@
                               </div> -->
                             </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                           <div *ngIf="order.orders.status==0">
                             <a class="btn btn-info" (click)="openPreparingDialog(order.orders,dateShift)">
                               Chuẩn bị hàng
