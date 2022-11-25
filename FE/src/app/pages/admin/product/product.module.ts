@@ -40,7 +40,7 @@ import { PrintBarcodeDialogComponent } from '../dialog/product-view-dialog/print
     ColorCreateDialogComponent,
     ProductViewDialogComponent,
     PrintBarcodeDialogComponent,
-    ProductViewImagesDialogComponent
+    ProductViewImagesDialogComponent,
   ],
   imports: [
     CommonModule,

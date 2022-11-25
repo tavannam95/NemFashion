@@ -27,7 +27,6 @@ import { RatingComponent } from './pages/admin/rating-manager/rating.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginator } from './shared/util/CustomPaginatorConfiguration';
 
-
 @NgModule({
     imports: [
         BrowserAnimationsModule,
