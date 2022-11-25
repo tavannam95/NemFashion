@@ -6,6 +6,7 @@ import { PreparingProductComponent } from '../dialog/preparing-product/preparing
 import { GhnService } from '../../../../shared/service/ghn/ghn.service';
 import { PageEvent } from '@angular/material/paginator';
 import { FormBuilder } from '@angular/forms';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 @Component({
   selector: 'app-order-list',
@@ -35,9 +36,9 @@ export class OrderListComponent implements OnInit {
   dataOrder: any[] = [];
 
   searchOrderDTO = this.fb.group({
-    fullName: null,
+    fullName: [''],
     id: null,
-    orderCode: null,
+    orderCode: [''],
     status: null
   })
 
@@ -60,7 +61,8 @@ export class OrderListComponent implements OnInit {
     private matDialog: MatDialog,
     private ghnService: GhnService,
     private orderSevice: OrderService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private trimService: TrimService
   ) { }
 
   ngOnInit() {
@@ -87,6 +89,7 @@ export class OrderListComponent implements OnInit {
   }
 
   searchOrder(){
+    this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
     this.pageIndex = 0;
     this.pageSize = 10;
     this.searchOrderDTO.patchValue({status:this.tabIndex-1});

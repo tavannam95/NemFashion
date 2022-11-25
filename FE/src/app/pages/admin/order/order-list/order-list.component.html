@@ -25,7 +25,9 @@
                 <div class="col-6">
                   <mat-form-field appearance="outline">
                     <mat-label>Mã đơn</mat-label>
-                    <input matInput type="text" formControlName="id">
+                    <input matInput type="text" formControlName="id" 
+                    onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
+                      >
                   </mat-form-field>
                 </div>
                 <div class="col-12">
