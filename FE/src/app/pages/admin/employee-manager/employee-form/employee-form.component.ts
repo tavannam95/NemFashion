@@ -5,6 +5,7 @@ import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {EmployeeListComponent} from '../employee-list/employee-list.component';
 import {EmployeeService} from 'app/shared/service/employee/employee.service'
 import {checkSpace, Regex} from '../../../../shared/validators/Regex';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 @Component({
     selector: 'app-employee-form',
@@ -37,7 +38,8 @@ export class EmployeeFormComponent implements OnInit {
     constructor(private fb: FormBuilder ,
                 @Inject(MAT_DIALOG_DATA) public dataDialog?: any ,
                 private emService?: EmployeeService ,
-                private dialogRef?: MatDialogRef<EmployeeListComponent>
+                private dialogRef?: MatDialogRef<EmployeeListComponent>,
+                private trimService?: TrimService,
                 ) {
 
     }
@@ -59,6 +61,7 @@ export class EmployeeFormComponent implements OnInit {
     }
 
     onSubmit() {
+        this.trimService.inputTrim(this.staff,['fullname','email','password','phone','address']);
         this.staff.markAllAsTouched()
         if( this.staff.invalid ){
             return ;
