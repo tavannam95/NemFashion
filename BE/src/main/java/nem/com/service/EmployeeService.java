@@ -17,8 +17,6 @@ public interface EmployeeService {
 
     Employees findById( Integer id ) ;
 
-    void changePassword( Integer id , String oldPassword , String newPassword ) ;
-
     Employees findEmployeeByEmail(String email);
 
 }
