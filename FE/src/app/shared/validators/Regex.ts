@@ -1,4 +1,4 @@
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, FormGroup} from '@angular/forms';
 
 export const Regex = {
     unicode: '[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+(([\',. -][a-zA-Z ])?[a-zA-Z]*)*$',
@@ -8,13 +8,18 @@ export const Regex = {
     codeColor:'\\#(\\w+){6,}'
 }
 
-export function checkPassword ( c: AbstractControl ){
-    const v = c.value
-    if( v.confirmPassword === '' ){
-        return null ;
-    }
-    return (v.confirmPassword === v.newPassword ) ? null : {
-        isCheckPassword: true
+export function MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+
+        if (control.value !== matchingControl.value) {
+            console.log('lỗi mịa m rồi' +
+                '')
+            matchingControl.setErrors({ mustMatch: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
     }
 }
 

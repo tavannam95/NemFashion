@@ -18,6 +18,9 @@ constructor(private readonly http: HttpClient) { }
     return this.http.get(`${ApiConstant.order}?page=${page}&size=${size}`);
   }
 
+verifyOrCancelOrder(data: any, status: number){
+  return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
+}
   getOrderGhn(): Observable<any>{
     return this.http.get(`${ApiConstant.order}/ghn`);
   }

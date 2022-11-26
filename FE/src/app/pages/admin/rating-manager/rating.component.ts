@@ -58,12 +58,12 @@ export class RatingComponent implements OnInit {
       // this.toast.
       this.ratingService.updateRating( this.array ).subscribe( {
            next: () => {
-               this.toast.success("Duệt thành công");
+               this.toast.success("Duyệt thành công");
                this.array = [] ;
                this.getAllRating() ;
            },
           error: () => {
-              this.toast.error("Duệt thất bại");
+              this.toast.error("Duyệt thất bại");
           }
       }) ;
   }

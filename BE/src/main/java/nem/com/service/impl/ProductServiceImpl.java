@@ -35,8 +35,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Products> getAllByAllPropertites(Integer[] size, Short[] category, Integer[] color, Double max, Double min, Pageable pageable) {
-        return this.productsRepository.findProByAllProperty( size , category , color , max , min , pageable );
+    public Page<Products> getAllByAllPropertites(Integer[] size, Short[] category, Integer[] color, Double min, Double max, Pageable pageable) {
+        return this.productsRepository.findProByAllProperty( size , category , color , min , max , pageable );
     }
 
     @Override

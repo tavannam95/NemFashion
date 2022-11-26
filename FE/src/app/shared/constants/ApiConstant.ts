@@ -18,5 +18,6 @@ export const ApiConstant = {
   api:"http://localhost:8080/api/v1/",
   // login: 'http://localhost:8080/api/auth/admin/login',
   rating: 'http://localhost:8080/api/v1/rating',
-  ratingImg: 'http://localhost:8080/api/v1/rating-images'
+  ratingImg: 'http://localhost:8080/api/v1/rating-images' ,
+  statiscal: 'http://localhost:8080/api/v1/statiscal'
 };

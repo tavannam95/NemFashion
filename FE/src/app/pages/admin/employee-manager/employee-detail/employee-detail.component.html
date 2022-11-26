@@ -86,28 +86,25 @@
                     </mat-error>
                 </mat-form-field>
 
-                <div class="col-12" formGroupName="pw">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" class="col-12">
                         <mat-label>Mật khẩu mới</mat-label>
                         <input matInput formControlName="newPassword">
-                        <mat-error *ngIf="isValidatorChangePassword('pw.newPassword' , 'isSpace')">
+                        <mat-error *ngIf="isValidatorChangePassword('newPassword' , 'isSpace')">
                             Vui lòng nhập mật khẩu mới
                         </mat-error>
                     </mat-form-field>
-                </div>
 
-                <div class="col-12" formGroupName="pw">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" class="col-12">
                         <mat-label>Xác nhận mật khẩu</mat-label>
                         <input matInput formControlName="confirmPassword" class="p-0">
-                        <mat-error *ngIf="isValidatorChangePassword('pw.confirmPassword' , 'isSpace')">
+                        <mat-error *ngIf="isValidatorChangePassword('confirmPassword' , 'isSpace')">
                             Vui lòng nhập lại mật khẩu mới
                         </mat-error>
-                        <mat-hint class="text-danger" *ngIf=" isValidatorChangePassword('pw' , 'isCheckPassword')">
-                            Mật khẩu không khớp
-                        </mat-hint>
+                        <mat-error *ngIf=" !this.changePassword.get('confirmPassword').get('mustMatch')
+                                      && this.changePassword.get('confirmPassword').touched ">
+                            Mật khẩu không trùng khớp!
+                        </mat-error>
                     </mat-form-field>
-                </div>
 
                 <div class="col-12">
                     <button class="btn btn-primary">Đổi mật khẩu</button>

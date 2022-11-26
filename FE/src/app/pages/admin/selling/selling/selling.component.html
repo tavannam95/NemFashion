@@ -206,7 +206,7 @@
                                 <div class="payment-content-item">
                                     <div>Tổng tiền hàng <span class="total-quantity">{{order.totalQuantity}}</span>
                                     </div>
-                                    <div class="price">{{order.totalPrice |currency:'VND'}}</div>
+                                    <div class="price">{{order.totalPrice |currency:'VND' :'symbol' : '4.0-0'}}</div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div>Giảm giá(%)</div>
@@ -224,7 +224,7 @@
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Khách cần trả</div>
-                                    <div class="price">{{order.totalPrice - discount * order.totalPrice / 100 |currency:'VND'}}</div>
+                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 }}</div>
                                 </div>
                                 <div class="payment-content-item" *ngIf="discount<100">
                                     <div class="bold">Khách thanh toán</div>
