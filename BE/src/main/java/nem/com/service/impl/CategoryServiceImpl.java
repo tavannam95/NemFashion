@@ -6,6 +6,9 @@ import nem.com.entity.Categories;
 import nem.com.entity.Products;
 import nem.com.repository.CategoriesRepository;
 import nem.com.service.CategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
     public Categories save(Categories categories) {
         return this.categoriesRepository.save(categories);
     }
+
 
 }

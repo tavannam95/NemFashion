@@ -22,4 +22,7 @@ export class StatiscalService {
       return this.apiStatiscal.buyTheMostProduct(data);
   }
 
+  turnover( data: any ){
+      return this.apiStatiscal.turnoverBeforeSevenDy( data );
+  }
 }

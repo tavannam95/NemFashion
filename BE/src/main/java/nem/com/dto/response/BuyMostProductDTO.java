@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @NamedNativeQuery(
         name = "BuyMostProductDTO",
-        query = "select sum(od.quantity) as TT , p.name as name from orders o join order_details od on o.id = od.order_id\n" +
+        query = "select sum(od.quantity) as TT , p.name as name ,  sum(o.total) as totalPrice from orders o join order_details od on o.id = od.order_id\n" +
                 "                       join products_details pd on pd.id = od.product_detail_id \n" +
                 "                       join products p on p.id = pd.product_id \n" +
                 "where o.status = 3 and (:startDate is null or o.create_date >= :startDate) " +
@@ -27,8 +27,9 @@ import javax.persistence.*;
         classes = @ConstructorResult(
                 targetClass = BuyMostProductDTO.class ,
                 columns = {
-                        @ColumnResult( name = "TT" , type = Double.class ) ,
-                        @ColumnResult( name = "name" , type = String.class )
+                        @ColumnResult( name = "TT" , type = Long.class ) ,
+                        @ColumnResult( name = "name" , type = String.class ),
+                        @ColumnResult( name = "totalPrice" , type = Double.class )
                 }
         )
 )
@@ -36,6 +37,7 @@ import javax.persistence.*;
 public class BuyMostProductDTO {
 
     @Id
-    private Double total ;
+    private Long total ;
     private String name ;
+    private Double totalPrice ;
 }

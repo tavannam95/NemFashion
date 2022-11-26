@@ -3,6 +3,7 @@ package nem.com.repository;
 import nem.com.dto.response.BuyMostProductDTO;
 import nem.com.dto.response.CustomerBuyMostProductDTO;
 import nem.com.dto.response.OverviewStatisticalDTO;
+import nem.com.dto.response.TurnoverDTO;
 import nem.com.entity.Orders;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,4 +42,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     @Query(name = "BuyMostProductDTO" , nativeQuery = true )
     List<BuyMostProductDTO> buyMostProductDTO(@Param("startDate") Date startDate , @Param("endDate") Date endDate ) ;
+
+    @Query(name = "TurnoverDTO" , nativeQuery = true )
+    List<TurnoverDTO> turnoverDTO(@Param("startDate") Date startDate , @Param("endDate") Date endDate , @Param("type") String type  ) ;
 }

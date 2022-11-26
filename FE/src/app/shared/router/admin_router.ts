@@ -12,7 +12,7 @@ import {RoleGuard} from '../guard/role.guard';
 export const content_admin: Routes = [
     {
         path: 'dashboard',
-        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule),
+        loadChildren: () => import('../../dashboard/overview/dashboard.module').then(m => m.DashboardModule),
 
     },
     {
@@ -46,6 +46,22 @@ export const content_admin: Routes = [
     {
         path: 'rating' ,
         loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule )
+    },
+    {
+        path: 'statical' ,
+        loadChildren: () => import('../../dashboard/statical/statical.module').then(m => m.StaticalModule )
+    },
+    {
+        path: 'turnover' ,
+        loadChildren: () => import('../../dashboard/statical/statical-turnover/statical-turnover.module').then( m => m.StaticalTurnoverModule)
+    },
+    {
+        path: 'cus' ,
+        loadChildren: () => import('../../dashboard/statical/statical-customer/statical-customer.module').then( m => m.StaticalCustomerModule)
+    },
+    {
+        path: 'pro' ,
+        loadChildren: () => import('../../dashboard/statical/statical-product/statical-product.module').then( m => m.StaticalProductModule)
     }
 
 ]

@@ -22,4 +22,8 @@ export class StatiscalApiService {
   buyTheMostProduct( data: any ){
     return this.http.post(`${ApiConstant.statiscal}/buyMostPro` , data );
   }
+
+  turnoverBeforeSevenDy(data: any){
+     return this.http.post( `${ApiConstant.statiscal}/turnover` , data ) ;
+  }
 }

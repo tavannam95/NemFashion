@@ -4,6 +4,7 @@ import nem.com.dto.request.SearchDTO;
 import nem.com.dto.response.BuyMostProductDTO;
 import nem.com.dto.response.CustomerBuyMostProductDTO;
 import nem.com.dto.response.OverviewStatisticalDTO;
+import nem.com.dto.response.TurnoverDTO;
 import nem.com.entity.Orders;
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface OrderService {
     OverviewStatisticalDTO getOverview() ;
 
      List<BuyMostProductDTO> BuyMostProductDTO(SearchDTO request ) ;
+
+     List<TurnoverDTO> turnoverDTO( SearchDTO request );
 }

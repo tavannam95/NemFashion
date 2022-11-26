@@ -4,6 +4,7 @@ import nem.com.dto.response.CategoryDTO;
 import nem.com.entity.Categories;
 import nem.com.service.CategoryService;
 import nem.com.service.impl.CategoryServiceImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,5 @@ public class CategoryController {
         categories.setCreateDate(new Date());
         return new ResponseEntity<>(this.categoryService.save(categories),HttpStatus.OK);
     }
-
 
 }

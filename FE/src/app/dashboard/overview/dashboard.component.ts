@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import * as Chartist from 'chartist';
-import {OrderService} from '../../shared/service/order/order.service';
 import {StatiscalService} from '../../shared/service/statiscal/statiscal.service';
 import {FormBuilder} from '@angular/forms';
 
@@ -17,11 +16,21 @@ export class DashboardComponent implements OnInit {
     seriesPro: any[] = [] ;
     lableStatic: any[] = [] ;
     seriesStatic: any[] = [] ;
+    maxCus: any ;
+    maxPro: any ;
+    maxStatic: any ;
     overview: any
 
     form = this.fb.group( {
         startDate: null ,
-        endDate: null
+        endDate: null ,
+        type: null
+    })
+
+    form2 = this.fb.group( {
+        startDate:  new Date().setDate( new Date().getDate() - 7) ,
+        endDate: new Date()  ,
+        type: 3
     })
 
     constructor( private staticalService: StatiscalService ,
@@ -31,7 +40,7 @@ export class DashboardComponent implements OnInit {
     //Lấy 7 khách hàng mua hàng nhiều nhất
     getCustomeMostProduct(){
         this.staticalService.CustomerBuyMostProduct( this.form.getRawValue() ).subscribe( (data:any) => {
-            this.changeData( data , this.lableCus , this.seriesCus )
+            this.changeData( data , this.lableCus , this.seriesCus , this.maxCus  )
             const datawebsiteViewsChart = {
                 labels: this.lableCus,
                 series: [
@@ -44,12 +53,12 @@ export class DashboardComponent implements OnInit {
                 },
                 axisY: {
                     labelInterpolationFnc: function(value) {
-                        return value / 100000 + ' M'
+                        return value / 1000000 + 'M'
                     },
                 },
                 low: 0,
-                high: this.seriesCus[0],
-                chartPadding: {top: 0, right: 0, bottom: 0, left: 0}
+                high: this.maxCus ,
+                chartPadding: {top: 0, right: 0, bottom: 0, left: 5}
             };
 
             const websiteViewsChart = new Chartist.Bar('#customeProduct', datawebsiteViewsChart,
@@ -69,7 +78,7 @@ export class DashboardComponent implements OnInit {
     // Các sản phẩm bán chạy nhất
     getMostProduct(){
         this.staticalService.buyTheMostProduct( this.form.getRawValue() ).subscribe( (data: any) => {
-            this.changeData( data , this.lablePro , this.seriesPro );
+            this.changeData( data , this.lablePro , this.seriesPro , this.maxPro );
 
             const datawebsiteViewsChart = {
                 labels: this.lablePro ,
@@ -82,7 +91,7 @@ export class DashboardComponent implements OnInit {
                     showGrid: false
                 },
                 low: 0,
-                high: this.seriesPro[0],
+                high: this.maxPro ,
                 chartPadding: {top: 0, right: 5, bottom: 0, left: 0}
             };
 
@@ -95,10 +104,52 @@ export class DashboardComponent implements OnInit {
 
     // Các Doanh thu trong 7 ngày
     statisticInSevenBefore(){
+        this.staticalService.turnover( this.form2.getRawValue() ).subscribe( (data:any) => {
+            this.changeData(data , this.lableStatic , this.seriesStatic , this.maxStatic);
+            const datawebsiteViewsChart = {
+                labels: this.lableStatic,
+                series: [
+                    this.seriesStatic
+                ]
+            };
+            const optionswebsiteViewsChart = {
+                axisX: {
+                    showGrid: false
+                },
+                axisY: {
+                    labelInterpolationFnc: function(value) {
+                        return value / 1000000 + 'M'
+                    },
+                },
+                low: 0,
+                high: this.maxStatic ,
+                chartPadding: {top: 0, right: 5, bottom: 0, left: 0}
+            };
+            const responsiveOptions: any[] = [
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX: {
+                        labelInterpolationFnc: function (value) {
+                            return value[0];
+                        }
+                    }
+                }]
+            ];
+
+            const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart,
+                optionswebsiteViewsChart, responsiveOptions);
+
+            // start animation for the Emails Subscription Chart
+            this.startAnimationForBarChart(websiteViewsChart);
+        })
     }
 
-    changeData( data: any , lable: any[] , series: any[] ){
+    changeData( data: any , lable: any[] , series: any[] , max: any ){
+        max = data[0].total ;
         for( let x of data ){
+            if( max <= x.total ){
+                max = x.total ;
+            }
             // @ts-ignore
             lable.push(x.name)
             // @ts-ignore
@@ -168,40 +219,6 @@ export class DashboardComponent implements OnInit {
             this.getCustomeMostProduct();
             this.getOverview() ;
             this.getMostProduct() ;
-            this.getChart()
+            this.statisticInSevenBefore()
     }
-
-    getChart() {
-        const datawebsiteViewsChart = {
-            labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-            series: [
-                [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-            ]
-        };
-        const optionswebsiteViewsChart = {
-            axisX: {
-                showGrid: false
-            },
-            low: 0,
-            high: 1000,
-            chartPadding: {top: 0, right: 5, bottom: 0, left: 0}
-        };
-        const responsiveOptions: any[] = [
-            ['screen and (max-width: 640px)', {
-                seriesBarDistance: 5,
-                axisX: {
-                    labelInterpolationFnc: function (value) {
-                        return value[0];
-                    }
-                }
-            }]
-        ];
-
-        const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart,
-            optionswebsiteViewsChart, responsiveOptions);
-
-        // start animation for the Emails Subscription Chart
-        this.startAnimationForBarChart(websiteViewsChart);
-    }
-
 }

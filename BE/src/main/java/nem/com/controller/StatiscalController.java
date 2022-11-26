@@ -4,6 +4,7 @@ import nem.com.dto.request.SearchDTO;
 import nem.com.dto.response.BuyMostProductDTO;
 import nem.com.dto.response.CustomerBuyMostProductDTO;
 import nem.com.dto.response.OverviewStatisticalDTO;
+import nem.com.dto.response.TurnoverDTO;
 import nem.com.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,8 @@ public class StatiscalController {
     }
 
     @PostMapping("CustomerBuyMostProduct")
-    public ResponseEntity<List<CustomerBuyMostProductDTO>> CustomerBuyMostProduct( @RequestBody SearchDTO request ){
-        return ResponseEntity.ok( this.orderService.CustomerBuyMostProduct(  request ) ) ;
+    public ResponseEntity<List<CustomerBuyMostProductDTO>> CustomerBuyMostProduct( @RequestBody SearchDTO request){
+        return ResponseEntity.ok( this.orderService.CustomerBuyMostProduct( request )  ) ;
     }
 
     @GetMapping("overview")
@@ -32,9 +33,13 @@ public class StatiscalController {
         return ResponseEntity.ok( this.orderService.getOverview() )  ;
     }
 
+    @PostMapping("turnover")
+    public ResponseEntity<List<TurnoverDTO>> turnover( @RequestBody SearchDTO request ){
+        return ResponseEntity.ok( this.orderService.turnoverDTO( request)  );
+    }
+
     @PostMapping("buyMostPro")
     public ResponseEntity<List<BuyMostProductDTO>> buyMostProduct( @RequestBody SearchDTO request ){
-        System.out.println(request);
         return ResponseEntity.ok( this.orderService.BuyMostProductDTO( request) ) ;
     }
 
