@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit {
 
   formGroup = this.fb.group({
     email: ['tdphuong2002@gmail.com'],
-    password: ['123']
+    password: ['123456']
   })
 
   redirectUrl!: string;
@@ -25,8 +25,7 @@ export class SigninComponent implements OnInit {
               private readonly toastService: ToastrService,
               private readonly storageService: StorageService,
               private readonly router: Router,
-              private readonly route: ActivatedRoute,
-              private readonly cartService: CartService) {
+              private readonly route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

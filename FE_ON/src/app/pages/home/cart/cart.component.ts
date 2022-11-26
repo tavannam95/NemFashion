@@ -23,14 +23,23 @@ export class CartComponent implements OnInit {
   carts: any[] = [];
   subTotal: number = 0;
   quantity: number = 0;
-  cities!: any[];
+  customer: any;
+
+  provinces!: any[];
   districts!: any[];
   wards!: any[];
   address: any;
-  customer: any;
+
+  provinceName: any;
+  districtName: any;
+  wardName: any;
+
+  districtId: any;
+  serviceId: any;
+  shippingTotal: number = 0;
 
   formGroup = this.fb.group({
-    city: [-1],
+    province: [-1],
     district: [-1],
     ward: [-1],
     shipName: [''],
@@ -58,7 +67,7 @@ export class CartComponent implements OnInit {
       this.findAllByCustomerId();
       this.findAddressByStatus(this.storageService.getIdFromToken());
     }
-    this.getCity();
+    this.getProvince();
   }
 
   findAllByCustomerId() {
@@ -101,6 +110,7 @@ export class CartComponent implements OnInit {
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
       hasBackdrop: true,
+      width: "25vw",
       data: {
         message: 'Bạn có muốn xoá tất cả sản phẩm khỏi giỏ hàng?'
       }
@@ -133,18 +143,6 @@ export class CartComponent implements OnInit {
       return;
     }
 
-    // if (data.quantity == 0) {
-    //   this.cartService.deleteCart(cartId);
-    //   this.cartService.isReload.subscribe((result) => {
-    //     if (result) {
-    //       this.findAllByCustomerId();
-    //       this.cartService.isReload.next(false);
-    //     }
-    //   })
-    //   return;
-    // }
-
-
     if (data.quantity > quantity) {
       event.target.value = cartQuantity;
       this.toastService.warning("Số không được lớn hơn số lượng còn lại !")
@@ -154,41 +152,97 @@ export class CartComponent implements OnInit {
     this.cartService.updateCart(data).subscribe(data => {
       if (data) {
         this.findAllByCustomerId();
+        if (this.districtId !== undefined) {
+          this.getShippingFee(this.districtId);
+        }
         this.cartService.isReload.next(false);
       }
     })
   }
 
-
-  getCity() {
-    this.addressService.getCity().subscribe(res => {
-      this.cities = res as any[];
+  getProvince() {
+    this.addressService.getProvince().subscribe((res: any) => {
+      this.provinces = res.data;
     })
   }
 
-  getDistrict(code: any) {
-    this.addressService.getDistrict(code).subscribe((res: any) => {
-      this.districts = res.districts as [];
-      this.formGroup.patchValue({district: this.districts[0].name});
-      this.getWard(this.districts[0].code);
+  getDistrict(provinceId: any, provinceName: any) {
+    this.addressService.getDistrict(provinceId).subscribe((res: any) => {
+      this.districts = res.data;
     })
+    this.provinceName = provinceName;
   }
 
-  getWard(code: any) {
-    this.addressService.getWard(code).subscribe((res: any) => {
-      this.wards = res.wards as [];
-      this.formGroup.patchValue({ward: this.wards[0].name});
+  getWard(districtId: any, districtName: any) {
+    this.addressService.getWard(districtId).subscribe((res: any) => {
+      this.wards = res.data;
     })
+    this.districtName = districtName;
+    this.districtId = districtId;
   }
 
+  resetDistrictAndWard() {
+    this.formGroup.patchValue({district: -1});
+    this.formGroup.patchValue({ward: -1});
+    this.districts = [];
+    this.wards = [];
+    this.shippingTotal = 0;
+  }
+
+  resetWard() {
+    this.formGroup.patchValue({ward: -1});
+    this.wards = [];
+  }
+
+  getWardName(wardName: any) {
+    this.wardName = wardName;
+    this.getShippingFee(this.districtId);
+  }
+
+  //Api tinh phí vận chuyển
+  getShippingFee(districtId: any) {
+    const data = {
+      "shop_id": 3424019,
+      "from_district": 3440,
+      "to_district": districtId
+    }
+    //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
+    this.addressService.getService(data).subscribe((res: any) => {
+      console.log(res.data)
+      this.serviceId = res.data[0].service_id;
+      const shippingOrder = {
+        "service_id": this.serviceId,
+        "insurance_value": this.subTotal,
+        "from_district_id": 3440,
+        "to_district_id": data.to_district,
+        // "to_ward_code": "20314",
+        "weight": 1000
+      }
+      //getShippingOrder tính phí vận chuyển
+      this.addressService.getShippingOrder(shippingOrder).subscribe((res: any) => {
+        console.log(res)
+        this.shippingTotal = res.data.total;
+      })
+    })
+  }
 
   defaultInfo(event: any) {
     if (event.target.value == 'on') {
       this.defaultInfoModel = true
       event.target.value = 'off';
+      this.getShippingFee(this.address.districtId)
+      this.formGroup.patchValue({
+        province: -1,
+        district: -1,
+        ward: -1,
+        shipPhone: '',
+        shipName: '',
+        other: ''
+      })
     } else {
       this.defaultInfoModel = false;
       event.target.value = 'on';
+      this.shippingTotal = 0;
     }
     this.defaultInfoModel ? this.formGroup.disable() : this.formGroup.enable();
     this.formGroup.get('note')?.enable();
@@ -199,6 +253,8 @@ export class CartComponent implements OnInit {
     const shipPhone = this.formGroup.getRawValue().shipPhone;
     const shipName = this.formGroup.getRawValue().shipName;
     const note = this.formGroup.getRawValue().note;
+    const other = this.formGroup.getRawValue().other;
+
     let order = {
       shipAddress: '',
       shipPhone: '',
@@ -210,7 +266,8 @@ export class CartComponent implements OnInit {
       employee: {
         id: 1
       },
-      total: this.subTotal,
+      total: this.subTotal + this.shippingTotal,
+      freight: this.shippingTotal,
       status: Constants.ORDER_STATUS.WAITING
     }
 
@@ -221,7 +278,7 @@ export class CartComponent implements OnInit {
 
     if (!this.defaultInfoModel) {
       if (this.formGroup.getRawValue().district === -1 ||
-        this.formGroup.getRawValue().city === -1 ||
+        this.formGroup.getRawValue().province === -1 ||
         this.formGroup.getRawValue().ward === -1 ||
         shipPhone?.trim() === '' || shipName?.trim() === '') {
         this.toastService.warning("Vui lòng nhập đầy đủ thông tin !")
@@ -231,7 +288,12 @@ export class CartComponent implements OnInit {
         this.toastService.warning("Số điện thoại không đúng định dạng !")
         return;
       }
-      address.push(this.formGroup.getRawValue().other, this.formGroup.getRawValue().ward, this.formGroup.getRawValue().district, this.formGroup.getRawValue().city)
+      if (this.formGroup.getRawValue().other !== '') {
+        address.push(other?.trim(), this.wardName, this.districtName, this.provinceName);
+      } else {
+        address.push(this.wardName, this.districtName, this.provinceName);
+      }
+      console.log(address)
       order.shipAddress = address.join(", ")
       order.shipPhone = shipPhone.trim()
       order.shipName = shipName!.trim()
@@ -241,42 +303,57 @@ export class CartComponent implements OnInit {
         this.toastService.warning("Vui lòng chọn địa chỉ mặc định trước khi thanh toán !");
         return;
       }
-      address.push(this.address.ward, this.address.district, this.address.city);
+      if (this.address.other != '') {
+        address.push(this.address.other, this.address.wardName, this.address.districtName, this.address.provinceName);
+      } else {
+        address.push(this.address.wardName, this.address.districtName, this.address.provinceName);
+      }
       order.shipAddress = address.join(", ")
-      order.shipPhone = this.address.customer.phone
-      order.shipName = this.address.customer.fullname
-      order.total = this.subTotal
-      order.status = Constants.ORDER_STATUS.WAITING
+      order.shipPhone = this.address.phone
+      order.shipName = this.address.fullname
     }
     const checkOutData = {
       order: order,
       listCarts: this.carts
     }
     console.log(checkOutData)
-    this.orderService.createOrder(checkOutData).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.toastService.success("Đặt hàng thành công !")
-          this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
-          this.cartService.isReload.subscribe(rs => {
-            if (rs) {
-              this.cartService.findAllByCustomerId(this.storageService.getIdFromToken());
-              this.carts = [];
-              this.subTotal = 0;
-              this.cartService.isReload.next(false);
-            }
-          })
-          void this.route.navigate(["/profile/user-order"]);
-        },
-        error: (err) => {
-          if (err.error.code == 'LIMIT_QUANTITY') {
-            this.toastService.warning(err.error.message);
-            return;
-          }
-          this.toastService.error("Đặt hàng không thành công !");
-        }
+
+    this.matDialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      width: "25vw",
+      data: {
+        message: 'Bạn có muốn thanh toán đơn hàng này?'
       }
-    )
+    }).afterClosed().subscribe((result) => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.orderService.createOrder(checkOutData).subscribe({
+            next: (res) => {
+              console.log(res);
+              this.toastService.success("Đặt hàng thành công !")
+              this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
+              this.cartService.isReload.subscribe(rs => {
+                if (rs) {
+                  this.cartService.findAllByCustomerId(this.storageService.getIdFromToken());
+                  this.carts = [];
+                  this.subTotal = 0;
+                  this.cartService.isReload.next(false);
+                }
+              })
+              void this.route.navigate(["/profile/user-order"]);
+            },
+            error: (err) => {
+              if (err.error.code == 'LIMIT_QUANTITY') {
+                this.toastService.warning(err.error.message);
+                return;
+              }
+              this.toastService.error("Đặt hàng không thành công !");
+            }
+          }
+        )
+      }
+    })
+
   }
 
   openEditAddressDialog() {
@@ -294,19 +371,8 @@ export class CartComponent implements OnInit {
         if (data !== 'close' && data !== undefined) {
           this.addressService.findAddressById(data).subscribe(data => {
             this.address = data;
-          })
-        }
-      })
-    } else {
-      this.matDialog.open(EditAddressComponent, {
-        width: '50vw',
-        height: '21w',
-        disableClose: true,
-        hasBackdrop: true,
-      }).afterClosed().subscribe(data => {
-        if (data !== 'close' && data !== undefined) {
-          this.addressService.findAddressById(data).subscribe(data => {
-            this.address = data;
+            this.getShippingFee(this.address.districtId)
+            console.log(this.address)
           })
         }
       })
@@ -319,5 +385,6 @@ export class CartComponent implements OnInit {
       console.log(this.address)
     })
   }
+
 
 }

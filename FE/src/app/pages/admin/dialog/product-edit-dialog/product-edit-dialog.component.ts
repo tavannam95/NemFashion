@@ -7,6 +7,7 @@ import { CategoryCreateDialogComponent } from '../category-create-dialog/categor
 import { Regex } from '../../../../shared/validators/Regex';
 import { UploadCloudinaryService } from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 import { ToastrService } from 'ngx-toastr';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 @Component({
   selector: 'app-product-edit-dialog',
@@ -24,7 +25,8 @@ export class ProductEditDialogComponent implements OnInit {
   productFG = this.fb.group({
     id: [''],
     name: ['', [Validators.required, Validators.pattern(Regex.unicodeAndNumber)]],
-    price: ['',[Validators.min(1),Validators.required]],
+    price: ['',[Validators.min(10000),Validators.required]],
+    weight: ['',[Validators.min(1),Validators.required]],
     status: [''],
     thumnail: [''],
     updateDate: [''],
@@ -42,14 +44,19 @@ export class ProductEditDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private uploadService: UploadCloudinaryService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private trimService: TrimService
   ) { }
 
   ngOnInit() {
-    this.productFG.patchValue(this.dataDialog);
-    
-    // this.getProductById();
+    this.getProductById();
     this.getAllCategory();
+  }
+
+  getProductById(){
+    this.productService.getOneProduct(this.dataDialog.id).subscribe(res=>{
+      this.productFG.patchValue(res);
+    })
   }
 
   async uploadThumnail() {
@@ -63,6 +70,7 @@ export class ProductEditDialogComponent implements OnInit {
   }
 
   async updateProduct(){
+    this.trimService.inputTrim(this.productFG, ["name", "description"]);
     this.productFG.markAllAsTouched();
     console.log(this.productFG.value);
     

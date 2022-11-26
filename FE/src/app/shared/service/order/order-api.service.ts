@@ -10,15 +10,35 @@ export class OrderApiService {
 
 constructor(private readonly http: HttpClient) { }
 
-getAllOrder(): Observable<any>{
-  return this.http.get(ApiConstant.order);
-}
+  getDataOrder(): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/data`);
+  }
 
-findByStatus(status: any): Observable<any>{
-  return this.http.get(`${ApiConstant.order}/${status}`);
-}
+  getAllOrder(page: any, size: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}?page=${page}&size=${size}`);
+  }
 
 verifyOrCancelOrder(data: any, status: number){
   return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
 }
+  getOrderGhn(): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/ghn`);
+  }
+
+  findByStatus(status: any, page: any, size: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/data/${status}?page=${page}&size=${size}`);
+  }
+
+  searchOrder(searchOrderDTO: any, page: any, size: any): Observable<any>{
+    return this.http.post(`${ApiConstant.order}/search?page=${page}&size=${size}`, searchOrderDTO);
+  }
+
+  findAllByStatus(stt: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/${stt}`);
+  }
+
+  updateStatus(data: any, status: number){
+    return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
+  }
+
 }

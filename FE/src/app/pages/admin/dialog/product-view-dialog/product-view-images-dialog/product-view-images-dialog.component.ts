@@ -6,6 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { ConfirmDialogComponent } from "../../../../../shared/confirm-dialog/confirm-dialog.component";
 import { Constant } from "../../../../../shared/constants/Constant";
 import { ProductImageCreateDialogComponent } from '../product-image-create-dialog/product-image-create-dialog.component';
+import {StorageService} from '../../../../../shared/service/storage.service';
 
 @Component({
   selector: "app-product-view-images-dialog",
@@ -20,7 +21,8 @@ export class ProductViewImagesDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private productImageService: ProductImageService,
     private readonly toastrService: ToastrService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private readonly storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -28,6 +30,10 @@ export class ProductViewImagesDialogComponent implements OnInit {
   }
 
   deleteProductImage(data: any, id: number) {
+    if(this.storageService.getRoleFromToken() != 'ROLE_SUPER_ADMIN'){
+      this.toastrService.warning("Bạn không có quyền truy câp chức năng này !")
+      return;
+    }
     this.matDialog
       .open(ConfirmDialogComponent, {
         disableClose: true,
@@ -70,6 +76,10 @@ export class ProductViewImagesDialogComponent implements OnInit {
     });
   }
   openDialogCreateProductImage(){
+    if(this.storageService.getRoleFromToken() != 'ROLE_SUPER_ADMIN'){
+      this.toastrService.warning("Bạn không có quyền truy câp chức năng này !")
+      return;
+    }
     let dialogRef = this.matDialog.open(ProductImageCreateDialogComponent,{
       width: '950px',
       disableClose: true,

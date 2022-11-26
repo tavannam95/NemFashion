@@ -1,11 +1,9 @@
 package nem.com.service.impl;
 
-import nem.com.dto.response.SizeDTO;
+import nem.com.domain.response.SizeDTO;
 import nem.com.entity.Sizes;
 import nem.com.repository.SizesRepository;
 import nem.com.service.SizeService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

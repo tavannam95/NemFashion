@@ -136,11 +136,11 @@
                   <span>Xoá tất cả</span>
                 </a>
 
-                <a class="route-box__link" href="#"
-                ><i class="fas fa-sync"></i>
+<!--                <a class="route-box__link" href="#"-->
+<!--                ><i class="fas fa-sync"></i>-->
 
-                  <span>Cập nhật giỏ hàng</span></a
-                >
+<!--                  <span>Cập nhật giỏ hàng</span></a-->
+<!--                >-->
               </div>
             </div>
           </div>
@@ -187,12 +187,12 @@
                         <mat-select
                           class="select-box select-box--primary-style"
                           id="shipping-country"
-                          formControlName="city">
-                          <mat-option [value]="-1">Chọn tỉnh/thành phố</mat-option>
-                          <mat-option *ngFor="let c of cities"
-                                      [value]="c.name"
-                                      (click)="getDistrict(c.code)">
-                            {{c.name}}
+                          formControlName="province">
+                          <mat-option [value]="-1" [disabled]="true">Chọn tỉnh/thành phố</mat-option>
+                          <mat-option *ngFor="let p of provinces"
+                                      [value]="p.ProvinceID"
+                                      (click)="getDistrict(p.ProvinceID,p.ProvinceName); resetDistrictAndWard()">
+                            {{p.ProvinceName}}
                           </mat-option>
                         </mat-select>
                         <!--====== TỈNH / THÀNH PHỐ ======-->
@@ -204,11 +204,11 @@
                           class="select-box select-box--primary-style"
                           id="shipping-state"
                           formControlName="district">
-                          <mat-option [value]="-1">Chọn quận/huyện</mat-option>
+                          <mat-option [value]="-1" [disabled]="true">Chọn quận/huyện</mat-option>
                           <mat-option *ngFor="let d of districts"
-                                      [value]="d.name"
-                                      (click)="getWard(d.code)">
-                            {{d.name}}
+                                      [value]="d.DistrictID"
+                                      (click)="getWard(d.DistrictID, d.DistrictName); resetWard()">
+                            {{d.DistrictName}}
                           </mat-option>
                         </mat-select>
                         <!--====== QUẬN / HUYỆN  ======-->
@@ -222,8 +222,12 @@
                         <mat-select
                           class="select-box select-box--primary-style"
                           formControlName="ward">
-                          <mat-option [value]="-1"> Chọn phường/xã</mat-option>
-                          <mat-option *ngFor="let w of wards" [value]="w.name">{{w.name}}</mat-option>
+                          <mat-option [value]="-1" [disabled]="true"> Chọn phường/xã</mat-option>
+                          <mat-option *ngFor="let w of wards"
+                                      [value]="w.WardCode"
+                                      (click)="getWardName(w.WardName)">
+                            {{w.WardName}}
+                          </mat-option>
                         </mat-select>
                         <!--======PHƯỜNG / XÃ * ======-->
                       </div>
@@ -268,8 +272,8 @@
                             <span class="ship-b__text">Gửi tới:</span>
                             <div class="ship-b__box u-s-m-b-10">
                               <p class="ship-b__p" *ngIf="address?.id">
-                                {{address?.customer?.fullname + ', ' + address?.customer?.phone}}
-                                {{address?.ward + ', ' + address?.district + ', ' + address?.city}}
+                                {{address?.fullname + ', ' + address?.phone}}
+                                {{address?.wardName + ', ' + address?.districtName + ', ' + address?.provinceName}}
                               </p>
                               <p class="ship-b__p" *ngIf="!address?.id">
                                 Chọn địa chỉ mặc định
@@ -290,16 +294,16 @@
                           <table class="f-cart__table">
                             <tbody>
                             <tr>
-                              <td>SHIPPING</td>
-                              <td>{{0 | currency: 'VND' : 'symbol' : '4.0' }}</td>
+                              <td>Tiền ship</td>
+                              <td>{{shippingTotal | currency: 'VND' : 'symbol' : '4.0' }}</td>
                             </tr>
                             <tr>
-                              <td>SUBTOTAL</td>
-                              <td>{{0 | currency: 'VND' : 'symbol' : '4.0' }}</td>
+                              <td>Tiền hàng</td>
+                              <td>{{subTotal | currency: 'VND' : 'symbol' : '4.0' }}</td>
                             </tr>
                             <tr>
                               <td>Tổng tiền</td>
-                              <td>{{subTotal | currency: 'VND' : 'symbol' : '4.0' }}</td>
+                              <td>{{subTotal + shippingTotal | currency: 'VND' : 'symbol' : '4.0' }}</td>
                             </tr>
                             </tbody>
                           </table>

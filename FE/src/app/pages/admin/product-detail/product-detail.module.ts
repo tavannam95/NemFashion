@@ -13,6 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { ImportExcelDialogComponent } from './dialog/import-excel-dialog/import-excel-dialog.component';
 import {  MatDialogModule } from '@angular/material/dialog';
+import { NgxCurrencyModule } from 'ngx-currency';
+import { PrintBarcodeDialogComponent } from '../dialog/product-view-dialog/print-barcode-dialog/print-barcode-dialog.component';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import {  MatDialogModule } from '@angular/material/dialog';
     ReactiveFormsModule,
     MatSelectModule,
     FormsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgxCurrencyModule
   ]
 })
 export class ProductDetailModule { }

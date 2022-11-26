@@ -17,7 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 // @ts-ignore
 import {NgxCurrencyModule} from "ngx-currency";
-
+import {ZXingScannerModule} from "@zxing/ngx-scanner";
 
 @NgModule({
     declarations: [SellingComponent, ProductDetailOrderComponent],
@@ -37,7 +37,8 @@ import {NgxCurrencyModule} from "ngx-currency";
         MatMenuModule,
         MatIconModule,
         MatTooltipModule,
-        NgxCurrencyModule
+        NgxCurrencyModule,
+        ZXingScannerModule
     ],
     providers: [CurrencyPipe]
 })

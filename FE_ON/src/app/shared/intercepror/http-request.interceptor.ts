@@ -32,6 +32,10 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
     });
 
+    if (req.url.includes('https://online-gateway.ghn.vn')) {
+      httpHeader = httpHeader.append('token', 'cff0fcca-5ddf-11ed-ad26-3a4226f77ff0')
+    }
+
     if (userToken != null) {
       httpHeader = httpHeader.append('Authorization', 'Bearer ' + userToken)
     }

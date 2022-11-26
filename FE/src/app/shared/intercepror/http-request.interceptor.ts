@@ -10,9 +10,12 @@ import {
 import {Observable} from 'rxjs';
 import {StorageService} from "../service/storage.service";
 import {Router} from "@angular/router";
+import { ApiConstant } from '../constants/ApiConstant';
+import { Ghn } from '../constants/Ghn';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
+  cancelOrderGhn = 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel';
 
   constructor(private readonly storageService: StorageService,
               private readonly router: Router) {
@@ -32,8 +35,22 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
     });
 
+    if(req.url.includes("Duong dan api ")){
+      httpHeader = httpHeader.append("Token", "value");
+    }
+
     if (userToken != null) {
       httpHeader = httpHeader.append('Authorization', 'Bearer ' + userToken)
+    }
+    if (req.url.includes(ApiConstant.ghn)||req.url.includes(this.cancelOrderGhn)) {
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+      httpHeader = httpHeader.append('ShopId', Ghn.SHOP_ID);
+    }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
     }
 
     req = req.clone({

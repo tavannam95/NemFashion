@@ -2,6 +2,7 @@ import { ProductFormComponent } from './product-form/product-form.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductListComponent } from './product-list/product-list.component';
+import {RoleGuard} from '../../../shared/guard/role.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,12 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: ProductFormComponent
+    component: ProductFormComponent,
+    canActivate:[RoleGuard],
+    data:{
+      role: 'ROLE_SUPER_ADMIN',
+      message: 'Bạn không có quyển truy cập chức năng này !'
+    }
   },
   
 ];

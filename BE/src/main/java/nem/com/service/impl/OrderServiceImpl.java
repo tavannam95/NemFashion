@@ -5,9 +5,11 @@ import nem.com.dto.response.BuyMostProductDTO;
 import nem.com.dto.response.CustomerBuyMostProductDTO;
 import nem.com.dto.response.OverviewStatisticalDTO;
 import nem.com.dto.response.TurnoverDTO;
+import nem.com.domain.dto.SearchOrderDTO;
 import nem.com.entity.Orders;
 import nem.com.repository.OrdersRepository;
 import nem.com.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +33,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> findByStatusOrderByCreateDateDesc(Integer status) {
-        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(0,10));
+    public Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Integer page, Integer size) {
+        return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(page,size));
     }
 
     @Override
-    public List<Orders> getAllOrderSort() {
-        return this.ordersRepository.getAllOrderSort(PageRequest.of(0,10));
+    public Page<Orders> searchOrderByStatus(SearchOrderDTO searchOrderDTO, Integer page, Integer size) {
+        return this.ordersRepository.searchOrderByStatus(searchOrderDTO.getFullName(),
+                searchOrderDTO.getId(),searchOrderDTO.getOrderCode(),
+                searchOrderDTO.getStatus(),PageRequest.of(page,size));
+    }
+
+    @Override
+    public Page<Orders> searchAllOrder(SearchOrderDTO searchOrderDTO, Integer page, Integer size) {
+        return this.ordersRepository.searchAllOrder(searchOrderDTO.getFullName(),
+                searchOrderDTO.getId(),searchOrderDTO.getOrderCode(),PageRequest.of(page,size));
+    }
+
+    @Override
+    public List<Orders> findByStatus(Integer status) {
+        return this.ordersRepository.findByStatus(status);
+    }
+
+    @Override
+    public Page<Orders> getAllOrderSort(Integer page, Integer size) {
+        return this.ordersRepository.getAllOrderSort(PageRequest.of(page,size));
     }
 
     @Override
@@ -77,4 +97,7 @@ public class OrderServiceImpl implements OrderService {
         return this.ordersRepository.turnoverDTO( request.getStartDate() , request.getEndDate() , type );
     }
 
+    public List<Orders> getOrderGhn() {
+        return this.ordersRepository.getOrderGhn();
+    }
 }

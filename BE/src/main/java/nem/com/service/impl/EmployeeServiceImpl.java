@@ -74,15 +74,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeesRepository.findById( id ).get();
     }
 
-    @Override
-    public void changePassword(Integer id , String oldPassword , String newPassword) {
-        Employees employees = this.employeesRepository.findById(id).get() ;
-        if( !passwordEncoder.matches( employees.getPassword() , oldPassword ) ){
-            throw new UniqueFieldException("Mật khẩu cũ sai") ;
-        }
-
-        employees.setPassword( passwordEncoder.encode(newPassword) );
-        this.employeesRepository.save(employees) ;
+    public Employees findEmployeeByEmail(String email) {
+        return this.employeesRepository.findByEmail(email);
     }
 
 }

@@ -1,14 +1,17 @@
 package nem.com.controller;
 
-import nem.com.dto.request.ProductDetailsDTO;
+
+import nem.com.domain.request.ProductDetailsDTO;
 //import nem.com.dto.response.ProductViewDto;
-import nem.com.dto.response.ProductDetailResponseDTO;
+import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -49,8 +52,8 @@ public class ProductDetailController {
     }
 
     @PostMapping("")
-    public ResponseEntity<List<ProductDetailResponseDTO>> create(@RequestBody List<ProductDetailResponseDTO> listProductViewDto){
-        return new ResponseEntity<>(this.productDetailService.createProductDetails(listProductViewDto),HttpStatus.OK);
+    public ResponseEntity<List<ProductDetailResponseDTO>> create(@RequestBody List<ProductDetailResponseDTO> listProductViewDto) {
+        return new ResponseEntity<>(this.productDetailService.createProductDetails(listProductViewDto), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -64,7 +67,21 @@ public class ProductDetailController {
     }
 
     @GetMapping("/getByProduct/{id}")
-    public ResponseEntity<List<ProductDetailsDTO>> getByIdProduct(@PathVariable("id") Integer id){
+    public ResponseEntity<List<ProductDetailsDTO>> getByIdProduct(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.productDetailService.getByIdProduct(id));
+    }
+
+    @GetMapping("/getByBarcode/{barcode}")
+    public ResponseEntity<ProductsDetails> getByBarcode(@PathVariable("barcode") String barcode) {
+        return ResponseEntity.ok(this.productDetailService.getByBarcode(barcode));
+    }
+
+    //    @PostMapping("/generateBacode")
+//    public String generateBarcode(@RequestBody Long id){
+//        List<String>
+//    }
+    @GetMapping("/generateBarcode/{id}")
+    public ResponseEntity<?> generateBarcode(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.productDetailService.generateBarcode(id));
     }
 }

@@ -32,7 +32,6 @@ export class UserProfileFormComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup.patchValue(this.matDataDialog.customer);
     this.formGroup.patchValue({birthDate: this.formatDate(this.matDataDialog.customer.birthDate)})
-    console.log(this.matDataDialog.customer)
   }
 
   save() {

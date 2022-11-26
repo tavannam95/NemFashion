@@ -6,6 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ProductViewImagesDialogComponent } from './product-view-images-dialog/product-view-images-dialog.component';
+import printJS from "print-js";
+import {ProductService} from "../../../../shared/service/product/product.service";
+import { PrintBarcodeDialogComponent } from './print-barcode-dialog/print-barcode-dialog.component';
 
 @Component({
   selector: 'app-product-view-dialog',
@@ -15,7 +18,7 @@ import { ProductViewImagesDialogComponent } from './product-view-images-dialog/p
 })
 export class ProductViewDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'color', 'size', 'quantity'];
+  displayedColumns: string[] = ['id', 'color', 'size', 'quantity', 'func'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,7 +35,9 @@ export class ProductViewDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private poductDetailService: ProductDetailService,
     private toastrService: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private productService: ProductService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -75,6 +80,13 @@ export class ProductViewDialogComponent implements OnInit {
         console.log(err);
         this.toastrService.error('Không tải được chi tiết sản phẩm')
       }
+    })
+  }
+
+  openPrintBarCode(id: any){
+    this.matDialog.open(PrintBarcodeDialogComponent,{
+      data: id,
+      disableClose: true
     })
   }
 

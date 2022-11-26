@@ -1,6 +1,6 @@
 package nem.com.repository;
 
-import nem.com.dto.response.CategoryDTO;
+import nem.com.domain.response.CategoryDTO;
 import nem.com.entity.Categories;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +18,4 @@ public interface CategoriesRepository extends JpaRepository<Categories, Short> {
             " where  pd.color.id is not null and pd.size.id is not null)"  +
             " group by c.id , c.name ")
     List<CategoryDTO> getCategories() ;
-
 }

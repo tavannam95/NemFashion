@@ -1,6 +1,6 @@
 package nem.com.controller;
 
-import nem.com.dto.response.SizeDTO;
+import nem.com.domain.response.SizeDTO;
 import nem.com.entity.Sizes;
 import nem.com.service.SizeService;
 import org.springframework.http.HttpStatus;

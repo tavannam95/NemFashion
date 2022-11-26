@@ -29,7 +29,7 @@ export class CustomerFormComponent implements OnInit {
         fullname: ['', [Validators.required, Validators.pattern(Regex.unicode)]],
         photo: ['', []],
         email: ['', [Validators.required, Validators.pattern(Regex.email)]],
-        password: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
         phone: ['', [Validators.required, Validators.pattern(Regex.phone)]],
         birthDate: ['', [Validators.required]],
         siginDate: new Date(),
@@ -101,7 +101,7 @@ export class CustomerFormComponent implements OnInit {
             this.customerService.createCustomer(this.formGroup.getRawValue());
         } else {
             if (this.avatarUrl != undefined) {
-                if (this.formGroup.getRawValue().photo !== this.avatarDefault) {
+                if (this.formGroup.getRawValue().photo !== this.avatarDefault && this.formGroup.getRawValue().photo !== null) {
                     const publicId = this.formGroup.getRawValue().photo.split('/').pop().split('.')[0];
                     this.uploadService.delete(publicId).subscribe(res => {
                         console.log(res)

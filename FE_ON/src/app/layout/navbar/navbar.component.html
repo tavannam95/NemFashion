@@ -172,7 +172,7 @@
                          </span>
                         <span class="mini-product__name">
                           <a [routerLink]="['/product-detail/', cart.productsDetail.product.id]">
-                            {{cart.productsDetail.product.name}}
+                            {{cart.productsDetail.product.name + ' / ' + cart.productsDetail.size.code + ' / ' + cart.productsDetail.color.name}}
                           </a>
                         </span>
 

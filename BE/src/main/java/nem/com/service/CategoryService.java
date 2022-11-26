@@ -1,6 +1,6 @@
 package nem.com.service;
 
-import nem.com.dto.response.CategoryDTO;
+import nem.com.domain.response.CategoryDTO;
 import nem.com.entity.Categories;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
