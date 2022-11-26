@@ -24,7 +24,7 @@
                         </button>
                     </mat-menu>
                 </div>
-                <form class="example-form" >
+                <form class="example-form" *ngIf="tabs.length > 0">
                     <input class="input" [formControl]="productInput" [matAutocomplete]="auto1"
                            placeholder="Vui lòng nhập tìm kiếm">
                     <mat-autocomplete #auto1="matAutocomplete">
@@ -44,7 +44,7 @@
                         </mat-option>
                     </mat-autocomplete>
                 </form>
-                <div (click)="openDialogSacnner(scanner)" class="scanner"><i class="fa-solid fa-barcode"></i></div>
+                <div (click)="openDialogSacnner(scanner)" *ngIf="tabs.length > 0" class="scanner"><i class="fa-solid fa-barcode"></i></div>
                 <mat-tab-group [selectedIndex]="selected.value" [color]="'accent'" animationDuration="0ms"
                                (selectedIndexChange)="selected.setValue($event);getItemByTabs()">
                     <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">

@@ -11,7 +11,8 @@ import java.util.List;
 
 public interface ProductsRepository extends JpaRepository<Products, Integer> {
 
-    @Query("SELECT p FROM Products p WHERE p.category.id = :id and p.status = 1")
+    @Query("SELECT p FROM Products p WHERE p.category.id = :id and p.status = 1 " +
+            "and (select count(pd) from ProductsDetails  pd where pd.product.id = p.id) > 0")
     List<Products> findByCate(@Param("id") Short id);
     @Query("select p from Products p where p.id in " +
             "( select distinct pb.product.id from ProductsDetails pb where pb.size.id in (:size) and pb.color.id in (:color) ) " +
