@@ -1,6 +1,6 @@
 package nem.com.service.impl;
 
-import nem.com.dto.request.OrderDTO;
+import nem.com.domain.request.OrderDTO;
 import nem.com.entity.*;
 import nem.com.exception.IsEmptyException;
 import nem.com.exception.LimitQuantityException;
@@ -42,7 +42,7 @@ public class OrderServiceOnlineImpl implements OrderServiceOnline {
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public Orders checkout(OrderDTO request) {
-        if (request.getListCarts() == null || request.getListCarts().isEmpty() || request.getListCarts().size() == 0) {
+        if (request.getListCarts() == null || request.getListCarts().isEmpty()) {
             throw new IsEmptyException("List cart is empty !");
         }
 

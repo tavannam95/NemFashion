@@ -1,6 +1,5 @@
 package nem.com.security.jwt;
 
-import lombok.AllArgsConstructor;
 import nem.com.security.userprincipal.customer.CustomerUserDetailsService;
 import nem.com.security.userprincipal.staff.EmployeeUserDetailsService;
 import org.slf4j.Logger;
@@ -53,7 +52,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            LOGGER.error("Can't set user authentication -> Message: {}", e);
+            LOGGER.error("Can't set user authentication -> Message: {0}", e);
         }
         filterChain.doFilter(request, response);
     }

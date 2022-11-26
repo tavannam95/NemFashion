@@ -19,14 +19,13 @@ public class CloudinaryConfig implements WebMvcConfigurer {
 
     @Bean
     public Cloudinary cloudinary() {
-        Cloudinary cloudinary = new Cloudinary(
+        return new Cloudinary(
                 ObjectUtils.asMap(
                         "cloud_name", "nemfashion",
                         "api_key", "386365167524672",
                         "api_secret", "sug7tkl4kISa44EoEvF3q8eF0eY",
                         "secure", true
                 ));
-        return cloudinary;
     }
 
 }

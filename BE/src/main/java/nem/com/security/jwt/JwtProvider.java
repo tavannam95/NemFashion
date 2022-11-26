@@ -47,32 +47,35 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
-            LOGGER.error("Invalid jwt signature -> Message{}", e);
+            LOGGER.error("Invalid jwt signature -> Message{0}", e);
         } catch (MalformedJwtException e) {
-            LOGGER.error("Invalid format Token -> Message{}", e);
+            LOGGER.error("Invalid format Token -> Message{0}", e);
         } catch (ExpiredJwtException e) {
-            LOGGER.error("Expired JWT Token -> Message{}", e);
+            LOGGER.error("Expired JWT Token -> Message{0}", e);
         } catch (UnsupportedJwtException e) {
-            LOGGER.error("Unsupported JWT Token -> Message{}", e);
+            LOGGER.error("Unsupported JWT Token -> Message{0}", e);
         } catch (IllegalArgumentException e) {
-            LOGGER.error("JWT Token claims string is empty -> Message{}", e);
+            LOGGER.error("JWT Token claims string is empty -> Message{0}", e);
         }
         return false;
     }
 
     public String getEmailFromToken(String token) {
-        String email = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-
-        return email;
+        if (token != null) {
+            return Jwts.parser()
+                    .setSigningKey(JWT_SECRET)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        }
+        return null;
     }
 
     public String getRolesFromToken(String token) {
-        String role = getAllClaimsFromToken(token).get("role").toString();
-        return role;
+        if (token != null) {
+            return getAllClaimsFromToken(token).get("role").toString();
+        }
+        return null;
     }
 
     private Claims getAllClaimsFromToken(String token) {

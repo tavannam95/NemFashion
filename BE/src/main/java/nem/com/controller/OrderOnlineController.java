@@ -2,23 +2,13 @@ package nem.com.controller;
 
 import lombok.RequiredArgsConstructor;
 import nem.com.domain.request.OrderDTO;
-import nem.com.entity.Carts;
-import nem.com.entity.OrderDetails;
 import nem.com.entity.Orders;
-import nem.com.entity.ProductsDetails;
-import nem.com.exception.IsEmptyException;
-import nem.com.exception.LimitQuantityException;
-import nem.com.exception.ResourceNotFoundException;
-import nem.com.repository.ProductsDetailsRepository;
-import nem.com.service.OrderDetailOnlineService;
 import nem.com.service.OrderServiceOnline;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin("*")
 @RestController

@@ -176,11 +176,9 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onClickColor(id: any) {
-    console.log(id)
     if (this.listColor.id === undefined || this.listColor.id != id) {
       this.size = this.productDetail.filter(p => p.color.id === id && p.quantity > 0).map(p => p.size.id);
       this.listColor.id = id;
-      console.log(this.size)
     } else {
       this.listColor.id = undefined;
       this.size = [];
@@ -188,12 +186,9 @@ export class ProductDetailComponent implements OnInit {
   }
 
   onClickSize(id: any) {
-    console.log(id)
-
     if (this.listSize.id === undefined || this.listSize.id != id) {
       this.color = this.productDetail.filter(p => p.size.id === id && p.quantity > 0).map(p => p.color.id);
       this.listSize.id = id;
-      console.log(this.color)
     } else {
       this.listSize.id = undefined;
       this.color = [];

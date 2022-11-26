@@ -2,7 +2,6 @@ package nem.com.config;
 
 import nem.com.security.jwt.JwtEntryPoint;
 import nem.com.security.jwt.JwtTokenFilter;
-import nem.com.security.userprincipal.customer.CustomerUserDetailsService;
 import nem.com.security.userprincipal.staff.EmployeeUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +10,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

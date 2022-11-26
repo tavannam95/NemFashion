@@ -25,8 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
 
 @CrossOrigin("*")
 @RestController
@@ -60,7 +58,7 @@ public class AuthController {
     private EmailService emailService;
 
     @PostMapping("user/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginForm request) {
+    public ResponseEntity<JwtResponse> loginUser(@RequestBody LoginForm request) {
         Customers customer = this.customerService.findCustomerByEmail(request.getEmail());
         if (customer.getStatus() == 0 && this.passwordEncoder.matches(request.getPassword(), customer.getPassword())) {
             throw new UserInactiveException("Tài khoản đã bị vô hiệu hoá !");
@@ -79,7 +77,7 @@ public class AuthController {
     }
 
     @PostMapping("admin/login")
-    public ResponseEntity<?> loginAdmin(@RequestBody LoginForm request) {
+    public ResponseEntity<JwtResponse> loginAdmin(@RequestBody LoginForm request) {
         Employees employee = this.employeeService.findEmployeeByEmail(request.getEmail());
         if (employee.getStatus() == 0 && this.passwordEncoder.matches(request.getPassword(), employee.getPassword())) {
             throw new UserInactiveException("Tài khoản đã bị vô hiệu hoá !");
@@ -98,13 +96,13 @@ public class AuthController {
     }
 
     @PostMapping("user/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterFormUser request) {
+    public ResponseEntity<Customers> registerUser(@RequestBody RegisterFormUser request) {
         Customers customer = this.mapper.map(request, Customers.class);
         return new ResponseEntity<>(this.customerService.save(customer), HttpStatus.OK);
     }
 
     @GetMapping("user/send-email")
-    public ResponseEntity<Boolean> forgotPassword(@RequestParam("email") String email, @RequestParam("url") String url) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<Boolean> forgotPassword(@RequestParam("email") String email, @RequestParam("url") String url) {
         String token = RandomString.make(45);
         this.customerService.updateResetPassword(email, token);
         String resetPasswordLink = url + "/forgot-password?token=" + token;
