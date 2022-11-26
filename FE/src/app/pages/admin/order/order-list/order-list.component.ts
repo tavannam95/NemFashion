@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PreparingProductComponent } from '../dialog/preparing-product/preparing-product.component';
 import { GhnService } from '../../../../shared/service/ghn/ghn.service';
 import { PageEvent } from '@angular/material/paginator';
+import { FormBuilder } from '@angular/forms';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 @Component({
   selector: 'app-order-list',
@@ -27,10 +29,18 @@ export class OrderListComponent implements OnInit {
     'Đang giao',
     'Đã giao',
     'Đơn hủy',
-    'Trả hàng/Hoàn tiền'
+    'Trả hàng/Hoàn tiền',
+    'Bán tại cửa hàng'
   ]
 
   dataOrder: any[] = [];
+
+  searchOrderDTO = this.fb.group({
+    fullName: [''],
+    id: null,
+    orderCode: [''],
+    status: null
+  })
 
   //Paginator
   length = 0;
@@ -50,7 +60,9 @@ export class OrderListComponent implements OnInit {
     private toastrService: ToastrService,
     private matDialog: MatDialog,
     private ghnService: GhnService,
-    private orderSevice: OrderService
+    private orderSevice: OrderService,
+    private fb: FormBuilder,
+    private trimService: TrimService
   ) { }
 
   ngOnInit() {
@@ -74,6 +86,29 @@ export class OrderListComponent implements OnInit {
     }else if (this.tabIndex == 1 || this.tabIndex ==2) {
       this.findByStatus(this.tabIndex-1);
     }
+  }
+
+  searchOrder(){
+    this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
+    this.pageIndex = 0;
+    this.pageSize = 10;
+    this.searchOrderDTO.patchValue({status:this.tabIndex-1});
+    this.orderService.searchOrder(this.searchOrderDTO.value, this.pageIndex, this.pageSize).subscribe({
+      next: (res)=>{
+        if (res.length<=0) {
+          this.toastrService.warning('Đơn hàng không tồn tại');
+        }
+        this.allOrder = res;
+        if (this.allOrder.length>0) {
+          this.totalPage = this.allOrder[0].totalPage;
+          this.length = this.allOrder[0].totalElements;
+        }
+      },
+      error: (e)=>{
+        console.log(e);
+        
+      }
+    })
   }
 
   selectTab(index: any){
@@ -152,7 +187,6 @@ export class OrderListComponent implements OnInit {
     this.orderService.getAllOrder(page,this.pageSize).subscribe({
       next: (res) =>{
         this.allOrder = res;
-        this.totalPage = res.totalPage;
         if (this.allOrder.length>0) {
           this.totalPage = this.allOrder[0].totalPage;
         }

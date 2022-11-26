@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router'
-import {DashboardComponent} from '../../dashboard/dashboard.component';
+import {DashboardComponent} from '../../dashboard/overview/dashboard.component';
 import {UserProfileComponent} from '../../user-profile/user-profile.component';
 import {TableListComponent} from '../../table-list/table-list.component';
 import {TypographyComponent} from '../../typography/typography.component';
@@ -12,7 +12,7 @@ import {RoleGuard} from '../guard/role.guard';
 export const content_admin: Routes = [
     {
         path: 'dashboard',
-        loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule),
+        loadChildren: () => import('../../dashboard/overview/dashboard.module').then(m => m.DashboardModule),
 
     },
     {
@@ -50,8 +50,24 @@ export const content_admin: Routes = [
         loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
     },
     {
-        path: 'rating',
-        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule)
+        path: 'rating' ,
+        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule )
+    },
+    {
+        path: 'statical' ,
+        loadChildren: () => import('../../dashboard/statical/statical.module').then(m => m.StaticalModule )
+    },
+    {
+        path: 'turnover' ,
+        loadChildren: () => import('../../dashboard/statical/statical-turnover/statical-turnover.module').then( m => m.StaticalTurnoverModule)
+    },
+    {
+        path: 'cus' ,
+        loadChildren: () => import('../../dashboard/statical/statical-customer/statical-customer.module').then( m => m.StaticalCustomerModule)
+    },
+    {
+        path: 'pro' ,
+        loadChildren: () => import('../../dashboard/statical/statical-product/statical-product.module').then( m => m.StaticalProductModule)
     }
 
 ]

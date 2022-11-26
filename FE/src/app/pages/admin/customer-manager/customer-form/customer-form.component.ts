@@ -6,6 +6,7 @@ import {CustomerService} from '../../../../shared/service/customer/customer.serv
 import {UploadCloudinaryService} from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 import {Regex} from '../../../../shared/validators/Regex';
 import {StorageService} from '../../../../shared/service/storage.service';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 @Component({
     selector: 'app-customer-form',
@@ -42,6 +43,7 @@ export class CustomerFormComponent implements OnInit {
                 private readonly customerService: CustomerService,
                 private readonly uploadService: UploadCloudinaryService,
                 private readonly storageService: StorageService,
+                private readonly trimService: TrimService,
                 @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
     }
 
@@ -80,6 +82,7 @@ export class CustomerFormComponent implements OnInit {
     }
 
     async save() {
+        this.trimService.inputTrim(this.formGroup,['fullname','email','password','phone']);
         this.formGroup.markAllAsTouched();
         console.log(this.formGroup.getRawValue())
         if (this.formGroup.invalid) {

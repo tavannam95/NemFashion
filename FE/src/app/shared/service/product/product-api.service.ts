@@ -41,7 +41,7 @@ export class ProductApiService {
     }
 
     generateBarcode(id:any): Observable<any>{
-        return this.http.get(`${ApiConstant.productDetail}/generateBacode/${id}`)
+        return this.http.get(`${ApiConstant.productDetail}/generateBarcode/${id}`)
     }
 
 }

@@ -24,6 +24,9 @@ export class OrderService {
   findByStatus(status: any, page: any, size: any){
     return this.apiService.findByStatus(status,page,size);
   }
+  searchOrder(searchOrderDTO: any, page: any, size: any){
+    return this.apiService.searchOrder(searchOrderDTO,page,size);
+  }
 
   findAllByStatus(status: any){
     return this.apiService.findAllByStatus(status);

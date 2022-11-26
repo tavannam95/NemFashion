@@ -7,6 +7,7 @@ import { CategoryCreateDialogComponent } from '../category-create-dialog/categor
 import { Regex } from '../../../../shared/validators/Regex';
 import { UploadCloudinaryService } from '../../../../shared/service/cloudinary/upload-cloudinary.service';
 import { ToastrService } from 'ngx-toastr';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 @Component({
   selector: 'app-product-edit-dialog',
@@ -43,7 +44,8 @@ export class ProductEditDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private uploadService: UploadCloudinaryService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private trimService: TrimService
   ) { }
 
   ngOnInit() {
@@ -68,6 +70,7 @@ export class ProductEditDialogComponent implements OnInit {
   }
 
   async updateProduct(){
+    this.trimService.inputTrim(this.productFG, ["name", "description"]);
     this.productFG.markAllAsTouched();
     console.log(this.productFG.value);
     

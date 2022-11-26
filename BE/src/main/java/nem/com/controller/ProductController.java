@@ -70,7 +70,7 @@ public class ProductController {
             pageable = PageRequest.of( pageNo.orElse(0) , pageSize , Sort.by("price").descending() ) ;
         }
 
-        Page<Products> page = this.productService.getAllByAllPropertites(sizes , category, color , max ,min  , pageable );
+        Page<Products> page = this.productService.getAllByAllPropertites(sizes , category, color , min ,max , pageable );
         return new ResponseEntity<>( page , HttpStatus.OK );
     }
 

@@ -76,7 +76,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
             int colorId = p.getColor().getId();
             int sizeId = p.getSize().getId();
             List<ProductsDetails> productsDetailsList = this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId);
-            if (productsDetailsList.size()>0){
+            if (!productsDetailsList.isEmpty()){
                 productsDetails = this.productsDetailsRepository.findProductDetailByProductSizeColor(productId,colorId,sizeId).get(0);
                 productsDetails.setQuantity(productsDetails.getQuantity()+p.getQuantity());
             }else{
@@ -123,7 +123,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
                 .orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
         String barCode = productsDetails.getBarCode();
         ServiceResult<?> result = new ServiceResult<>();
-       result.setMessage(BarcodeUtils.generateBarcode(barCode,300,100));
+       result.setMessage(BarcodeUtils.generateBarcode(barCode,productsDetails.getProduct().getPrice(),300,100));
         return result;
     }
 }

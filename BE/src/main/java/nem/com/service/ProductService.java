@@ -12,7 +12,7 @@ public interface ProductService {
     Products getOne(Integer id);
     List<Products> getAll();
 
-    Page<Products> getAllByAllPropertites(Integer[] size , Short[] category  , Integer[] color , Double max, Double min , Pageable pageable);
+    Page<Products> getAllByAllPropertites(Integer[] size , Short[] category  , Integer[] color ,  Double min, Double max, Pageable pageable);
 
     List<Products> findTop10Pro() ;
 

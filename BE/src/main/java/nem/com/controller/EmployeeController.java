@@ -48,4 +48,10 @@ public class EmployeeController {
         return new ResponseEntity<>( employeeService.updateStatus(employees) , HttpStatus.OK );
     }
 
+    @GetMapping("changPassword")
+    public ResponseEntity<Void> changePassword( @RequestParam("id") Integer id , @RequestParam("oldPassword") String oldPassword,
+                                                @RequestParam("newPassword") String newPassword ){
+        this.employeeService.changePassword( id , oldPassword , newPassword ) ;
+        return (ResponseEntity<Void>) ResponseEntity.ok();
+    }
 }

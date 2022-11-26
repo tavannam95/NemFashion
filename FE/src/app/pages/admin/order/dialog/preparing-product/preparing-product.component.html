@@ -15,7 +15,7 @@
   <div class="row">
     <span class="h4 font-weight-bold col-12">ID Đơn hàng</span>
     <span class="col-12">#{{order.id}}</span>
-    <span class="h4 font-weight-bold col-12 mt-3">Địa chỉ nhận hàng</span>
+    <span class="h4 font-weight-bold col-12 mt-3">Thông tin người nhận</span>
     <span class="col-12">{{order.shipName}} : {{order.shipPhone}}</span>
     <span class="col-12">{{order.shipAddress}}</span>
     <span class="h4 font-weight-bold col-12 mt-3">Giá trị đơn hàng</span>
@@ -44,9 +44,9 @@
     <button class="btn btn-info" mat-button cdkFocusInitial [disabled]="!isFormValid()" (click)="createOrderGhn()">Đồng ý</button>
   </div>
   <div *ngIf="order.status!=0" class="row">
-    <button class="btn btn-dark" mat-button (click)="closeDialog()" mat-dialog-close>Đóng</button>
+    <button class="btn btn-dark" mat-button mat-dialog-close>Đóng</button>
     <div *ngIf="order.status==1">
-      <button class="btn btn-danger" (click)="cancelOrder(order.orderCode)" mat-button>Hủy đơn</button>
+      <button class="btn btn-danger" (click)="cancelOrder()" mat-button>Hủy đơn</button>
     </div>
   </div>
 </div>

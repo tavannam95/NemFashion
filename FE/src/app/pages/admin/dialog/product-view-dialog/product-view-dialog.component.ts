@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { ProductViewImagesDialogComponent } from './product-view-images-dialog/product-view-images-dialog.component';
 import printJS from "print-js";
 import {ProductService} from "../../../../shared/service/product/product.service";
+import { PrintBarcodeDialogComponent } from './print-barcode-dialog/print-barcode-dialog.component';
 
 @Component({
   selector: 'app-product-view-dialog',
@@ -17,7 +18,7 @@ import {ProductService} from "../../../../shared/service/product/product.service
 })
 export class ProductViewDialogComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'color', 'size', 'quantity'];
+  displayedColumns: string[] = ['id', 'color', 'size', 'quantity', 'func'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,7 +36,8 @@ export class ProductViewDialogComponent implements OnInit {
     private poductDetailService: ProductDetailService,
     private toastrService: ToastrService,
     private dialog: MatDialog,
-    private productService: ProductService
+    private productService: ProductService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -81,17 +83,11 @@ export class ProductViewDialogComponent implements OnInit {
     })
   }
 
-  printQR(){
-    let id = 36; // Cái này a truyền nó nó là id của detail
-    this.productService.generateBarcode(id).subscribe(
-        {
-          next: resp => {
-            console.log(resp);
-            printJS({printable: [resp.message,resp.message],type: 'image',imageStyle: 'width:100%;margin-bottom:20px;'})
-          }
-        }
-    )
-
+  openPrintBarCode(id: any){
+    this.matDialog.open(PrintBarcodeDialogComponent,{
+      data: id,
+      disableClose: true
+    })
   }
 
 }

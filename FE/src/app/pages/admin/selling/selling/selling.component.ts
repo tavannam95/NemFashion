@@ -12,8 +12,8 @@ import {CustomerFormComponent} from "../../customer-manager/customer-form/custom
 import {CurrencyPipe} from "@angular/common";
 import {ToastrService} from "ngx-toastr";
 import {MatDrawer} from "@angular/material/sidenav";
-import * as es6printJS from "print-js";
 // import printJS = require("print-js");
+// @ts-ignore
 import printJS from 'print-js';
 import {ProductService} from "../../../../shared/service/product/product.service";
 import {StorageService} from "../../../../shared/service/storage.service";

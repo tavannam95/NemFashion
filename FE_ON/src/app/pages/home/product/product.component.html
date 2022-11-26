@@ -197,18 +197,21 @@
             </div>
             <div class="u-s-p-y-60">
               <!--====== Pagination ======-->
+              <div *ngIf="totalPage == 0">
+                  không có dữ liệu
+              </div>
               <ul class="shop-p__pagination">
-                <li class="is-active">
+                <li class="is-active" *ngIf="totalPage != 0">
                   <a type="button" [class.disabled-a]="checkPage == 0" style="background-color: #AAAAAA" (click)="nextPage(0)"> <i class="fas fa-angle-double-left"></i> </a>
                 </li>
                 <li class="is-active" *ngFor=" let page of listPage" [class]=" showPage(checkPage , page) ? 'mx-1' : ''" >
                   <a  type="button" *ngIf="showPage( checkPage , page)" [class.disabled-a]="checkPage == page" style="background-color: #AAAAAA" [class]="checkPage == page ? 'bg-dark text-white' : ''"
                      (click)="nextPage(page)" >{{page + 1}}</a>
                 </li>
-                <li class="is-active" *ngIf="checkPage != totalPage - 1 && checkPage != totalPage - 2">
+                <li class="is-active" *ngIf="checkPage != totalPage - 1 && checkPage != totalPage - 2 && totalPage != 0">
                   <a class="disabled-a">...</a>
                 </li>
-                <li class="is-active">
+                <li class="is-active" *ngIf="totalPage != 0">
                   <a type="button" [class.disabled-a]="checkPage == totalPage-1" style="background-color: #AAAAAA" (click)="nextPage(totalPage - 1 )"> <i class="fas fa-angle-double-right"></i> </a>
                 </li>
               </ul>

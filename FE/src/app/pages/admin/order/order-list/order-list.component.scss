@@ -1,6 +1,12 @@
 table {
     width: 100%;
   }
+  ::ng-deep{
+    .car1 .mat-tab-label {
+      min-width: 140px !important;
+      font-weight: bold;
+    }
+  }
   
   .mat-form-field {
     font-size: 14px;

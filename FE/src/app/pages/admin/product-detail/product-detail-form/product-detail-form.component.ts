@@ -139,14 +139,14 @@ export class ProductDetailFormComponent implements OnInit {
     }
     console.log(this.productDetailDto);
     
-    // this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
-    //   next: (res)=>{
-    //     this.toastrService.success('Thêm chi tiết thành công');
-    //   },
-    //   error: (err)=>{
-    //     this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
-    //   }
-    // })
+    this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
+      next: (res)=>{
+        this.toastrService.success('Thêm chi tiết thành công');
+      },
+      error: (err)=>{
+        this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
+      }
+    })
     
   }
 

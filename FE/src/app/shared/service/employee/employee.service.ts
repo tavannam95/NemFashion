@@ -74,4 +74,8 @@ export class EmployeeService {
             }
         })
     }
+
+    changPassword(id: number , oldPassword: any , newPassword: any){
+        return this.emApi.changPassword( id , oldPassword , newPassword ) ;
+    }
 }
