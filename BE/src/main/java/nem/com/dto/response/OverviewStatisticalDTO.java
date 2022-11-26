@@ -13,8 +13,8 @@ import javax.persistence.*;
 @NamedNativeQuery(
         name = "overview_statical" ,
         query = "select  (select count(orders.id) from orders ) as totalOrder ,\n" +
-                " (select sum(orders.total) from orders where id = 3 ) as totalPrice , \n" +
-                " (select count(orders.id) from orders where id = 4 ) as totalCancel from dual ;" ,
+                " (select sum(orders.total) from orders where status = 3 ) as totalPrice , \n" +
+                " (select count(orders.id) from orders where status = 4 ) as totalCancel from dual ;" ,
         resultSetMapping = "view_statical_dto"
 )
 @SqlResultSetMapping(
