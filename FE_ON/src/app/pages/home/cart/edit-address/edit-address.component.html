@@ -46,7 +46,7 @@
               <td>{{a.phone}}</td>
               <td>{{a.other == null ? 'Trống' : a.other}}</td>
               <td>
-                <a style="margin-right: 15px" class="fas fa-sync table-p__delete-link p-0"
+                <a style="margin-right: 15px" class="fas fa-edit table-p__delete-link p-0"
                    (click)="openAddNewAddress(TYPE_DIALOG.UPDATE, a)"></a>
                 <a class="far fa-trash-alt table-p__delete-link p-0" (click)="onDelete(a.id, a.status)"></a>
               </td>
