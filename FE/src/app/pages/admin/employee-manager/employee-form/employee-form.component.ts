@@ -52,8 +52,8 @@ export class EmployeeFormComponent implements OnInit {
             this.hidePassword = true ;
         }else{
             this.hidePassword = false ;
-            this.title = 'Cập nhâp nhân viên'
-            this.colorBtn = 'btn btn-primary'
+            this.title = 'Cập nhật thông tin'
+            this.colorBtn = 'btn btn-info'
             this.nameBtn = "Cập nhập"
             this.staff.patchValue( this.dataDialog.row )
             console.log(this.staff.getRawValue())

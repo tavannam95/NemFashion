@@ -46,13 +46,14 @@
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
   <div *ngIf="order.status==0" class="row">
-    <button mat-button mat-dialog-close class="btn btn-dark" mat-button mat-dialog-close>Hủy</button>
     <button class="btn btn-info" mat-button cdkFocusInitial [disabled]="!isFormValid()" (click)="createOrderGhn()">Đồng ý</button>
+    <button mat-button mat-dialog-close class="btn btn-dark" mat-button mat-dialog-close>Hủy</button>
   </div>
   <div *ngIf="order.status!=0" class="row">
-    <button class="btn btn-dark" mat-button mat-dialog-close>Đóng</button>
     <div *ngIf="order.status==1">
+      <button class="btn btn-info" (click)="printOrderCode()" mat-button>In mã vận đơn</button>
       <button class="btn btn-danger" (click)="cancelOrder()" mat-button>Hủy đơn</button>
     </div>
+      <button class="btn btn-dark" style="margin-left: 0.5em;" mat-button mat-dialog-close>Đóng</button>
   </div>
 </div>

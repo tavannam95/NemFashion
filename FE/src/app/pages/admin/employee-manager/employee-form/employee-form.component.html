@@ -78,8 +78,7 @@
                             <div class="col-12 mt-3">
                                 <mat-radio-group aria-label="Select an option" formControlName="id">
                                     <mat-radio-button style="margin-right: 15px;" [value]="1">Nhân viên</mat-radio-button>
-                                    <mat-radio-button style="margin-right: 15px;" [value]="2">Quản lý</mat-radio-button>
-                                    <mat-radio-button [value]="3">Chủ cửa hàng</mat-radio-button>
+                                    <mat-radio-button style="margin-right: 15px;" [value]="3">Quản lý</mat-radio-button>
                                 </mat-radio-group>
                             </div>
                         </div>
@@ -88,7 +87,7 @@
 
                     <div class="col-12 mt-3 d-flex justify-content-end">
                         <button [class]="colorBtn" (click)="onSubmit()" >{{nameBtn}}</button>
-                        <button type="button" (click)="onDismiss()" class="btn btn-danger">Đóng</button>
+                        <button type="button" (click)="onDismiss()" class="btn btn-dark">Đóng</button>
                     </div>
                 </form>
             </div>
