@@ -79,7 +79,7 @@ export class ProductFormComponent implements OnInit {
 
   getAllCategory() {
     this.isLoading = true;
-    return this.categoryService.getAllCategory().subscribe({
+    return this.categoryService.findAllByStatus().subscribe({
       next: (res) => {
         this.isLoading = false;
         //Gán data vào biến

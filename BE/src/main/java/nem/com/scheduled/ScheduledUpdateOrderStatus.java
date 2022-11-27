@@ -40,7 +40,7 @@ public class ScheduledUpdateOrderStatus {
         SpringApplication.run(ScheduledUpdateOrderStatus.class, args);
     }
 
-    @Scheduled(cron = "* * */1 * * *")
+//    @Scheduled(cron = "0 */5 * * * *")
     public void scheduledUpdateOrderStatus() throws IOException {
         this.updateStatus();
     }

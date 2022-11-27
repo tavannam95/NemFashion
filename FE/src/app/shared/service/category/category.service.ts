@@ -16,4 +16,7 @@ getAllCategory(){
 createCategory(data: any){
   return this.categoryApiService.createCategory(data);
 }
+findAllByStatus(){
+  return this.categoryApiService.findAllByStatus();
+}
 }
