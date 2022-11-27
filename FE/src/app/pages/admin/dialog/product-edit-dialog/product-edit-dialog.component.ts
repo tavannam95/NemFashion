@@ -91,7 +91,7 @@ export class ProductEditDialogComponent implements OnInit {
   }
 
   getAllCategory(){
-    return this.categoryService.getAllCategory().subscribe({
+    return this.categoryService.findAllByStatus().subscribe({
       next: (res) => {
           //Gán data vào biến
           this.categories = res;

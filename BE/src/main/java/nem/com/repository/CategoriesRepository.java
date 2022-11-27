@@ -18,4 +18,7 @@ public interface CategoriesRepository extends JpaRepository<Categories, Short> {
             " where  pd.color.id is not null and pd.size.id is not null)"  +
             " group by c.id , c.name ")
     List<CategoryDTO> getCategories() ;
+
+    @Query("select c from Categories c where c.status = 1")
+    List<Categories> findAllByStatus();
 }

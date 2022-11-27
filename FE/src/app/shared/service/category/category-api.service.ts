@@ -16,6 +16,9 @@ getCategory(id: number){
   return this.http.get(`${ApiConstant.category}/${id}`);
 }
 
+findAllByStatus(): Observable<any>{
+  return this.http.get(`${ApiConstant.category}/all`);
+}
 
 createCategory(data: any): Observable<any> {
   return this.http.post(ApiConstant.category, data);
