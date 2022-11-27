@@ -246,4 +246,18 @@ export class PreparingProductComponent implements OnInit {
     });
   }
 
+  printOrderCode(){
+    this.ghnService.genToken({order_codes:[this.order.orderCode]}).subscribe({
+      next: (res)=>{
+        this.printOrder = res.data.token;
+        this.matDialog.open(PrintOrderDialogComponent,{
+          data: this.printOrder
+        })
+      },
+      error: (e)=>{
+        console.log(e);
+        
+      }
+    });
+  }
 }

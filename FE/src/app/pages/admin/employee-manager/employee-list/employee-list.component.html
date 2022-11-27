@@ -57,7 +57,7 @@
 
                         <ng-container matColumnDef="role">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Chức vụ </th>
-                            <td mat-cell *matCellDef="let element"> {{element.role.id == 2 ? 'Quản lý' : element.role.id == 3? 'Chủ cửa hàng' : 'Nhân viên'}}</td>
+                            <td mat-cell *matCellDef="let element"> {{element.role.id == 3 ? 'Quản lý' :'Nhân viên'}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="status">
