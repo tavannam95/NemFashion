@@ -64,12 +64,7 @@
                       {{order.orders.customer.fullname}}
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                      <div *ngIf="order.orders.status==0">
                         Mã đơn: #{{order.orders.id}}
-                      </div>
-                      <div *ngIf="order.orders.status!=0">
-                        Mã đơn: {{order.orders.orderCode}}
-                      </div>
                     </div>
                   </div>
                 </mat-card-title>

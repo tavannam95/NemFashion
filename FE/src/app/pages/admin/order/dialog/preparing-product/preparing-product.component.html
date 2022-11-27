@@ -20,6 +20,12 @@
     <span class="col-12">{{order.shipAddress}}</span>
     <span class="h4 font-weight-bold col-12 mt-3">Giá trị đơn hàng</span>
     <span class="col-12">{{order.total| currency:' ':'symbol':'0.0-2'}}VNĐ</span>
+    <div class="col-12">
+      <div class="row" *ngIf="order.status != 0">
+        <span class="h4 font-weight-bold col-12 mt-3">Mã vận chuyển</span>
+        <span class="col-12">{{order.orderCode}}</span>
+      </div>
+    </div>
     <span *ngIf="order.status == 0" class="h4 font-weight-bold col-12 mt-3">Chọn ca lấy hàng</span>
     <mat-error class="text-danger col-12" style="font-size: 14px;" *ngIf="data.get('pickup_time')?.hasError('required') &&
           data.get('pickup_time')?.touched">
