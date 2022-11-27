@@ -80,7 +80,7 @@
                                                             <div class="info-product">
                                                                 <span class="name-product">{{product.name}}</span>
                                                                 <span class="price-product">
-                                                           <span class="price"> {{product.price|currency:'VND'}}</span></span>
+                                                           <span class="price"> {{product.price|currency:' ': '':'0.0-0'}}</span></span>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -154,8 +154,8 @@
                                                             <button (click)="plusQuantity(index)"><i
                                                                     class="fa-solid fa-plus"></i></button>
                                                         </div>
-                                                        <div class="item-price">{{orderDetail.price | currency:'VND' }}</div>
-                                                        <div class="item-total">{{(orderDetail.quantity != '' ? orderDetail.price * orderDetail.quantity : 0)|currency:'VND' }}</div>
+                                                        <div class="item-price">{{orderDetail.price | currency:' ': '':'0.0-0'}}</div>
+                                                        <div class="item-total">{{(orderDetail.quantity != '' ? orderDetail.price * orderDetail.quantity : 0)|currency:' ': '':'0.0-0' }}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -165,7 +165,7 @@
                                                 <div style="font-size: 16px;padding: 4px;color: black;">TỔNG TIỀN HÀNG
                                                     <span class="total-quantity">{{order.totalQuantity}}</span>
                                                 </div>
-                                                <div style="flex: 1;text-align: end">{{order.totalPrice|currency:'VND'}}</div>
+                                                <div style="flex: 1;text-align: end">{{order.totalPrice|currency:' ': '':'0.0-0'}}</div>
                                             </div>
                                             <div>
                                                 <div class="row">
@@ -206,7 +206,7 @@
                                 <div class="payment-content-item">
                                     <div>Tổng tiền hàng <span class="total-quantity">{{order.totalQuantity}}</span>
                                     </div>
-                                    <div class="price">{{order.totalPrice |currency:'VND' :'symbol' : '4.0-0'}}</div>
+                                    <div class="price">{{order.totalPrice |currency:' ': '':'0.0-0'}}</div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div>Giảm giá(%)</div>
@@ -224,7 +224,7 @@
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Khách cần trả</div>
-                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 }}</div>
+                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 |currency:' ': '':'0.0-0'}}</div>
                                 </div>
                                 <div class="payment-content-item" *ngIf="discount<100">
                                     <div class="bold">Khách thanh toán</div>
@@ -243,7 +243,6 @@
                                      *ngIf="customerPayment>order.totalPrice - discount*order.totalPrice/100 && discount < 100">
                                     <div class="bold">Tiền thừa trả khách</div>
                                     <div class="price">{{customerPayment - (order.totalPrice - discount * order.totalPrice / 100)|currency:' ': '':'0.0-0'}}
-                                        đ
                                     </div>
                                 </div>
                             </div>

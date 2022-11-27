@@ -651,6 +651,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                     <h2>NemPhaSun</h2> <h3 >HÓA ĐƠN BÁN HÀNG </h3>
                     </div>
                     <div class="info">
+                        <div>Mã hóa đơn: ${data.id}</div>
                         <div>Khách hàng: ${customer == undefined ? 'Khách lẻ' : customer.fullname}</div>
                         <div>SĐT: ${customer == undefined ? '--' : customer.phone}</div>
                     </div>
