@@ -84,7 +84,6 @@ export class CustomerFormComponent implements OnInit {
     async save() {
         this.trimService.inputTrim(this.formGroup,['fullname','email','password','phone']);
         this.formGroup.markAllAsTouched();
-        console.log(this.formGroup.getRawValue())
         if (this.formGroup.invalid) {
             return;
         }
@@ -107,7 +106,6 @@ export class CustomerFormComponent implements OnInit {
                 if (this.formGroup.getRawValue().photo !== this.avatarDefault && this.formGroup.getRawValue().photo !== null) {
                     const publicId = this.formGroup.getRawValue().photo.split('/').pop().split('.')[0];
                     this.uploadService.delete(publicId).subscribe(res => {
-                        console.log(res)
                     });
                 }
                 this.formGroup.patchValue({photo: this.avatarUrl[0]});

@@ -6,7 +6,7 @@
           <h1 class="gl-modal-h1">Địa chỉ giao hàng</h1>
           <div class="dash__link dash__link--brand">
 
-            <a (click)="openAddNewAddress(TYPE_DIALOG.NEW)">Thêm mới địa chỉ</a></div>
+            <a class="btn btn-light" (click)="openAddNewAddress(TYPE_DIALOG.NEW)">Thêm mới địa chỉ</a></div>
         </div>
       </div>
       <div class="row" *ngIf="addressInCustomer.length == 0">
@@ -54,7 +54,7 @@
             </tbody>
           </table>
         </div>
-        <div class="gl-modal-btn-group">
+        <div class="gl-modal-btn-group d-flex justify-content-end">
           <button class="btn-primary-custom btn-custom--smooth" type="button"
                   (click)="onSaveAddress()" *ngIf="addressInCustomer.length > 0">
             LƯU

@@ -86,7 +86,6 @@ export class EmployeeListComponent implements OnInit {
                      } , 200)
                  } ,200)
              }
-            console.log(rs)
         })
     }
 

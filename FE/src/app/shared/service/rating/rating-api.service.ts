@@ -20,7 +20,6 @@ export class RatingApiService {
   }
 
   updateRating( url: any ){
-      console.log(url)
       return this.http.get(`${ApiConstant.rating}/updateRatingImage?${url}`) ;
   }
 

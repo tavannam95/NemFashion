@@ -15,7 +15,6 @@ export class RoleGuard implements CanActivate {
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        console.log(this.storageService.getRoleFromToken())
         if (this.storageService.getRoleFromToken() === 'ROLE_SUPER_ADMIN') {
             return true;
         }

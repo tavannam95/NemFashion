@@ -137,7 +137,6 @@ export class ProductDetailFormComponent implements OnInit {
       this.toastrService.error('Vui lòng nhập đủ thông tin');
       return;
     }
-    console.log(this.productDetailDto);
     
     this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
       next: (res)=>{

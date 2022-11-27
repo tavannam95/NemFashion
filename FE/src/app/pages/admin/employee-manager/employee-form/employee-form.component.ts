@@ -56,7 +56,6 @@ export class EmployeeFormComponent implements OnInit {
             this.colorBtn = 'btn btn-info'
             this.nameBtn = "Cập nhập"
             this.staff.patchValue( this.dataDialog.row )
-            console.log(this.staff.getRawValue())
         }
     }
 

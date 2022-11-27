@@ -22,12 +22,10 @@ export class PrintBarcodeDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.dataDialog);
     
   }
   printQR(){
     let qty = this.formGroup.value.quantity;
-    console.log(qty);
     this.productService.generateBarcode(this.dataDialog).subscribe(
         {
           next: resp => {
