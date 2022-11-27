@@ -146,8 +146,6 @@ export class StaticalCustomerComponent implements OnInit {
       })
     }
 
-    console.log(this.form.getRawValue())
-
     this.clear() ;
     this.showChart = 0
     this.getStatical() ;

@@ -61,6 +61,12 @@
             <!--======PHƯỜNG / XÃ * ======-->
           </div>
         </div>
+        <div class="gl-inline">
+          <div class="u-s-m-b-30">
+            <label class="gl-label" for="address-other">SỐ NHÀ/THÔN, XÓM  *</label>
+            <input class="input-text input-text--primary-style" type="text" id="address-other" formControlName="other">
+          </div>
+        </div>
         <div class="row">
           <div class="col-6">
             <div class="u-s-m-b-30">
@@ -77,12 +83,7 @@
             </div>
           </div>
         </div>
-        <div class="gl-inline">
-          <div class="u-s-m-b-30">
-            <label class="gl-label" for="address-other">KHÁC </label>
-            <input class="input-text input-text--primary-style" type="text" id="address-other" formControlName="other">
-          </div>
-        </div>
+
         <div class="check-box u-s-m-b-30"
              *ngIf="matDataDialog.row"
              matTooltip="Bạn không thể xoá Địa chỉ mặc định. Hãy đặt địa chỉ khác làm Địa chỉ mặc định của bạn nhé."
@@ -99,7 +100,7 @@
             </label>
           </div>
         </div>
-        <div class="gl-modal-btn-group">
+        <div class="gl-modal-btn-group d-flex justify-content-end">
 
           <button class="btn-primary-custom btn-custom--smooth" type="button" (click)="onSave()">LƯU</button>
 

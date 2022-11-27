@@ -47,7 +47,6 @@ export class StaticalProductComponent implements OnInit {
 
   getStatical(){
     this.staticalService.buyTheMostProduct( this.form.getRawValue() ).subscribe((value: any) => {
-      console.log(value)
       this.listStatic = value
       if( this.listStatic.length != 0 ){
         this.checkEmpty = false ;
@@ -125,8 +124,6 @@ export class StaticalProductComponent implements OnInit {
         endDate: this.formShow.getRawValue().endDate ,
       })
     }
-
-    console.log(this.form.getRawValue())
 
     this.clear() ;
     this.getStatical() ;
