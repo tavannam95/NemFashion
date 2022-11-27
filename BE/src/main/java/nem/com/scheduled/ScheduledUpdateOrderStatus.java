@@ -40,11 +40,13 @@ public class ScheduledUpdateOrderStatus {
         SpringApplication.run(ScheduledUpdateOrderStatus.class, args);
     }
 
-//    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 */5 5-22 * * *")
     public void scheduledUpdateOrderStatus() throws IOException {
+        log.info("scheduledUpdateOrderStatus");
         this.updateStatus();
     }
     private void updateStatus() throws IOException{
+        log.info("updateStatus");
             List<Orders> ordersStatus = this.ordersRepository.getOrderGhnByStatus();
             if (!ordersStatus.isEmpty()){
                 for (int i = 0; i < ordersStatus.size(); i++) {
@@ -80,6 +82,7 @@ public class ScheduledUpdateOrderStatus {
     }
 
     private String getStatusGhn(String orderCode) throws IOException{
+        log.info("getStatusGhn");
         try (CloseableHttpClient client = HttpClients.createDefault()){
             //Call api ghn
             CloseableHttpResponse response = client.execute(this.setHeader(orderCode));
