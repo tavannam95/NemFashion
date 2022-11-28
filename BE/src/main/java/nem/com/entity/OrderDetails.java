@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -31,12 +32,24 @@ public class OrderDetails {
     private Integer quantity;
 
     @Basic
+    @Column(name = "update_name", nullable = true)
+    private String updateName;
+
+    @Basic
+    @Column(name = "update_date", nullable = true)
+    private Date updatedDate;
+
+    @Basic
     @Column(name = "rating_status", nullable = true)
     private Short ratingStatus;
 
     @Basic
     @Column(name = "discount", nullable = true, precision = 0)
     private Double discount;
+
+    @Basic
+    @Column(name = "note", nullable = true)
+    private String note;
 
     @Basic
     @Column(name = "status", nullable = true)

@@ -31,6 +31,14 @@ public class Orders {
     private Date shippedDate;
 
     @Basic
+    @Column(name = "update_date", nullable = true)
+    private Date updatedDate;
+
+    @Basic
+    @Column(name = "update_name", nullable = true)
+    private String updateName;
+
+    @Basic
     @Column(name = "freight", nullable = true, precision = 0)
     private Double freight;
 
