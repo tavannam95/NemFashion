@@ -39,7 +39,6 @@ export class RatingComponent implements OnInit {
 
   getAllRatingImage( data: any ) {
       return this.ratingService.getRatingsImage(  data).subscribe( value => {
-          console.log( 'rating Image', value)
           this.listImageRating = value ;
       })
   }
@@ -115,7 +114,6 @@ export class RatingComponent implements OnInit {
       return;
     }
     this.selection.select(...this.dataSource.data);
-    console.log('toggleAllrow')
   }
 
   /** The label for the checkbox on the passed row */
@@ -126,11 +124,9 @@ export class RatingComponent implements OnInit {
 
     if( this.selection.isSelected(row) && this.checkExit(row) ){
       this.array.push(row)
-      console.log('success' , this.array)
     } else {
        if( this.selection.isSelected(row) == false && this.checkExit(row) == false ){
          this.array = this.array.filter( x => x.id != row.id )
-         console.log('error' , this.array)
        }
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;

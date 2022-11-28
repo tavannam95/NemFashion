@@ -194,7 +194,6 @@ export class SellingComponent implements OnInit, OnDestroy {
                 // this.getItemLocalStorage();
 
             }
-            console.log(value);
         })
     }
 
@@ -577,7 +576,6 @@ export class SellingComponent implements OnInit, OnDestroy {
 
             }
         })
-        console.log(lstProductId);
     }
 
 
@@ -621,7 +619,6 @@ export class SellingComponent implements OnInit, OnDestroy {
 
 
     print(data) {
-        console.log(data);
         let customer = this.listCustomers.find(cus => cus.id == data.customer)
         const formatter = new Intl.NumberFormat();
         let text = '';
@@ -728,7 +725,6 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     onCodeResult(resultString: string) {
-        console.log(resultString);
         this.qrResultString = "0";
         let qrResult = resultString.substring(0, resultString.length - 1);
         this.productService.getByBarcode(qrResult).subscribe({

@@ -46,7 +46,6 @@ export class EmployeeImageComponent implements OnInit {
         try {
             this.avatarUrl = await this.uploadService.upload(formData).toPromise();
             this.employee.photo = this.avatarUrl[0]
-            console.log( this.avatarUrl )
             this.employeeService.updateEmployee(this.employee);
 
             this.employeeService.isCloseDialog.subscribe(

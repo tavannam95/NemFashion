@@ -67,12 +67,12 @@
                         <label for="price-min"></label>
                         <input class="input-text input-text--primary-style"
                                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
-                               formControlName="min" type="text" id="price-min" placeholder="Min"></div>
+                               formControlName="min" type="text" id="price-min" placeholder="Thấp nhất"></div>
                       <div>
                         <label for="price-max"></label>
                         <input class="input-text input-text--primary-style"
                                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
-                               formControlName="max" type="text" id="price-max" placeholder="Max"></div>
+                               formControlName="max" type="text" id="price-max" placeholder="Cao nhất"></div>
                       <div>
                         <button class="btn btn-warning" type="button" (click)="getAllByPrice()">
                           <i class="fas fa-search"></i>
@@ -135,14 +135,8 @@
         <div class="shop-p">
 
           <div  class="shop-p__toolbar u-s-m-b-30">
-            <div class="shop-p__tool-style">
+            <div class="shop-p__tool-style d-flex justify-content-end">
               <div class="tool-style__group u-s-m-b-8">
-
-                <span class="js-shop-filter-target" data-side="#side-filter">Filters</span>
-
-                <span class="js-shop-grid-target is-active">Grid</span>
-
-                <span class="js-shop-list-target">List</span></div>
               <form>
                 <div class="tool-style__form-wrap">
                   <div class="u-s-m-b-8">
@@ -156,8 +150,8 @@
                   <div class="u-s-m-b-8"><select class="select-box select-box--transparent-b-2" (click)="showProSort()"
                                                  [(ngModel)]="sortPrice" name="sortPrice">
                     <option disabled value="0">Giá</option>
-                    <option value="1">Giá: thấp đến cao</option>
-                    <option value="2">Giá: cao đến thấp</option>
+                    <option value="1">Giá: Thấp đến cao</option>
+                    <option value="2">Giá: Cao đến thấp</option>
                   </select></div>
                 </div>
               </form>

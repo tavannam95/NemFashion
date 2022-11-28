@@ -33,7 +33,7 @@ export class AddNewAddressComponent implements OnInit {
     districtName: [''],
     wardId: [-1],
     wardName: [''],
-    other: [],
+    other: [''],
     customer: {
       id: this.storageService.getIdFromToken()
     },
@@ -105,7 +105,9 @@ export class AddNewAddressComponent implements OnInit {
     this.formGroup.getRawValue().districtId === -1 ||
     this.formGroup.getRawValue().wardId === -1 ||
     this.formGroup.getRawValue().fullname === '' ||
-    this.formGroup.getRawValue().phone === '') {
+    this.formGroup.getRawValue().phone === '' ||
+    this.formGroup.getRawValue().other === ''
+    ) {
       this.toastService.warning("Vui lòng chọn đầy đủ thông tin !")
       return;
     }

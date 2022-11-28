@@ -64,7 +64,6 @@ export class EmployeeService {
     updateEmployeeStatus( employee: any ) {
         this.emApi.updateStatus(employee).subscribe({
             next: value => {
-                console.log(1)
                 this.toast.success('Cập nhập thành công')
                 this.isCloseDialog.next(true)
             },

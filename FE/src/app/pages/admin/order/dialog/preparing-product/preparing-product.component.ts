@@ -159,6 +159,28 @@ export class PreparingProductComponent implements OnInit {
     return this.data.disabled ? true : this.data.valid
   }
 
+  cancelStatus(){
+    this.matDialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+          message: 'Bạn có muốn hủy đơn không?'
+      }
+  }).afterClosed().subscribe(result => {
+      if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.orderService.updateStatus(this.order,4).subscribe({
+          next: (res)=>{
+            this.toastrService.success('Hủy đơn thành công');
+          },
+          error: (e)=>{
+            this.toastrService.error('Hủy đơn thất bại');
+            console.log(e);
+            
+          }
+        })
+      }
+  })
+  }
 
   createOrderGhn(){
     this.isLoading = true;

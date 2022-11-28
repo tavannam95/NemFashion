@@ -14,8 +14,6 @@ export function MustMatch(controlName: string, matchingControlName: string) {
         const matchingControl = formGroup.controls[matchingControlName];
 
         if (control.value !== matchingControl.value) {
-            console.log('lỗi mịa m rồi' +
-                '')
             matchingControl.setErrors({ mustMatch: true });
         } else {
             matchingControl.setErrors(null);
