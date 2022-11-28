@@ -3,6 +3,9 @@ import {CartService} from "../../shared/service/cart-service/cart-service";
 import {StorageService} from "../../shared/service/storage.service";
 import {DOCUMENT} from "@angular/common";
 import {Subscription} from "rxjs";
+import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
+import {Constants} from "../../shared/constants/constants.module";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +20,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private readonly cartService: CartService,
               public readonly storageService: StorageService,
+              private readonly matDialog: MatDialog
   ) {
   }
 
@@ -36,7 +40,6 @@ export class NavbarComponent implements OnInit {
   findAllByCustomerId(customerId: number) {
     this.cartService.findAllByCustomerId(customerId).subscribe((res: any) => {
       this.carts = res as any[];
-      console.log("Nav bar findAllByCustomerId: " + this.carts)
       if (this.carts.length > 0) {
         this.subTotal = this.carts
           .map(c => c.productsDetail.product.price * c.quantity)
@@ -50,13 +53,24 @@ export class NavbarComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    this.cartService.deleteCart(id);
-    this.cartService.isReload.subscribe((data) => {
-      if (data) {
-        this.findAllByCustomerId(this.storageService.getIdFromToken());
-        this.cartService.isReload.next(false);
+    this.matDialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      width: "25vw",
+      data: {
+        message: 'Bạn có muốn đặt đơn hàng này?'
       }
-    }).unsubscribe();
+    }).afterClosed().subscribe((result:any) => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.cartService.deleteCart(id);
+        this.cartService.isReload.subscribe((data) => {
+          if (data) {
+            this.findAllByCustomerId(this.storageService.getIdFromToken());
+            this.cartService.isReload.next(false);
+          }
+        }).unsubscribe();
+      }
+    })
   }
 
 }

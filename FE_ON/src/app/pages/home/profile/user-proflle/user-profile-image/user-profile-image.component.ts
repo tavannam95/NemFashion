@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {UserProflleComponent} from "../user-proflle.component";
+import {CustomerService} from "../../../../../shared/service/customer/customer.service";
+import {StorageService} from "../../../../../shared/service/storage.service";
+import {UploadCloudinaryService} from "../../../../../shared/service/cloudinary/upload-cloudinary.service";
+import {Constants} from "../../../../../shared/constants/constants.module";
 
 @Component({
   selector: 'app-user-profile-image',
@@ -13,9 +17,11 @@ export class UserProfileImageComponent implements OnInit {
   avatarFile: any[] = [];
   avatarUrl!: any;
   employee: any;
-  avatarUrlEdit: any;
 
-  constructor( private dialogRef: MatDialogRef<UserProflleComponent>)   {
+  constructor(private dialogRef: MatDialogRef<UserProflleComponent>,
+              private customerService: CustomerService,
+              private storageService: StorageService,
+              private uploadService: UploadCloudinaryService) {
   }
 
   ngOnInit(): void {
@@ -29,30 +35,28 @@ export class UserProfileImageComponent implements OnInit {
     this.avatarFile = event.addedFiles;
   }
 
-  saveImage(){
+  saveImage() {
     this.uploadImage()
   }
 
   async uploadImage() {
-    // const formData = new FormData();
-    // formData.append('files', this.avatarFile[0]);
-    // try {
-    //   this.avatarUrl = await this.uploadService.upload(formData).toPromise();
-    //   this.employee.photo = this.avatarUrl[0]
-    //   console.log( this.avatarUrl )
-    //   this.employeeService.updateEmployee(this.employee);
-    //
-    //   this.employeeService.isCloseDialog.subscribe(
-    //     value => {
-    //       if (value) {
-    //         this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.SUCCESS)
-    //         this.employeeService.isCloseDialog.next(false);
-    //       }
-    //     }
-    //   )
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    const formData = new FormData();
+    formData.append('files', this.avatarFile[0]);
+    this.avatarUrl = await this.uploadService.upload(formData).toPromise();
+    console.log(this.avatarUrl)
+    this.customerService.getCustomer(this.storageService.getIdFromToken()).subscribe(res => {
+      res.photo = this.avatarUrl[0];
+      this.customerService.updateCustomer(res, res.id);
+      this.customerService.isCloseDialog.subscribe(
+        value => {
+          if (value) {
+            this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS)
+            this.customerService.isCloseDialog.next(false);
+          }
+        }
+      )
+    })
+
   }
 
   onRemove(f: any) {

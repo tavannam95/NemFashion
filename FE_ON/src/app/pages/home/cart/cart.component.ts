@@ -24,6 +24,7 @@ export class CartComponent implements OnInit {
   subTotal: number = 0;
   quantity: number = 0;
   customer: any;
+  weight: number = 0;
 
   provinces!: any[];
   districts!: any[];
@@ -73,13 +74,18 @@ export class CartComponent implements OnInit {
   findAllByCustomerId() {
     return this.cartService.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe(res => {
       this.carts = res as any[];
-      console.log("findAllByCustomerId cart", this.carts)
       if (this.carts.length > 0) {
         this.subTotal = this.carts
           .map(c => c.productsDetail.product.price * c.quantity)
           .reduce((value, total) => value + total, 0);
+
+        this.weight = this.carts
+          .map(c => c.productsDetail.product.weight * c.quantity)
+          .reduce((value, total) => value + total, 0);
+
       } else {
         this.subTotal = 0;
+        this.weight = 0;
       }
     })
   }
@@ -206,6 +212,8 @@ export class CartComponent implements OnInit {
       "from_district": 3440,
       "to_district": districtId
     }
+    console.log(this.weight)
+    console.log(this.subTotal)
     //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
     this.addressService.getService(data).subscribe((res: any) => {
       console.log(res.data)
@@ -216,7 +224,7 @@ export class CartComponent implements OnInit {
         "from_district_id": 3440,
         "to_district_id": data.to_district,
         // "to_ward_code": "20314",
-        "weight": 1000
+        "weight": this.weight
       }
       //getShippingOrder tính phí vận chuyển
       this.addressService.getShippingOrder(shippingOrder).subscribe((res: any) => {
@@ -280,7 +288,7 @@ export class CartComponent implements OnInit {
       if (this.formGroup.getRawValue().district === -1 ||
         this.formGroup.getRawValue().province === -1 ||
         this.formGroup.getRawValue().ward === -1 ||
-        shipPhone?.trim() === '' || shipName?.trim() === '') {
+        shipPhone?.trim() === '' || shipName?.trim() === '' || other?.trim() === '') {
         this.toastService.warning("Vui lòng nhập đầy đủ thông tin !")
         return;
       }
@@ -297,7 +305,6 @@ export class CartComponent implements OnInit {
       order.shipAddress = address.join(", ")
       order.shipPhone = shipPhone.trim()
       order.shipName = shipName!.trim()
-      console.log(order)
     } else {
       if (!this.address) {
         this.toastService.warning("Vui lòng chọn địa chỉ mặc định trước khi thanh toán !");
@@ -316,7 +323,6 @@ export class CartComponent implements OnInit {
       order: order,
       listCarts: this.carts
     }
-    console.log(checkOutData)
 
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
@@ -376,13 +382,27 @@ export class CartComponent implements OnInit {
           })
         }
       })
+    } else {
+      this.matDialog.open(EditAddressComponent, {
+        width: '50vw',
+        height: '21w',
+        disableClose: true,
+        hasBackdrop: true,
+      }).afterClosed().subscribe(data => {
+        if (data !== 'close' && data !== undefined) {
+          this.addressService.findAddressById(data).subscribe(data => {
+            this.address = data;
+            this.getShippingFee(this.address.districtId)
+            console.log(this.address)
+          })
+        }
+      })
     }
   }
 
   findAddressByStatus(customerId: number) {
     this.addressService.findAddressByStatus(customerId).subscribe((res: any) => {
       this.address = res;
-      console.log(this.address)
     })
   }
 

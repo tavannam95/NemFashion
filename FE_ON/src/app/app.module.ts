@@ -17,6 +17,7 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
 import {ToastrModule} from "ngx-toastr";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {httpInterceptorProviders} from "./shared/intercepror/http-request.interceptor";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import {httpInterceptorProviders} from "./shared/intercepror/http-request.interc
     FormsModule,
     ReactiveFormsModule,
     SlickCarouselModule,
+    MatDialogModule
   ],
   providers: [httpInterceptorProviders],
   exports: [],

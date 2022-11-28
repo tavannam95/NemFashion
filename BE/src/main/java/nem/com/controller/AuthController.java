@@ -98,6 +98,7 @@ public class AuthController {
     @PostMapping("user/register")
     public ResponseEntity<Customers> registerUser(@RequestBody RegisterFormUser request) {
         Customers customer = this.mapper.map(request, Customers.class);
+        customer.setStatus((short) 1);
         return new ResponseEntity<>(this.customerService.save(customer), HttpStatus.OK);
     }
 

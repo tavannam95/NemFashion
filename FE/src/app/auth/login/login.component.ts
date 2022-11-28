@@ -43,8 +43,13 @@ export class LoginComponent implements OnInit {
             .subscribe({
                 next: (res) => {
                     this.storageService.saveUserToken(res);
-                    this.router.navigate(['/dashboard'])
-                        .then(() => this.authService.reloadPage())
+                    console.log(this.storageService.getRoleFromToken())
+                    if(this.storageService.getRoleFromToken() === 'ROLE_ADMIN'){
+                        this.router.navigate(['/selling'])
+                    }else{
+                        this.router.navigate(['/dashboard'])
+                            .then(() => this.authService.reloadPage())
+                    }
                 },
                 error: (err) => {
                     if (err.error.code == 'LOGIN_INVALID') {
