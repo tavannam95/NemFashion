@@ -39,4 +39,7 @@ export class ProductService {
         return this.apiService.generateBarcode(id);
     }
 
+    getProByCate( data: any ){
+        return this.apiService.getProByCate(data) ;
+    }
 }

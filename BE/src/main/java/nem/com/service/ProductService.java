@@ -1,5 +1,6 @@
 package nem.com.service;
 
+import nem.com.dto.request.SearchProByCateDTO;
 import nem.com.entity.Products;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -26,4 +27,6 @@ public interface ProductService {
     Products update(Products products);
     void delete(Integer id);
     List<Products> findByCate(Short id);
+
+    List<Products> findProductByCate(SearchProByCateDTO request) ;
 }

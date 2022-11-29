@@ -33,5 +33,4 @@ public class CategoryController {
         categories.setCreateDate(new Date());
         return new ResponseEntity<>(this.categoryService.save(categories),HttpStatus.OK);
     }
-
 }
