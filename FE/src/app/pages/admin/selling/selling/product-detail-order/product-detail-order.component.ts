@@ -118,6 +118,7 @@ export class ProductDetailOrderComponent implements OnInit {
                     this.productDetailOrder[0].price = this.product.price;
                     this.productDetailOrder[0].quantityInventory = this.quantityInventory;
                     this.productDetailOrder[0].productName = this.product.name;
+                    this.productDetailOrder[0].weight = this.product.weight;
                     this.matDialogRef.close(this.productDetailOrder[0]);
                 }else{
                         this.message = 'Số lượng không hợp lệ';

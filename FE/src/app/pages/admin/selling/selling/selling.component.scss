@@ -220,6 +220,8 @@ div#mat-menu-panel-0 {
     width: 100%;
     border-bottom: 2px dashed gray;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .seach-kh {
@@ -273,7 +275,15 @@ div#mat-menu-panel-0 {
     cursor: pointer;
 }
 
-
+.radio-selling{
+    padding-left: 20px;
+    padding-top: 10px;
+    .mat-radio-button{
+        label{
+            color: black;
+        }
+    }
+}
 
 .mat-ripple-element{
     display: none;
@@ -894,6 +904,29 @@ mat-drawer {
         color: #fff;
         $mg: 8px;
         margin: (-$mg) (-$mg) (-$mg) $mg;
+    }
+}
+
+// SHIPPING
+.car {
+    .select-box {
+        max-width: 100%;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 10px 12px 11px 15px;
+        cursor: pointer;
+        line-height: 1;
+        background-color: #f1f1f1;
+        border-radius: 8px;
+    }
+    .input-text{
+        height: 35px;
+        border: none;
+        background: #f1f1f1;
+        border-radius: 8px;
+        width: 100%;
+        padding: 0 18px;
+        font-size: 13px;
     }
 }
 

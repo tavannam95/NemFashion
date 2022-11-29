@@ -4,5 +4,6 @@ export const Ghn = {
     KHONGCHOXEMHANG: "KHONGCHOXEMHANG",
     TOKEN: "bd7afdaa-61da-11ed-889d-7acb4388671e",
     SHOP_ID: "120561",
-    CONTENT_TYPE: "application/json"
+    CONTENT_TYPE: "application/json",
+    SHOP_ID_NUMBER : 120561
 }

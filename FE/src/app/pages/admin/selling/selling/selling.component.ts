@@ -18,6 +18,8 @@ import printJS from 'print-js';
 import {ProductService} from "../../../../shared/service/product/product.service";
 import {StorageService} from "../../../../shared/service/storage.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {GhnService} from "../../../../shared/service/ghn/ghn.service";
+import {Ghn} from "../../../../shared/constants/Ghn";
 
 @Component({
     selector: 'selling',
@@ -35,7 +37,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                 private toast: ToastrService,
                 private productService: ProductService,
                 private storageService: StorageService,
-                private sanitizer: DomSanitizer) {
+                private ghnService: GhnService) {
     }
 
     options = {prefix: '', thousands: ',', precision: '0', allowNegative: 'false'}
@@ -62,12 +64,25 @@ export class SellingComponent implements OnInit, OnDestroy {
     listTien: any = [];
     customerPayment;
     scanner2: any;
+    formality:number = 0;
+    provinces!:any[];
+    wards!:any[];
+    district!:any[];
+    proviceName:any;
+    wardName:any;
+    districtName:any;
+    wardId:number = -1;
+    provinceId:number = -1;
+    districtId:number = -1;
+    serviceId:any;
+    shippingTotal:any;
 
     ngOnInit(): void {
         this.getListCate();
         this.getListCustomer();
         this.getAllProduct();
         setTimeout(() => this.load(), 2000);
+        this.getProvince();
     }
 
 
@@ -99,6 +114,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             this.getItemLocalStorage();
             this.getItemByTabs();
         }
+        this.quantityDetail = [];
     }
 
     getListCustomer() {
@@ -173,6 +189,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             }
         }).afterClosed().subscribe(value => {
             if (!(value == null || value == undefined)) {
+                console.log(value);
                 let hd: any = {};
                 hd.id = this.tabs[this.selected.value];
                 hd.note = '';
@@ -187,6 +204,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                     sizeId: value.sizeId,
                     sizeCode: value.nameSize,
                     name: value.productName,
+                    weight: value.weight
                 };
                 this.pushDataToLocalStorage(hd);
                 // localStorage.setItem('order',JSON.stringify(hd));
@@ -221,6 +239,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             order.note = '';
             order.customer = '';
             order.orderDetail = [];
+            order.totalWeight = 0;
             orders.push(order);
             this.order = order;
             this.setOrderLocalStorage(orders);
@@ -234,6 +253,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             order.id = this.tabs[this.tabs.length - 1];
             order.totalPrice = 0;
             order.totalQuantity = 0;
+            order.totalWeight = 0;
             order.note = '';
             order.customer = '';
             order.orderDetail = [];
@@ -254,22 +274,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     pushDataToLocalStorage(item: any) {
-        // let ordersLocal = localStorage.getItem('order');
-        // if (ordersLocal === null) {
-        //     let orders: any = [];
-        //     let order: any = {};
-        //     order.id = this.tabs[this.selected.value];
-        //     order.totalPrice = item.detail.quantity * item.detail.price;
-        //     order.totalQuantity = item.detail.quantity;
-        //     order.note = '';
-        //     order.orderDetail = [];
-        //     order.orderDetail.push(item.detail);
-        //     orders.push(order);
-        //     this.order = order;
-        //     this.listOrders = orders;
-        //     this.setOrderLocalStorage(orders);
-        // } else {
-        //     let orderLocalArray = JSON.parse(ordersLocal);
+        console.log(item);
         let orderLocalArray = this.listOrders;
         let orderIndex = orderLocalArray.findIndex(o => o.id == this.tabs[this.selected.value]);
         let order = orderLocalArray[orderIndex];
@@ -278,6 +283,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             order.id = this.tabs[this.selected.value];
             order.totalPrice = item.detail.quantity * item.detail.price;
             order.totalQuantity = item.detail.quantity;
+            order.totalWeight = item.detail.quantity * item.detail.weight;
             this.quantityDetail.push(item.detail.quantity);
             order.note = '';
             order.customer = ''
@@ -292,6 +298,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                 order.orderDetail.push(item.detail);
                 this.quantityDetail.push(item.detail.quantity);
                 order.totalPrice += item.detail.quantity * item.detail.price;
+                order.totalWeight += item.detail.quantity * item.detail.weight;
                 order.totalQuantity += item.detail.quantity;
             } else {
                 orderDetail.quantity += item.detail.quantity; //40
@@ -299,10 +306,12 @@ export class SellingComponent implements OnInit, OnDestroy {
                 if (orderDetail.quantity > item.detail.quantityInventory) {
                     order.totalQuantity += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory));
                     order.totalPrice += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.price;
+                    order.totalWeight +=  (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.weight;
                     orderDetail.quantity = item.detail.quantityInventory;
                 } else {
                     order.totalQuantity += item.detail.quantity;
                     order.totalPrice += item.detail.quantity * item.detail.price;
+                    order.totalWeight += item.detail.quantity * item.detail.weight;
                 }
                 this.quantityDetail[orderDetailIndex] = orderDetail.quantity;
 
@@ -792,6 +801,75 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.tryHarder = !this.tryHarder;
     }
 
+
+    SHIP
+    getProvince() {
+        this.ghnService.getProvince().subscribe((res: any) => {
+            this.provinces = res.data;
+        })
+    }
+    //
+    getDistrict(provinceId: any, provinceName: any) {
+        let data = {"province_id": provinceId};
+        this.ghnService.getDistrict(data).subscribe((res: any) => {
+            this.district = res.data;
+        })
+        this.proviceName = provinceName;
+    }
+    //
+    getWard(districtId: any, districtName: any) {
+        let data = {"district_id": districtId};
+        this.ghnService.getWard(data).subscribe((res: any) => {
+            this.wards = res.data;
+        })
+        this.districtName = districtName;
+        this.districtId = districtId;
+    }
+
+    resetDistrictAndWard() {
+        this.wardId = -1;
+        this.districtId = -1;
+        this.district = [];
+        this.wards = [];
+        this.shippingTotal = 0;
+    }
+
+    resetWard() {
+
+        this.wardId = -1;
+        this.wards = [];
+    }
+
+    getWardName(wardName: any) {
+        this.wardName = wardName;
+        this.getShippingFee(this.districtId);
+    }
+
+    //Api tinh phí vận chuyển
+    getShippingFee(districtId: any) {
+        const data = {
+            "shop_id": Ghn.SHOP_ID_NUMBER,
+            "from_district": 3440,
+            "to_district": districtId
+        }
+        //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
+        this.ghnService.getService(data).subscribe((res: any) => {
+            console.log(res.data)
+            this.serviceId = res.data[0].service_id;
+            const shippingOrder = {
+                "service_id": this.serviceId,
+                "insurance_value": this.order.totalPrice,
+                "from_district_id": 3440,
+                "to_district_id": data.to_district,
+                "weight": this.order.totalWeight
+            }
+            //getShippingOrder tính phí vận chuyển
+            this.ghnService.getShippingOrder(shippingOrder).subscribe((res: any) => {
+                console.log(res)
+                this.shippingTotal = res.data.total;
+            })
+        })
+    }
 }
 
 

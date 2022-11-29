@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GhnApiService } from './ghn-api.service';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,26 @@ export class GhnService {
   }
   cancelOrder(orderCode: any){
     return this.ghnApiService.cancelOrderGhn(orderCode);
+  }
+
+  getProvince(){
+    return this.ghnApiService.getProvince();
+  }
+
+  getDistrict(data:any){
+    return this.ghnApiService.getDistrict(data);
+  }
+
+  getWard(data:any){
+    return this.ghnApiService.getWard(data);
+  }
+
+  getService(data:any){
+    return this.ghnApiService.getService(data);
+  }
+
+  getShippingOrder(data:any){
+    return this.ghnApiService.getShippingOrder(data);
   }
 
 }
