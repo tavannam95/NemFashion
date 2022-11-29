@@ -4,7 +4,6 @@ import {SellingService} from "../../../../shared/service/selling/selling.service
 import {MatDialog} from "@angular/material/dialog";
 import {ProductDetailOrderComponent} from "./product-detail-order/product-detail-order.component";
 import {Constant} from "../../../../shared/constants/Constant";
-import {btoa} from "buffer";
 import {CustomerService} from "../../../../shared/service/customer/customer.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
@@ -165,7 +164,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     openDialog(product: any) {
         this.productInput.setValue('');
         this.dialog.open(ProductDetailOrderComponent, {
-            width: '30vw',
+            width: '40vw',
             disableClose: true,
             hasBackdrop: true,
             data: {

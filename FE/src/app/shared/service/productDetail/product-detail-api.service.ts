@@ -20,4 +20,10 @@ getProductDetailById(data: any): Observable<any>{
   return this.http.get(`${ApiConstant.productDetail}/product/${data}`);
 }
 
+getOneProductDetail(id: any): Observable<any>{
+  return this.http.get(`${ApiConstant.productDetail}/${id}`);
+}
+updateProductDetail(data: any){
+  return this.http.put(`${ApiConstant.productDetail}/${data.id}`,data);
+}
 }

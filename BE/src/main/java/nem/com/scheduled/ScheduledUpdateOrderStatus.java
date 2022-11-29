@@ -51,7 +51,7 @@ public class ScheduledUpdateOrderStatus {
             if (!ordersStatus.isEmpty()){
                 for (int i = 0; i < ordersStatus.size(); i++) {
                     String statusGhn = this.getStatusGhn(ordersStatus.get(i).getOrderCode());
-                    if (OrderStatus.checkStatusOrder(statusGhn)){
+                    if (OrderStatus.checkStatusOrder(statusGhn) && !statusGhn.equals(OrderStatus.READY_TO_PICK.getStatus())){
                         int statusGhnNumber = Objects.requireNonNull(OrderStatusEnum.valueOfStatus(statusGhn)).getValueNumber();
                         if (ordersStatus.get(i).getStatus() != statusGhnNumber){
                             Orders orders = ordersStatus.get(i);

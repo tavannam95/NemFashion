@@ -273,6 +273,7 @@
                             <div class="ship-b__box u-s-m-b-10">
                               <p class="ship-b__p" *ngIf="address?.id">
                                 {{address?.fullname + ', ' + address?.phone}}
+                                <br>
                                 {{address?.wardName + ', ' + address?.districtName + ', ' + address?.provinceName}}
                               </p>
                               <p class="ship-b__p" *ngIf="!address?.id">

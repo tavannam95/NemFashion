@@ -16,4 +16,10 @@ createProductDetail(data: any){
 getProductDetailById(data: any){
   return this.apiService.getProductDetailById(data);
 }
+getOneProductDetail(id: any){
+  return this.apiService.getOneProductDetail(id);
+}
+updateProductDetail(data: any){
+  return this.apiService.updateProductDetail(data);
+}
 }

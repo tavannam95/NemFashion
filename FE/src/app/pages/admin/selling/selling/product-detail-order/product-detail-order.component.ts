@@ -2,10 +2,6 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SellingComponent} from "../selling.component";
 import {SellingService} from "../../../../../shared/service/selling/selling.service";
-import {logging} from "protractor";
-import {quantity} from "chartist";
-import {Constant} from "../../../../../shared/constants/Constant";
-import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'product-detail-order',
@@ -14,7 +10,7 @@ import {FormControl} from "@angular/forms";
 })
 export class ProductDetailOrderComponent implements OnInit {
 
-    constructor(private matDialogRef: MatDialogRef<SellingComponent>,
+    constructor(private matDialogRef: MatDialogRef<ProductDetailOrderComponent>,
                 private sellingService: SellingService,
                 @Inject(MAT_DIALOG_DATA) public dataDialog?: any,
     ) {
