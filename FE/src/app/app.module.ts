@@ -17,15 +17,15 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {EmployeeImageComponent} from './pages/admin/employee-manager/employee-image/employee-image.component';
 import {NgxDropzoneModule} from 'ngx-dropzone'
-import {LoadingComponent} from './shared/loading/loading.component';
-import {NgSelectModule} from '@ng-select/ng-select';
 import {
     ProductImageCreateDialogComponent
 } from './pages/admin/dialog/product-view-dialog/product-image-create-dialog/product-image-create-dialog.component';
 import {httpInterceptorProviders} from './shared/intercepror/http-request.interceptor';
-import { RatingComponent } from './pages/admin/rating-manager/rating.component';
-import { MatPaginatorIntl } from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import { CustomPaginator } from './shared/util/CustomPaginatorConfiguration';
+import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
     imports: [
@@ -50,6 +50,10 @@ import { CustomPaginator } from './shared/util/CustomPaginatorConfiguration';
         MatDatepickerModule,
         MatNativeDateModule,
         NgxDropzoneModule,
+        MatSelectModule ,
+        MatTableModule ,
+        MatPaginatorModule,
+        MatCheckboxModule,
     ],
     declarations: [
         AppComponent,

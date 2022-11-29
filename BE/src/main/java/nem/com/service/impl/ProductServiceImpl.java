@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.dto.request.SearchProByCateDTO;
 import nem.com.entity.Products;
 import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.ProductsRepository;
@@ -79,5 +80,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Products> findByCate(Short id){
         return productsRepository.findByCate(id);
-    };
+    }
+
+    @Override
+    public List<Products> findProductByCate(SearchProByCateDTO request) {
+        return this.productsRepository.findProByCate( request.getCategory() , request.getStartPrice() , request.getEndPrice() );
+    }
 }

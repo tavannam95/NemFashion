@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <span class="main-content-label" style="font-size: 26px; font-weight: 500;">{{ title }}</span>
+            <!-- <span class="fa-solid fa-xmark icon-close" style="font-size: 16px; cursor: pointer;"
+                  (click)="onDismiss()"></span> -->
+        </div>
+    </div>
+    <form class="row mt-3" [formGroup]="form">
+        <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Tên khuyến mãi</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Ngày bắt đầu</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="startDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Ngày kết thúc</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="andDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-4">
+            <mat-label>Giảm giá</mat-label>
+            <input matInput formControlName="discount">
+        </mat-form-field>
+
+        <mat-form-field class="col-4" appearance="outline">
+            <mat-label>Trạng thái</mat-label>
+            <mat-select formControlName="status">
+                <mat-option [value]="1">Hoạt động</mat-option>
+                <mat-option [value]="2">Ngừng hoạt động</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="col-12 d-flex justify-content-center">
+            <button type="button" mat-button class="bg-warning" >Lưu lại</button>
+            <button type="button" mat-button class="bg-danger mx-3" (click)="onClose()">Đóng</button>
+        </div>
+    </form>
+</div>

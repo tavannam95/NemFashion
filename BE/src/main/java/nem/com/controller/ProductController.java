@@ -1,5 +1,6 @@
 package nem.com.controller;
 
+import nem.com.dto.request.SearchProByCateDTO;
 import nem.com.entity.Products;
 import nem.com.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -92,5 +93,10 @@ public class ProductController {
     @GetMapping("getProSimilar")
     public ResponseEntity<List<Products>> getProductsSimilar( @RequestParam("idCate") Short id ) {
         return ResponseEntity.ok(this.productService.getProductsSimilar(id) );
+    }
+
+    @PostMapping("findProByCate")
+    public ResponseEntity<List<Products>> findProByCate(@RequestBody SearchProByCateDTO request){
+        return ResponseEntity.ok(this.productService.findProductByCate(request) );
     }
 }

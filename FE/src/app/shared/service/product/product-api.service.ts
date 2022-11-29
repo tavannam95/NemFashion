@@ -44,4 +44,8 @@ export class ProductApiService {
         return this.http.get(`${ApiConstant.productDetail}/generateBarcode/${id}`)
     }
 
+    getProByCate( data: any ){
+        return this.http.post(`${ApiConstant.product}/findProByCate` , data)
+    }
+
 }

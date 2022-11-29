@@ -49,4 +49,8 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
             "                                 order by sum(od.quantity) desc \n" +
             "                                 limit 0 , 10 " , nativeQuery = true)
     List<Products> getProductByCategory( @Param("id") Short id ) ;
+
+    @Query("select p from Products p where ( :id is null or p.category.id = :id ) and (:startPrice is null or p.price >= :startPrice)" +
+            "and (:endPrice is null or :endPrice >= p.price )")
+    List<Products> findProByCate(@Param("id") Short id , @Param("startPrice") Double start , @Param("endPrice") Double end) ;
 }

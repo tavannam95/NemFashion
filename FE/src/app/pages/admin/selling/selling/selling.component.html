@@ -24,7 +24,7 @@
                         </button>
                     </mat-menu>
                 </div>
-                <form class="example-form" *ngIf="tabs.length > 0">
+                <form class="example-form" >
                     <input class="input" [formControl]="productInput" [matAutocomplete]="auto1"
                            placeholder="Vui lòng nhập tìm kiếm">
                     <mat-autocomplete #auto1="matAutocomplete">
@@ -33,7 +33,7 @@
 
                                 <div class="img-product-search">
                                     <img
-                                         src="{{pro.thumnail}}">
+                                         src="https://cdn-app.kiotviet.vn/sample/fashion/26.png">
                                 </div>
                                 <div class="info-product-search">
                                     <p class="name-product-search" #tooltip="matTooltip"
@@ -44,7 +44,6 @@
                         </mat-option>
                     </mat-autocomplete>
                 </form>
-                <div (click)="openDialogSacnner(scanner)" *ngIf="tabs.length > 0" class="scanner"><i class="fa-solid fa-barcode"></i></div>
                 <mat-tab-group [selectedIndex]="selected.value" [color]="'accent'" animationDuration="0ms"
                                (selectedIndexChange)="selected.setValue($event);getItemByTabs()">
                     <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
@@ -76,7 +75,7 @@
                                                         <div class="card-product">
                                                             <div class="img-product">
                                                             <img
-                                                                 src="{{product.thumnail}}"></div>
+                                                                 src="https://cdn-app.kiotviet.vn/sample/fashion/26.png"></div>
                                                             <div class="info-product">
                                                                 <span class="name-product">{{product.name}}</span>
                                                                 <span class="price-product">
@@ -144,13 +143,12 @@
                                                             <button (click)="minusQuantity(index)"><i
                                                                     class="fa-solid fa-minus"></i></button>
                                                             <input type="text"
-                                                                   [style.background-color]="quantityDetail[index]>orderDetail.quantityInventory?'red':''"
                                                                    matTooltip="Kho: {{orderDetail.quantityInventory}}"
                                                                    (keyup)="setOrderLocalStorage(listOrders);checkQuantityInput(index)"
                                                                    [(ngModel)]="quantityDetail[index]"
                                                                    currencyMask
                                                                    [options]="{ prefix: '', thousands: ',',precision: '0' , align:'center',
-                                                                   allowNegative :'false'}">
+                                                                   allowNegative :'false',max:orderDetail.quantityInventory, min: 1}">
                                                             <button (click)="plusQuantity(index)"><i
                                                                     class="fa-solid fa-plus"></i></button>
                                                         </div>
@@ -259,77 +257,4 @@
         </div>
     </div>
 </div>
-<div id="demo">
-</div>
-
-<ng-template #scanner>
-    <div class="scanner-shell" [hidden]="!hasDevices">
-
-        <header>
-            <mat-form-field appearance="fill">
-                <select matNativeControl matInput (change)="onDeviceSelectChange($event.target.value)">
-                    <option value="" [selected]="!currentDevice">No Device Selected</option>
-                    <option *ngFor="let device of availableDevices" [value]="device.deviceId"
-                            [selected]="currentDevice && device.deviceId === currentDevice.deviceId">{{device.label}}</option>
-                </select>
-            </mat-form-field>
-        </header>
-
-        <zxing-scanner [torch]="torchEnabled"
-                       [(device)]="currentDevice"
-                       (scanSuccess)="onCodeResult($event)"
-                       [tryHarder]="tryHarder"
-                       (permissionResponse)="onHasPermission($event)"
-                       (camerasFound)="onCamerasFound($event)"
-                       (torchCompatible)="onTorchCompatible($event)"
-                       [formats]="['QR_CODE', 'EAN_13', 'EAN_8']"></zxing-scanner>
-
-        <section class="results">
-            <div>
-                <span id="qrResult"></span>
-            </div>
-            <button mat-icon-button (click)="clearResult()">&times;</button>
-        </section>
-
-    </div>
-
-    <ng-container *ngIf="hasPermission === undefined">
-
-        <h2>Waiting for permissions.</h2>
-
-        <blockquote>
-            If your device does not has cameras, no permissions will be asked.
-        </blockquote>
-
-    </ng-container>
-
-    <ng-container *ngIf="hasPermission === false">
-
-        <h2>You denied the camera permission, we can't scan anything without it. 😪</h2>
-
-    </ng-container>
-
-    <ng-container *ngIf="hasDevices === undefined">
-
-        <h2>Couldn't check for devices.</h2>
-
-        <blockquote>
-            This may be caused by some security error.
-        </blockquote>
-
-    </ng-container>
-
-    <ng-container *ngIf="hasDevices === false">
-
-        <h2>No devices were found.</h2>
-
-        <blockquote>
-            I believe your device has no media devices attached to.
-        </blockquote>
-
-    </ng-container>
-
-    <div class="col-12 mt-3" style="text-align: center">
-        <button type="button" (click)="this.scanner2.close()"  class="btn btn-danger">Đóng</button>
-    </div>
-</ng-template>
+<div id="demo"></div>
