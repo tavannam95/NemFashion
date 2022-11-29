@@ -3,12 +3,20 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dial
 import { OrderService } from '../../../../../shared/service/order/order.service';
 import { ToastrService } from 'ngx-toastr';
 import { ContactService } from '../../../../../shared/service/contact/contact.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { OrderDetailService } from '../../../../../shared/service/order-detail/order-detail.service';
 import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 import { PrintOrderDialogComponent } from '../print-order-dialog/print-order-dialog.component';
 import { ConfirmDialogComponent } from '../../../../../shared/confirm-dialog/confirm-dialog.component';
 import { Constant } from '../../../../../shared/constants/Constant';
+import { MatTableDataSource } from '@angular/material/table';
+import { CreateOdDialogComponent } from '../create-od-dialog/create-od-dialog.component';
+import { startWith, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ProductService } from '../../../../../shared/service/product/product.service';
+import { ProductDetailOrderComponent } from '../../../selling/selling/product-detail-order/product-detail-order.component';
+import { ProductDetailService } from '../../../../../shared/service/productDetail/product-detail.service';
+import { quantity } from 'chartist';
 
 @Component({
   selector: 'app-preparing-product',
@@ -16,6 +24,11 @@ import { Constant } from '../../../../../shared/constants/Constant';
   styleUrls: ['./preparing-product.component.scss']
 })
 export class PreparingProductComponent implements OnInit {
+  productInput = new FormControl('');
+  filteredProduct: Observable<any>;
+  listProductSearch: any = [];
+
+  orderDetailsList: any[] = [];
   checkCancelOrder = false;
   isLoading: boolean = false;
   requiredNote: string = 'KHONGCHOXEMHANG';
@@ -27,6 +40,17 @@ export class PreparingProductComponent implements OnInit {
   resultOrder: any;
   dateShift: any[] = [];
   printOrder: any;
+  productDetail: any;
+  orderDetail = {
+    order: {id: null},
+    productsDetail: {id: null},
+    unitprice: null,
+    quantity: null,
+    status: 1
+  }
+
+  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity','function'];
+  dataSource: any[] = [];
 
   data = this.fb.group({
     "payment_type_id": 2,
@@ -77,16 +101,132 @@ export class PreparingProductComponent implements OnInit {
     private fb: FormBuilder,
     private orderDetailService: OrderDetailService,
     private ghnService: GhnService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private productService: ProductService,
+    private productDetailService: ProductDetailService
   ) { }
 
   ngOnInit() {
-    this.order = this.dataDialog.data;
-    console.log(this.order);
+    console.log(this.dataDialog);
     
+    this.order = this.dataDialog.data.orders;
+    this.dataSource = this.dataDialog.data.orderDetailsList;
+    this.orderDetailsList = this.dataDialog.data.orderDetailsList;
     this.dateShift = this.dataDialog.dateShift;
     this.getDefaultContact();
     this.getWeight();
+    this.getAllProduct();
+
+    console.log(this.orderDetailsList);
+    
+  }
+
+  getAllProduct() {
+    this.productService.getAllProduct().subscribe({
+        next: resp => {
+            this.listProductSearch = resp;
+            this.productFilter();
+        },
+        error: error => {
+
+        }
+    })
+  }
+  openDialog(product: any) {
+    this.productInput.setValue('');
+    this.matDialog.open(ProductDetailOrderComponent, {
+        width: '40vw',
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+            product: product
+        }
+    }).afterClosed().subscribe(value => {
+      console.log(value);
+        if (!(value == null || value == undefined)) {
+          if (this.checkorderDetailsList(value.id)) {
+            console.log('Mới');
+            
+            this.orderDetail.order.id = this.order.id;
+            this.orderDetail.productsDetail.id = value.id;
+            this.orderDetail.unitprice = value.price;
+            this.orderDetail.quantity = value.quantityOrder;
+            this.orderDetailService.updateOrderDetail(this.orderDetail).subscribe({
+              next: (res) =>{
+                this.subtractQuantity(value.id,value.quantityOrder);
+                this.orderDetailsList.push(res);
+                this.dataSource = [this.orderDetailsList];                
+                this.toastrService.success('Thêm sản phẩm thành công');
+                return;
+              },
+              error: (e) =>{
+                console.log(e);
+                this.toastrService.error('Thêm sản phẩm thất bại');
+                
+              }
+            })
+            
+          }else{
+            for (let i = 0; i < this.orderDetailsList.length; i++) {
+              if (this.orderDetailsList[i].productsDetail.id == value.id) {
+                console.log('Cộng');
+                this.orderDetailsList[i].quantity += value.quantityOrder;
+                this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
+                  next: (res) =>{
+                    this.subtractQuantity(value.id,value.quantityOrder);
+                    this.toastrService.success('Thêm sản phẩm thành công');
+                  },
+                  error: (e) =>{
+                    console.log(e);
+                    this.toastrService.error('Thêm sản phẩm thất bại');
+                    
+                  }
+                })
+              }
+            }
+          }
+        }
+      }
+    )
+  }
+
+  checkorderDetailsList(id: any){
+    for (let i = 0; i < this.orderDetailsList.length; i++) {
+      if (this.orderDetailsList[i].productsDetail.id == id) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  subtractQuantity(idOD: any, quantity: any){
+    console.log(idOD);
+    
+    this.productDetailService.getOneProductDetail(idOD).subscribe({
+      next: (res) =>{
+        this.productDetail = res;
+        this.productDetail.quantity -= quantity;
+        this.productDetailService.updateProductDetail(this.productDetail).subscribe(res=>{
+        })
+      }
+    })
+  }
+
+  productFilter() {
+    this.filteredProduct = this.productInput.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterproduct(value || '')),
+    );
+  }
+  _filterproduct(value: any): any[] {
+    var filterValue;
+    if (isNaN(value)) {
+        filterValue = value.toLowerCase();
+    } else {
+        filterValue = value;
+    }
+    return this.listProductSearch.filter(option => option.name.toLowerCase().includes(filterValue)
+        || option.name.includes(filterValue));
   }
 
   cancelOrder(){

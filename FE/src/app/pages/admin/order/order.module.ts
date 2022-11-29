@@ -19,6 +19,8 @@ import {MatCardModule} from '@angular/material/card';
 import { PreparingProductComponent } from './dialog/preparing-product/preparing-product.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
     declarations: [
         OrderListComponent,
@@ -43,6 +45,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatCardModule,
         MatRadioModule,
         MatExpansionModule,
+        MatAutocompleteModule,
+        MatTooltipModule
     ]
 })
 export class OrderModule {

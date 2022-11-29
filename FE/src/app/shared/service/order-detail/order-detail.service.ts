@@ -11,4 +11,10 @@ export class OrderDetailService {
   getOrderDetailByOrderId(orderId: any){
     return this.orderDetailService.getOrderDetailByOrderId(orderId);
   }
+  updateOrderDetail(orderDetail: any){
+    return this.orderDetailService.updateOrderDetail(orderDetail);
+  }
+  findById(id: any){
+    return this.orderDetailService.findById(id);
+  }
 }

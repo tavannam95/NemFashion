@@ -38,7 +38,7 @@
                                 <div class="info-product-search">
                                     <p class="name-product-search" #tooltip="matTooltip"
                                        matTooltip="{{pro.name.length>40?pro.name:''}}">{{pro.name}}</p>
-                                    <span class="price-product-search"> {{pro.price|currency:'VND'}}</span>
+                                    <span class="price-product-search"> {{pro.price| currency:' ':'symbol':'0.0-2'}} VNĐ</span>
                                 </div>
                             </a>
                         </mat-option>
@@ -79,7 +79,7 @@
                                                             <div class="info-product">
                                                                 <span class="name-product">{{product.name}}</span>
                                                                 <span class="price-product">
-                                                           <span class="price"> {{product.price|currency:' ': '':'0.0-0'}}</span></span>
+                                                           <span class="price"> {{product.price|currency:' ': '':'0.0-0'}} VNĐ</span></span>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -152,7 +152,7 @@
                                                             <button (click)="plusQuantity(index)"><i
                                                                     class="fa-solid fa-plus"></i></button>
                                                         </div>
-                                                        <div class="item-price">{{orderDetail.price | currency:' ': '':'0.0-0'}}</div>
+                                                        <div class="item-price">{{orderDetail.price | currency:' ': '':'0.0-0'}} VNĐ</div>
                                                         <div class="item-total">{{(orderDetail.quantity != '' ? orderDetail.price * orderDetail.quantity : 0)|currency:' ': '':'0.0-0' }}</div>
                                                     </div>
                                                 </div>
@@ -163,7 +163,7 @@
                                                 <div style="font-size: 16px;padding: 4px;color: black;">TỔNG TIỀN HÀNG
                                                     <span class="total-quantity">{{order.totalQuantity}}</span>
                                                 </div>
-                                                <div style="flex: 1;text-align: end">{{order.totalPrice|currency:' ': '':'0.0-0'}}</div>
+                                                <div style="flex: 1;text-align: end">{{order.totalPrice|currency:' ': '':'0.0-0'}} VNĐ</div>
                                             </div>
                                             <div>
                                                 <div class="row">
@@ -204,7 +204,7 @@
                                 <div class="payment-content-item">
                                     <div>Tổng tiền hàng <span class="total-quantity">{{order.totalQuantity}}</span>
                                     </div>
-                                    <div class="price">{{order.totalPrice |currency:' ': '':'0.0-0'}}</div>
+                                    <div class="price">{{order.totalPrice |currency:' ': '':'0.0-0'}} VNĐ</div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div>Giảm giá(%)</div>
@@ -216,13 +216,13 @@
                                         <span style="position: absolute;right: 0;top:1px">%</span>
                                         <div style="font-size: 19px;padding-top: 7px;font-weight: 500;"
                                              *ngIf="discount>0">
-                                            (-{{discount * order.totalPrice / 100|currency:' ': '':'0.0-0'}})
+                                            (-{{discount * order.totalPrice / 100|currency:' ': '':'0.0-0'}} VNĐ)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Khách cần trả</div>
-                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 |currency:' ': '':'0.0-0'}}</div>
+                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 |currency:' ': '':'0.0-0'}} VNĐ</div>
                                 </div>
                                 <div class="payment-content-item" *ngIf="discount<100">
                                     <div class="bold">Khách thanh toán</div>
@@ -234,13 +234,13 @@
                                 <div class="list-price-payment" *ngIf="discount<100">
                                     <button class="btn-price-payment" (click)="clickPrice(index)"
                                             *ngFor="let price of listTien;let index = index">
-                                        {{price|currency:' ': '':'0.0-0'}}
+                                        {{price|currency:' ': '':'0.0-0'}} VNĐ
                                     </button>
                                 </div>
                                 <div class="payment-content-item"
                                      *ngIf="customerPayment>order.totalPrice - discount*order.totalPrice/100 && discount < 100">
                                     <div class="bold">Tiền thừa trả khách</div>
-                                    <div class="price">{{customerPayment - (order.totalPrice - discount * order.totalPrice / 100)|currency:' ': '':'0.0-0'}}
+                                    <div class="price">{{customerPayment - (order.totalPrice - discount * order.totalPrice / 100)|currency:' ': '':'0.0-0'}} VNĐ
                                     </div>
                                 </div>
                             </div>

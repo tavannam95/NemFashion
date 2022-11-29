@@ -23,14 +23,14 @@ export class OrderListComponent implements OnInit {
   orderGhn: any[] = [];
   dateShift: any[] = [];
   listStatus: string[] = [
-    'Tất cả',
     'Chờ xác nhận',
     'Chờ lấy hàng',
     'Đang giao',
     'Đã giao',
     'Đơn hủy',
     'Trả hàng/Hoàn tiền',
-    'Bán tại cửa hàng'
+    'Bán tại cửa hàng',
+    'Tất cả',
   ]
 
   dataOrder: any[] = [];
@@ -67,7 +67,6 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit() {
     this.getDataOrder();
-    this.getAllOrder(0);
     this.getDate();
   }
 
@@ -81,10 +80,10 @@ export class OrderListComponent implements OnInit {
     this.length = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    if (this.tabIndex == 0) {
+    if (this.tabIndex == 7) {
       this.getAllOrder(this.pageIndex);
-    }else if (this.tabIndex == 1 || this.tabIndex ==2) {
-      this.findByStatus(this.tabIndex-1);
+    }else{
+      this.findByStatus(this.tabIndex);
     }
   }
 
@@ -92,7 +91,7 @@ export class OrderListComponent implements OnInit {
     this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
     this.pageIndex = 0;
     this.pageSize = 10;
-    this.searchOrderDTO.patchValue({status:this.tabIndex-1});
+    this.searchOrderDTO.patchValue({status:this.tabIndex});
     this.orderService.searchOrder(this.searchOrderDTO.value, this.pageIndex, this.pageSize).subscribe({
       next: (res)=>{
         if (res.length<=0) {
@@ -113,16 +112,19 @@ export class OrderListComponent implements OnInit {
 
   selectTab(index: any){
     this.tabIndex = index;
-    if (index == 0) {
+    if (this.tabIndex==0) {
+      this.searchOrderDTO.patchValue({orderCode:''});
+    }
+    if (index == 7) {
       this.setDefaultPageEvent();
       this.getAllOrder(0);
     }else{
-      this.orderService.findAllByStatus(this.tabIndex-1).subscribe(res=>{
+      this.orderService.findAllByStatus(this.tabIndex).subscribe(res=>{
         this.allOrderStatus = res;
         this.length = this.allOrderStatus.length;
       })
       this.setDefaultPageEvent();
-      this.findByStatus(this.tabIndex-1);
+      this.findByStatus(this.tabIndex);
     }
   }
   
@@ -136,7 +138,10 @@ export class OrderListComponent implements OnInit {
 
   openPreparingDialog(data: any, dateShift: any){
     let dialogRef = this.matDialog.open(PreparingProductComponent,{
-      width: '1000px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
       disableClose: true,
       data: {
         data,
@@ -145,10 +150,10 @@ export class OrderListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res=>{
       if (res == 'OK') {
-        if (this.tabIndex==0) {
+        if (this.tabIndex==7) {
           this.getAllOrder(0);
         }else{
-          this.orderService.findByStatus(this.tabIndex-1, this.pageIndex, this.pageSize).subscribe(res=>{
+          this.orderService.findByStatus(this.tabIndex, this.pageIndex, this.pageSize).subscribe(res=>{
             this.allOrder = res;
           });
         }
@@ -176,17 +181,29 @@ export class OrderListComponent implements OnInit {
   }
 
   getDataOrder(){
+    this.orderService.findAllByStatus(this.tabIndex).subscribe(res=>{
+      this.allOrderStatus = res;
+      this.length = this.allOrderStatus.length;
+    })
+    this.setDefaultPageEvent();
+    this.findByStatus(this.tabIndex);
+  }
+
+  setLengthAllOrder(){
+    let arr = [];
     this.orderService.getDataOrder().subscribe(res=>{
-      this.dataOrder = res;
-      this.length = this.dataOrder.length;
+      arr = res;
+      this.length = arr.length;
     })
   }
 
   getAllOrder(page: any){
     this.isLoading = true;
+    this.setLengthAllOrder();
     this.orderService.getAllOrder(page,this.pageSize).subscribe({
       next: (res) =>{
         this.allOrder = res;
+        console.log(this.allOrder);
         if (this.allOrder.length>0) {
           this.totalPage = this.allOrder[0].totalPage;
         }
