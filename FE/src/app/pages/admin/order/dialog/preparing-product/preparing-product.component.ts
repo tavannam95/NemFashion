@@ -41,9 +41,16 @@ export class PreparingProductComponent implements OnInit {
   dateShift: any[] = [];
   printOrder: any;
   productDetail: any;
+  orderDetail = {
+    order: {id: null},
+    productsDetail: {id: null},
+    unitprice: null,
+    quantity: null,
+    status: 1
+  }
 
   displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity','function'];
-  dataSource: MatTableDataSource<any>;
+  dataSource: any[] = [];
 
   data = this.fb.group({
     "payment_type_id": 2,
@@ -135,30 +142,61 @@ export class PreparingProductComponent implements OnInit {
             product: product
         }
     }).afterClosed().subscribe(value => {
+      console.log(value);
         if (!(value == null || value == undefined)) {
-          for (let i = 0; i < this.orderDetailsList.length; i++) {
-            if (this.orderDetailsList[i].productsDetail.id == value.id) {
-              this.orderDetailsList[i].quantity += value.quantityOrder;
-              console.log(this.orderDetailsList[i].quantity);
-              this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
-                next: (res) =>{
-                  this.subtractQuantity(value.id,value.quantityOrder);
-                  this.toastrService.success('Thêm sản phẩm thành công');
-                  return;
-                },
-                error: (e) =>{
-                  console.log(e);
-                  this.toastrService.error('Thêm sản phẩm thất bại');
-                  
-                }
-              })
-            }
+          if (this.checkorderDetailsList(value.id)) {
+            console.log('Mới');
             
+            this.orderDetail.order.id = this.order.id;
+            this.orderDetail.productsDetail.id = value.id;
+            this.orderDetail.unitprice = value.price;
+            this.orderDetail.quantity = value.quantityOrder;
+            this.orderDetailService.updateOrderDetail(this.orderDetail).subscribe({
+              next: (res) =>{
+                this.subtractQuantity(value.id,value.quantityOrder);
+                this.orderDetailsList.push(res);
+                this.dataSource = [this.orderDetailsList];                
+                this.toastrService.success('Thêm sản phẩm thành công');
+                return;
+              },
+              error: (e) =>{
+                console.log(e);
+                this.toastrService.error('Thêm sản phẩm thất bại');
+                
+              }
+            })
+            
+          }else{
+            for (let i = 0; i < this.orderDetailsList.length; i++) {
+              if (this.orderDetailsList[i].productsDetail.id == value.id) {
+                console.log('Cộng');
+                this.orderDetailsList[i].quantity += value.quantityOrder;
+                this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
+                  next: (res) =>{
+                    this.subtractQuantity(value.id,value.quantityOrder);
+                    this.toastrService.success('Thêm sản phẩm thành công');
+                  },
+                  error: (e) =>{
+                    console.log(e);
+                    this.toastrService.error('Thêm sản phẩm thất bại');
+                    
+                  }
+                })
+              }
+            }
           }
-          
         }
       }
     )
+  }
+
+  checkorderDetailsList(id: any){
+    for (let i = 0; i < this.orderDetailsList.length; i++) {
+      if (this.orderDetailsList[i].productsDetail.id == id) {
+        return false;
+      }
+    }
+    return true;
   }
 
   subtractQuantity(idOD: any, quantity: any){

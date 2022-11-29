@@ -5,7 +5,7 @@
 <h1 mat-dialog-title class="text-center h3 font-weight-bold">
   Thông tin đơn hàng
 </h1>
-<div class="order-detail">
+<div class="order-detail2">
   <div mat-dialog-content class="scroll-order-detail">
     <div class="row mb-3">
         <div class="col-12 font-weight-bold">
@@ -56,7 +56,7 @@
                     <div class="info-product-search">
                         <p class="name-product-search" #tooltip="matTooltip"
                            matTooltip="{{pro.name.length>40?pro.name:''}}">{{pro.name}}</p>
-                        <span class="price-product-search"> {{pro.price|currency:'VNĐ'}}</span>
+                        <span class="price-product-search"> {{pro.price| currency:' ':'symbol':'0.0-2'}} VNĐ</span>
                     </div>
                 </a>
                 </mat-option>
