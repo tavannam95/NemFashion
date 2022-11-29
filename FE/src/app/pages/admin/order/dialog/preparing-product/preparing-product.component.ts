@@ -136,28 +136,26 @@ export class PreparingProductComponent implements OnInit {
         }
     }).afterClosed().subscribe(value => {
         if (!(value == null || value == undefined)) {
-
-          this.subtractQuantity(value.id,value.quantityOrder);
-
-          // for (let i = 0; i < this.orderDetailsList.length; i++) {
-          //   if (this.orderDetailsList[i].productsDetail.id == value.id) {
-          //     this.orderDetailsList[i].quantity += value.quantityOrder;
-          //     console.log(this.orderDetailsList[i].quantity);
-          //     this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
-          //       next: (res) =>{
+          for (let i = 0; i < this.orderDetailsList.length; i++) {
+            if (this.orderDetailsList[i].productsDetail.id == value.id) {
+              this.orderDetailsList[i].quantity += value.quantityOrder;
+              console.log(this.orderDetailsList[i].quantity);
+              this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
+                next: (res) =>{
+                  this.subtractQuantity(value.id,value.quantityOrder);
+                  this.toastrService.success('Thêm sản phẩm thành công');
+                  return;
+                },
+                error: (e) =>{
+                  console.log(e);
+                  this.toastrService.error('Thêm sản phẩm thất bại');
                   
-          //         this.toastrService.success('Thêm sản phẩm thành công');
-          //       },
-          //       error: (e) =>{
-          //         console.log(e);
-          //         this.toastrService.error('Thêm sản phẩm thất bại');
-                  
-          //       }
-          //     })
-          //   }
+                }
+              })
+            }
             
-          // }
-        
+          }
+          
         }
       }
     )
@@ -171,9 +169,6 @@ export class PreparingProductComponent implements OnInit {
         this.productDetail = res;
         this.productDetail.quantity -= quantity;
         this.productDetailService.updateProductDetail(this.productDetail).subscribe(res=>{
-          console.log('success');
-                    
-          console.log(res);
         })
       }
     })
