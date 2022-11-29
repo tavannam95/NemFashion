@@ -274,7 +274,7 @@ export class CartComponent implements OnInit {
       employee: {
         id: 1
       },
-      total: this.subTotal + this.shippingTotal,
+      total: this.subTotal,
       freight: this.shippingTotal,
       status: Constants.ORDER_STATUS.WAITING
     }
