@@ -105,7 +105,10 @@
           <!-- Price Column -->
           <ng-container matColumnDef="quantity">
             <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Số lượng</th>
-            <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
+            <td mat-cell *matCellDef="let row">
+              <!-- {{ row.quantity }} -->
+                <input class="input-quantity text-center" type="number" [value]="row.quantity" (blur)="updateQuantity($event,row)">
+            </td>
           </ng-container>
   
           <!-- Function Column -->

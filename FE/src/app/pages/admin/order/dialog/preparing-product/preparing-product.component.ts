@@ -16,7 +16,6 @@ import { map } from 'rxjs/operators';
 import { ProductService } from '../../../../../shared/service/product/product.service';
 import { ProductDetailOrderComponent } from '../../../selling/selling/product-detail-order/product-detail-order.component';
 import { ProductDetailService } from '../../../../../shared/service/productDetail/product-detail.service';
-import { quantity } from 'chartist';
 
 @Component({
   selector: 'app-preparing-product',
@@ -118,6 +117,47 @@ export class PreparingProductComponent implements OnInit {
     this.getAllProduct();
 
     console.log(this.orderDetailsList);
+    
+  }
+  updateQuantity(event: any,row: any){
+    let newQty = event.target.value;
+    let oldQty = row.quantity;
+    let presentQty = null;
+    console.log('newQty');
+    console.log(newQty);
+    if (event.target.value=='') {
+      event.target.value = oldQty;
+      this.toastrService.error('Số lượng không được để trống')
+      return;
+    }
+    this.productDetailService.getOneProductDetail(row.productsDetail.id).subscribe(res=>{
+      presentQty = res.quantity;
+      console.log('Present QTY');
+      console.log(presentQty);
+      if (newQty==oldQty) {
+        console.log('No change');
+        return;
+      }else if (presentQty<=0) {
+        event.target.value = oldQty;
+        this.toastrService.warning('Số lượng sản phẩm đã hết');
+        return;
+      }else if ((newQty-oldQty)>presentQty) {
+        event.target.value = oldQty;
+        this.toastrService.warning('Số lượng còn trong kho: ' + presentQty);
+        return;
+      }else if (newQty!=oldQty) {
+        row.quantity = newQty;
+        this.orderDetailService.updateOrderDetail(row).subscribe({
+              next: (res)=>{
+                console.log('res update orderDetail');
+                console.log(res);
+              },
+              error: (e)=>{
+                console.log(e);
+              }
+            })
+      }
+    })
     
   }
 
