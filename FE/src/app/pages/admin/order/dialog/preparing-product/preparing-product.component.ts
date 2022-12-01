@@ -9,13 +9,12 @@ import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 import { PrintOrderDialogComponent } from '../print-order-dialog/print-order-dialog.component';
 import { ConfirmDialogComponent } from '../../../../../shared/confirm-dialog/confirm-dialog.component';
 import { Constant } from '../../../../../shared/constants/Constant';
-import { MatTableDataSource } from '@angular/material/table';
-import { CreateOdDialogComponent } from '../create-od-dialog/create-od-dialog.component';
 import { startWith, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductService } from '../../../../../shared/service/product/product.service';
 import { ProductDetailOrderComponent } from '../../../selling/selling/product-detail-order/product-detail-order.component';
 import { ProductDetailService } from '../../../../../shared/service/productDetail/product-detail.service';
+import { EditAddressDialogComponent } from '../edit-address-dialog/edit-address-dialog.component';
 
 @Component({
   selector: 'app-preparing-product',
@@ -119,6 +118,41 @@ export class PreparingProductComponent implements OnInit {
     console.log(this.orderDetailsList);
     
   }
+
+  removeOrderDetail(row: any){
+    console.log(row);
+    this.matDialog
+      .open(ConfirmDialogComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+          message: "Bạn có muốn xóa sản phẩm khỏi đơn hàng?",
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.orderDetailService.delete(row.id).subscribe({
+            next: (res)=>{
+              this.subtractQuantity(row.productsDetail.id,(0-row.quantity));
+              this.toastrService.success('Thanh cong');
+            },
+            error: (e)=>{
+              console.log(e);
+              this.toastrService.error('Error');
+            }
+          });
+        }
+      });
+  }
+
+  addAddress(){
+    this.matDialog.open(EditAddressDialogComponent,{
+      width: '50%',
+      disableClose: true
+    })
+  }
+
   updateQuantity(event: any,row: any){
     let newQty = event.target.value;
     let oldQty = row.quantity;
@@ -128,6 +162,11 @@ export class PreparingProductComponent implements OnInit {
     if (event.target.value=='') {
       event.target.value = oldQty;
       this.toastrService.error('Số lượng không được để trống')
+      return;
+    }
+    if (event.target.value<=0) {
+      event.target.value = oldQty;
+      this.toastrService.warning('Số lượng phải lớn hơn 0')
       return;
     }
     this.productDetailService.getOneProductDetail(row.productsDetail.id).subscribe(res=>{
@@ -145,12 +184,13 @@ export class PreparingProductComponent implements OnInit {
         event.target.value = oldQty;
         this.toastrService.warning('Số lượng còn trong kho: ' + presentQty);
         return;
-      }else if (newQty!=oldQty) {
+      }else if (newQty!=oldQty&&(newQty-oldQty)<presentQty) {
         row.quantity = newQty;
         this.orderDetailService.updateOrderDetail(row).subscribe({
               next: (res)=>{
                 console.log('res update orderDetail');
                 console.log(res);
+                this.subtractQuantity(row.productsDetail.id,(newQty-oldQty));
               },
               error: (e)=>{
                 console.log(e);
@@ -239,14 +279,23 @@ export class PreparingProductComponent implements OnInit {
     return true;
   }
 
-  subtractQuantity(idOD: any, quantity: any){
-    console.log(idOD);
+  subtractQuantity(idPD: any, quantity: any){
+    console.log(idPD);
     
-    this.productDetailService.getOneProductDetail(idOD).subscribe({
+    this.productDetailService.getOneProductDetail(idPD).subscribe({
       next: (res) =>{
+        console.log(res);
         this.productDetail = res;
         this.productDetail.quantity -= quantity;
-        this.productDetailService.updateProductDetail(this.productDetail).subscribe(res=>{
+        this.productDetailService.updateProductDetail(this.productDetail).subscribe({
+          next: (r)=>{
+            console.log(r);
+            
+          },
+          error: (e) =>{
+            console.log(e);
+            
+          }
         })
       }
     })

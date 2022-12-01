@@ -21,10 +21,13 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { EditAddressDialogComponent } from './dialog/edit-address-dialog/edit-address-dialog.component';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
     declarations: [
         OrderListComponent,
-        PreparingProductComponent
+        PreparingProductComponent,
+        EditAddressDialogComponent
     ],
     imports: [
         CommonModule,
@@ -46,7 +49,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatRadioModule,
         MatExpansionModule,
         MatAutocompleteModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatSelectModule
     ]
 })
 export class OrderModule {

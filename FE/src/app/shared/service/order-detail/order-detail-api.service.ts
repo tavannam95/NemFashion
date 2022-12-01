@@ -22,4 +22,8 @@ export class OrderDetailApiService {
   updateOrderDetail(orderDetail: any): Observable<any>{
     return this.http.put(ApiConstant.orderDetail,orderDetail);
   }
+
+  delete(id: any){
+    return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
+  }
 }
