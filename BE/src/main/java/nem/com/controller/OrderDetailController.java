@@ -29,4 +29,8 @@ public class OrderDetailController {
     public ResponseEntity<OrderDetails> update(@RequestBody OrderDetails orderDetails){
         return new ResponseEntity<>(this.orderDetailsRepository.save(orderDetails),HttpStatus.OK);
     }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") OrderDetails orderDetails){
+        this.orderDetailsRepository.delete(orderDetails);
+    }
 }

@@ -17,4 +17,7 @@ export class OrderDetailService {
   findById(id: any){
     return this.orderDetailService.findById(id);
   }
+  delete(id: any){
+    return this.orderDetailService.delete(id);
+  }
 }
