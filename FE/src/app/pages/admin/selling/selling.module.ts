@@ -20,9 +20,10 @@ import {MatSelectModule} from '@angular/material/select';
 // @ts-ignore
 import {NgxCurrencyModule} from "ngx-currency";
 import {ZXingScannerModule} from "@zxing/ngx-scanner";
+import { ComfirmSellingComponent } from './selling/comfirm-selling/comfirm-selling.component';
 
 @NgModule({
-    declarations: [SellingComponent, ProductDetailOrderComponent],
+    declarations: [SellingComponent, ProductDetailOrderComponent, ComfirmSellingComponent],
     imports: [
         CommonModule,
         MatTabsModule,

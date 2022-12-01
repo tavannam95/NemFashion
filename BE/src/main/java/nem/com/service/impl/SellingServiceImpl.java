@@ -57,7 +57,15 @@ public class SellingServiceImpl implements SellingService {
         orders.setNote(sellingDTO.getNote());
         orders.setTotal(sellingDTO.getTotalPrice());
         orders.setCreateDate(date);
-        orders.setStatus(6);
+        if(sellingDTO.getCheckSelling() == 0){
+            orders.setStatus(6);
+        }else{
+            orders.setStatus(0);
+            orders.setFreight(sellingDTO.getFreight());
+            orders.setShipAddress(sellingDTO.getShipAddress());
+            orders.setShipName(sellingDTO.getShipName());
+            orders.setShipPhone(sellingDTO.getShipPhone());
+        }
         orders.setEmployee(employees);
         orders.setDiscount(sellingDTO.getDiscount()*sellingDTO.getTotalPrice()/100);
         orders = ordersRepository.save(orders);
