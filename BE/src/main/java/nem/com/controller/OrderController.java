@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -89,9 +90,14 @@ public class OrderController {
 
     }
 
-    @GetMapping("/{stt}")
+    @GetMapping("/status/{stt}")
     public ResponseEntity<List<Orders>> findAllByStatus(@PathVariable("stt") Integer stautus){
         return new ResponseEntity<>(this.orderService.findByStatus(stautus), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Orders> findById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(this.ordersRepository.findById(id).get(), HttpStatus.OK);
     }
 
     @GetMapping("/data/{status}")
@@ -114,9 +120,15 @@ public class OrderController {
         return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
     }
 
+    @PutMapping("")
+    public ResponseEntity<Orders> update(@RequestBody Orders orders){
+        return new ResponseEntity<>(this.ordersRepository.save(orders),HttpStatus.OK);
+    }
+
     @PutMapping("/updateStatus/{status}")
     public ResponseEntity<Orders> updateStatus(@PathVariable("status") Integer status, @RequestBody Orders orders){
         orders.setStatus(status);
+        orders.setUpdatedDate(new Date());
         return new ResponseEntity<>(this.orderService.verifyOrCancel(orders,status),HttpStatus.OK);
     }
     

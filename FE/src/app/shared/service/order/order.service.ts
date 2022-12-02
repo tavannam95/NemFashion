@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { OrderApiService } from './order-api.service';
+import { OrderDetailService } from '../order-detail/order-detail.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  constructor(private readonly apiService: OrderApiService) { }
+  constructor(
+    private readonly apiService: OrderApiService,
+    private orderDetailService: OrderDetailService
+  ) { }
 
   getDataOrder(){
     return this.apiService.getDataOrder();
@@ -36,4 +40,33 @@ export class OrderService {
     return this.apiService.updateStatus(data,status);
   }
 
+  updateTotal(orderId: any){
+    let orderDetailList = [];
+    this.orderDetailService.getOrderDetailByOrderId(orderId).subscribe({
+      next: (res) =>{
+        orderDetailList = res;
+        console.log(orderDetailList);
+      }
+    })
+  }
+
+  setUpdateName(orderId: any, updateName: any){
+    let order = null;
+    this.apiService.findById(orderId).subscribe({
+      next: res=>{
+        order = res;
+        order.udpateName = updateName;
+        this.apiService.update(order).subscribe();
+        
+      },
+      error: e =>{
+        console.log(e);
+        
+      }
+    })
+  }
+
+  findById(id: any){
+    return this.apiService.findById(id);
+  }
 }

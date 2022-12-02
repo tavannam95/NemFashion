@@ -15,6 +15,8 @@ import { ProductService } from '../../../../../shared/service/product/product.se
 import { ProductDetailOrderComponent } from '../../../selling/selling/product-detail-order/product-detail-order.component';
 import { ProductDetailService } from '../../../../../shared/service/productDetail/product-detail.service';
 import { EditAddressDialogComponent } from '../edit-address-dialog/edit-address-dialog.component';
+import { StorageService } from '../../../../../shared/service/storage.service';
+import { EditOrderComponent } from '../edit-order/edit-order.component';
 
 @Component({
   selector: 'app-preparing-product',
@@ -47,7 +49,7 @@ export class PreparingProductComponent implements OnInit {
     status: 1
   }
 
-  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity','function'];
+  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity'];
   dataSource: any[] = [];
 
   data = this.fb.group({
@@ -101,22 +103,51 @@ export class PreparingProductComponent implements OnInit {
     private ghnService: GhnService,
     private matDialog: MatDialog,
     private productService: ProductService,
-    private productDetailService: ProductDetailService
+    private productDetailService: ProductDetailService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
     console.log(this.dataDialog);
-    
+    this.getOrder();
     this.order = this.dataDialog.data.orders;
-    this.dataSource = this.dataDialog.data.orderDetailsList;
+    // this.order.updateName = this.storageService.getFullNameFromToken();
+    // this.dataSource = this.dataDialog.data.orderDetailsList;
     this.orderDetailsList = this.dataDialog.data.orderDetailsList;
     this.dateShift = this.dataDialog.dateShift;
     this.getDefaultContact();
     this.getWeight();
     this.getAllProduct();
+  }
+  openEditOrder(){
+    let dialogRef = this.matDialog.open(EditOrderComponent,{
+      width: '800px',
+      data: this.dataDialog.data,
+      disableClose: true,
+    });
+  }
 
-    console.log(this.orderDetailsList);
-    
+  getOrder(){
+    this.orderService.findById(this.dataDialog.data.orders.id).subscribe({
+      next: res=>{
+        // this.order = res;
+        console.log('Order');
+        console.log(res);
+        
+      },
+      error: e=>{
+        console.log(e);
+        
+      }
+    });
+    this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.data.orders.id).subscribe({
+      next: res=>{
+        this.dataSource = res;
+        console.log('orderDetailService');
+        console.log(res);
+        
+      }
+    })
   }
 
   removeOrderDetail(row: any){
@@ -332,6 +363,7 @@ export class PreparingProductComponent implements OnInit {
         this.ghnService.cancelOrder({order_codes:[this.order.orderCode]}).subscribe({
           next: (res) =>{
             //Update order status DB
+            this.order.updateName = this.storageService.getFullNameFromToken();
             this.orderService.updateStatus(this.order,4).subscribe({
               next: (res)=>{
                 this.isLoading = false;

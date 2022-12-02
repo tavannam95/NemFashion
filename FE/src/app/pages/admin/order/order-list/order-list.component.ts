@@ -138,10 +138,7 @@ export class OrderListComponent implements OnInit {
 
   openPreparingDialog(data: any, dateShift: any){
     let dialogRef = this.matDialog.open(PreparingProductComponent,{
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
+      width: '1000px',
       disableClose: true,
       data: {
         data,

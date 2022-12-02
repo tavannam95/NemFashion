@@ -23,11 +23,13 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { EditAddressDialogComponent } from './dialog/edit-address-dialog/edit-address-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
+import { EditOrderComponent } from './dialog/edit-order/edit-order.component';
 @NgModule({
     declarations: [
         OrderListComponent,
         PreparingProductComponent,
-        EditAddressDialogComponent
+        EditAddressDialogComponent,
+        EditOrderComponent
     ],
     imports: [
         CommonModule,
