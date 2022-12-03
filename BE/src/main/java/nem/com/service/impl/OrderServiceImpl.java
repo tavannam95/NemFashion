@@ -1,30 +1,33 @@
 package nem.com.service.impl;
 
+import lombok.AllArgsConstructor;
+import nem.com.domain.request.UpdateOrderRequest;
 import nem.com.dto.request.SearchDTO;
 import nem.com.dto.response.BuyMostProductDTO;
 import nem.com.dto.response.CustomerBuyMostProductDTO;
 import nem.com.dto.response.OverviewStatisticalDTO;
 import nem.com.dto.response.TurnoverDTO;
 import nem.com.domain.dto.SearchOrderDTO;
+import nem.com.entity.OrderDetails;
 import nem.com.entity.Orders;
+import nem.com.entity.ProductsDetails;
+import nem.com.repository.OrderDetailsRepository;
 import nem.com.repository.OrdersRepository;
+import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
+@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     OrdersRepository ordersRepository;
-
-    public OrderServiceImpl(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
-    }
+    OrderDetailsRepository orderDetailsRepository;
+    ProductsDetailsRepository productsDetailsRepository;
 
     @Override
     public List<Orders> getAll() {
@@ -70,6 +73,31 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<CustomerBuyMostProductDTO> CustomerBuyMostProduct( SearchDTO request) {
         return this.ordersRepository.CustomerBuyMostProduct( request.getStartDate() , request.getEndDate() ) ;
+    }
+
+    @Override
+    public void updateOrder(UpdateOrderRequest updateOrderRequest) {
+        Orders orders = this.ordersRepository.findById(updateOrderRequest.getId()).get();
+        for (int i = 0; i < orders.getListOrderDetails().size(); i++) {
+            ProductsDetails productsDetails = orders.getListOrderDetails().get(i).getProductsDetail();
+            productsDetails.setQuantity(productsDetails.getQuantity()+orders.getListOrderDetails().get(i).getQuantity());
+            this.productsDetailsRepository.save(productsDetails);
+            this.orderDetailsRepository.delete(orders.getListOrderDetails().get(i));
+        }
+        for (int i = 0; i < updateOrderRequest.getListOrderDetail().size(); i++) {
+            ProductsDetails productsDetails =
+                    this.productsDetailsRepository.findById(updateOrderRequest.getListOrderDetail().get(i).getProductsDetail().getId()).get();
+            productsDetails.setQuantity(productsDetails.getQuantity()-updateOrderRequest.getListOrderDetail().get(i).getQuantity());
+            this.productsDetailsRepository.save(productsDetails);
+            OrderDetails orderDetails = new OrderDetails();
+            orderDetails.setUnitprice(updateOrderRequest.getListOrderDetail().get(i).getUnitprice());
+            orderDetails.setQuantity(updateOrderRequest.getListOrderDetail().get(i).getQuantity());
+            orderDetails.setUpdatedDate(new Date());
+            orderDetails.setStatus(1);
+            orderDetails.setProductsDetail(productsDetails);
+            orderDetails.setOrder(orders);
+            this.orderDetailsRepository.save(orderDetails);
+        }
     }
 
     @Override

@@ -15,6 +15,8 @@ import { ProductService } from '../../../../../shared/service/product/product.se
 import { ProductDetailOrderComponent } from '../../../selling/selling/product-detail-order/product-detail-order.component';
 import { ProductDetailService } from '../../../../../shared/service/productDetail/product-detail.service';
 import { EditAddressDialogComponent } from '../edit-address-dialog/edit-address-dialog.component';
+import { StorageService } from '../../../../../shared/service/storage.service';
+import { EditOrderComponent } from '../edit-order/edit-order.component';
 
 @Component({
   selector: 'app-preparing-product',
@@ -26,6 +28,7 @@ export class PreparingProductComponent implements OnInit {
   filteredProduct: Observable<any>;
   listProductSearch: any = [];
 
+  updateName: any;
   orderDetailsList: any[] = [];
   checkCancelOrder = false;
   isLoading: boolean = false;
@@ -47,7 +50,7 @@ export class PreparingProductComponent implements OnInit {
     status: 1
   }
 
-  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity','function'];
+  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity'];
   dataSource: any[] = [];
 
   data = this.fb.group({
@@ -101,21 +104,103 @@ export class PreparingProductComponent implements OnInit {
     private ghnService: GhnService,
     private matDialog: MatDialog,
     private productService: ProductService,
-    private productDetailService: ProductDetailService
+    private productDetailService: ProductDetailService,
+    private storageService: StorageService
   ) { }
 
   ngOnInit() {
     console.log(this.dataDialog);
-    
+    // this.getOrder();
+    this.updateName = this.storageService.getFullNameFromToken();
     this.order = this.dataDialog.data.orders;
+    // this.order.updateName = this.storageService.getFullNameFromToken();
     this.dataSource = this.dataDialog.data.orderDetailsList;
     this.orderDetailsList = this.dataDialog.data.orderDetailsList;
     this.dateShift = this.dataDialog.dateShift;
     this.getDefaultContact();
     this.getWeight();
     this.getAllProduct();
+  }
+  openEditOrder(){
+    let dialogRef = this.matDialog.open(EditOrderComponent,{
+      width: '800px',
+      data: this.dataDialog.data,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe(res=>{
+      console.log(res);
+      if (res=='submit') {
+        this.getOrder();  
+      }
+      
+    })
 
-    console.log(this.orderDetailsList);
+  }
+
+  transporting(){
+    this.matDialog
+      .open(ConfirmDialogComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+          message: "Chuyển đơn hàng thành đang giao?",
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.order.updateName = this.updateName;
+          this.orderService.updateStatus(this.order,2).subscribe({
+            next: res=>{
+              this.toastrService.success('Chuyển trạng thái thành công');
+              this.matDialogRef.close('OK');
+            },
+            error: e=>{
+              this.toastrService.error('Chuyển trạng thái thất bại');
+              console.log(e);
+              
+            }
+          })
+        }
+      });
+  }
+
+  getOrder(){
+    this.orderService.findById(this.dataDialog.data.orders.id).subscribe({
+      next: res=>{
+        this.order = res;
+        console.log('Old Order');
+        console.log(this.order);
+        this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.data.orders.id).subscribe({
+          next: res=>{
+            this.dataSource = res;
+            this.orderDetailsList = res;
+            console.log('orderDetailsList');
+            console.log(this.orderDetailsList);
+            let total = 0;
+            for (let i = 0; i < this.orderDetailsList.length; i++) {
+              total += (this.orderDetailsList[i].unitprice*this.orderDetailsList[i].quantity);
+            }
+            this.order.total = total;
+            this.order.updateName = this.storageService.getFullNameFromToken();
+            this.orderService.updateOrder(this.order).subscribe({
+              next: res=>{
+                this.order = res;
+                console.log('New Order');
+                console.log(this.order);
+                
+              },
+              error: e=>{
+                console.log(e);
+              }
+            })
+          }
+        })
+      },
+      error: e=>{
+        console.log(e);
+      }
+    });
     
   }
 
@@ -242,7 +327,6 @@ export class PreparingProductComponent implements OnInit {
               error: (e) =>{
                 console.log(e);
                 this.toastrService.error('Thêm sản phẩm thất bại');
-                
               }
             })
             
@@ -324,7 +408,7 @@ export class PreparingProductComponent implements OnInit {
       disableClose: true,
       hasBackdrop: true,
       data: {
-          message: 'Bạn có muốn hủy đơn?'
+          message: 'Bạn có muốn hủy đơn không?'
       }
     }).afterClosed().subscribe(result => {
       if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
@@ -332,10 +416,14 @@ export class PreparingProductComponent implements OnInit {
         this.ghnService.cancelOrder({order_codes:[this.order.orderCode]}).subscribe({
           next: (res) =>{
             //Update order status DB
+            this.order.updateName = this.storageService.getFullNameFromToken();
             this.orderService.updateStatus(this.order,4).subscribe({
               next: (res)=>{
                 this.isLoading = false;
                 this.checkCancelOrder = true;
+                for (let i = 0; i < this.orderDetailsList.length; i++) {
+                  this.subtractQuantity(this.orderDetailsList[i].productsDetail.id,(0-this.orderDetailsList[i].quantity));
+                }
                 this.matDialogRef.close('OK');
                 this.toastrService.success('Hủy đơn hàng thành công');
               },
@@ -397,8 +485,13 @@ export class PreparingProductComponent implements OnInit {
       }
   }).afterClosed().subscribe(result => {
       if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.order.updateName = this.updateName;
         this.orderService.updateStatus(this.order,4).subscribe({
           next: (res)=>{
+            for (let i = 0; i < this.orderDetailsList.length; i++) {
+              this.subtractQuantity(this.orderDetailsList[i].productsDetail.id,(0-this.orderDetailsList[i].quantity));
+            }
+            this.matDialogRef.close('OK');
             this.toastrService.success('Hủy đơn thành công');
           },
           error: (e)=>{
@@ -409,6 +502,22 @@ export class PreparingProductComponent implements OnInit {
         })
       }
   })
+  }
+  onSubmit(){
+    this.matDialog
+      .open(ConfirmDialogComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+          message: "Bạn có muốn xác nhận đơn hàng?",
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.createOrderGhn();
+        }
+      });
   }
 
   createOrderGhn(){
@@ -481,13 +590,12 @@ export class PreparingProductComponent implements OnInit {
             
           }
         });
+        this.order.updateName = this.storageService.getFullNameFromToken();
         this.orderService.updateStatus(this.order,1).subscribe(res=>{
           this.matDialogRef.close('OK');
           this.toastrService.success(this.resultOrder.message_display);
           this.isLoading = false;
         });
-        // console.log({order_codes: [this.order.orderCode]});
-        
       },
       error: (e)=>{
         this.isLoading = false;
