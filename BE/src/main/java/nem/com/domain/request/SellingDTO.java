@@ -27,4 +27,13 @@ public class SellingDTO {
 
     private Integer employee;
 
+    private Double freight;
+
+    private String shipName;
+
+    private String shipAddress;
+
+    private String shipPhone;
+
+    private Integer checkSelling;
 }

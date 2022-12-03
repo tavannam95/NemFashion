@@ -80,6 +80,7 @@
     color: white;
     height: 40px !important;
     opacity: 1 !important;
+    justify-content: flex-start !important;
 }
 
 .car .mat-tab-body-content {
@@ -169,7 +170,7 @@ div#mat-menu-panel-0 {
     min-width: 900px;
     max-width: 900px;
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .left-order{
         min-width: 450px;
         max-width: 450px;
@@ -220,6 +221,8 @@ div#mat-menu-panel-0 {
     width: 100%;
     border-bottom: 2px dashed gray;
     padding-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .seach-kh {
@@ -273,7 +276,15 @@ div#mat-menu-panel-0 {
     cursor: pointer;
 }
 
-
+.radio-selling{
+    padding-left: 20px;
+    padding-top: 10px;
+    .mat-radio-button{
+        label{
+            color: black;
+        }
+    }
+}
 
 .mat-ripple-element{
     display: none;
@@ -894,6 +905,66 @@ mat-drawer {
         color: #fff;
         $mg: 8px;
         margin: (-$mg) (-$mg) (-$mg) $mg;
+    }
+}
+
+// SHIPPING
+.car {
+    .select-box {
+        height: 35px;
+        max-width: 100%;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0 10px;
+        background-color: #f1f1f1;
+        border-radius: 8px;
+    }
+    .input-text{
+        height: 35px;
+        border: none;
+        background: #f1f1f1;
+        border-radius: 8px;
+        width: 100%;
+        padding: 0 18px;
+        font-size: 13px;
+    }
+
+    .mat-select-trigger{
+        height: 100% !important;
+    }
+}
+
+@media screen and (max-width: 769px){
+    .form-order{
+        flex-direction: column;
+        align-items: start;
+
+        .seach-kh{
+            width: 100%;
+        }
+
+        .radio-selling{
+            padding-left: 0;
+            padding-top: 15px;
+        }
+    }
+}
+
+@media  screen and (max-width: 767px) {
+    .item-top{
+        flex: unset;
+        width: 100%;
+    }
+    .input{
+        max-width: 300px;
+    }
+    .scanner{
+        left: 320px;
+    }
+    .car .mat-tab-header {
+        margin-left: 365px !important;
     }
 }
 

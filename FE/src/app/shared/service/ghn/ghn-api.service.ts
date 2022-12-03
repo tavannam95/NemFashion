@@ -33,4 +33,25 @@ export class GhnApiService {
   cancelOrderGhn(orderCode: any): Observable<any>{
     return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel',orderCode);
   }
+
+  getProvince():Observable<any>{
+    return this.http.get("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province");
+  }
+
+  getDistrict(data:any):Observable<any>{
+    return this.http.post("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district",data)
+  }
+
+  getWard(data:any):Observable<any>{
+    return  this.http.post("https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward",data);
+  }
+
+
+  getService(data:any):Observable<any>{
+    return  this.http.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services",data);
+  }
+
+  getShippingOrder(data:any):Observable<any>{
+    return this.http.post("https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",data);
+  }
 }

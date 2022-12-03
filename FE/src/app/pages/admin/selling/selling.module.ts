@@ -15,12 +15,15 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 // @ts-ignore
 import {NgxCurrencyModule} from "ngx-currency";
 import {ZXingScannerModule} from "@zxing/ngx-scanner";
+import { ComfirmSellingComponent } from './selling/comfirm-selling/comfirm-selling.component';
 
 @NgModule({
-    declarations: [SellingComponent, ProductDetailOrderComponent],
+    declarations: [SellingComponent, ProductDetailOrderComponent, ComfirmSellingComponent],
     imports: [
         CommonModule,
         MatTabsModule,
@@ -38,7 +41,9 @@ import {ZXingScannerModule} from "@zxing/ngx-scanner";
         MatIconModule,
         MatTooltipModule,
         NgxCurrencyModule,
-        ZXingScannerModule
+        ZXingScannerModule,
+        MatRadioModule,
+        MatSelectModule
     ],
     providers: [CurrencyPipe]
 })

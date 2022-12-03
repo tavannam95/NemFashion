@@ -56,6 +56,21 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token')){
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
     }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services')){
+    //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    // }
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee')){
+    //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    // }
 
     req = req.clone({
       headers: httpHeader

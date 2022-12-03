@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl, NgModel} from "@angular/forms";
 import {SellingService} from "../../../../shared/service/selling/selling.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductDetailOrderComponent} from "./product-detail-order/product-detail-order.component";
@@ -17,6 +17,10 @@ import printJS from 'print-js';
 import {ProductService} from "../../../../shared/service/product/product.service";
 import {StorageService} from "../../../../shared/service/storage.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {GhnService} from "../../../../shared/service/ghn/ghn.service";
+import {Ghn} from "../../../../shared/constants/Ghn";
+import {ComfirmSellingComponent} from "./comfirm-selling/comfirm-selling.component";
+import {Regex} from "../../../../shared/validators/Regex";
 
 @Component({
     selector: 'selling',
@@ -26,6 +30,10 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class SellingComponent implements OnInit, OnDestroy {
     @ViewChild('drawer') drawer: MatDrawer;
+    @ViewChild('name') name: NgModel;
+    @ViewChild('address') address: NgModel;
+    @ViewChild('phone') phone: NgModel;
+
 
     constructor(private sellingService: SellingService,
                 private dialog: MatDialog,
@@ -34,7 +42,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                 private toast: ToastrService,
                 private productService: ProductService,
                 private storageService: StorageService,
-                private sanitizer: DomSanitizer) {
+                private ghnService: GhnService) {
     }
 
     options = {prefix: '', thousands: ',', precision: '0', allowNegative: 'false'}
@@ -61,12 +69,32 @@ export class SellingComponent implements OnInit, OnDestroy {
     listTien: any = [];
     customerPayment;
     scanner2: any;
+    formality:number = 0;
+    provinces!:any[];
+    wards!:any[];
+    district!:any[];
+    proviceName:any;
+    wardName:any;
+    districtName:any;
+    wardId:number = -1;
+    provinceId:number = -1;
+    districtId:number = -1;
+    serviceId:any;
+    shippingTotal:number = 0;
+    ship_name = '';
+    ship_phone = '';
+    ship_address = '';
+    check_validate:boolean = false;
+    openOrder:boolean = false;
+    date:any= '';
+
 
     ngOnInit(): void {
         this.getListCate();
         this.getListCustomer();
         this.getAllProduct();
         setTimeout(() => this.load(), 2000);
+        this.getProvince();
     }
 
 
@@ -98,6 +126,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             this.getItemLocalStorage();
             this.getItemByTabs();
         }
+        this.quantityDetail = [];
     }
 
     getListCustomer() {
@@ -172,6 +201,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             }
         }).afterClosed().subscribe(value => {
             if (!(value == null || value == undefined)) {
+                console.log(value);
                 let hd: any = {};
                 hd.id = this.tabs[this.selected.value];
                 hd.note = '';
@@ -186,6 +216,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                     sizeId: value.sizeId,
                     sizeCode: value.nameSize,
                     name: value.productName,
+                    weight: value.weight
                 };
                 this.pushDataToLocalStorage(hd);
                 // localStorage.setItem('order',JSON.stringify(hd));
@@ -220,6 +251,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             order.note = '';
             order.customer = '';
             order.orderDetail = [];
+            order.totalWeight = 0;
             orders.push(order);
             this.order = order;
             this.setOrderLocalStorage(orders);
@@ -233,6 +265,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             order.id = this.tabs[this.tabs.length - 1];
             order.totalPrice = 0;
             order.totalQuantity = 0;
+            order.totalWeight = 0;
             order.note = '';
             order.customer = '';
             order.orderDetail = [];
@@ -253,22 +286,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     pushDataToLocalStorage(item: any) {
-        // let ordersLocal = localStorage.getItem('order');
-        // if (ordersLocal === null) {
-        //     let orders: any = [];
-        //     let order: any = {};
-        //     order.id = this.tabs[this.selected.value];
-        //     order.totalPrice = item.detail.quantity * item.detail.price;
-        //     order.totalQuantity = item.detail.quantity;
-        //     order.note = '';
-        //     order.orderDetail = [];
-        //     order.orderDetail.push(item.detail);
-        //     orders.push(order);
-        //     this.order = order;
-        //     this.listOrders = orders;
-        //     this.setOrderLocalStorage(orders);
-        // } else {
-        //     let orderLocalArray = JSON.parse(ordersLocal);
+        console.log(item);
         let orderLocalArray = this.listOrders;
         let orderIndex = orderLocalArray.findIndex(o => o.id == this.tabs[this.selected.value]);
         let order = orderLocalArray[orderIndex];
@@ -277,6 +295,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             order.id = this.tabs[this.selected.value];
             order.totalPrice = item.detail.quantity * item.detail.price;
             order.totalQuantity = item.detail.quantity;
+            order.totalWeight = item.detail.quantity * item.detail.weight;
             this.quantityDetail.push(item.detail.quantity);
             order.note = '';
             order.customer = ''
@@ -291,6 +310,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                 order.orderDetail.push(item.detail);
                 this.quantityDetail.push(item.detail.quantity);
                 order.totalPrice += item.detail.quantity * item.detail.price;
+                order.totalWeight += item.detail.quantity * item.detail.weight;
                 order.totalQuantity += item.detail.quantity;
             } else {
                 orderDetail.quantity += item.detail.quantity; //40
@@ -298,10 +318,12 @@ export class SellingComponent implements OnInit, OnDestroy {
                 if (orderDetail.quantity > item.detail.quantityInventory) {
                     order.totalQuantity += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory));
                     order.totalPrice += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.price;
+                    order.totalWeight +=  (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.weight;
                     orderDetail.quantity = item.detail.quantityInventory;
                 } else {
                     order.totalQuantity += item.detail.quantity;
                     order.totalPrice += item.detail.quantity * item.detail.price;
+                    order.totalWeight += item.detail.quantity * item.detail.weight;
                 }
                 this.quantityDetail[orderDetailIndex] = orderDetail.quantity;
 
@@ -325,7 +347,6 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     old_index = 1;
-    date;
 
     setOrderLocalStorage(item: any) {
         localStorage.setItem('order', JSON.stringify(item));
@@ -338,6 +359,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             this.order.orderDetail[index] = orderDetail;
             this.order.totalQuantity -= 1;
             this.order.totalPrice -= orderDetail.price;
+            this.order.totalWeight -= orderDetail.weight;
         }
         this.quantityDetail[index] = this.order.orderDetail[index].quantity;
         if (orderDetail.quantity == 0) {
@@ -353,6 +375,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             this.order.orderDetail[index] = orderDetail;
             this.order.totalQuantity += 1;
             this.order.totalPrice += orderDetail.price;
+            this.order.totalWeight += orderDetail.weight;
         }
         this.quantityDetail[index] = this.order.orderDetail[index].quantity;
         this.setOrderLocalStorage(this.listOrders);
@@ -374,13 +397,15 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.quantityDetail[index] = this.order.orderDetail[index].quantity;
         var totalPrice: number = 0;
         var totalQuantity: number = 0;
+        var totalWeight:number = 0;
         this.order.orderDetail.forEach(orderDt => {
             totalPrice += orderDt.price * orderDt.quantity;
             totalQuantity += orderDt.quantity;
+            totalWeight += orderDt.weight * orderDt.quantity;
         });
         this.order.totalQuantity = totalQuantity;
         this.order.totalPrice = totalPrice;
-
+        this.order.totalWeight = totalWeight;
     }
 
     debounce(fn, ms) {
@@ -419,6 +444,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.quantityDetail.splice(index, 1);
         this.order.totalPrice -= (oderDetailDelete[0].price * oderDetailDelete[0].quantity);
         this.order.totalQuantity -= oderDetailDelete[0].quantity;
+        this.order.totalWeight -=(oderDetailDelete[0].weight * oderDetailDelete[0].quantity) ;
         this.setOrderLocalStorage(this.listOrders);
     }
 
@@ -467,6 +493,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.order.customer = '';
         this.customerInput.setValue('');
         this.customerName = '';
+        this.ship_name = '';
         this.setOrderLocalStorage(this.listOrders);
     }
 
@@ -476,6 +503,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.order.customer = customer.id
         this.customerName = customer.fullname;
         this.customerInput.setValue('');
+        this.ship_name = customer.fullname;
         this.setOrderLocalStorage(this.listOrders);
     }
 
@@ -513,6 +541,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     tinhtien() {
         // this.discount = 0;
+        this.date = this.formatDate(new Date());
         this.listTien = [];
         var total = this.order.totalPrice - this.order.totalPrice * this.discount / 100;
         this.customerPayment = total;
@@ -554,6 +583,8 @@ export class SellingComponent implements OnInit, OnDestroy {
             total = Math.ceil(total / 500000) * 500000;
             this.listTien.push(total);
         }
+
+        console.log(this.listTien);
     }
 
     clickPrice(index) {
@@ -578,22 +609,63 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
 
-    selling() {
+    selling(status: number) {
+        console.log(this.order);
+        if (this.order.orderDetail.length == 0){
+            this.toast.error("Chưa có sản phẩm nào!");
+            return;
+        }
+        if (status == 1){
+            this.check_validate = false;
+            if (this.wardId == -1){
+                this.toast.error("Vui lòng chọn địa chỉ nhận hàng!");
+                return;
+            }
+            this.checkValidate();
+            if (this.check_validate){
+                this.toast.error("Vui lòng kiểm tra lại các trường!");
+                return;
+            }
+            const rexgex = /(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
+            if (!rexgex.test(this.ship_phone)){
+                this.toast.error("Số điện thoại không hợp lệ!");
+                return;
+            }
+        }
         for (let i = 0; i < this.quantityDetail.length; i++) {
             if (this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == '') {
                 this.toast.error("Vui lòng kiểm tra lại số lượng của sản phẩm!");
                 return;
             }
         }
-
-        this.order.discount = this.discount;
+        let shipAddress = this.ship_address+', '+this.wardName+', '+this.districtName +', thành phố ' + this.proviceName;
+        this.order.shipAddress = shipAddress;
+        this.order.shipPhone = this.ship_phone;
+        this.order.shipName = this.ship_name;
+        this.order.freight = this.shippingTotal;
+        this.order.discount = status == 0 ? this.discount : 0;
+        this.order.checkSelling = status;
         this.order.employee = this.storageService.getIdFromToken();
-        this.sellingService.paymentSelling(this.order).subscribe({
+        this.dialog.open(ComfirmSellingComponent, {
+            width: '40vw',
+            disableClose: true,
+            hasBackdrop: true,
+            data: {
+                order: status == 1? this.order : null
+            }
+        }).afterClosed().subscribe(value => {
+            if (value == Constant.RESULT_CLOSE_DIALOG.CONFIRM){
+                this.isLoading = true;
+                this.sellingService.paymentSelling(this.order).subscribe({
                 next: resp => {
                     this.drawer.close();
-                    // this.print(resp); // Test
-                    this.toast.success("Thành công");
-                    this.print(resp.data);
+                    this.isLoading = false;
+                    if (status == 0){
+                        this.toast.success("Thành công");
+                        this.print(resp.data);
+                    }else{
+                        this.toast.success("Đặt hàng thành công");
+                    }
                     this.removeTab(this.selected.value);
                 },
                 error: err => {
@@ -604,8 +676,9 @@ export class SellingComponent implements OnInit, OnDestroy {
                         this.toast.error("Lỗi thanh toán!");
                     }
                 }
+                })
             }
-        )
+        })
     }
 
     openDialogSacnner(template: TemplateRef<any>) {
@@ -791,6 +864,130 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.tryHarder = !this.tryHarder;
     }
 
+
+    SHIP
+    getProvince() {
+        this.ghnService.getProvince().subscribe((res: any) => {
+            this.provinces = res.data;
+        })
+    }
+    //
+    getDistrict(provinceId: any, provinceName: any) {
+        let data = {"province_id": provinceId};
+        this.ghnService.getDistrict(data).subscribe((res: any) => {
+            this.district = res.data;
+        })
+        this.proviceName = provinceName;
+    }
+    //
+    getWard(districtId: any, districtName: any) {
+        let data = {"district_id": districtId};
+        this.ghnService.getWard(data).subscribe((res: any) => {
+            this.wards = res.data;
+        })
+        this.districtName = districtName;
+        this.districtId = districtId;
+    }
+
+    resetDistrictAndWard() {
+        this.wardId = -1;
+        this.districtId = -1;
+        this.district = [];
+        this.wards = [];
+        this.shippingTotal = 0;
+    }
+
+    resetWard() {
+        this.shippingTotal = 0;
+        this.wardId = -1;
+        this.wards = [];
+    }
+
+    getWardName(wardName: any) {
+        this.wardName = wardName;
+        this.getShippingFee(this.districtId);
+    }
+
+    //Api tinh phí vận chuyển
+    getShippingFee(districtId: any) {
+        this.isLoading = true;
+        const data = {
+            "shop_id": Ghn.SHOP_ID_NUMBER,
+            "from_district": 3440,
+            "to_district": districtId
+        }
+        //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
+        this.ghnService.getService(data).subscribe((res: any) => {
+            console.log(res.data)
+            this.serviceId = res.data[0].service_id;
+            const shippingOrder = {
+                "service_id": this.serviceId,
+                "insurance_value": this.order.totalPrice,
+                "from_district_id": 3440,
+                "to_district_id": data.to_district,
+                "weight": this.order.totalWeight
+            }
+            //getShippingOrder tính phí vận chuyển
+            this.ghnService.getShippingOrder(shippingOrder).subscribe((res: any) => {
+                this.isLoading = false;
+                console.log(res)
+                this.shippingTotal = res.data.total;
+            })
+        })
+    }
+
+    checkValidate(){
+        if (this.ship_name.trim() == ''){
+            document.getElementById('customer-name-order').style.border = '1px solid red';
+            this.check_validate = true;
+        }
+        if (this.ship_phone.trim() == ''){
+            document.getElementById('customer-phone-order').style.border = '1px solid red';
+            this.check_validate = true;
+        }
+        if (this.ship_address.trim() == ''){
+            document.getElementById('customer-other-address').style.border = '1px solid red';
+            this.check_validate = true;
+        }
+    }
+
+    clearDataOrder(){
+        this.resetDistrictAndWard();
+        if (this.customerName.length > 0){
+            this.ship_name = this.customerName;
+        }else{
+            this.name.reset('');
+        }
+        this.address.reset('');
+        this.phone.reset('');
+        document.getElementById('customer-name-order').style.border = 'none';
+        document.getElementById('customer-other-address').style.border = 'none';
+        document.getElementById('customer-phone-order').style.border = 'none';
+    }
+
+
+
+
+    // FORMAT DATE
+    formatDate(date) {
+        return (
+            [
+                this.padTo2Digits(date.getDate()),
+                this.padTo2Digits(date.getMonth() + 1),
+                date.getFullYear(),
+            ].join('/') +
+            ' ' +
+            [
+                this.padTo2Digits(date.getHours()),
+                this.padTo2Digits(date.getMinutes()),
+            ].join(':')
+        );
+    }
+
+
+    padTo2Digits(num) {
+        return num.toString().padStart(2, '0');
+    }
 }
 
 
