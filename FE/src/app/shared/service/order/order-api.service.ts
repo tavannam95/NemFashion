@@ -40,9 +40,13 @@ constructor(private readonly http: HttpClient) { }
   updateStatus(data: any, status: number){
     return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
   }
-
+  
   update(data: any): Observable<any>{
     return this.http.put(ApiConstant.order,data);
+  }
+
+  updateOrder(data: any): Observable<any>{
+    return this.http.put(`${ApiConstant.order}/update-order`,data);
   }
 
   findById(id: any): Observable<any>{

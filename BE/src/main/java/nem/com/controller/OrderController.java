@@ -2,9 +2,11 @@ package nem.com.controller;
 
 import lombok.RequiredArgsConstructor;
 import nem.com.domain.dto.SearchOrderDTO;
+import nem.com.domain.request.UpdateOrderRequest;
 import nem.com.domain.response.OrderResponseDTO;
 import nem.com.entity.OrderDetails;
 import nem.com.entity.Orders;
+import nem.com.repository.OrderDetailsRepository;
 import nem.com.repository.OrdersRepository;
 import nem.com.repository.ProductsDetailsRepository;
 import nem.com.service.OrderDetailService;
@@ -26,6 +28,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    private final OrderDetailsRepository orderDetailsRepository;
     private final OrderDetailService orderDetailService;
     private final OrdersRepository ordersRepository;
     private final ProductsDetailsRepository productsDetailsRepository;
@@ -121,7 +124,17 @@ public class OrderController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Orders> update(@RequestBody Orders orders){
+    public void update(@RequestBody UpdateOrderRequest updateOrderRequest){
+        this.orderService.updateOrder(updateOrderRequest);
+//        this.orderDetailsRepository.deleteByOrderId(updateOrderRequest.getId());
+//        for (int i = 0; i < updateOrderRequest.getListOrderDetail().size(); i++) {
+//            this.orderDetailsRepository.save(updateOrderRequest.getListOrderDetail().get(i));
+//        }
+//        return new ResponseEntity<>(this.ordersRepository.findById(updateOrderRequest.getId()).get(),HttpStatus.OK);
+    }
+    @PutMapping("/update-order")
+    public ResponseEntity<Orders> updateOrder(@RequestBody Orders orders){
+        orders.setUpdatedDate(new Date());
         return new ResponseEntity<>(this.ordersRepository.save(orders),HttpStatus.OK);
     }
 

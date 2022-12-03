@@ -62,7 +62,13 @@
           <!-- Category Column -->
           <ng-container matColumnDef="color">
             <th class="text-center" mat-header-cell *matHeaderCellDef>Màu sắc</th>
-            <td mat-cell *matCellDef="let row">{{ row.productsDetail.color.name}}</td>
+            <td class="text-center" mat-cell *matCellDef="let row">
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                  <div style="width: 30px; height: 30px; border-radius: 100%; border: 1px solid black;" [style.background-color]="row.productsDetail.color.code"></div>
+                </div>
+              </div>
+            </td>
           </ng-container>
   
           <!-- Category Column -->
@@ -75,9 +81,9 @@
           <ng-container matColumnDef="quantity">
             <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Số lượng</th>
             <td mat-cell class="text-center" *matCellDef="let row, let i = index">
-              <mat-form-field>
-                <input class="text-center" matInput style="padding-left: 7px;" type="number" [value]="row.quantity" (blur)="setQuantity($event, i, row)">
-              </mat-form-field>
+                <input class="text-center input-quantity" 
+                [options]="{ prefix: '', thousands: ',',precision: '0' , align:'center', allowNegative :'false',max:quantityInventory, min: 1}"
+                 currencyMask type="text" [value]="row.quantity" (keyup)="setQuantity($event, i, row)">
             </td>
           </ng-container>
   
@@ -86,8 +92,8 @@
             <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>
               Thao tác
             </th>
-            <td class="text-center" mat-cell *matCellDef="let row">
-              <a class="btn-link text-danger" (click)="removeOrderDetail(row)">
+            <td class="text-center" mat-cell *matCellDef="let row, let i = index">
+              <a class="btn-link text-danger" (click)="removeOrderDetail(i)">
                 <i class="fas fa-trash"></i>
               </a>
             </td>
@@ -109,6 +115,6 @@
   </div>
 </div>
 <div mat-dialog-actions class="d-flex justify-content-end">
-    <button class="btn btn-success" [disabled]="!checkChange" mat-button (click)="onSubmit(); closeDialog('submit')">Đồng ý</button>
+    <button class="btn btn-success" mat-button (click)="onSubmit()">Đồng ý</button>
     <button class="btn btn-dark" style="margin-left: 0.5em;" mat-button (click)="closeDialog('close')">Đóng</button>
 </div>

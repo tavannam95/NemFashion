@@ -13,6 +13,7 @@ import { ProductService } from '../../../../../shared/service/product/product.se
 import { ProductDetailOrderComponent } from '../../../selling/selling/product-detail-order/product-detail-order.component';
 import { StorageService } from '../../../../../shared/service/storage.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { quantity } from 'chartist';
 
 @Component({
   selector: 'app-edit-order',
@@ -24,24 +25,27 @@ export class EditOrderComponent implements OnInit {
   filteredProduct: Observable<any>;
   listProductSearch: any = [];
 
-
   isLoading: boolean = false;
   orderDetailsList: any[] = [];
   order: any;
   quantityList = [];
   quantityPresentList = [];
-  checkChange: boolean = false;
   productDetail: any;
   orderDetail = {
     order: {id: null},
-    productsDetail: {id: null},
+    productsDetail: {
+      id: null, 
+      product:{name:'', thumnail:''}, 
+      color:{code:'',id: null}, 
+      size:{code:'',id: null}
+    },
     unitprice: null,
     quantity: null,
     status: 1
   }
 
   displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity', 'function'];
-  dataSource: any[] = [];
+  dataSource: MatTableDataSource<any>;
 
   constructor(
     private matDialogRef: MatDialogRef<EditOrderComponent>,
@@ -61,9 +65,6 @@ export class EditOrderComponent implements OnInit {
   }
 
   closeDialog(check: any){
-    if (check == 'submit' && !this.checkChange) {
-      return;
-    }
     this.matDialogRef.close(check);
   }
   check(i: any){
@@ -85,8 +86,6 @@ export class EditOrderComponent implements OnInit {
         this.orderDetailsList = res;
         this.dataSource = res;
         this.pushQuantity(); 
-        console.log(this.dataSource);
-        
       }
     })
   }
@@ -98,7 +97,6 @@ export class EditOrderComponent implements OnInit {
         },
         error: error => {
           console.log(error);
-          
         }
     })
   }
@@ -132,54 +130,27 @@ export class EditOrderComponent implements OnInit {
     }).afterClosed().subscribe(value => {
         if (!(value == null || value == undefined)) {
           if (this.checkorderDetailsList(value.id)) {
-            
             this.orderDetail.order.id = this.order.id;
-            this.orderDetail.productsDetail.id = value.id;
+            this.orderDetail.productsDetail.product.name = value.product.name;
+            this.orderDetail.productsDetail.product.thumnail = value.product.thumnail;
             this.orderDetail.unitprice = value.price;
             this.orderDetail.quantity = value.quantityOrder;
-            this.orderDetailService.updateOrderDetail(this.orderDetail).subscribe({
-              next: (res) =>{
-                this.subtractQuantity(value.id,value.quantityOrder);
-                this.orderDetailsList.push(res);
-                this.dataSource = this.orderDetailsList;  
-                console.log('dataSource');
-                console.log(this.dataSource);
-                
-                   
-                this.checkChange = true;
-                this.readQuantity();
-                    console.log(this.quantityList);
-                    this.toastrService.success('Thêm sản phẩm thành công');
-                return;
-              },
-              error: (e) =>{
-                console.log(e);
-                this.toastrService.error('Thêm sản phẩm thất bại');
-                
-              }
-            })
-            
+            this.orderDetail.productsDetail.color.code = value.nameColor;
+            this.orderDetail.productsDetail.color.id = value.colorId;
+            this.orderDetail.productsDetail.size.code = value.nameSize;
+            this.orderDetail.productsDetail.size.id = value.sizeId;
+            this.orderDetail.productsDetail.id = value.id;
+            this.orderDetailsList.push(this.orderDetail);
+            this.quantityPresentList.push(0);
+            this.dataSource = new MatTableDataSource<any>(this.orderDetailsList);
           }else{
-            for (let i = 0; i < this.orderDetailsList.length; i++) {
-              if (this.orderDetailsList[i].productsDetail.id == value.id) {
-                this.orderDetailsList[i].quantity += value.quantityOrder;
-                this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
-                  next: (res) =>{
-                    this.subtractQuantity(value.id,value.quantityOrder);
-                    this.checkChange = true;
-                    this.readQuantity();
-                    console.log(this.quantityList);
-                    
-                    this.toastrService.success('Thêm sản phẩm thành công');
-                  },
-                  error: (e) =>{
-                    console.log(e);
-                    this.toastrService.error('Thêm sản phẩm thất bại');
-                    
-                  }
-                })
-              }
-            }
+            this.toastrService.warning('Sản phẩm đã có trong đơn');
+            //Cộng thêm số lượng
+            // for (let i = 0; i < this.orderDetailsList.length; i++) {
+            //   if (this.orderDetailsList[i].productsDetail.id == value.id) {
+            //     this.orderDetailsList[i].quantity += value.quantityOrder;
+            //   }
+            // }
           }
         }
       }
@@ -194,8 +165,7 @@ export class EditOrderComponent implements OnInit {
     }
     return true;
   }
-  removeOrderDetail(row: any){
-    console.log(row);
+  removeOrderDetail(index: any){
     this.matDialog
       .open(ConfirmDialogComponent, {
         disableClose: true,
@@ -207,18 +177,10 @@ export class EditOrderComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
-          this.orderDetailService.delete(row.id).subscribe({
-            next: (res)=>{
-              
-              this.subtractQuantity(row.productsDetail.id,(0-row.quantity));
-              this.checkChange = true;
-              this.orderService.setUpdateName(row.order.id,this.storageService.getFullNameFromToken());
-              this.toastrService.success('Xóa sản phẩm thành công');
-            },
-            error: (e)=>{
-              console.log(e);
-            }
-          });
+          this.quantityList.splice(index,1);
+          this.quantityPresentList.splice(index,1);
+          this.orderDetailsList.splice(index,1);
+          this.dataSource = new MatTableDataSource<any>(this.orderDetailsList);
         }
       });
   }
@@ -229,7 +191,7 @@ export class EditOrderComponent implements OnInit {
         this.productDetail.quantity -= quantity;
         this.productDetailService.updateProductDetail(this.productDetail).subscribe({
           next: (r)=>{
-            // console.log('new product detail');
+
           },
           error: (e) =>{
             console.log(e);
@@ -255,7 +217,7 @@ export class EditOrderComponent implements OnInit {
   }
   setQuantity(event: any, index: any, row: any){
     let newQty = event.target.value;
-    let oldQty = row.quantity;
+    let oldQty = this.quantityPresentList[index];
     let presentQty = null;
     if (event.target.value=='') {
       event.target.value = oldQty;
@@ -276,34 +238,50 @@ export class EditOrderComponent implements OnInit {
         this.toastrService.warning('Số lượng sản phẩm đã hết');
         return;
       }else if ((newQty-oldQty)>presentQty) {
-        event.target.value = oldQty;
+        event.target.value = presentQty + oldQty;
         this.toastrService.warning('Số lượng còn trong kho: ' + presentQty);
         return;
       }else if (newQty!=oldQty&&(newQty-oldQty)<presentQty) {
-        this.checkChange = true;
         this.quantityList[index] = parseInt(event.target.value);
-        console.log(this.quantityList);
       }
     })
   }
   onSubmit(){
-    // if (!this.checkChange) {
-    //   this.toastrService.warning('Bạn chưa thay đổi thông tin');
-    //   return;
-    // }
-    for (let i = 0; i < this.orderDetailsList.length; i++) {
+    for (let i = 0; i < this.quantityList.length; i++) {
       this.orderDetailsList[i].quantity = this.quantityList[i];
-      this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
-        error: (e)=>{
-          console.log(e);
-        },
-        next: (res) =>{
-          console.log('new order detail');
-          
-          console.log(res);
-          this.subtractQuantity(res.productsDetail.id,(this.quantityList[i] - this.quantityPresentList[i]));
-        }
-      })
     }
+      this.matDialog
+      .open(ConfirmDialogComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+          message: "Bạn có muốn cập nhật đơn hàng?",
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.setUpdateName();
+          this.orderService.update({id: this.order.id,listOrderDetail:this.orderDetailsList}).subscribe({
+            next: res=>{
+              this.closeDialog('submit');
+              this.toastrService.success('Cập nhật thành công')
+              
+            },
+            error: e=>{
+              console.log(e);
+              this.toastrService.error('Cập nhật thất bại')
+            }
+          })
+        }
+      });
+  }
+  setUpdateName(){
+    for (let i = 0; i < this.orderDetailsList.length; i++) {
+      this.orderDetailsList[i].updateName = this.storageService.getFullNameFromToken();
+    }
+    console.log('Update name');
+    console.log(this.orderDetailsList);
+    
   }
 }

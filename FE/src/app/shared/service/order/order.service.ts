@@ -66,6 +66,14 @@ export class OrderService {
     })
   }
 
+  update(data:any){
+    return this.apiService.update(data);
+  }
+
+  updateOrder(data: any){
+    return this.apiService.updateOrder(data);
+  }
+  
   findById(id: any){
     return this.apiService.findById(id);
   }
