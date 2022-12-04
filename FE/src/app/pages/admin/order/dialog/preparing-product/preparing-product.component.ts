@@ -126,6 +126,7 @@ export class PreparingProductComponent implements OnInit {
       width: '800px',
       data: this.dataDialog.data,
       disableClose: true,
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(res=>{
       console.log(res);

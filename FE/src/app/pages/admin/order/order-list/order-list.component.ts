@@ -140,6 +140,7 @@ export class OrderListComponent implements OnInit {
     let dialogRef = this.matDialog.open(PreparingProductComponent,{
       width: '1000px',
       disableClose: true,
+      autoFocus: false,
       data: {
         data,
         dateShift

@@ -93,6 +93,8 @@ export class EditOrderComponent implements OnInit {
     this.productService.getAllProduct().subscribe({
         next: resp => {
             this.listProductSearch = resp;
+            console.log(this.listProductSearch);
+            
             this.productFilter();
         },
         error: error => {
@@ -114,8 +116,8 @@ export class EditOrderComponent implements OnInit {
     } else {
         filterValue = value;
     }
-    return this.listProductSearch.filter(option => option.name.toLowerCase().includes(filterValue)
-        || option.name.includes(filterValue));
+    return this.listProductSearch.filter(option => option.name?.toLowerCase().includes(filterValue)
+        || option.name?.includes(filterValue));
   }
   
   openDialog(product: any) {
