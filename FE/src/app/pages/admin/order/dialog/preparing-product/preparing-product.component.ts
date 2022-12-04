@@ -187,9 +187,6 @@ export class PreparingProductComponent implements OnInit {
             this.orderService.updateOrder(this.order).subscribe({
               next: res=>{
                 this.order = res;
-                console.log('New Order');
-                console.log(this.order);
-                
               },
               error: e=>{
                 console.log(e);
@@ -233,9 +230,29 @@ export class PreparingProductComponent implements OnInit {
   }
 
   addAddress(){
-    this.matDialog.open(EditAddressDialogComponent,{
+    let openDialog = this.matDialog.open(EditAddressDialogComponent,{
       width: '50%',
-      disableClose: true
+      disableClose: true,
+      data: {
+        order: this.order,
+        weight: this.weight
+      }
+    });
+    openDialog.afterClosed().subscribe(res=>{
+      if (!(res==''||res== null)) {
+        this.order.shipAddress = res.address;
+        console.log(this.order.shipAddress);
+        this.order.freight = res.fee;
+        this.order.updateName = this.storageService.getFullNameFromToken();
+        this.orderService.updateOrder(this.order).subscribe({
+          next: res=>{
+            this.toastrService.success('Đổi địa chỉ thành công');
+          },
+          error: e=>{
+            this.toastrService.error('Đổi địa chỉ thất bại');
+          }
+        })
+      }
     })
   }
 

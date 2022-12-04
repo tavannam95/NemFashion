@@ -67,11 +67,11 @@
                   <mat-form-field appearance="outline">
                     <mat-label>Giá</mat-label>
                     <input formControlName="price" matInput type="text" currencyMask 
-                      [options]="{ prefix: '', suffix: ' VNĐ', thousands: ',',precision: '0'  ,allowNegative :'false',max: '999999999999', align: 'left'}"
+                      [options]="{ prefix: '', suffix: 'đ', thousands: ',',precision: '0'  ,allowNegative :'false',max: '999999999999', align: 'left'}"
                       />
                     <mat-error class="text-danger" *ngIf="formGroup.get('price')?.hasError('min') &&
                                       formGroup.get('price')?.touched">
-                      Giá sản phẩm thấp nhất là 10.000 VNĐ
+                      Giá sản phẩm thấp nhất là 10.000đ
                     </mat-error>
                     <mat-error class="text-danger" *ngIf="formGroup.get('price')?.hasError('required') &&
                                       formGroup.get('price')?.touched">
