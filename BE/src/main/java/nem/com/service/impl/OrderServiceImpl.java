@@ -6,14 +6,19 @@ import nem.com.dto.response.CustomerBuyMostProductDTO;
 import nem.com.dto.response.OverviewStatisticalDTO;
 import nem.com.dto.response.TurnoverDTO;
 import nem.com.domain.dto.SearchOrderDTO;
+import nem.com.entity.Discounts;
 import nem.com.entity.Orders;
+import nem.com.entity.ProductDiscount;
+import nem.com.repository.DiscountsRepository;
 import nem.com.repository.OrdersRepository;
+import nem.com.repository.ProductDiscountRepository;
 import nem.com.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,9 +26,15 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     OrdersRepository ordersRepository;
+    private final DiscountsRepository discountsRepository ;
+    private final ProductDiscountRepository productDiscountRepository ;
 
-    public OrderServiceImpl(OrdersRepository ordersRepository) {
+    public OrderServiceImpl(OrdersRepository ordersRepository ,
+                            DiscountsRepository discountsRepository ,
+                            ProductDiscountRepository productDiscountRepository ) {
         this.ordersRepository = ordersRepository;
+        this.discountsRepository = discountsRepository ;
+        this.productDiscountRepository = productDiscountRepository ;
     }
 
     @Override
@@ -72,8 +83,48 @@ public class OrderServiceImpl implements OrderService {
         return this.ordersRepository.CustomerBuyMostProduct( request.getStartDate() , request.getEndDate() ) ;
     }
 
+    public void updateDiscountProductStart(Integer idDiscount ) {
+        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(idDiscount) ;
+        Discounts discounts = this.discountsRepository.findById(idDiscount).get() ;
+        List<Integer> listPro = new ArrayList<>();
+
+        for( ProductDiscount x: listPd ){
+            if( x.getProduct().getDiscount() < discounts.getDiscount() || x.getDiscount() == null ){
+                listPro.add(x.getProduct().getId() );
+            }
+        }
+
+        Integer[] arr = listPro.toArray(Integer[]::new) ;
+        this.discountsRepository.updateDiscountProduct( discounts.getDiscount() , arr );
+    }
+
+    public void updateDiscountProductEnd(Integer idDiscount ) {
+        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(idDiscount) ;
+        List<Integer> listPro = new ArrayList<>();
+
+        for( ProductDiscount x: listPd ){
+            listPro.add(x.getProduct().getId() );
+        }
+        this.discountsRepository.updateDiscountProduct( 0 , listPro.toArray(Integer[]::new)  );
+    }
+
     @Override
     public OverviewStatisticalDTO getOverview() {
+        List<Discounts> listd = this.discountsRepository.findDiscountsByStatus() ;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy") ;
+        String date1 = sdf.format(new Date() ) ;
+        for ( Discounts x: listd ){
+            String date2 = sdf.format(x.getStartDate()) ;
+            String date3 = sdf.format(x.getEndDate() ) ;
+            if( date2.equalsIgnoreCase(date1) ){
+                this.updateDiscountProductStart(x.getId());
+            }
+
+            if (date3.equalsIgnoreCase(date1)) {
+                this.updateDiscountProductEnd(x.getId());
+            }
+
+        }
         return this.ordersRepository.getOverview() ;
     }
 
@@ -92,8 +143,6 @@ public class OrderServiceImpl implements OrderService {
         }else {
             type = "%d-%m-%Y" ;
         }
-        System.out.println(request.getStartDate());
-        System.out.println(request.getEndDate());
         return this.ordersRepository.turnoverDTO( request.getStartDate() , request.getEndDate() , type );
     }
 

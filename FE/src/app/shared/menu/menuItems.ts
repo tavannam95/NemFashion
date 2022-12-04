@@ -12,6 +12,7 @@ export const MenuItems: RouteInfo[] = [
     {path: '/customer', title: 'Khách hàng', icon: 'fas fa-users', class: ''},
     {path: '/order', title: 'Đơn hàng', icon: 'fas fa-clipboard', class: ''},
     {path: '/product', title: 'Sản phẩm', icon: 'fas fa-box', class: ''},
+    {path: '/promotion', title: 'Khuyến mãi', icon: 'fas fa-percentage', class: ''},
     {path: '/category', title: 'Danh mục', icon: 'fas fa-th-list', class: ''},
     {path: '/rating' , title: 'Đánh giá' , icon: 'fas fa-star' , class: '' }
 ]
