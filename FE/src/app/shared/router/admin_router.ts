@@ -68,6 +68,9 @@ export const content_admin: Routes = [
     {
         path: 'pro' ,
         loadChildren: () => import('../../dashboard/statical/statical-product/statical-product.module').then( m => m.StaticalProductModule)
+    },
+    {
+        path: 'promotion' ,
+        loadChildren: () => import('../../pages/admin/promotion/promotion.module').then( m => m.PromotionModule )
     }
-
 ]

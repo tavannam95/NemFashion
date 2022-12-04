@@ -29,7 +29,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         ReactiveFormsModule,
         MatSelectModule,
         MatTooltipModule,
-        MatCheckboxModule,
+        MatCheckboxModule
     ]
 })
 export class PromotionModule { }

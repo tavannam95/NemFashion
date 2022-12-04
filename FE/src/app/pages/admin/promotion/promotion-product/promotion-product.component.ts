@@ -7,6 +7,8 @@ import {FormBuilder} from '@angular/forms';
 import {PromotionComponent} from '../promotion.component';
 import {CategoryService} from '../../../../shared/service/category/category.service';
 import {ProductService} from '../../../../shared/service/product/product.service';
+import {PromotionService} from '../../../../shared/service/promotion/promotion.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'promotion-product',
@@ -22,10 +24,12 @@ export class PromotionProductComponent implements OnInit  {
 
   type =1 ;
   listCate: any[] = []
-  listPro: any[] = []
+  listPro: any[] = [];
+  listProDis: any[] = [] ;
+  listProsChoosed: any[] = [] ;
 
   form = this.fb.group({
-     category: 0 ,
+     category: null ,
      htgg: 1 ,
      startPrice: null ,
      endPrice: null
@@ -35,6 +39,8 @@ export class PromotionProductComponent implements OnInit  {
                public dialogRef: MatDialogRef<PromotionComponent>,
                private categoryService: CategoryService ,
                private productService: ProductService ,
+               private promotion: PromotionService ,
+               private toast: ToastrService ,
                @Inject(MAT_DIALOG_DATA) public data: any ) {
   }
 
@@ -46,10 +52,20 @@ export class PromotionProductComponent implements OnInit  {
 
   getProByCate(){
      this.productService.getProByCate(this.form.getRawValue() ).subscribe( (value:any) => {
-         this.listPro = value ;
          this.dataSource = new MatTableDataSource<any>(value);
          this.dataSource.paginator = this.paginator;
+         this.isAllSelected()
      })
+  }
+
+  getProDis(){
+      this.promotion.getAllProductDiscount( this.data.idDis ).subscribe(( value: any) => {
+          this.listProDis = value ;
+          for ( let x of value ){
+              this.listProsChoosed.push(x.product)
+          }
+          console.log('kaka' , this.listProsChoosed)
+      })
   }
 
   onSearch(){
@@ -58,23 +74,38 @@ export class PromotionProductComponent implements OnInit  {
               category: null
           })
       }
+      if( this.type == 1 ){
+          this.form.patchValue({
+              startPrice: null ,
+              endPrice: null
+          })
+      }
 
       this.getProByCate();
+      if( this.form.getRawValue().category == null ){
+          this.form.patchValue({
+              category: 0
+          })
+      }
   }
+
+  applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
 
   ngOnInit(): void {
      this.getAllCategory();
      this.onSearch();
+     this.getProDis() ;
   }
 
-  /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -87,9 +118,32 @@ export class PromotionProductComponent implements OnInit  {
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: any): string {
     if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+      return `${this.isAllSelected() ? 'deselect' : 'select'}`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+
+    if( this.selection.isSelected(row) ){
+        if( this.checkSimilar( row.id) ){
+            this.listPro.push(row)
+            console.log('add' , this.listPro)
+        }
+    }else{
+        if( this.checkSimilar(row.id) == false ){
+            this.listPro.splice(this.listPro.indexOf(row)   ,1)
+            console.log('remove' , this.listPro)
+        }
+    }
+
+
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
+  }
+
+  checkSimilar( data: any ){
+      for( let x of this.listPro ){
+          if( x.id == data ){
+              return false ;
+          }
+      }
+      return true ;
   }
 
   changeHTGG(data:any){
@@ -98,6 +152,49 @@ export class PromotionProductComponent implements OnInit  {
 
   onClose(){
      this.dialogRef.close() ;
+  }
+
+  onClear(){
+      this.form.reset() ;
+  }
+
+  onSave(){
+
+      console.log('before' , this.listPro)
+
+      for( let x of this.listProsChoosed ){
+          this.checkExit(x);
+      }
+
+      console.log('result' , this.listPro )
+
+      // this.promotion.addProductIntoPromotion( this.listPro , this.data.idDis ).subscribe({
+      //     next: () =>{
+      //         this.toast.success("Thêm sản phẩm thành công")
+      //         this.dialogRef.close()
+      //     },
+      //     error: err => {
+      //         this.toast.error("Thêm sản phẩm thất bại")
+      //     }
+      // }) ;
+  }
+
+  checkSelected( data: any){
+      for( let x of this.listProDis ){
+          if( x.product.id == data.id ){
+              return true ;
+          }
+      }
+      return false ;
+  }
+
+  checkExit(data: any){
+      if( this.listPro.includes(data) ){
+          this.listPro.splice(  this.listPro.indexOf(data) , 1)
+      }else {
+          this.listPro.push(data)
+      }
+      console.log('kacac' , this.listPro)
   }
 }
 

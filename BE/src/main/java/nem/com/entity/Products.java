@@ -31,6 +31,9 @@ public class Products {
     @Column(name = "price", nullable = true, precision = 0)
     private Double price;
 
+    @Column(name = "discount" , nullable = true)
+    private Integer discount ;
+
     @Basic
     @Column(name = "weight", nullable = true, precision = 0)
     private Double weight;
