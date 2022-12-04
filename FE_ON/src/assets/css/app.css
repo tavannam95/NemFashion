@@ -3246,9 +3246,8 @@ input::-ms-clear {
   color: #7f7f7f;
   font-weight: 600;
   font-size: 13px;
-  -ms-flex: 0 0 50%;
-      flex: 0 0 50%;
-  max-width: 50%; }
+  -ms-flex: 0 0 70%;
+      flex: 0 0 70%; }
 
 .ship-b__edit {
   display: inline-block;

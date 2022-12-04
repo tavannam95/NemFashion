@@ -14,4 +14,16 @@ export class OrderDetailApiService {
   getOrderDetailByOrderId(orderId: any): Observable<any>{
     return this.http.get(`${ApiConstant.orderDetail}/${orderId}`);
   }
+
+  findById(id: any): Observable<any>{
+    return this.http.get(`${ApiConstant.orderDetail}/getOne/${id}`);
+  }
+
+  updateOrderDetail(orderDetail: any): Observable<any>{
+    return this.http.put(ApiConstant.orderDetail,orderDetail);
+  }
+
+  delete(id: any){
+    return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
+  }
 }

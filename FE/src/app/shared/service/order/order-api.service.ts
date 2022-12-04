@@ -18,9 +18,9 @@ constructor(private readonly http: HttpClient) { }
     return this.http.get(`${ApiConstant.order}?page=${page}&size=${size}`);
   }
 
-verifyOrCancelOrder(data: any, status: number){
-  return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
-}
+  verifyOrCancelOrder(data: any, status: number){
+    return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
+  }
   getOrderGhn(): Observable<any>{
     return this.http.get(`${ApiConstant.order}/ghn`);
   }
@@ -34,11 +34,22 @@ verifyOrCancelOrder(data: any, status: number){
   }
 
   findAllByStatus(stt: any): Observable<any>{
-    return this.http.get(`${ApiConstant.order}/${stt}`);
+    return this.http.get(`${ApiConstant.order}/status/${stt}`);
   }
 
   updateStatus(data: any, status: number){
     return this.http.put(`${ApiConstant.order}/updateStatus/${status}`,data);
   }
+  
+  update(data: any): Observable<any>{
+    return this.http.put(ApiConstant.order,data);
+  }
 
+  updateOrder(data: any): Observable<any>{
+    return this.http.put(`${ApiConstant.order}/update-order`,data);
+  }
+
+  findById(id: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/${id}`);
+  }
 }

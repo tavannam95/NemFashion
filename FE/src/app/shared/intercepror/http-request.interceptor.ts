@@ -16,6 +16,7 @@ import { Ghn } from '../constants/Ghn';
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   cancelOrderGhn = 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel';
+  addressGhn = 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data';
 
   constructor(private readonly storageService: StorageService,
               private readonly router: Router) {
@@ -46,12 +47,30 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
       httpHeader = httpHeader.append('ShopId', Ghn.SHOP_ID);
     }
-    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift')){
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift')||req.url.includes(this.addressGhn)){
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    if (req.url.includes('https://online-gateway.ghn.vn')) {
+      httpHeader = httpHeader.append('token', 'cff0fcca-5ddf-11ed-ad26-3a4226f77ff0')
     }
     if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token')){
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
     }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district')){
+      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    }
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services')){
+    //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    // }
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee')){
+    //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    // }
 
     req = req.clone({
       headers: httpHeader

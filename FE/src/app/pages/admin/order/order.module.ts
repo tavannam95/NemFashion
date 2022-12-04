@@ -19,10 +19,17 @@ import {MatCardModule} from '@angular/material/card';
 import { PreparingProductComponent } from './dialog/preparing-product/preparing-product.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { EditAddressDialogComponent } from './dialog/edit-address-dialog/edit-address-dialog.component';
+import {MatSelectModule} from '@angular/material/select';
+import { EditOrderComponent } from './dialog/edit-order/edit-order.component';
 @NgModule({
     declarations: [
         OrderListComponent,
-        PreparingProductComponent
+        PreparingProductComponent,
+        EditAddressDialogComponent,
+        EditOrderComponent
     ],
     imports: [
         CommonModule,
@@ -43,6 +50,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatCardModule,
         MatRadioModule,
         MatExpansionModule,
+        MatAutocompleteModule,
+        MatTooltipModule,
+        MatSelectModule
     ]
 })
 export class OrderModule {

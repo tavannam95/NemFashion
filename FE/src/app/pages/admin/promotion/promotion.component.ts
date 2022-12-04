@@ -3,7 +3,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog} from '@angular/material/dialog';
 import {PromotionFormComponent} from './promotion-form/promotion-form.component';
-import * as Constants from 'constants';
 import {Constant} from '../../../shared/constants/Constant';
 import {PromotionProductComponent} from './promotion-product/promotion-product.component';
 import {PromotionService} from '../../../shared/service/promotion/promotion.service';

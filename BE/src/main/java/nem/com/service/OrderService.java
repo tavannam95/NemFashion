@@ -1,5 +1,6 @@
 package nem.com.service;
 
+import nem.com.domain.request.UpdateOrderRequest;
 import nem.com.dto.request.SearchDTO;
 import nem.com.dto.response.BuyMostProductDTO;
 import nem.com.dto.response.CustomerBuyMostProductDTO;
@@ -26,6 +27,7 @@ public interface OrderService {
 
     List<CustomerBuyMostProductDTO> CustomerBuyMostProduct( SearchDTO request) ;
 
+    void updateOrder(UpdateOrderRequest updateOrderRequest);
     OverviewStatisticalDTO getOverview() ;
 
      List<BuyMostProductDTO> BuyMostProductDTO(SearchDTO request ) ;
