@@ -24,24 +24,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    OrdersRepository ordersRepository;
+    private final OrdersRepository ordersRepository;
     private final DiscountsRepository discountsRepository ;
     private final ProductDiscountRepository productDiscountRepository ;
 
-    public OrderServiceImpl(OrdersRepository ordersRepository ,
-                            DiscountsRepository discountsRepository ,
-                            ProductDiscountRepository productDiscountRepository ) {
-        this.ordersRepository = ordersRepository;
-        this.discountsRepository = discountsRepository ;
-        this.productDiscountRepository = productDiscountRepository ;
-    }
     OrderDetailsRepository orderDetailsRepository;
     ProductsDetailsRepository productsDetailsRepository;
 
