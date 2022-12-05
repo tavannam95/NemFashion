@@ -5,7 +5,7 @@
 <div class="main-content" id="id">
     <div class="container-fluid">
         <div class="car custom-card " sytle="margin:0">
-            <mat-drawer-container [hasBackdrop]="true" class="example-container" autosize>
+            <mat-drawer-container class="example-container" autosize>
                 <div class="add-tabs">
                     <a class="example-add-tab-button" (click)="addTab(true)">
                         <i class="fas fa-plus"></i>
@@ -38,7 +38,7 @@
                                 <div class="info-product-search">
                                     <p class="name-product-search" #tooltip="matTooltip"
                                        matTooltip="{{pro.name.length>40?pro.name:''}}">{{pro.name}}</p>
-                                    <span class="price-product-search"> {{pro.price| currency:' ':'symbol':'0.0-2'}} VNĐ</span>
+                                    <span class="price-product-search"> {{pro.price| currency:' ':'symbol':'0.0-2'}}đ</span>
                                 </div>
                             </a>
                         </mat-option>
@@ -80,7 +80,7 @@
                                                             <div class="info-product">
                                                                 <span class="name-product">{{product.name}}</span>
                                                                 <span class="price-product">
-                                                           <span class="price"> {{product.price|currency:' ': '':'0.0-0'}} VNĐ</span></span>
+                                                           <span class="price"> {{product.price| currency:' ':'symbol':'0.0-2'}}đ</span></span>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -121,6 +121,12 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </div>
+                                            <div class="radio-selling">
+                                                <mat-radio-group [(ngModel)]="formality" aria-label="Select an option">
+                                                    <mat-radio-button [value]="0">Tại quầy</mat-radio-button>
+                                                    <mat-radio-button  style="margin-left: 20px" [value]="1">Đơn giao</mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
                                         </form>
                                         <div class="order-detail">
                                             <div class="order-item "
@@ -146,7 +152,7 @@
                                                             <input type="text"
                                                                    [style.background-color]="quantityDetail[index]>orderDetail.quantityInventory?'red':''"
                                                                    matTooltip="Kho: {{orderDetail.quantityInventory}}"
-                                                                   (keyup)="setOrderLocalStorage(listOrders);checkQuantityInput(index)"
+                                                                   (keyup)="checkQuantityInput(index);setOrderLocalStorage(listOrders)"
                                                                    [(ngModel)]="quantityDetail[index]"
                                                                    currencyMask
                                                                    [options]="{ prefix: '', thousands: ',',precision: '0' , align:'center',
@@ -154,7 +160,7 @@
                                                             <button (click)="plusQuantity(index)"><i
                                                                     class="fa-solid fa-plus"></i></button>
                                                         </div>
-                                                        <div class="item-price">{{orderDetail.price | currency:' ': '':'0.0-0'}} VNĐ</div>
+                                                        <div class="item-price">{{orderDetail.price | currency:' ':'symbol':'0.0-2'}}đ</div>
                                                         <div class="item-total">{{(orderDetail.quantity != '' ? orderDetail.price * orderDetail.quantity : 0)|currency:' ': '':'0.0-0' }}</div>
                                                     </div>
                                                 </div>
@@ -165,7 +171,7 @@
                                                 <div style="font-size: 16px;padding: 4px;color: black;">TỔNG TIỀN HÀNG
                                                     <span class="total-quantity">{{order.totalQuantity}}</span>
                                                 </div>
-                                                <div style="flex: 1;text-align: end">{{order.totalPrice|currency:' ': '':'0.0-0'}} VNĐ</div>
+                                                <div style="flex: 1;text-align: end">{{order.totalPrice| currency:' ':'symbol':'0.0-2'}}đ</div>
                                             </div>
                                             <div>
                                                 <div class="row">
@@ -178,8 +184,8 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <button class="btn-order" mat-button
-                                                                (click)="drawer.toggle();tinhtien()">
-                                                            THANH TOÁN
+                                                                (click)="drawer.toggle();tinhtien();formality == 1 ? clearDataOrder():''">
+                                                            {{formality == 0?'THANH TOÁN':'ĐẶT HÀNG'}}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -194,9 +200,10 @@
 
                 </mat-tab-group>
                 <mat-drawer #drawer mode="over" position="end" class="example-sidenav">
-                    <div class="payment">
+<!--                    SELLING-->
+                    <div class="payment"  *ngIf="formality == 0">
                         <div class="header-payment">
-                            <div class="date-time">12/12/1212 12:12</div>
+                            <div class="date-time">{{date}}</div>
                             <button class="close-toggle" (click)="drawer.toggle();"><i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -206,7 +213,7 @@
                                 <div class="payment-content-item">
                                     <div>Tổng tiền hàng <span class="total-quantity">{{order.totalQuantity}}</span>
                                     </div>
-                                    <div class="price">{{order.totalPrice |currency:' ': '':'0.0-0'}} VNĐ</div>
+                                    <div class="price">{{order.totalPrice | currency:' ':'symbol':'0.0-2'}}đ</div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div>Giảm giá(%)</div>
@@ -218,42 +225,143 @@
                                         <span style="position: absolute;right: 0;top:1px">%</span>
                                         <div style="font-size: 19px;padding-top: 7px;font-weight: 500;"
                                              *ngIf="discount>0">
-                                            (-{{discount * order.totalPrice / 100|currency:' ': '':'0.0-0'}} VNĐ)
+                                            (-{{discount * order.totalPrice / 100| currency:' ':'symbol':'0.0-2'}}đ)
                                         </div>
                                     </div>
                                 </div>
                                 <div class="payment-content-item">
                                     <div class="bold">Khách cần trả</div>
-                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 |currency:' ': '':'0.0-0'}} VNĐ</div>
+                                    <div class="price">{{ order.totalPrice - discount * order.totalPrice / 100 | currency:' ':'symbol':'0.0-2'}}đ</div>
                                 </div>
                                 <div class="payment-content-item" *ngIf="discount<100">
                                     <div class="bold">Khách thanh toán</div>
                                     <div class="price"><input type="text" currencyMask
-                                                              [options]="{ prefix: '', thousands: ',',precision: '0'  ,allowNegative :'false',max: '999999999999'}"
+                                                              [options]="{ prefix: '', suffix:'đ', thousands: ',',precision: '0'  ,allowNegative :'false',max: '999999999999'}"
                                                               class="customer-payment" [(ngModel)]="customerPayment">
                                     </div>
                                 </div>
-                                <div class="list-price-payment" *ngIf="discount<100">
+                                <div class="list-price-payment" *ngIf="discount<100 && listTien.length>0">
                                     <button class="btn-price-payment" (click)="clickPrice(index)"
                                             *ngFor="let price of listTien;let index = index">
-                                        {{price|currency:' ': '':'0.0-0'}} VNĐ
+                                        {{price| currency:' ':'symbol':'0.0-2'}}đ
                                     </button>
                                 </div>
                                 <div class="payment-content-item"
                                      *ngIf="customerPayment>order.totalPrice - discount*order.totalPrice/100 && discount < 100">
                                     <div class="bold">Tiền thừa trả khách</div>
-                                    <div class="price">{{customerPayment - (order.totalPrice - discount * order.totalPrice / 100)|currency:' ': '':'0.0-0'}} VNĐ
+                                    <div class="price">{{customerPayment - (order.totalPrice - discount * order.totalPrice / 100)| currency:' ':'symbol':'0.0-2'}}đ
                                     </div>
                                 </div>
                             </div>
                             <div class="payment-footer">
-                                <button class="btn-order" mat-button (click)="selling()">
+                                <button class="btn-order" mat-button (click)="selling(formality)">
                                     THANH TOÁN
                                 </button>
                             </div>
                         </div>
                     </div>
 
+
+<!--                    // ORDER-->
+                    <div class="payment" *ngIf="formality == 1">
+                        <div class="header-payment">
+                            <div class="date-time">{{date}}</div>
+                            <button class="close-toggle" (click)="drawer.toggle();"><i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="customer-info">{{customerName == '' ? 'Khách lẻ' : customerName }}</div>
+                        <div class="payment-bot">
+                            <div class="payment-content">
+                                <div class="row mb-3">
+                                    <div class="u-s-m-b-30 col-6 pl-0">
+                                        <label for="customer-name-order" class="gl-label">HỌ TÊN <span class="text-danger">*</span></label>
+                                        <input  [style.border]="name.touched && ship_name.length ==0?'1px solid red':''"
+                                                [(ngModel)]="ship_name" type="text" class="input-text" #name="ngModel" id="customer-name-order">
+                                    </div>
+                                    <div class="u-s-m-b-30 col-6 pr-0">
+                                        <label for="customer-phone-order" class="gl-label">SĐT <span class="text-danger">*</span></label>
+                                        <input  [style.border]="phone.touched && ship_phone.length ==0?'1px solid red':''"
+                                                [(ngModel)]="ship_phone" type="text" class="input-text" #phone="ngModel" id="customer-phone-order">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="u-s-m-b-30 col-6 pl-0">
+                                        <!--======TỈNH / THÀNH PHỐ ======-->
+                                        <label class="gl-label" for="shipping-country">TỈNH / THÀNH PHỐ <span class="text-danger">*</span></label>
+                                        <mat-select
+                                                [(ngModel)]="provinceId"
+                                                class="select-box"
+                                                id="shipping-country">
+                                            <mat-option [value]="-1" [disabled]="true">Chọn tỉnh/thành phố</mat-option>
+                                            <mat-option  *ngFor="let p of provinces"
+                                                         [value]="p.ProvinceID"
+                                                         (click)="getDistrict(p.ProvinceID,p.ProvinceName);resetDistrictAndWard()">
+                                                {{p.ProvinceName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!--====== TỈNH / THÀNH PHỐ ======-->
+                                    </div>
+                                    <div class="u-s-m-b-30 col-6 pr-0">
+                                        <!--====== QUẬN / HUYỆN  ======-->
+                                        <label class="gl-label" for="shipping-state">QUẬN / HUYỆN <span class="text-danger">*</span></label>
+                                        <mat-select
+                                                [(ngModel)]="districtId"
+                                                class="select-box"
+                                                id="shipping-state">
+                                            <mat-option [value]="-1" [disabled]="true">Chọn quận/huyện</mat-option>
+                                            <mat-option  *ngFor="let d of district"
+                                                         [value]="d.DistrictID"
+                                                         (click)="getWard(d.DistrictID, d.DistrictName);resetWard()">
+                                                {{d.DistrictName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!--====== QUẬN / HUYỆN  ======-->
+                                    </div>
+
+                                </div>
+                                <div class="row mt-3 mb-5">
+                                    <div class="u-s-m-b-30 col-6 pl-0">
+                                        <!--====== PHƯỜNG / XÃ * ======-->
+                                        <label class="gl-label" for="shipping-state">PHƯỜNG / XÃ <span class="text-danger">*</span></label>
+                                        <mat-select
+                                                [(ngModel)]="wardId"
+                                                class="select-box">
+                                            <mat-option [value]="-1" [disabled]="true"> Chọn phường/xã</mat-option>
+                                            <mat-option *ngFor="let w of wards"
+                                                        [value]="w.WardCode"
+                                                        (click)="getWardName(w.WardName)">
+                                                {{w.WardName}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!--======PHƯỜNG / XÃ * ======-->
+                                    </div>
+                                    <div class="u-s-m-b-30 col-6 pr-0 ">
+                                        <label for="customer-other-address" class="gl-label">SỐ NHÀ/THÔN, XÓM <span class="text-danger">*</span></label>
+                                        <input  [style.border]="address.touched && ship_address.length ==0?'1px solid red':''"
+                                                [(ngModel)]="ship_address" type="text" class="input-text" #address="ngModel" id="customer-other-address">
+                                    </div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div class="bold">Tổng tiền hàng <span class="total-quantity">{{order.totalQuantity}}</span>
+                                    </div>
+                                    <div class="price">{{order.totalPrice | currency:' ':'symbol':'0.0-2'}}đ</div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div class="bold">Phí ship</div>
+                                    <div class="price">{{ shippingTotal | currency:' ':'symbol':'0.0-2'}}đ</div>
+                                </div>
+                                <div class="payment-content-item">
+                                    <div class="bold">Khách cần trả</div>
+                                    <div class="price">{{ order.totalPrice + shippingTotal | currency:' ':'symbol':'0.0-2'}}đ</div>
+                                </div>
+                            </div>
+                            <div class="payment-footer">
+                                <button class="btn-order" mat-button (click)="selling(formality)">
+                                    ĐẶT HÀNG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </mat-drawer>
             </mat-drawer-container>
         </div>

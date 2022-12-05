@@ -2,6 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {SellingComponent} from "../selling.component";
 import {SellingService} from "../../../../../shared/service/selling/selling.service";
+import {logging} from "protractor";
+import {quantity} from "chartist";
+import {Constant} from "../../../../../shared/constants/Constant";
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'product-detail-order',
@@ -10,7 +14,7 @@ import {SellingService} from "../../../../../shared/service/selling/selling.serv
 })
 export class ProductDetailOrderComponent implements OnInit {
 
-    constructor(private matDialogRef: MatDialogRef<ProductDetailOrderComponent>,
+    constructor(private matDialogRef: MatDialogRef<SellingComponent>,
                 private sellingService: SellingService,
                 @Inject(MAT_DIALOG_DATA) public dataDialog?: any,
     ) {
@@ -114,6 +118,7 @@ export class ProductDetailOrderComponent implements OnInit {
                     this.productDetailOrder[0].price = this.product.price;
                     this.productDetailOrder[0].quantityInventory = this.quantityInventory;
                     this.productDetailOrder[0].productName = this.product.name;
+                    this.productDetailOrder[0].weight = this.product.weight;
                     this.matDialogRef.close(this.productDetailOrder[0]);
                 }else{
                         this.message = 'Số lượng không hợp lệ';
