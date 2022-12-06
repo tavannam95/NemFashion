@@ -8,7 +8,7 @@
     </div>
     <form class="row mt-3" [formGroup]="form">
         <mat-form-field appearance="outline" class="col-4">
-            <mat-label>Tên khuyến mãi</mat-label>
+            <mat-label>Tên khuyến mại</mat-label>
             <input matInput formControlName="discountName">
             <mat-error *ngIf="isValidators( 'discountName' , 'required')">
                 Vui lòng không để trống
