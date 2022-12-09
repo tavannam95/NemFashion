@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuItems} from '../../shared/menu/menuItems';
+import {MenuItems, RouteInfo} from '../../shared/menu/menuItems';
+import {StorageService} from '../../shared/service/storage.service';
 
 // declare const $: any;
 //
@@ -25,9 +26,9 @@ import {MenuItems} from '../../shared/menu/menuItems';
     styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-    menuItems: any[];
+    menuItems: RouteInfo[];
 
-    constructor() {
+    constructor(public readonly storageService: StorageService) {
     }
 
     ngOnInit() {

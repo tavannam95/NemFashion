@@ -22,6 +22,7 @@ import {GhnService} from "../../../../shared/service/ghn/ghn.service";
 import {Ghn} from "../../../../shared/constants/Ghn";
 import {ComfirmSellingComponent} from "./comfirm-selling/comfirm-selling.component";
 import {Regex} from "../../../../shared/validators/Regex";
+import {AuthService} from '../../../../shared/service/auth/auth.service';
 
 @Component({
     selector: 'selling',
@@ -43,7 +44,8 @@ export class SellingComponent implements OnInit, OnDestroy {
                 private toast: ToastrService,
                 private productService: ProductService,
                 private storageService: StorageService,
-                private ghnService: GhnService) {
+                private ghnService: GhnService,
+                private authService: AuthService) {
     }
 
     options = {prefix: '', thousands: ',', precision: '0', allowNegative: 'false'}
@@ -988,6 +990,10 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     padTo2Digits(num) {
         return num.toString().padStart(2, '0');
+    }
+
+    onLogout() {
+        this.authService.logout();
     }
 }
 

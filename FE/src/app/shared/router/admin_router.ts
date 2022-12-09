@@ -13,7 +13,11 @@ export const content_admin: Routes = [
     {
         path: 'dashboard',
         loadChildren: () => import('../../dashboard/overview/dashboard.module').then(m => m.DashboardModule),
-
+        canActivate: [RoleGuard],
+        data: {
+            role: 'ROLE_SUPER_ADMIN',
+            message: 'Bạn không có quyền truy cập chúc năng này !'
+        }
     },
     {
         path: 'staff',
@@ -50,27 +54,32 @@ export const content_admin: Routes = [
         loadChildren: () => import('../../pages/admin/category-manager/category-manager.module').then(m => m.CategoryManagerModule),
     },
     {
-        path: 'rating' ,
-        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule )
+        path: 'rating',
+        loadChildren: () => import('../../pages/admin/rating-manager/rating.module').then(m => m.RatingModule)
     },
     {
-        path: 'statical' ,
-        loadChildren: () => import('../../dashboard/statical/statical.module').then(m => m.StaticalModule )
+        path: 'statical',
+        loadChildren: () => import('../../dashboard/statical/statical.module').then(m => m.StaticalModule),
+        canActivate: [RoleGuard],
+        data: {
+            role: 'ROLE_SUPER_ADMIN',
+            message: 'Bạn không có quyền truy cập chúc năng này !'
+        }
     },
     {
-        path: 'turnover' ,
-        loadChildren: () => import('../../dashboard/statical/statical-turnover/statical-turnover.module').then( m => m.StaticalTurnoverModule)
+        path: 'turnover',
+        loadChildren: () => import('../../dashboard/statical/statical-turnover/statical-turnover.module').then(m => m.StaticalTurnoverModule),
     },
     {
-        path: 'cus' ,
-        loadChildren: () => import('../../dashboard/statical/statical-customer/statical-customer.module').then( m => m.StaticalCustomerModule)
+        path: 'cus',
+        loadChildren: () => import('../../dashboard/statical/statical-customer/statical-customer.module').then(m => m.StaticalCustomerModule),
     },
     {
-        path: 'pro' ,
-        loadChildren: () => import('../../dashboard/statical/statical-product/statical-product.module').then( m => m.StaticalProductModule)
+        path: 'pro',
+        loadChildren: () => import('../../dashboard/statical/statical-product/statical-product.module').then(m => m.StaticalProductModule),
     },
     {
-        path: 'promotion' ,
-        loadChildren: () => import('../../pages/admin/promotion/promotion.module').then( m => m.PromotionModule )
+        path: 'promotion',
+        loadChildren: () => import('../../pages/admin/promotion/promotion.module').then(m => m.PromotionModule)
     }
 ]

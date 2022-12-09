@@ -16,10 +16,10 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <mat-menu #menu="matMenu">
-                        <button mat-menu-item [routerLink]="['/dashboard']">
+                        <button mat-menu-item [routerLink]="['/order']">
                             <span>Quản lý</span>
                         </button>
-                        <button mat-menu-item>
+                        <button mat-menu-item (click)="onLogout()">
                             <span>Đăng xuất</span>
                         </button>
                     </mat-menu>

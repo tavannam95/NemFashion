@@ -6,7 +6,7 @@ import {StaticalCustomerComponent} from './statical-customer.component';
 const routes: Routes  = [
   {
     path: '' ,
-    component: StaticalCustomerComponent
+    component: StaticalCustomerComponent,
   }
 ]
 

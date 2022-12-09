@@ -54,11 +54,16 @@
     </ul>
   </div> -->
     <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" title="{{menuItem.title}}" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="{{menuItem.icon}}"></i>
-                <p>{{menuItem.title}}</p>
-            </a>
+        <li *ngFor="let menuItem of menuItems"
+            routerLinkActive="active"
+            title="{{menuItem.title}}"
+            class="{{menuItem.class}} nav-item">
+            <ng-container *ngFor="let role of menuItem.role">
+                <a *ngIf="role == storageService.getRoleFromToken()" class="nav-link" [routerLink]="[menuItem.path]">
+                    <i class="{{menuItem.icon}}"></i>
+                    <p>{{menuItem.title}}</p>
+                </a>
+            </ng-container>
         </li>
     </ul>
 </div>

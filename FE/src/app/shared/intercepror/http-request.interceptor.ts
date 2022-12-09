@@ -18,8 +18,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
   cancelOrderGhn = 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel';
   addressGhn = 'https://dev-online-gateway.ghn.vn/shiip/public-api/master-data';
 
-  constructor(private readonly storageService: StorageService,
-              private readonly router: Router) {
+  constructor(private readonly storageService: StorageService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -56,15 +55,15 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token')){
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
     }
-    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province')){
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data')){
     //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
     // }
-    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward')){
-      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
-    }
-    if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district')){
-      httpHeader = httpHeader.append('Token', Ghn.TOKEN);
-    }
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data')){
+    //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    // }
+    // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/master-data')){
+    //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
+    // }
     // if (req.url.includes('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services')){
     //   httpHeader = httpHeader.append('Token', Ghn.TOKEN);
     // }
