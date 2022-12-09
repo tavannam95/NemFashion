@@ -63,7 +63,6 @@ export class EditAddressComponent implements OnInit {
   findAddressByCustomerId(customerId: any) {
     this.addressService.findAddressByCustomerId(customerId).subscribe((res: any) => {
       this.addressInCustomer = res as any[];
-      console.log(this.addressInCustomer)
     })
   }
 
@@ -93,7 +92,6 @@ export class EditAddressComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.log(err);
         this.toastService.error("Xoá địa chỉ thất bại !")
       }
     })

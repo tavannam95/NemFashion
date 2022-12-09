@@ -212,11 +212,8 @@ export class CartComponent implements OnInit {
       "from_district": 3440,
       "to_district": districtId
     }
-    console.log(this.weight)
-    console.log(this.subTotal)
     //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
     this.addressService.getService(data).subscribe((res: any) => {
-      console.log(res.data)
       this.serviceId = res.data[0].service_id;
       const shippingOrder = {
         "service_id": this.serviceId,
@@ -228,7 +225,6 @@ export class CartComponent implements OnInit {
       }
       //getShippingOrder tính phí vận chuyển
       this.addressService.getShippingOrder(shippingOrder).subscribe((res: any) => {
-        console.log(res)
         this.shippingTotal = res.data.total;
       })
     })
@@ -301,7 +297,6 @@ export class CartComponent implements OnInit {
       } else {
         address.push(this.wardName, this.districtName, this.provinceName);
       }
-      console.log(address)
       order.shipAddress = address.join(", ")
       order.shipPhone = shipPhone.trim()
       order.shipName = shipName!.trim()
@@ -335,7 +330,6 @@ export class CartComponent implements OnInit {
       if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.orderService.createOrder(checkOutData).subscribe({
             next: (res) => {
-              console.log(res);
               this.toastService.success("Đặt hàng thành công !")
               this.cartService.deleteAllByCustomerId(this.storageService.getIdFromToken());
               this.cartService.isReload.subscribe(rs => {
@@ -378,7 +372,6 @@ export class CartComponent implements OnInit {
           this.addressService.findAddressById(data).subscribe(data => {
             this.address = data;
             this.getShippingFee(this.address.districtId)
-            console.log(this.address)
           })
         }
       })
@@ -393,7 +386,6 @@ export class CartComponent implements OnInit {
           this.addressService.findAddressById(data).subscribe(data => {
             this.address = data;
             this.getShippingFee(this.address.districtId)
-            console.log(this.address)
           })
         }
       })

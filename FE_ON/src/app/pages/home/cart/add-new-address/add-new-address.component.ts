@@ -54,7 +54,6 @@ export class AddNewAddressComponent implements OnInit {
     } else {
       this.title = "Cập nhật địa chỉ";
       this.formGroup.patchValue(this.matDataDialog.row);
-      console.log(this.matDataDialog.row)
     }
     this.getProvince();
   }
@@ -100,7 +99,6 @@ export class AddNewAddressComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.formGroup.getRawValue())
     if (this.formGroup.getRawValue().provinceId === -1 ||
     this.formGroup.getRawValue().districtId === -1 ||
     this.formGroup.getRawValue().wardId === -1 ||
@@ -129,7 +127,6 @@ export class AddNewAddressComponent implements OnInit {
       this.addressService.createAddress(this.formGroup.getRawValue())
         .subscribe((data: any) => {
           if (data.id) {
-            console.log(data);
             this.toastService.success("Thêm mới địa chỉ thành công !")
           } else {
             this.toastService.error("Thêm mới địa chỉ thất bại !")
@@ -140,9 +137,7 @@ export class AddNewAddressComponent implements OnInit {
         this.addressService.findAddressByStatus(this.storageService.getIdFromToken()).subscribe((data: any) => {
           if (data.id != this.matDataDialog.row.id) {
             data.status = 0;
-            this.addressService.updateAddress(data.id, data).subscribe(res => {
-              console.log(res)
-            })
+            this.addressService.updateAddress(data.id, data).subscribe();
           }
         })
         this.formGroup.patchValue({status: 1});
@@ -162,7 +157,6 @@ export class AddNewAddressComponent implements OnInit {
   }
 
   onClickDefaultAddress(event: any) {
-    console.log(event.target.value)
     if (event.target.value == 'on') {
       this.defaultAddress = 1;
       event.target.value = 'off'

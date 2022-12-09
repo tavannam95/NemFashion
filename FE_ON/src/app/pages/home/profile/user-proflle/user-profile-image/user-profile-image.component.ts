@@ -15,7 +15,7 @@ export class UserProfileImageComponent implements OnInit {
 
   title = 'Cập nhập hình ảnh'
   avatarFile: any[] = [];
-  avatarUrl!: any;
+  avatarUrl: any;
   employee: any;
 
   constructor(private dialogRef: MatDialogRef<UserProflleComponent>,
@@ -43,14 +43,17 @@ export class UserProfileImageComponent implements OnInit {
     const formData = new FormData();
     formData.append('files', this.avatarFile[0]);
     this.avatarUrl = await this.uploadService.upload(formData).toPromise();
-    console.log(this.avatarUrl)
     this.customerService.getCustomer(this.storageService.getIdFromToken()).subscribe(res => {
       res.photo = this.avatarUrl[0];
       this.customerService.updateCustomer(res, res.id);
       this.customerService.isCloseDialog.subscribe(
         value => {
           if (value) {
-            this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS)
+            const data = {
+              type: Constants.RESULT_CLOSE_DIALOG.SUCCESS,
+              url: this.avatarUrl[0]
+            }
+            this.dialogRef.close(data);
             this.customerService.isCloseDialog.next(false);
           }
         }

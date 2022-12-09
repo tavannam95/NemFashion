@@ -18,7 +18,7 @@ export class RatingImageService {
      for( let x of list ){
         a += 'rateImg=' + x.id + '&'
      }
-    console.log(a) ;
+
      return this.ratingImgService.getRatingImgByIdRating(a) ;
   }
 }

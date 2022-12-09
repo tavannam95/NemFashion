@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
   getTop10Pro(){
     this.proService.getTop10Pro().subscribe( data => {
       this.listPro = data
-      console.log( this.listPro )
     })
   }
 

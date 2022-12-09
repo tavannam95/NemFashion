@@ -9,10 +9,10 @@
               <a href="#">Trang chủ</a>
             </li>
             <li class="is-marked has-separator">
-              <a href="#">{{product.category.name}}</a>
+              <a href="#">{{product?.category?.name}}</a>
             </li>
             <li class="is-marked">
-              <a href="#">{{product.name}}</a>
+              <a href="#">{{product?.name}}</a>
             </li>
           </ul>
         </div>
@@ -35,7 +35,7 @@
 
               <div class="row" >
                 <div class="col-12 mb-2">
-                  <img src="{{product.thumnail}}" (click)="changThumnail( product.thumnail )" class="img-fluid" [class]="product.thumnail === thumnail ? 'clickImage' : '' "
+                  <img src="{{product?.thumnail}}" (click)="changThumnail( product?.thumnail )" class="img-fluid" [class]="product?.thumnail === thumnail ? 'clickImage' : '' "
                   >
                 </div>
               </div>
@@ -70,7 +70,7 @@
           </div>
           <div class="u-s-m-b-15">
             <div class="pd-detail__rating gl-rating-style">
-              <app-stars [rating]="takeRatingPro(product.id)"></app-stars>
+              <app-stars [rating]="takeRatingPro(product?.id)"></app-stars>
               <span class="pd-detail__review u-s-m-l-4">
                         <a data-click-scroll="#view-review">23 Reviews</a></span
               >

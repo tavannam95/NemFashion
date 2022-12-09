@@ -17,6 +17,7 @@ import {Constants} from "../../../../shared/constants/constants.module";
 export class UserProflleComponent implements OnInit {
 
   customer: any;
+  avtUrl: any;
 
   constructor(private dialog: MatDialog,
               private readonly storageService: StorageService,
@@ -36,6 +37,10 @@ export class UserProflleComponent implements OnInit {
       width: '25vw',
       hasBackdrop: true,
       disableClose: true,
+    }).afterClosed().subscribe(rs => {
+      if (rs.type === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.avtUrl = rs.url;
+      }
     })
   }
 

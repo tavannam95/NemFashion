@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-4">
           <img style="border-radius: 200px;" class="position-relative img-fluid"
-               [src]="customer?.photo">
+               [src]="avtUrl ? avtUrl : customer?.photo">
           <button class="btn_posi btn btn-light btn-outline-dark" (click)="OpenDialogImage()">
             <i class="fas fa-camera fs-2"></i>
           </button>

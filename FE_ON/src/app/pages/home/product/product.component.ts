@@ -78,8 +78,6 @@ export class ProductComponent implements OnInit {
     this.cateService.getAllCategory().subscribe(data => {
       this.litsCate = data
       this.changeValue(data, this.defaultValueCategory);
-      console.log('cate')
-      console.log(this.defaultValueCategory)
     })
   }
 
@@ -87,7 +85,6 @@ export class ProductComponent implements OnInit {
     this.sizeService.getAllSize().subscribe(data => {
       this.listSize = data;
       this.changeValue(data, this.defaultValueSize);
-      console.log(this.defaultValueSize)
     })
   }
 
@@ -106,7 +103,6 @@ export class ProductComponent implements OnInit {
 
   getAllProByAllProperty(size: any, cate: any , color: any , max: number , min: number , pageNo: number , pageSize: number , sortPrice: number) {
     this.proService.getAllProByAllProperty(size, cate , color , max , min , pageNo , pageSize , sortPrice ).subscribe((data:any) => {
-      console.log(data)
       this.listPro = data.content ;
       this.totalPage = data.totalPages ;
       this.changPage( this.totalPage , this.listPage  )
@@ -157,7 +153,6 @@ export class ProductComponent implements OnInit {
       this.listProByCate.push(cate)
     }
 
-    console.log(this.listProByCate)
     this.clearPage() ;
     this.findAll() ;
   }
@@ -171,7 +166,6 @@ export class ProductComponent implements OnInit {
       // @ts-ignore
       this.listProByColor.push(color)
     }
-    console.log(this.listProByColor )
     this.clearPage() ;
     this.findAll() ;
 
@@ -238,7 +232,6 @@ export class ProductComponent implements OnInit {
 
   showProInPage(){
      this.clearPage()
-      console.log(this.pageSize)
      this.findAll()
   }
 

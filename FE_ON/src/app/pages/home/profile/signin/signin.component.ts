@@ -14,8 +14,8 @@ import {StorageService} from "../../../../shared/service/storage.service";
 export class SigninComponent implements OnInit {
 
   formGroup = this.fb.group({
-    email: ['tdphuong2002@gmail.com'],
-    password: ['123456']
+    email: [''],
+    password: ['']
   })
 
   redirectUrl!: string;

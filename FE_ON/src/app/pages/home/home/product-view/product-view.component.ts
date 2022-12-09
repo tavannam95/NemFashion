@@ -148,7 +148,6 @@ export class ProductViewComponent implements OnInit {
         this.totalQuantity.next(res.map((p: any) => p.quantity).reduce((value: any, total: any) => value + total, 0))
       },
       error: (err) => {
-        console.log(err);
       }
     })
   }
@@ -158,11 +157,9 @@ export class ProductViewComponent implements OnInit {
   }
 
   onClickColor(id: any) {
-    console.log(id)
     if (this.listColor.id === undefined || this.listColor.id != id) {
       this.size = this.productDetail.filter(p => p.color.id === id && p.quantity > 0).map(p => p.size.id);
       this.listColor.id = id;
-      console.log(this.size)
     } else {
       this.listColor.id = undefined;
       this.size = [];
@@ -170,11 +167,9 @@ export class ProductViewComponent implements OnInit {
   }
 
   onClickSize(id: any) {
-    console.log(id)
     if (this.listSize.id === undefined || this.listSize.id != id) {
       this.color = this.productDetail.filter(p => p.size.id === id && p.quantity > 0).map(p => p.color.id);
       this.listSize.id = id;
-      console.log(this.color)
     } else {
       this.listSize.id = undefined;
       this.color = [];
@@ -254,7 +249,6 @@ export class ProductViewComponent implements OnInit {
         }
       }
 
-      console.log(cart)
 
       this.cartService.addToCart(cart).subscribe(data => {
         if (data) {
@@ -272,7 +266,6 @@ export class ProductViewComponent implements OnInit {
   findAllByCustomerId() {
     this.cartService.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe(res => {
       this.carts = res as any[];
-      console.log("findAllByCustomerId", this.carts)
     })
   }
 
