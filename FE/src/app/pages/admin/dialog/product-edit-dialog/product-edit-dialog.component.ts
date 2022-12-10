@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {MatDialog,MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProductService } from '../../../../shared/service/product/product.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CategoryService } from '../../../../shared/service/category/category.service';
@@ -45,7 +45,7 @@ export class ProductEditDialogComponent implements OnInit {
     private dialog: MatDialog,
     private uploadService: UploadCloudinaryService,
     private toastrService: ToastrService,
-    private trimService: TrimService
+    private trimService: TrimService,
   ) { }
 
   ngOnInit() {

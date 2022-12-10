@@ -3,6 +3,8 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { Regex } from '../../../../shared/validators/Regex';
 import { ColorService } from '../../../../shared/service/color/color.service';
 import { ToastrService } from 'ngx-toastr';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-color-create-dialog',
@@ -21,16 +23,25 @@ export class ColorCreateDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private colorService: ColorService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private trimService: TrimService,
+    private matDialogRef: MatDialogRef<ColorCreateDialogComponent>
   ) { }
 
   ngOnInit() {
   }
 
   createColor(){
+    this.trimService.inputTrim(this.colorFormGroup,['name','code']);
+    console.log(this.colorFormGroup.value);
+    
     this.colorFormGroup.markAllAsTouched();
+    if (this.colorFormGroup.invalid) {
+      return;
+    }
     this.colorService.createColor(this.colorFormGroup.value).subscribe({
       next: (res) =>{
+        this.matDialogRef.close();
         this.toastrService.success('Thêm màu sắc thành công');
       },
       error: (err) =>{
