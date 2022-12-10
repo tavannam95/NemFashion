@@ -12,6 +12,7 @@ import { ProductService } from '../../../../shared/service/product/product.servi
 import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
 import { Constant } from '../../../../shared/constants/Constant';
 import { ImportExcelDialogComponent } from '../dialog/import-excel-dialog/import-excel-dialog.component';
+import { TrimService } from '../../../../shared/service/trim/trim.service';
 
 export class Employee{
   product:{id:''};
@@ -42,10 +43,10 @@ export class ProductDetailFormComponent implements OnInit {
   };
   allColor: any;
   colorFormGroup = this.fb.group({
-    id: ['',Validators.required],
+    id: [''],
     name: ['', [Validators.required,Validators.pattern(Regex.unicode)]],
     code: ['', Validators.required],
-    status: ['']
+    status: null
   })
   // Size Color API create
   productDetailFormGroup = this.fb.group({
@@ -70,7 +71,8 @@ export class ProductDetailFormComponent implements OnInit {
     private readonly productDetailService: ProductDetailService,
     private toastrService: ToastrService,
     private dialog: MatDialog,
-    private readonly productService: ProductService
+    private readonly productService: ProductService,
+    private trimService: TrimService
   ) { }
 
   ngOnInit() {
