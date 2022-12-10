@@ -27,7 +27,6 @@ export class CustomerService {
     return this.apiService.createCustomer(data).subscribe({
       next: (res) => {
         if (res.id) {
-          console.log(res);
           this.response.next(res);
           this.toastService.success("Tạo mới khách hàng thành công !");
           this.isCloseDialog.next(true);
@@ -37,6 +36,7 @@ export class CustomerService {
         console.log(err);
         if (err.error.code == "UNIQUE_FIELD") {
           this.toastService.error(err.error.message);
+          return;
         }
         this.toastService.error("Tạo mới khách hàng thất bại !");
         this.isCloseDialog.next(false);
@@ -48,7 +48,6 @@ export class CustomerService {
     return this.apiService.updateCustomer(data, id).subscribe({
       next: (res) => {
         if (res.id) {
-          console.log(res);
           this.toastService.success("Cập nhật khách hàng thành công !");
           this.isCloseDialog.next(true);
         }
@@ -64,11 +63,9 @@ export class CustomerService {
   deleteCustomer(data: any, id: number) {
     return this.apiService.deleteCustomer(data, id).subscribe({
       next: (res) => {
-        console.log(res);
         this.toastService.success("Thay đổi trạng thái thành công !");
       },
       error: (err) => {
-        console.log(err);
         this.toastService.error("Thay đổi trạng thái thất bại !");
       },
     });

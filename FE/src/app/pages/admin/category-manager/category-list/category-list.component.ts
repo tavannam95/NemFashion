@@ -5,6 +5,7 @@ import {MatSort} from '@angular/material/sort';
 import {Constant} from '../../../../shared/constants/Constant';
 import {MatDialog} from '@angular/material/dialog';
 import {CategoryFormComponent} from '../category-form/category-form.component';
+import {CategoryService} from '../../../../shared/service/category/category.service';
 
 @Component({
     selector: 'category-list',
@@ -13,18 +14,37 @@ import {CategoryFormComponent} from '../category-form/category-form.component';
 })
 export class CategoryListComponent implements OnInit {
 
-    displayedColumns: string[] = ['no', 'name', 'image', 'createDate', 'updateDate', 'status', 'action'];
+    displayedColumns: string[] = ['no', 'name', 'action'];
     dataSource: MatTableDataSource<any>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     TYPE_DIALOG = Constant.TYPE_DIALOG;
+    isLoading: boolean;
 
-    constructor(private readonly matDialog: MatDialog) {
+    constructor(private readonly matDialog: MatDialog,
+                private readonly categoryService: CategoryService) {
     }
 
     ngOnInit(): void {
+        this.getAllCategory();
+    }
+
+    getAllCategory() {
+        this.isLoading = true;
+        return this.categoryService.getAllCategory().subscribe({
+            next: (res: any) => {
+                this.isLoading = false;
+                this.dataSource = new MatTableDataSource<any>(res);
+                this.dataSource.data = res;
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            },
+            error: (err) => {
+                this.isLoading = false;
+            }
+        })
     }
 
     onDelete(row) {

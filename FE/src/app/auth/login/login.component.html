@@ -7,7 +7,7 @@
                         <span class="h2 font-weight-bold">Đăng nhập</span>
                         <!-- <p>Welcome Back</p> -->
                     </div>
-                    <form [formGroup]="formGroup">
+                    <form [formGroup]="formGroup" (keyup.enter)="onLogin()">
                         <mat-form-field appearance="outline" class="mt-4">
                             <mat-label>Email</mat-label>
                             <input type="text" matInput formControlName="email">
