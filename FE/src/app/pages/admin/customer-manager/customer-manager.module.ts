@@ -1,4 +1,4 @@
-import { LoadingComponent } from './../../../shared/loading/loading.component';
+import { LoadingComponent } from '../../../shared/loading/loading.component';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
@@ -17,8 +17,6 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatChipsModule} from '@angular/material/chips';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
@@ -28,7 +26,7 @@ import {MatSelectModule} from '@angular/material/select';
     declarations: [
         CustomerListComponent,
         CustomerFormComponent,
-        LoadingComponent
+        LoadingComponent,
     ],
     imports: [
         CommonModule,
