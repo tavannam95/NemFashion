@@ -9,8 +9,8 @@ export class PromotionApiService {
 
   constructor( private http: HttpClient ) {}
 
-  findAll(){
-     return this.http.get(`${ApiConstant.promotion}/findAll`)
+  findAll( data: any){
+     return this.http.post(`${ApiConstant.promotion}/findAll` , data)
   }
 
   create( data: any ){

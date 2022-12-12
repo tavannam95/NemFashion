@@ -83,9 +83,8 @@ public class OrderServiceImpl implements OrderService {
         return this.ordersRepository.CustomerBuyMostProduct( request.getStartDate() , request.getEndDate() ) ;
     }
 
-    public void updateDiscountProductStart(Integer idDiscount ) {
-        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(idDiscount) ;
-        Discounts discounts = this.discountsRepository.findById(idDiscount).get() ;
+    public void updateDiscountProductStart(Discounts discounts ) {
+        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(discounts.getId()) ;
         List<Integer> listPro = new ArrayList<>();
 
         for( ProductDiscount x: listPd ){
@@ -95,16 +94,21 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Integer[] arr = listPro.toArray(Integer[]::new) ;
+        discounts.setStatus(2);
+        this.discountsRepository.save( discounts) ;
         this.discountsRepository.updateDiscountProduct( discounts.getDiscount() , arr );
     }
 
-    public void updateDiscountProductEnd(Integer idDiscount ) {
-        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(idDiscount) ;
+    public void updateDiscountProductEnd(Discounts discounts ) {
+        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(discounts.getId()) ;
         List<Integer> listPro = new ArrayList<>();
 
         for( ProductDiscount x: listPd ){
             listPro.add(x.getProduct().getId() );
         }
+
+        discounts.setStatus(3);
+        this.discountsRepository.save(discounts) ;
         this.discountsRepository.updateDiscountProduct( 0 , listPro.toArray(Integer[]::new)  );
     }
 
@@ -139,16 +143,15 @@ public class OrderServiceImpl implements OrderService {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy") ;
         String date1 = sdf.format(new Date() ) ;
         for ( Discounts x: listd ){
-            String date2 = sdf.format(x.getStartDate()) ;
-            String date3 = sdf.format(x.getEndDate() ) ;
+            String date2 = sdf.format( x.getStartDate() ) ;
+            String date3 = sdf.format( x.getEndDate() ) ;
             if( date2.equalsIgnoreCase(date1) ){
-                this.updateDiscountProductStart(x.getId());
+                this.updateDiscountProductStart(x);
             }
 
             if (date3.equalsIgnoreCase(date1)) {
-                this.updateDiscountProductEnd(x.getId());
+                this.updateDiscountProductEnd(x);
             }
-
         }
         return this.ordersRepository.getOverview() ;
     }

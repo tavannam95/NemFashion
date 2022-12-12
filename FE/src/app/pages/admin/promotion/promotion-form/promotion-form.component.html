@@ -43,11 +43,12 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-4" appearance="outline">
+        <mat-form-field class="col-4" appearance="outline" *ngIf="CONSTAIN.UPDATE === data.type">
             <mat-label>Trạng thái</mat-label>
             <mat-select formControlName="status">
-                <mat-option [value]="1">Hoạt động</mat-option>
-                <mat-option [value]="2">Ngừng hoạt động</mat-option>
+                <mat-option [value]="1">Chưa diễn ra</mat-option>
+                <mat-option [value]="2">Đang hoạt động</mat-option>
+                <mat-option [value]="3">Đã kết thúc</mat-option>
             </mat-select>
         </mat-form-field>
 
