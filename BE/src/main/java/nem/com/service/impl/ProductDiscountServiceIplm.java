@@ -8,8 +8,7 @@ import nem.com.repository.ProductDiscountRepository;
 import nem.com.repository.ProductsRepository;
 import nem.com.service.ProductDiscountService;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +29,15 @@ public class ProductDiscountServiceIplm implements ProductDiscountService {
     @Override
     public void save(Integer idDis, Integer[] idPro) {
         Discounts d = this.discountsRepository.findById(idDis).get() ;
+        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(idDis);
+
+
+        for( ProductDiscount pd : listPd ){
+            if( checkProductInDiscount( idPro , pd ) == false){
+                this.productDiscountRepository.deleteProductDis( pd.getProduct().getId() , idDis ) ;
+            }
+        }
+
         for( Integer x : idPro ){
             ProductDiscount pd = this.productDiscountRepository.findById( x , idDis);
             if( pd == null ){
@@ -40,6 +48,15 @@ public class ProductDiscountServiceIplm implements ProductDiscountService {
                 this.productDiscountRepository.save(pdd) ;
             }
         }
+    }
+
+    private boolean checkProductInDiscount( Integer[] listPro , ProductDiscount idPro ){
+        for( Integer p : listPro ){
+            if( p == idPro.getProduct().getId() ){
+                return true ;
+            }
+        }
+        return false ;
     }
 
     @Override
