@@ -1,6 +1,7 @@
 package nem.com.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import nem.com.domain.request.ProductDetailsDTO;
 //import nem.com.dto.response.ProductViewDto;
 import nem.com.domain.response.ProductDetailResponseDTO;
@@ -8,6 +9,7 @@ import nem.com.entity.ProductsDetails;
 import nem.com.service.ProductDetailService;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/productDetail")
+@Slf4j
 public class ProductDetailController {
     private final ProductDetailService productDetailService;
 
@@ -83,5 +86,17 @@ public class ProductDetailController {
     @GetMapping("/generateBarcode/{id}")
     public ResponseEntity<?> generateBarcode(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.productDetailService.generateBarcode(id));
+    }
+
+    @GetMapping("/file-excel")
+    public ResponseEntity<?> fileExcel(){
+        try {
+            ByteArrayInputStream bais = this.productDetailService.dowloadExcel();
+            InputStreamResource resource = new InputStreamResource(bais);
+            return ResponseEntity.ok().contentLength(bais.available()).contentType(MediaType.parseMediaType("application/octet-stream")).body(resource);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
     }
 }

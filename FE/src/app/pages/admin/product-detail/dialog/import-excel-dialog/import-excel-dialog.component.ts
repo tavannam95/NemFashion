@@ -19,7 +19,7 @@ export class ImportExcelDialogComponent implements OnInit {
 
   constructor(
     private readonly productDetailService: ProductDetailService,
-    private dialog: MatDialog,
+    private matdialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private toastrService: ToastrService,
     private colorService: ColorService
@@ -47,29 +47,45 @@ export class ImportExcelDialogComponent implements OnInit {
     reader.readAsBinaryString(file);
   }
   
+  openGuideExcel(){
+    this.productDetailService.dowloadExcel().subscribe({
+      next: res=>{
+          const file = new Blob([res], {type: 'application/vnd.ms-excel'});
+        const fileURL = URL.createObjectURL(file);
+        // window.open(fileURL, '_blank');
+        const anchor = document.createElement('a');
+        anchor.download = 'File_San_Pham_ID_' + this.dataDialog;
+        anchor.href = fileURL;
+        anchor.click();
+      }
+    });
+  }
+
   createProductDetailByXLSX(){
     if (this.excel == null) {
       this.toastrService.error('Bạn chưa chọn file');
       return;
     }
+    console.log(this.excel);
     
-    this.productDetailDto = [];
-    for (let i = 0; i < this.excel.length; i++) {
-      this.productDetailDto.push({
-        product: {id: this.dataDialog},
-        color: {id: this.excel[i].colorId},
-        size: {id: this.excel[i].sizeId},
-        quantity: this.excel[i].quantity
-      })
-    }
-    this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
-      next: (res)=>{
-        this.toastrService.success('Thêm chi tiết thành công');
-      },
-      error: (err)=>{
-        this.toastrService.error('Vui lòng kiểm tra lại file excel');
-      }
-    })
+    
+    // this.productDetailDto = [];
+    // for (let i = 0; i < this.excel.length; i++) {
+    //   this.productDetailDto.push({
+    //     product: {id: this.dataDialog},
+    //     color: {id: this.excel[i].colorId},
+    //     size: {id: this.excel[i].sizeId},
+    //     quantity: this.excel[i].quantity
+    //   })
+    // }
+    // this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
+    //   next: (res)=>{
+    //     this.toastrService.success('Thêm chi tiết thành công');
+    //   },
+    //   error: (err)=>{
+    //     this.toastrService.error('Vui lòng kiểm tra lại file excel');
+    //   }
+    // })
     
   }
 

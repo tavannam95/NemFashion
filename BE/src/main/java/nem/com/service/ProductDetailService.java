@@ -6,12 +6,15 @@ import nem.com.domain.response.ProductDetailResponseDTO;
 import nem.com.entity.ProductsDetails;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface ProductDetailService {
 
     List<ProductsDetails> getAll();
+
+    ByteArrayInputStream dowloadExcel()throws IOException;
 
     ProductsDetails getOne(Integer id);
 
