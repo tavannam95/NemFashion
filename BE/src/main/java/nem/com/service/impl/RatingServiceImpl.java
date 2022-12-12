@@ -54,6 +54,11 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public void deleteRating(Long[] id) {
         this.ratingImagesRepository.deleteRatingImg(id);
-        this.ratingsRepository.deleteRating( id);
+        for( Long r: id ){
+            Ratings ratings = this.ratingsRepository.findById(r).get();
+            ratings.setContent("");
+            ratings.setStatus((short) 1);
+            this.ratingsRepository.save(ratings);
+        }
     }
 }
