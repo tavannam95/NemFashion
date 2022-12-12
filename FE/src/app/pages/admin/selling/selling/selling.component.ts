@@ -1,27 +1,27 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl, NgModel} from "@angular/forms";
-import {SellingService} from "../../../../shared/service/selling/selling.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ProductDetailOrderComponent} from "./product-detail-order/product-detail-order.component";
-import {Constant} from "../../../../shared/constants/Constant";
-import {btoa} from "buffer";
-import {CustomerService} from "../../../../shared/service/customer/customer.service";
-import {BehaviorSubject, Observable} from "rxjs";
-import {map, startWith} from "rxjs/operators";
-import {CustomerFormComponent} from "../../customer-manager/customer-form/customer-form.component";
-import {CurrencyPipe} from "@angular/common";
-import {ToastrService} from "ngx-toastr";
-import {MatDrawer} from "@angular/material/sidenav";
+import {FormControl, NgModel} from '@angular/forms';
+import {SellingService} from '../../../../shared/service/selling/selling.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ProductDetailOrderComponent} from './product-detail-order/product-detail-order.component';
+import {Constant} from '../../../../shared/constants/Constant';
+import {btoa} from 'buffer';
+import {CustomerService} from '../../../../shared/service/customer/customer.service';
+import {BehaviorSubject, finalize, Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {CustomerFormComponent} from '../../customer-manager/customer-form/customer-form.component';
+import {CurrencyPipe} from '@angular/common';
+import {ToastrService} from 'ngx-toastr';
+import {MatDrawer} from '@angular/material/sidenav';
 // import printJS = require("print-js");
 // @ts-ignore
 import printJS from 'print-js';
-import {ProductService} from "../../../../shared/service/product/product.service";
-import {StorageService} from "../../../../shared/service/storage.service";
-import {DomSanitizer} from "@angular/platform-browser";
-import {GhnService} from "../../../../shared/service/ghn/ghn.service";
-import {Ghn} from "../../../../shared/constants/Ghn";
-import {ComfirmSellingComponent} from "./comfirm-selling/comfirm-selling.component";
-import {Regex} from "../../../../shared/validators/Regex";
+import {ProductService} from '../../../../shared/service/product/product.service';
+import {StorageService} from '../../../../shared/service/storage.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {GhnService} from '../../../../shared/service/ghn/ghn.service';
+import {Ghn} from '../../../../shared/constants/Ghn';
+import {ComfirmSellingComponent} from './comfirm-selling/comfirm-selling.component';
+import {Regex} from '../../../../shared/validators/Regex';
 import {AuthService} from '../../../../shared/service/auth/auth.service';
 
 @Component({
@@ -72,24 +72,24 @@ export class SellingComponent implements OnInit, OnDestroy {
     listTien: any = [];
     customerPayment;
     scanner2: any;
-    formality:number = 0;
-    provinces!:any[];
-    wards!:any[];
-    district!:any[];
-    proviceName:any;
-    wardName:any;
-    districtName:any;
-    wardId:number = -1;
-    provinceId:number = -1;
-    districtId:number = -1;
-    serviceId:any;
-    shippingTotal:number = 0;
+    formality: number = 0;
+    provinces!: any[];
+    wards!: any[];
+    district!: any[];
+    proviceName: any;
+    wardName: any;
+    districtName: any;
+    wardId: number = -1;
+    provinceId: number = -1;
+    districtId: number = -1;
+    serviceId: any;
+    shippingTotal: number = 0;
     ship_name = '';
     ship_phone = '';
     ship_address = '';
-    check_validate:boolean = false;
-    openOrder:boolean = false;
-    date:any= '';
+    check_validate: boolean = false;
+    openOrder: boolean = false;
+    date: any = '';
 
 
     ngOnInit(): void {
@@ -321,7 +321,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                 if (orderDetail.quantity > item.detail.quantityInventory) {
                     order.totalQuantity += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory));
                     order.totalPrice += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.price;
-                    order.totalWeight +=  (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.weight;
+                    order.totalWeight += (item.detail.quantity - (orderDetail.quantity - item.detail.quantityInventory)) * item.detail.weight;
                     orderDetail.quantity = item.detail.quantityInventory;
                 } else {
                     order.totalQuantity += item.detail.quantity;
@@ -400,7 +400,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.quantityDetail[index] = this.order.orderDetail[index].quantity;
         var totalPrice: number = 0;
         var totalQuantity: number = 0;
-        var totalWeight:number = 0;
+        var totalWeight: number = 0;
         this.order.orderDetail.forEach(orderDt => {
             totalPrice += orderDt.price * orderDt.quantity;
             totalQuantity += orderDt.quantity;
@@ -429,7 +429,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     load() {
-        document.getElementById('noteOrder').addEventListener("keyup", this.debounce((event) => {
+        document.getElementById('noteOrder').addEventListener('keyup', this.debounce((event) => {
             this.setOrderLocalStorage(this.listOrders);
         }, 2000));
 
@@ -447,7 +447,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.quantityDetail.splice(index, 1);
         this.order.totalPrice -= (oderDetailDelete[0].price * oderDetailDelete[0].quantity);
         this.order.totalQuantity -= oderDetailDelete[0].quantity;
-        this.order.totalWeight -=(oderDetailDelete[0].weight * oderDetailDelete[0].quantity) ;
+        this.order.totalWeight -= (oderDetailDelete[0].weight * oderDetailDelete[0].quantity);
         this.setOrderLocalStorage(this.listOrders);
     }
 
@@ -614,34 +614,34 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     selling(status: number) {
         console.log(this.order);
-        if (this.order.orderDetail.length == 0){
-            this.toast.error("Chưa có sản phẩm nào!");
+        if (this.order.orderDetail.length == 0) {
+            this.toast.error('Chưa có sản phẩm nào!');
             return;
         }
-        if (status == 1){
+        if (status == 1) {
             this.check_validate = false;
-            if (this.wardId == -1){
-                this.toast.error("Vui lòng chọn địa chỉ nhận hàng!");
+            if (this.wardId == -1) {
+                this.toast.error('Vui lòng chọn địa chỉ nhận hàng!');
                 return;
             }
             this.checkValidate();
-            if (this.check_validate){
-                this.toast.error("Vui lòng kiểm tra lại các trường!");
+            if (this.check_validate) {
+                this.toast.error('Vui lòng kiểm tra lại các trường!');
                 return;
             }
             const rexgex = /(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
-            if (!rexgex.test(this.ship_phone)){
-                this.toast.error("Số điện thoại không hợp lệ!");
+            if (!rexgex.test(this.ship_phone)) {
+                this.toast.error('Số điện thoại không hợp lệ!');
                 return;
             }
         }
         for (let i = 0; i < this.quantityDetail.length; i++) {
             if (this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == '') {
-                this.toast.error("Vui lòng kiểm tra lại số lượng của sản phẩm!");
+                this.toast.error('Vui lòng kiểm tra lại số lượng của sản phẩm!');
                 return;
             }
         }
-        let shipAddress = this.ship_address+', '+this.wardName+', '+this.districtName +', thành phố ' + this.proviceName;
+        let shipAddress = this.ship_address + ', ' + this.wardName + ', ' + this.districtName + ', thành phố ' + this.proviceName;
         this.order.shipAddress = shipAddress;
         this.order.shipPhone = this.ship_phone;
         this.order.shipName = this.ship_name;
@@ -654,31 +654,31 @@ export class SellingComponent implements OnInit, OnDestroy {
             disableClose: true,
             hasBackdrop: true,
             data: {
-                order: status == 1? this.order : null
+                order: status == 1 ? this.order : null
             }
         }).afterClosed().subscribe(value => {
-            if (value == Constant.RESULT_CLOSE_DIALOG.CONFIRM){
+            if (value == Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
                 this.isLoading = true;
                 this.sellingService.paymentSelling(this.order).subscribe({
-                next: resp => {
-                    this.drawer.close();
-                    this.isLoading = false;
-                    if (status == 0){
-                        this.toast.success("Thành công");
-                        this.print(resp.data);
-                    }else{
-                        this.toast.success("Đặt hàng thành công");
+                    next: resp => {
+                        this.drawer.close();
+                        this.isLoading = false;
+                        if (status == 0) {
+                            this.toast.success('Thành công');
+                            this.print(resp.data);
+                        } else {
+                            this.toast.success('Đặt hàng thành công');
+                        }
+                        this.removeTab(this.selected.value);
+                    },
+                    error: err => {
+                        if (err.error?.code == 'LIMIT_QUANTITY') {
+                            this.toast.error(err.error.message);
+                            this.resetQuantityInventory();
+                        } else {
+                            this.toast.error('Lỗi thanh toán!');
+                        }
                     }
-                    this.removeTab(this.selected.value);
-                },
-                error: err => {
-                    if (err.error?.code == 'LIMIT_QUANTITY') {
-                        this.toast.error(err.error.message);
-                        this.resetQuantityInventory();
-                    } else {
-                        this.toast.error("Lỗi thanh toán!");
-                    }
-                }
                 })
             }
         })
@@ -800,13 +800,13 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     onCodeResult(resultString: string) {
-        this.qrResultString = "0";
+        this.qrResultString = '0';
         let qrResult = resultString.substring(0, resultString.length - 1);
         this.productService.getByBarcode(qrResult).subscribe({
                 next: resp => {
                     if (resp != null) {
                         if (resp.quantity > 0 && resp.color.status == 1) {
-                            this.qrResultString = "1";
+                            this.qrResultString = '1';
                             let hd: any = {};
                             hd.id = this.tabs[this.selected.value];
                             hd.note = '';
@@ -824,23 +824,23 @@ export class SellingComponent implements OnInit, OnDestroy {
                             };
 
                             this.pushDataToLocalStorage(hd);
-                            this.toast.success("Thêm sản phẩm thành công");
-                            document.getElementById("qrResult").innerHTML = `${resp.product.name}(
+                            this.toast.success('Thêm sản phẩm thành công');
+                            document.getElementById('qrResult').innerHTML = `${resp.product.name}(
                                                     <span style="width: 15px;height: 15px;background-color: ${resp.color.code}; display: inline-block">
                                                     </span>/${resp.size.code})`;
-                        }else{
-                            this.toast.error("Số lượng không đủ hoặc đã ngừng bán");
-                            document.getElementById("qrResult").innerHTML = '';
+                        } else {
+                            this.toast.error('Số lượng không đủ hoặc đã ngừng bán');
+                            document.getElementById('qrResult').innerHTML = '';
                         }
                     } else {
-                        this.toast.error("Không tìm thấy sản phẩm");
-                        document.getElementById("qrResult").innerHTML = '';
+                        this.toast.error('Không tìm thấy sản phẩm');
+                        document.getElementById('qrResult').innerHTML = '';
                     }
                 },
                 error: err => {
                     console.log(err);
-                    this.toast.error("Lỗi quét Barcode");
-                    document.getElementById("qrResult").innerHTML ='';
+                    this.toast.error('Lỗi quét Barcode');
+                    document.getElementById('qrResult').innerHTML = '';
                 }
             }
         )
@@ -869,22 +869,25 @@ export class SellingComponent implements OnInit, OnDestroy {
 
 
     SHIP
+
     getProvince() {
         this.ghnService.getProvince().subscribe((res: any) => {
             this.provinces = res.data;
         })
     }
+
     //
     getDistrict(provinceId: any, provinceName: any) {
-        let data = {"province_id": provinceId};
+        let data = {'province_id': provinceId};
         this.ghnService.getDistrict(data).subscribe((res: any) => {
             this.district = res.data;
         })
         this.proviceName = provinceName;
     }
+
     //
     getWard(districtId: any, districtName: any) {
-        let data = {"district_id": districtId};
+        let data = {'district_id': districtId};
         this.ghnService.getWard(data).subscribe((res: any) => {
             this.wards = res.data;
         })
@@ -915,50 +918,52 @@ export class SellingComponent implements OnInit, OnDestroy {
     getShippingFee(districtId: any) {
         this.isLoading = true;
         const data = {
-            "shop_id": Ghn.SHOP_ID_NUMBER,
-            "from_district": 3440,
-            "to_district": districtId
+            'shop_id': Ghn.SHOP_ID_NUMBER,
+            'from_district': 3440,
+            'to_district': districtId
         }
         //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
         this.ghnService.getService(data).subscribe((res: any) => {
             console.log(res.data)
             this.serviceId = res.data[0].service_id;
             const shippingOrder = {
-                "service_id": this.serviceId,
-                "insurance_value": this.order.totalPrice,
-                "from_district_id": 3440,
-                "to_district_id": data.to_district,
-                "weight": this.order.totalWeight
+                'service_id': this.serviceId,
+                'insurance_value': this.order.totalPrice,
+                'from_district_id': 3440,
+                'to_district_id': data.to_district,
+                'weight': this.order.totalWeight
             }
             //getShippingOrder tính phí vận chuyển
-            this.ghnService.getShippingOrder(shippingOrder).subscribe((res: any) => {
-                this.isLoading = false;
-                console.log(res)
-                this.shippingTotal = res.data.total;
-            })
+            this.ghnService.getShippingOrder(shippingOrder)
+                .pipe(finalize(() => {
+                    this.isLoading = false;
+                }))
+                .subscribe((res: any) => {
+                    this.shippingTotal = res.data.total;
+                })
         })
     }
 
-    checkValidate(){
-        if (this.ship_name.trim() == ''){
+    checkValidate() {
+        if (this.ship_name.trim() == '') {
             document.getElementById('customer-name-order').style.border = '1px solid red';
             this.check_validate = true;
         }
-        if (this.ship_phone.trim() == ''){
+        if (this.ship_phone.trim() == '') {
             document.getElementById('customer-phone-order').style.border = '1px solid red';
             this.check_validate = true;
         }
-        if (this.ship_address.trim() == ''){
+        if (this.ship_address.trim() == '') {
             document.getElementById('customer-other-address').style.border = '1px solid red';
             this.check_validate = true;
         }
     }
 
-    clearDataOrder(){
+    clearDataOrder() {
         this.resetDistrictAndWard();
-        if (this.customerName.length > 0){
+        if (this.customerName.length > 0) {
             this.ship_name = this.customerName;
-        }else{
+        } else {
             this.name.reset('');
         }
         this.address.reset('');
@@ -967,8 +972,6 @@ export class SellingComponent implements OnInit, OnDestroy {
         document.getElementById('customer-other-address').style.border = 'none';
         document.getElementById('customer-phone-order').style.border = 'none';
     }
-
-
 
 
     // FORMAT DATE

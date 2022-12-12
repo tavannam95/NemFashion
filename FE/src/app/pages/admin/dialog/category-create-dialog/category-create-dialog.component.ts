@@ -26,7 +26,7 @@ export class CategoryCreateDialogComponent implements OnInit {
   }
 
   createCategory(){
-    this.categoryService.createCategory(this.categoryFormGroup.value).subscribe();
+    this.categoryService.createCategory(this.categoryFormGroup.value);
     this.dialogRef.close('Close');
   }
 
