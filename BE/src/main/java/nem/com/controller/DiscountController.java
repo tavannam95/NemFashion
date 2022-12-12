@@ -1,5 +1,6 @@
 package nem.com.controller;
 
+import nem.com.dto.request.SearchDiscountDTO;
 import nem.com.entity.Discounts;
 import nem.com.service.DiscountService;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,9 @@ public class DiscountController {
         this.discountService = discountService ;
     }
 
-    @RequestMapping("findAll")
-    public ResponseEntity<List<Discounts>> findAll() {
-        return ResponseEntity.ok( this.discountService.findAll() );
+    @PostMapping("findAll")
+    public ResponseEntity<List<Discounts>> findAll(@RequestBody SearchDiscountDTO request) {
+        return ResponseEntity.ok( this.discountService.findAll(request) );
     }
 
     @PostMapping("create")

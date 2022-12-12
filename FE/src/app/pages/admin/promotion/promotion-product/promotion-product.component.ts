@@ -27,6 +27,7 @@ export class PromotionProductComponent implements OnInit  {
   listPro: any[] = [];
   listProDis: any[] = [] ;
   listProsChoosed: any[] = [] ;
+  listAdd: any[] = [] ;
 
   form = this.fb.group({
      category: null ,
@@ -124,16 +125,12 @@ export class PromotionProductComponent implements OnInit  {
     if( this.selection.isSelected(row) ){
         if( this.checkSimilar( row.id) ){
             this.listPro.push(row)
-            console.log('add' , this.listPro)
         }
     }else{
         if( this.checkSimilar(row.id) == false ){
             this.listPro.splice(this.listPro.indexOf(row)   ,1)
-            console.log('remove' , this.listPro)
         }
     }
-
-
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'}`;
   }
 
@@ -160,23 +157,25 @@ export class PromotionProductComponent implements OnInit  {
 
   onSave(){
 
-      console.log('before' , this.listPro)
-
       for( let x of this.listProsChoosed ){
           this.checkExit(x);
       }
 
-      console.log('result' , this.listPro )
+      for( let x of this.listPro ){
+          if( this.checkProInListChoose(x) ){
+              this.listAdd.push(x)
+          }
+      }
 
-      // this.promotion.addProductIntoPromotion( this.listPro , this.data.idDis ).subscribe({
-      //     next: () =>{
-      //         this.toast.success("Thêm sản phẩm thành công")
-      //         this.dialogRef.close()
-      //     },
-      //     error: err => {
-      //         this.toast.error("Thêm sản phẩm thất bại")
-      //     }
-      // }) ;
+      this.promotion.addProductIntoPromotion( this.listAdd , this.data.idDis ).subscribe({
+          next: () =>{
+              this.toast.success("Thêm sản phẩm thành công")
+              this.dialogRef.close()
+          },
+          error: err => {
+              this.toast.error("Thêm sản phẩm thất bại")
+          }
+      }) ;
   }
 
   checkSelected( data: any){
@@ -189,12 +188,18 @@ export class PromotionProductComponent implements OnInit  {
   }
 
   checkExit(data: any){
-      if( this.listPro.includes(data) ){
-          this.listPro.splice(  this.listPro.indexOf(data) , 1)
-      }else {
-          this.listPro.push(data)
+      if( this.checkSimilar(data.id) ){
+          this.listAdd.push(data);
       }
-      console.log('kacac' , this.listPro)
+  }
+
+  checkProInListChoose( data: any ){
+      for( let x of this.listProsChoosed) {
+          if( x.id == data.id ){
+              return false ;
+          }
+      }
+      return true ;
   }
 }
 

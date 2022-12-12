@@ -1,5 +1,6 @@
 package nem.com.service.impl;
 
+import nem.com.dto.request.SearchDiscountDTO;
 import nem.com.entity.Discounts;
 import nem.com.entity.ProductDiscount;
 import nem.com.entity.Products;
@@ -27,8 +28,8 @@ public class DiscountServiceIplm implements DiscountService  {
     }
 
     @Override
-    public List<Discounts> findAll() {
-        return this.repository.findAll() ;
+    public List<Discounts> findAll(SearchDiscountDTO request) {
+        return this.repository.findAll( request.getName() , request.getStartDate() , request.getEndDate() , request.getStatus()) ;
     }
 
     @Override

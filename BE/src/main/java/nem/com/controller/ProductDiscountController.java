@@ -21,7 +21,6 @@ public class ProductDiscountController {
     @GetMapping("")
     public ResponseEntity<Void> save(@RequestParam("idDis") Integer idDis , @RequestParam("idPro") Integer[] idPro){
         this.productDiscountServiceIplm.save( idDis , idPro) ;
-
         return  ResponseEntity.ok().build();
     }
 

@@ -8,8 +8,8 @@ export class PromotionService {
 
   constructor( private api: PromotionApiService) { }
 
-  findAll(){
-     return this.api.findAll() ;
+  findAll( data: any){
+     return this.api.findAll(data) ;
   }
 
   create( data: any ){

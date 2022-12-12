@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nem.com.domain.dto.SearchOrderDTO;
 import nem.com.domain.request.UpdateOrderRequest;
 import nem.com.domain.response.OrderResponseDTO;
-import nem.com.entity   .OrderDetails;
+import nem.com.entity.OrderDetails;
 import nem.com.entity.Orders;
 import nem.com.repository.OrderDetailsRepository;
 import nem.com.repository.OrdersRepository;
@@ -32,6 +32,7 @@ public class OrderController {
     private final OrderDetailService orderDetailService;
     private final OrdersRepository ordersRepository;
     private final ProductsDetailsRepository productsDetailsRepository;
+
 
     @GetMapping("/data")
     public ResponseEntity<List<Orders>> getData(){
