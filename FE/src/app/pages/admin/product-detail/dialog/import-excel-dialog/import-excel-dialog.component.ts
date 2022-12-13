@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { ProductDetailService } from '../../../../../shared/service/productDetail/product-detail.service';
 import { ConfirmDialogComponent } from '../../../../../shared/confirm-dialog/confirm-dialog.component';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Constant } from '../../../../../shared/constants/Constant';
 import { ToastrService } from 'ngx-toastr';
 import { ColorService } from '../../../../../shared/service/color/color.service';
@@ -22,7 +22,8 @@ export class ImportExcelDialogComponent implements OnInit {
     private matdialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private toastrService: ToastrService,
-    private colorService: ColorService
+    private colorService: ColorService,
+    private matDialogRef: MatDialogRef<ImportExcelDialogComponent>
     ) { }
 
   ngOnInit() {
@@ -62,31 +63,58 @@ export class ImportExcelDialogComponent implements OnInit {
   }
 
   createProductDetailByXLSX(){
+    let check = false;
     if (this.excel == null) {
       this.toastrService.error('Bạn chưa chọn file');
       return;
     }
-    console.log(this.excel);
+    for (let i = 0; i < this.excel.length; i++) {
+      let colorArr = [];
+      let sizeArr = [];
+
+      colorArr = this.excel[i].colorId.split("-");
+      this.excel[i].colorId = Number(colorArr[0].trim());
+
+      sizeArr = this.excel[i].sizeId.split("-");
+      this.excel[i].sizeId = Number(sizeArr[0].trim());
+      
+      check = this.checkQuantity(this.excel[i].quantity);
+      if (check) {
+        console.log('Error');
+        return;
+      }
+    }
     
     
-    // this.productDetailDto = [];
-    // for (let i = 0; i < this.excel.length; i++) {
-    //   this.productDetailDto.push({
-    //     product: {id: this.dataDialog},
-    //     color: {id: this.excel[i].colorId},
-    //     size: {id: this.excel[i].sizeId},
-    //     quantity: this.excel[i].quantity
-    //   })
-    // }
-    // this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
-    //   next: (res)=>{
-    //     this.toastrService.success('Thêm chi tiết thành công');
-    //   },
-    //   error: (err)=>{
-    //     this.toastrService.error('Vui lòng kiểm tra lại file excel');
-    //   }
-    // })
+
+    this.productDetailDto = [];
+    for (let i = 0; i < this.excel.length; i++) {
+      this.productDetailDto.push({
+        product: {id: this.dataDialog},
+        color: {id: this.excel[i].colorId},
+        size: {id: this.excel[i].sizeId},
+        quantity: this.excel[i].quantity
+      })
+    }
+    this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
+      next: (res)=>{
+        this.toastrService.success('Thêm chi tiết thành công');
+        this.matDialogRef.close();
+      },
+      error: (err)=>{
+        this.toastrService.error('Vui lòng kiểm tra lại file excel');
+      }
+    })
     
+  }
+
+  checkQuantity(quantity: number){
+    if (quantity<=0) {
+      this.toastrService.error('Số lượng phải lớn hơn 0');
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }
