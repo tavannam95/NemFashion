@@ -3,8 +3,8 @@
   
   <div class="row mb-3">
     <div class="col-12 d-flex justify-content-end">
-      <button class="btn btn-success font-weight-bold" style="cursor: pointer;">
-        Hướng dẫn
+      <button class="btn btn-success font-weight-bold" (click)="openGuideExcel()" style="cursor: pointer;">
+        Tải file mẫu
       </button>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
   <mat-dialog-actions align="end">
     <div class="row">
-      <button class="btn btn-danger" mat-button mat-dialog-close>Đóng</button>
-      <button class="btn btn-info" (click)="createProductDetailByXLSX()" mat-button mat-dialog-close>Đồng ý</button>
+      <button class="btn btn-info" (click)="createProductDetailByXLSX()" mat-button>Đồng ý</button>
+      <button class="btn btn-dark" mat-button mat-dialog-close>Đóng</button>
     </div>
   </mat-dialog-actions>
