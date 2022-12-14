@@ -30,7 +30,7 @@
                 <img [src]="this.avatarUrlEdit" alt="" class="avt-preview" *ngIf="!isUpdate">
                 <div class="mt-3 d-flex justify-content-center">
                     <button *ngIf="!isUpdate"
-                            type="button" mat-raised-button color="primary"
+                            type="button" class="btn btn-danger"
                             (click)="isUpdate = !isUpdate">
                         Thay đổi ảnh
                     </button>
@@ -136,17 +136,17 @@
                 </div>
 
                 <div class="action-button mt-3 d-flex justify-content-end">
-                    <button type="button" mat-raised-button color="warn" class="mr-3" (click)="onDismiss()">
-                        <span><span class="fe fe-x mg-r-2"></span>Đóng</span>
-                    </button>
                     <button type="button"
-                            mat-raised-button color="primary"
+                        class="btn btn-success"
                             (click)="save()"
                             [disabled]="isLoadingButton">
                         <span>
                             <i *ngIf="isLoadingButton" class="fa fa-spinner fa-spin"></i>
                             Lưu
                         </span>
+                    </button>
+                    <button type="button" class="mr-3 btn btn-dark" (click)="onDismiss()">
+                        <span><span class="fe fe-x mg-r-2"></span>Đóng</span>
                     </button>
                 </div>
             </div>
