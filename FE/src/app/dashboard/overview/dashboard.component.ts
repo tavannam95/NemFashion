@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
     maxPro: any ;
     maxStatic: any ;
     overview: any
+    date = new Date();
 
     form = this.fb.group( {
         startDate: null ,

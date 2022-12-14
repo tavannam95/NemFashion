@@ -8,6 +8,8 @@ import * as Chartist from 'chartist';
 })
 export class StaticalComponent implements OnInit {
 
+  color = 1 ;
+
   constructor() { }
 
   ngOnInit(): void {

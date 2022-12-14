@@ -86,7 +86,6 @@ export class RatingComponent implements OnInit {
     if( this.formRating.invalid ){
        return ;
     }
-
     // @ts-ignore
     this.formRating.value.rating = this.ratingDisplay ;
     // @ts-ignore
