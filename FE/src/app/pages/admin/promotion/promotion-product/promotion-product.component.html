@@ -1,5 +1,8 @@
-<div class="container-fluid">
-    <form class="row mt-3" [formGroup]="form">
+<h1 mat-dialog-title class="text-center h3 m-0 font-weight-bold">
+    Thêm sản phẩm vào khuyến mại
+  </h1>
+<div mat-dialog-content>
+    <form class="row mt-4" [formGroup]="form">
         <mat-form-field appearance="outline" class="col-2">
             <mat-label>Tìm kiếm nhanh</mat-label>
             <input matInput (keyup)="applyFilter($event)" #input>
@@ -36,8 +39,7 @@
         <div class="col-12 d-flex justify-content-center">
             <button type="button" mat-button class="mx-2 btn-color" (click)="onClear()">Làm lại</button>
             <button type="button" mat-button class="mx-2 btn-color" (click)="onSearch()">Tìm kiếm</button>
-            <button type="button" mat-button class="mx-2 btn-color" (click)="onSave()">Lưu</button>
-            <button type="button" mat-button class="mx-2 btn-color" (click)="onClose()">Đóng</button>
+            
         </div>
     </form>
 
@@ -91,10 +93,14 @@
                 </tr>
         </table>
 
-            <mat-paginator [pageSizeOptions]="[7]"
+            <mat-paginator [pageSizeOptions]="[5]"
                            showFirstLastButtons
                            aria-label="Select page of periodic elements">
             </mat-paginator>
         </div>
+    </div>
+    <div  mat-dialog-actions class="d-flex justify-content-end">
+        <button type="button" mat-button class="mx-2 btn btn-success" (click)="onSave()">Lưu</button>
+        <button type="button" mat-button class="mx-2 btn btn-dark" (click)="onClose()">Đóng</button>
     </div>
 </div>
