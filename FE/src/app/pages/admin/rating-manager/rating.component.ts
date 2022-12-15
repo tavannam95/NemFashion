@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -22,10 +22,10 @@ export class RatingComponent implements OnInit {
     selection = new SelectionModel<any>(true, []);
     listImageRating: any;
 
-
     constructor(private ratingService: RatingService,
                 private toast: ToastrService,
-                private dialog: MatDialog) {
+                private dialog: MatDialog,
+                private  change: ChangeDetectorRef) {
         this.getAllRating();
     }
 
@@ -85,6 +85,7 @@ export class RatingComponent implements OnInit {
                         this.toast.success('Xóa thành công');
                         this.array = [];
                         this.getAllRating();
+                        this.selection.deselect(...this.selection.selected);
                     },
                     error: () => {
                         this.toast.error('Xóa thất bại');
