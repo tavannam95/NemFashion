@@ -3,6 +3,7 @@ package nem.com.scheduled;
 import nem.com.entity.Discounts;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ProcessToPromotion extends Thread {
@@ -14,19 +15,19 @@ public class ProcessToPromotion extends Thread {
 
     @Override
     public void run() {
-        Date date = new Date( );
 
     }
 
-    private Long changeTime( Date now , Date startDate ){
+    private Long changeTime( Date startDate , Date endDate ){
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY") ;
-        if( sdf.format(now).equalsIgnoreCase( sdf.format(startDate) ) ){
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        if( sdf.format(startDate).equalsIgnoreCase( sdf.format(startDate) ) ){
             return 0L ;
+        }else {
+            c1.setTime(startDate);
+            c2.setTime(endDate);
+            return c2.getTime().getTime() - c1.getTime().getTime() ;
         }
-
-//        Long time = now.getDay() + now.getMonth() ;
-
-
-        return 0L ;
     }
 }
