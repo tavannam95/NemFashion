@@ -16,6 +16,7 @@ import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatRadioModule} from '@angular/material/radio';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CategoryManagerRoutingModule} from './category-manager-routing.module';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {CategoryManagerRoutingModule} from './category-manager-routing.module';
         NgxDropzoneModule,
         MatRadioModule,
         ReactiveFormsModule,
+        MatMenuModule
     ]
 })
 export class CategoryManagerModule {
