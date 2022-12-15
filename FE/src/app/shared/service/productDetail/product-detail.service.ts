@@ -22,4 +22,7 @@ getOneProductDetail(id: any){
 updateProductDetail(data: any){
   return this.apiService.updateProductDetail(data);
 }
+dowloadExcel(){
+  return this.apiService.dowloadExcel();
+}
 }

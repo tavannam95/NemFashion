@@ -130,6 +130,8 @@ export class EditOrderComponent implements OnInit {
             product: product
         }
     }).afterClosed().subscribe(value => {
+      console.log(value);
+      
         if (!(value == null || value == undefined)) {
           if (this.checkorderDetailsList(value.id)) {
             this.orderDetail.order.id = this.order.id;

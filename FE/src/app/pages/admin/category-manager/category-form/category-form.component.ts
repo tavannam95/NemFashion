@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constant} from '../../../../shared/constants/Constant';
+import {CategoryService} from '../../../../shared/service/category/category.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
     selector: 'category-form',
@@ -26,7 +28,9 @@ export class CategoryFormComponent implements OnInit {
 
     constructor(private readonly fb: FormBuilder,
                 private readonly matDialogRef: MatDialogRef<CategoryFormComponent>,
-                @Inject(MAT_DIALOG_DATA) public dataDialog: any) {
+                @Inject(MAT_DIALOG_DATA) public dataDialog: any,
+                private categoryService: CategoryService,
+                private toastService: ToastrService) {
     }
 
     ngOnInit(): void {
@@ -39,7 +43,24 @@ export class CategoryFormComponent implements OnInit {
     }
 
     save() {
+        this.formGroup.markAllAsTouched();
+        if (this.formGroup.invalid) {
+            return;
+        }
 
+        if (this.dataDialog.type === Constant.TYPE_DIALOG.NEW) {
+            this.categoryService.createCategory(this.formGroup.getRawValue());
+        } else {
+            this.categoryService.updateCategory(this.formGroup.getRawValue());
+        }
+
+        this.categoryService.isCloseDialog.subscribe(value => {
+            if (value) {
+                this.matDialogRef.close(Constant.RESULT_CLOSE_DIALOG.SUCCESS);
+                this.categoryService.isCloseDialog.next(false);
+            }
+            this.isLoadingButton = false;
+        })
     }
 
     onDismiss() {

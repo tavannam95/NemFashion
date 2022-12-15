@@ -53,7 +53,7 @@ export class EmployeeFormComponent implements OnInit {
         }else{
             this.hidePassword = false ;
             this.title = 'Cập nhật thông tin'
-            this.colorBtn = 'btn btn-info'
+            this.colorBtn = 'btn btn-success'
             this.nameBtn = "Cập nhập"
             this.staff.patchValue( this.dataDialog.row )
         }

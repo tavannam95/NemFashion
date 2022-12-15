@@ -14,7 +14,7 @@ import {CategoryService} from '../../../../shared/service/category/category.serv
 })
 export class CategoryListComponent implements OnInit {
 
-    displayedColumns: string[] = ['no', 'name', 'action'];
+    displayedColumns: string[] = ['no', 'name',  'createDate', 'updateDate', 'status', 'action'];
     dataSource: MatTableDataSource<any>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,6 +35,7 @@ export class CategoryListComponent implements OnInit {
         this.isLoading = true;
         return this.categoryService.getAllCategory().subscribe({
             next: (res: any) => {
+                console.log(res)
                 this.isLoading = false;
                 this.dataSource = new MatTableDataSource<any>(res);
                 this.dataSource.data = res;
@@ -62,6 +63,7 @@ export class CategoryListComponent implements OnInit {
             }
         }).afterClosed().subscribe(result => {
             if (result === Constant.RESULT_CLOSE_DIALOG.SUCCESS) {
+                this.getAllCategory();
             }
         })
     }

@@ -26,4 +26,7 @@ getOneProductDetail(id: any): Observable<any>{
 updateProductDetail(data: any){
   return this.http.put(`${ApiConstant.productDetail}/${data.id}`,data);
 }
+dowloadExcel(){
+    return this.http.get(`${ApiConstant.productDetail}/file-excel`, { responseType: 'blob' });
+}
 }
