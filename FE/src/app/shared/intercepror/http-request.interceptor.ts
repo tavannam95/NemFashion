@@ -42,7 +42,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     if (userToken != null) {
       httpHeader = httpHeader.append('Authorization', 'Bearer ' + userToken)
     }
-    if (req.url.includes(ApiConstant.ghn)) {
+    if (req.url.includes('https://dev-online-gateway.ghn.vn')) {
       httpHeader = httpHeader.append('Token', Ghn.TOKEN);
       httpHeader = httpHeader.append('ShopId', Ghn.SHOP_ID);
     }
