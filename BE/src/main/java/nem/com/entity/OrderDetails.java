@@ -55,9 +55,9 @@ public class OrderDetails {
     @Column(name = "status", nullable = true)
     private Integer status;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "orderDetail")
-    private List<Exchanges> listExchanges;
+    @ManyToOne
+    @JoinColumn(name = "exchange_id", referencedColumnName = "id")
+    private Exchanges exchanges;
 
     @ManyToOne
     @JoinColumn(name = "product_detail_id", referencedColumnName = "id")

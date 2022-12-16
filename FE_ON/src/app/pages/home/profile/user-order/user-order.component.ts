@@ -7,6 +7,7 @@ import {ConfirmDialogComponent} from "../../../../shared/confirm-dialog/confirm-
 import {Constants} from "../../../../shared/constants/constants.module";
 import {RatingService} from "../../../../shared/service/rating-service/rating.service";
 import {StorageService} from "../../../../shared/service/storage.service";
+import { ExchangeOrderDialogComponent } from './exchange-order-dialog/exchange-order-dialog.component';
 
 @Component({
   selector: 'app-user-order',
@@ -33,7 +34,8 @@ export class UserOrderComponent implements OnInit {
                private orderService: OrderService ,
                private orderDetailService: OrderDetailService ,
                private ratingService: RatingService ,
-               private storageService: StorageService ) { }
+               private storageService: StorageService,
+  ) { }
 
   ngOnInit(): void {
      this.findAllOrder() ;
@@ -48,6 +50,14 @@ export class UserOrderComponent implements OnInit {
         }
      }
      return true ;
+  }
+
+  openExchange(order: any){
+    this.dialog.open(ExchangeOrderDialogComponent,{
+      disableClose: true,
+      width: '50rem',
+      data: order
+    })
   }
 
   findAllRating(){

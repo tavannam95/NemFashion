@@ -1,6 +1,6 @@
 <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
   <div class="dash__pad-2">
-    <h1 class="dash__h1 u-s-m-b-14">Hóa đơn</h1>
+    <h1 class="dash__h1 u-s-m-b-14">Đơn hàng của bạn</h1>
     <div class="m-order__list">
       <mat-tab-group>
         <mat-tab label="Tất cả">
@@ -37,15 +37,15 @@
               <div class="description__info-wrap">
                 <div class="description-title">
                   <div class="mt-4">Số lượng: <span class="fw-normal"> {{od.quantity}} </span> </div>
-                  <div>Đơn giá: <span class="fw-normal"> {{od.unitprice | currency: 'VND' : 'symbol-narrow' : '.0-0' }} </span> </div>
+                  <div>Đơn giá: <span class="fw-normal"> {{od.unitprice | currency: ' ' : 'symbol-narrow' : '.0-0' }} đ</span> </div>
                 </div>
               </div>
             </div>
             </span>
             <div class="d-flex flex-row-reverse">
-              <button class="btn btn-warning mx-2">Mua lại</button>
+              <!-- <button  *ngIf="order.status == 3" class="btn btn-danger text-light mx-2">Trả hàng</button> -->
               <div>
-                Tổng tiền: <span class="fs-4 text-danger">{{order.total | currency: 'VND' : 'symbol-narrow' : '.0-0'}}</span>
+                Tổng tiền: <span class="fs-4 text-danger">{{order.total | currency: ' ' : 'symbol-narrow' : '.0-0'}} đ</span>
               </div>
             </div>
           </div>
@@ -70,6 +70,9 @@
                       <span class="ms-3" *ngIf=" order.status == 0" >
                           <button class="btn btn-danger" (click)="openCancel(order.id)">Hủy</button>
                       </span>
+                      <span class="ms-3" *ngIf=" order.status == 3" >
+                        <button class="btn btn-danger" (click)="openExchange(order)">Trả hàng</button>
+                    </span>
                     </div>
                   </div>
                 </div>
@@ -91,15 +94,15 @@
                       <span class="btn btn-outline-info" (click)="OnpenRating(order.id , od.productsDetail.product.id) ">Đánh giá sao</span>
                   </div>
                   <div class="mt-4">Số lượng: <span class="fw-normal"> {{od.quantity}} </span> </div>
-                  <div>Đơn giá: <span class="fw-normal"> {{od.unitprice | currency: 'VND' : 'symbol-narrow' : '.0-0' }} </span> </div>
+                  <div>Đơn giá: <span class="fw-normal"> {{od.unitprice | currency: ' ' : 'symbol-narrow' : '.0-0' }} đ</span> </div>
                 </div>
               </div>
             </div>
             </span>
               <div class="d-flex flex-row-reverse">
-                <button class="btn btn-warning mx-2">Mua lại</button>
+                <!-- <button  *ngIf="order.status == 3" class="btn btn-danger text-light mx-2">Trả hàng</button> -->
                 <div>
-                  Tổng tiền: <span class="fs-4 text-danger">{{order.total | currency: 'VND' : 'symbol-narrow' : '.0-0'}}</span>
+                  Tổng tiền: <span class="fs-4 text-danger">{{order.total | currency: ' ' : 'symbol-narrow' : '.0-0'}} đ</span>
                 </div>
               </div>
             </div>
