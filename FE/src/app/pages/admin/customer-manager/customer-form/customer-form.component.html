@@ -27,7 +27,7 @@
                             (removed)="onRemove(f)">
                     </ngx-dropzone-image-preview>
                 </ngx-dropzone>
-                <img [src]="this.avatarUrlEdit" alt="" class="avt-preview" *ngIf="!isUpdate">
+                <img [src]="this.avatarUrlEdit ? this.avatarUrlEdit : 'https://res.cloudinary.com/nemfashion/image/upload/v1664814655/unknow_ejzkbl.jpg'" alt="" class="avt-preview" *ngIf="!isUpdate">
                 <div class="mt-3 d-flex justify-content-center">
                     <button *ngIf="!isUpdate"
                             type="button" mat-raised-button color="primary"
