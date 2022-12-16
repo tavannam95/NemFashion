@@ -114,6 +114,7 @@ export class ProductDetailOrderComponent implements OnInit {
 
             if (this.listColorOfProduct.click !== undefined && this.listSizeOfProduct.click !== undefined) {
                 if (this.quantityinput > 0 && this.quantityinput <= this.quantityInventory) {
+                    this.productDetailOrder[0].product = this.product;
                     this.productDetailOrder[0].quantityOrder = parseInt(this.quantityinput);
                     this.productDetailOrder[0].price = this.product.price;
                     this.productDetailOrder[0].quantityInventory = this.quantityInventory;
@@ -121,6 +122,7 @@ export class ProductDetailOrderComponent implements OnInit {
                     this.productDetailOrder[0].weight = this.product.weight;
                     this.matDialogRef.close(this.productDetailOrder[0]);
                 }else{
+
                         this.message = 'Số lượng không hợp lệ';
                     }
                 // Do filter trả về 1 mảng nên phải [0]

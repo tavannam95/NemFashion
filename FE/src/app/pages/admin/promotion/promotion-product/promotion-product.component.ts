@@ -28,6 +28,7 @@ export class PromotionProductComponent implements OnInit  {
   listProDis: any[] = [] ;
   listProsChoosed: any[] = [] ;
   listAdd: any[] = [] ;
+  data2:any;
 
   form = this.fb.group({
      category: null ,
@@ -55,6 +56,7 @@ export class PromotionProductComponent implements OnInit  {
      this.productService.getProByCate(this.form.getRawValue() ).subscribe( (value:any) => {
          this.dataSource = new MatTableDataSource<any>(value);
          this.dataSource.paginator = this.paginator;
+         this.data2 = value;
          this.isAllSelected()
      })
   }
@@ -62,8 +64,14 @@ export class PromotionProductComponent implements OnInit  {
   getProDis(){
       this.promotion.getAllProductDiscount( this.data.idDis ).subscribe(( value: any) => {
           this.listProDis = value ;
-          for ( let x of value ){
-              this.listProsChoosed.push(x.product)
+          for (let data3 of this.data2){
+            for ( let x of value ){
+              // this.listProsChoosed.push(x.product);
+                  if(data3.id == x.product.id){
+                      this.selection.select(data3);
+                  }
+              }
+
           }
           console.log('kaka' , this.listProsChoosed)
       })
@@ -181,9 +189,11 @@ export class PromotionProductComponent implements OnInit  {
   checkSelected( data: any){
       for( let x of this.listProDis ){
           if( x.product.id == data.id ){
+
               return true ;
           }
       }
+
       return false ;
   }
 

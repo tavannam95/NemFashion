@@ -18,7 +18,10 @@ import { PrintBarcodeDialogComponent } from '../dialog/product-view-dialog/print
 
 
 @NgModule({
-  declarations: [ProductDetailFormComponent, ImportExcelDialogComponent],
+  declarations: [
+    ProductDetailFormComponent, 
+    ImportExcelDialogComponent, 
+  ],
   imports: [
     CommonModule,
     ProductDetailRoutingModule,

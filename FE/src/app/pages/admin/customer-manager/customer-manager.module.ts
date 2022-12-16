@@ -20,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatIconModule,
         MatCheckboxModule,
         MatSelectModule,
+        MatMenuModule,
     ]
 })
 export class CustomerManagerModule {

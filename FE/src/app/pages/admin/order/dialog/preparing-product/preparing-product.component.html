@@ -20,16 +20,28 @@
         <div class="col-12">
           {{order.total| currency:' ':'symbol':'0.0-2'}}đ
         </div>
-        <div class="col-12 font-weight-bold mt-3">
+        <div *ngIf="order.status ==6" class="col-12 font-weight-bold mt-3">
+          Người bán:
+        </div>
+        <div *ngIf="order.status ==6" class="col-12">
+          {{order.employee.fullname}}
+        </div>
+        <div *ngIf="order.status ==6" class="col-12 font-weight-bold mt-3">
+          Ngày bán:
+        </div>
+        <div *ngIf="order.status ==6" class="col-12">
+          {{order.createDate | date: 'dd/MM/yyyy'}}
+        </div>
+        <div *ngIf="order.status !=6" class="col-12 font-weight-bold mt-3">
           Phí vận chuyển ước tính:
         </div>
-        <div class="col-12">
+        <div *ngIf="order.status !=6" class="col-12">
           {{order.freight| currency:' ':'symbol':'0.0-2'}}đ
         </div>
-      <div class="col-12 font-weight-bold mt-3">
+      <div *ngIf="order.status !=6" class="col-12 font-weight-bold mt-3">
           Địa chỉ nhận hàng:
       </div>
-      <div class="col-12">
+      <div *ngIf="order.status !=6" class="col-12">
         {{order.shipName}} : {{order.shipPhone}}
       </div>
       <div class="col-12">
@@ -38,7 +50,7 @@
       <div *ngIf="order.status==0" class="col-12 mt-2">
         <a class="btn-link" (click)="addAddress()">Đổi địa chỉ</a>
       </div>
-      <div *ngIf="order.status!=0">
+      <div *ngIf="order.status!=0 && order.status!=6">
         <div class="col-12 font-weight-bold mt-3">
           Người cập nhật:
         </div>
