@@ -49,7 +49,7 @@ public class Exchanges {
     @OneToMany(mappedBy = "exchange")
     private List<ExchangeImages> listExchangesImages;
 
-    @ManyToOne
-    @JoinColumn(name = "order_detail_id", referencedColumnName = "id")
-    private OrderDetails orderDetail;
+    @JsonIgnore
+    @OneToMany(mappedBy = "exchanges")
+    private List<OrderDetails> listOrderDetails;
 }
