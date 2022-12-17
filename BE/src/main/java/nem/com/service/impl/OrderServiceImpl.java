@@ -44,6 +44,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<Orders> findOrderExchange(Integer page, Integer size) {
+        return this.ordersRepository.findOrderExchange(PageRequest.of(page,size));
+    }
+
+    @Override
     public Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Integer page, Integer size) {
         return this.ordersRepository.findByStatusOrderByCreateDateDesc(status, PageRequest.of(page,size));
     }

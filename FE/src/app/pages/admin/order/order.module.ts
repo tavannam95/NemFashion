@@ -24,12 +24,16 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { EditAddressDialogComponent } from './dialog/edit-address-dialog/edit-address-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
 import { EditOrderComponent } from './dialog/edit-order/edit-order.component';
+import { OrderExchangeComponent } from './dialog/order-exchange/order-exchange.component';
+import { WrongProductDetailComponent } from './dialog/wrong-product-detail/wrong-product-detail.component';
 @NgModule({
     declarations: [
         OrderListComponent,
         PreparingProductComponent,
         EditAddressDialogComponent,
-        EditOrderComponent
+        EditOrderComponent,
+        OrderExchangeComponent,
+        WrongProductDetailComponent
     ],
     imports: [
         CommonModule,
@@ -52,7 +56,8 @@ import { EditOrderComponent } from './dialog/edit-order/edit-order.component';
         MatExpansionModule,
         MatAutocompleteModule,
         MatTooltipModule,
-        MatSelectModule
+        MatSelectModule,
+        MatMenuModule
     ]
 })
 export class OrderModule {

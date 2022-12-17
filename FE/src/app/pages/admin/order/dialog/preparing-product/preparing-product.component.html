@@ -32,10 +32,10 @@
         <div *ngIf="order.status ==6" class="col-12">
           {{order.createDate | date: 'dd/MM/yyyy'}}
         </div>
-        <div *ngIf="order.status !=6" class="col-12 font-weight-bold mt-3">
-          Phí vận chuyển ước tính:
+        <div *ngIf="order.status !=6 && tabIndex != 5" class="col-12 font-weight-bold mt-3">
+          Phí vận chuyển:
         </div>
-        <div *ngIf="order.status !=6" class="col-12">
+        <div *ngIf="order.status !=6 && tabIndex != 5" class="col-12">
           {{order.freight| currency:' ':'symbol':'0.0-2'}}đ
         </div>
       <div *ngIf="order.status !=6" class="col-12 font-weight-bold mt-3">
@@ -63,6 +63,28 @@
         <div class="col-12">
           {{order.updatedDate | date: 'dd/MM/yyyy'}}
         </div>
+       </div>
+       <div class="col-12" *ngIf="tabIndex==5">
+        <div class="col-12 p-0 font-weight-bold mt-3">
+          Lý do khách trả:
+         </div>
+         <div class="col-12">
+          {{exchange.exchanges.reason}}
+        </div>
+        <div *ngIf="order.status==9" class="col-12 p-0 font-weight-bold mt-3">
+          Ghi chú của nhân viên:
+         </div>
+         <div *ngIf="order.status==9" class="col-12">
+          {{exchange.exchanges.note}}
+        </div>
+         <div class="col-12 p-0 font-weight-bold mt-3">
+          Video & ảnh khách gửi: <a class="btn-link" target="_blank" [href]="exchange.exchanges.video">Xem video</a>
+         </div>
+         <div class="row mt-3">
+          <div class="w-50 mt-3 p-2" *ngFor="let image of exchange.exchangeImagesList">
+            <div class="zoom" [style.background-image]="'url(' + image.name + ')'" style="height: 20rem;"></div>
+          </div>
+         </div>
        </div>
       <div class="col-12 row font-weight-bold mt-3">
         <div class="col-12 pt-5">
@@ -145,18 +167,40 @@
             </td>
           </ng-container>
   
-          <!-- Function Column -->
-          <!-- <ng-container matColumnDef="function">
-            <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>
-              Thao tác
-            </th>
-            <td class="text-center" mat-cell *matCellDef="let row">
-              <a class="btn-link text-danger" (click)="removeOrderDetail(row)">
-                <i class="fas fa-trash"></i>
-              </a>
-            </td>
-          </ng-container> -->
-  
+          <!-- status Column -->
+            <ng-container matColumnDef="status">
+              <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>
+                Trạng thái
+              </th>
+              <td class="text-center font-weight-bold" mat-cell *matCellDef="let row"
+               [ngClass]="row.status == 1 ? 'text-success' : row.status == 0 ? 'text-danger': row.status == 2 ? 'text-success':'text-danger'">
+                {{row.status==1? 'Nhận':row.status==0? 'Chờ xác nhận': row.status==2? 'Đồng ý trả': 'Hủy trả'}}
+              </td>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="func">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>
+                </th>
+                <td class="text-center font-weight-bold" mat-cell *matCellDef="let row" >
+                  <div *ngIf="tabIndex==5 && row.status == 0">
+                    
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button (click)="acceptExchange(row)" mat-menu-item>
+                        <span>Xác nhận</span>
+                      </button>
+                      <button (click)="cancelExchange(row)" mat-menu-item>
+                        <span>Hủy</span>
+                      </button>
+                    </mat-menu>
+                    
+                  </div>
+                </td>
+            </ng-container>
+            
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   
@@ -168,6 +212,22 @@
           </tr>
         </table>
       </div>
+
+      <div *ngIf="order.status ==8" class="col-12">
+      <form [formGroup]="noteFG">
+        <mat-form-field class="mt-3" appearance="outline">
+          <mat-label>Ghi chú:</mat-label>
+          <textarea formControlName="note" matInput id="floatingInput"></textarea>
+        </mat-form-field>
+        <mat-error class="text-danger"
+                     *ngIf="noteFG.get('note')?.hasError('required') &&
+                     noteFG.get('note')?.touched">
+              Ghi chú không được để trống
+          </mat-error>
+        </form>
+      </div>
+
+
     </div>
   
     <span *ngIf="order.status == 0" class="h4 font-weight-bold col-12 mt-3">Chọn ca lấy hàng</span>
@@ -195,13 +255,20 @@
       <button *ngIf="order.status==1" class="btn btn-info" mat-button (click)="transporting()">Giao hàng</button>
       <button *ngIf="order.status==0" class="btn btn-danger" (click)="cancelStatus()" mat-button>Hủy đơn</button>
       <button *ngIf="order.status==1" class="btn btn-danger" (click)="cancelOrder()" mat-button>Hủy đơn</button>
+      <div class="mt-2" *ngIf="order.status==8||order.status==9">
+        <span class="text-danger h3 font-weight-bold">Tiền trả khách: {{totalExchange| currency:' ':'symbol':'0.0-2'}} đ</span>
+      </div>
     </div>
     <div class="col-6 d-flex justify-content-end">
+      <div *ngIf="order.status==8" class="row">
+        <button class="btn btn-success" mat-button (click)="exchangeAccept()" cdkFocusInitial >Trả hàng</button>
+        <button class="btn btn-dark" [disabled]="disableBtn" style="margin-left: 0.5em;" mat-button mat-dialog-close>Đóng</button>
+      </div>
       <div *ngIf="order.status==0" class="row">
         <button class="btn btn-success" mat-button cdkFocusInitial [disabled]="!isFormValid()" (click)="onSubmit()">Xác nhận</button>
         <button mat-button mat-dialog-close class="btn btn-dark" mat-button mat-dialog-close>Hủy</button>
       </div>
-      <div *ngIf="order.status!=0" class="row">
+      <div *ngIf="order.status!=0&&order.status!=8" class="row">
         <div *ngIf="order.status==1">
           <button class="btn btn-success" (click)="printOrderCode()" mat-button>In vận đơn</button>
         </div>

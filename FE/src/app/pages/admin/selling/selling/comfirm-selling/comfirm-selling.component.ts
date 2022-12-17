@@ -25,7 +25,6 @@ export class ComfirmSellingComponent implements OnInit {
     }else{
       this.title = 'Xác nhận thông tin order'
         this.order = this.dataDialog.order;
-        console.log(this.order);
     }
 
   }

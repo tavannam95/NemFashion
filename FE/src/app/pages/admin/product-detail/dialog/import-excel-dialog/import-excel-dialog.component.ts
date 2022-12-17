@@ -80,7 +80,6 @@ export class ImportExcelDialogComponent implements OnInit {
       
       check = this.checkQuantity(this.excel[i].quantity);
       if (check) {
-        console.log('Error');
         return;
       }
     }

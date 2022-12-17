@@ -35,7 +35,6 @@ export class CategoryListComponent implements OnInit {
         this.isLoading = true;
         return this.categoryService.getAllCategory().subscribe({
             next: (res: any) => {
-                console.log(res)
                 this.isLoading = false;
                 this.dataSource = new MatTableDataSource<any>(res);
                 this.dataSource.data = res;

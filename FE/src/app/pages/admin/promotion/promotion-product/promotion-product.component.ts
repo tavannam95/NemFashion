@@ -73,7 +73,6 @@ export class PromotionProductComponent implements OnInit  {
               }
 
           }
-          console.log('kaka' , this.listProsChoosed)
       })
   }
 

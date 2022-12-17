@@ -204,7 +204,6 @@ export class SellingComponent implements OnInit, OnDestroy {
             }
         }).afterClosed().subscribe(value => {
             if (!(value == null || value == undefined)) {
-                console.log(value);
                 let hd: any = {};
                 hd.id = this.tabs[this.selected.value];
                 hd.note = '';
@@ -289,7 +288,6 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     pushDataToLocalStorage(item: any) {
-        console.log(item);
         let orderLocalArray = this.listOrders;
         let orderIndex = orderLocalArray.findIndex(o => o.id == this.tabs[this.selected.value]);
         let order = orderLocalArray[orderIndex];
@@ -587,7 +585,6 @@ export class SellingComponent implements OnInit, OnDestroy {
             this.listTien.push(total);
         }
 
-        console.log(this.listTien);
     }
 
     clickPrice(index) {
@@ -613,7 +610,6 @@ export class SellingComponent implements OnInit, OnDestroy {
 
 
     selling(status: number) {
-        console.log(this.order);
         if (this.order.orderDetail.length == 0) {
             this.toast.error('Chưa có sản phẩm nào!');
             return;
@@ -924,7 +920,6 @@ export class SellingComponent implements OnInit, OnDestroy {
         }
         //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
         this.ghnService.getService(data).subscribe((res: any) => {
-            console.log(res.data)
             this.serviceId = res.data[0].service_id;
             const shippingOrder = {
                 'service_id': this.serviceId,

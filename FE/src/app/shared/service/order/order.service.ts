@@ -13,6 +13,14 @@ export class OrderService {
     private orderDetailService: OrderDetailService
   ) { }
 
+  findExchange(page: any, size: any){
+    return this.apiService.findExchange(page,size);
+  }
+
+  findAllExchange(){
+    return this.apiService.findAllExchange();
+  }
+
   getDataOrder(){
     return this.apiService.getDataOrder();
   }
@@ -45,7 +53,6 @@ export class OrderService {
     this.orderDetailService.getOrderDetailByOrderId(orderId).subscribe({
       next: (res) =>{
         orderDetailList = res;
-        console.log(orderDetailList);
       }
     })
   }

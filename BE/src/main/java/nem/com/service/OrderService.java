@@ -16,6 +16,7 @@ import java.util.List;
 public interface OrderService {
     List<Orders> getAll();
 
+    Page<Orders> findOrderExchange(Integer page, Integer size);
     Page<Orders> findByStatusOrderByCreateDateDesc(Integer status, Integer page, Integer size);
 
     Page<Orders> searchOrderByStatus(SearchOrderDTO searchOrderDTO, Integer page, Integer size);

@@ -33,6 +33,30 @@ public class OrderController {
     private final OrdersRepository ordersRepository;
     private final ProductsDetailsRepository productsDetailsRepository;
 
+    @GetMapping("/allExchange")
+    public ResponseEntity<List<Orders>> getAllExchange(){
+        return new ResponseEntity<>(this.ordersRepository.findAllOrderExchange(),HttpStatus.OK);
+    }
+
+    @GetMapping("/exchange")
+    public ResponseEntity<List<OrderResponseDTO>> getExchange(
+            @RequestParam(value = "page",defaultValue = "0") Integer page,
+            @RequestParam(value = "size",defaultValue = "10") Integer size
+    ){
+        List<OrderResponseDTO> orderResponseDTOList = new ArrayList<>();
+        Page<Orders> ordersList = this.orderService.findOrderExchange(page,size);
+        for (Orders orders: ordersList
+        ) {
+            OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+            orderResponseDTO.setOrders(orders);
+            List<OrderDetails> orderDetailsList = this.orderDetailService.findByOrderId(orders.getId());
+            orderResponseDTO.setOrderDetailsList(orderDetailsList);
+            orderResponseDTO.setTotalPage(ordersList.getTotalPages());
+            orderResponseDTO.setTotalElements(ordersList.getTotalElements());
+            orderResponseDTOList.add(orderResponseDTO);
+        }
+        return new ResponseEntity<>(orderResponseDTOList,HttpStatus.OK);
+    }
 
     @GetMapping("/data")
     public ResponseEntity<List<Orders>> getData(){
