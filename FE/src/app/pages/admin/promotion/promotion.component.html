@@ -80,9 +80,9 @@
                                     <span *ngIf="element.status == 3" style="color: red">Đã kết thúc</span>
                             </ng-container>
 
-                            <ng-container matColumnDef="action">
-                                <th class="text-center" mat-header-cell *matHeaderCellDef> Hoạt động</th>
-                                <td class="text-center" mat-cell *matCellDef="let element">
+                                <ng-container matColumnDef="action">
+                                    <th class="text-center" mat-header-cell *matHeaderCellDef> Thao tác </th>
+                                    <td class="text-center" mat-cell *matCellDef="let element">
 
                                     <button mat-icon-button [matMenuTriggerFor]="menu"
                                             aria-label="Example icon-button with a menu">

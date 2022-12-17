@@ -21,4 +21,8 @@ export class OrderDetailApiService {
   getAllOrderDetailByCustomeAndOrder( idCustom: number , idOrder: number ){
      return this.http.get(`${ApiConstrant.orderDetail}/getByCusAndOrder?idCus=${idCustom}&idOrder=${idOrder}`)
   }
+
+  getOrderDetailByOrderId(id: number){
+    return this.http.get(`http://localhost:8080/api/v1/orderDetail/${id}`)
+  }
 }

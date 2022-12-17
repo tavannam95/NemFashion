@@ -1,0 +1,108 @@
+<div class="content" style="position: relative">
+  <span mat-dialog-title class="text-center h2 font-weight-bold">
+  Trả hàng
+</span>
+  <span mat-dialog-title mat-dialog-close class="text-center h2 font-weight-bold button-x">
+  x
+</span>
+
+  <div mat-dialog-content class="scroll-order-detail">
+
+    <!-- Code ở đây -->
+    <div class="card-body">
+      <mat-stepper [linear]="false" #stepper>
+        <mat-step [stepControl]="formGroup">
+          <ng-template matStepLabel>Chọn sản phẩm</ng-template>
+          <table mat-table [dataSource]="dataSource"
+                 class="w-100 table-hover">
+
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef style="width: 5%;">
+                <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row" style="width: 5%;">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null;"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stt">
+              <th mat-header-cell *matHeaderCellDef> STT</th>
+              <td mat-cell *matCellDef="let row; index as ind">{{ind + 1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="productImage">
+              <th mat-header-cell *matHeaderCellDef> Ảnh</th>
+              <td mat-cell *matCellDef="let row">
+                <img [src]="row.productsDetail.product.thumnail" class="product-image">
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="productName">
+              <th mat-header-cell *matHeaderCellDef> Tên sản phẩm</th>
+              <td mat-cell *matCellDef="let row">{{row.productsDetail.product.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="color">
+              <th mat-header-cell *matHeaderCellDef> Màu sắc</th>
+              <td mat-cell *matCellDef="let row">
+                <label class="product-image" [style.background-color]="row.productsDetail.color.code">
+                </label>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="size">
+              <th mat-header-cell *matHeaderCellDef> Kích thước</th>
+              <td mat-cell *matCellDef="let row">{{row.productsDetail.size.code}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Số lượng</th>
+              <td mat-cell *matCellDef="let row; index as i">
+                <input matInput type="number" style="width: 65px"
+                       [value]="row.quantity"
+                       (keyup)="setQuantity($event, i, row)"
+                       [disabled]="!isDisabled(row)">
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          <div mat-dialog-actions align="end">
+            <button [class]="selection.selected.length == 0 ? 'btn-grey-custom btn-custom--smooth' : 'btn-primary-custom btn-custom--smooth'"
+                    [disabled]="selection.selected.length == 0"
+                    (click)="onChooseProduct(stepper)">Tiếp tục</button>
+          </div>
+        </mat-step>
+        <mat-step >
+          <ng-template matStepLabel>Lý do hoàn trả</ng-template>
+          <div mat-dialog-actions align="end">
+            <button class="btn-grey-custom btn-custom--smooth" style="margin-right: 15px" matStepperPrevious>Trở lại
+            </button>
+            <button class="btn-primary-custom btn-custom--smooth" (click)="onChooseReason(stepper)">Tiếp tục</button>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Thành công</ng-template>
+          <div mat-dialog-actions align="end">
+            <button class="btn-grey-custom btn-custom--smooth" matStepperPrevious>Trở lại</button>
+            <button class="btn-primary-custom btn-custom--smooth" style="margin-right: 15px"
+                    (click)="onChooseReason(stepper)">Xác nhận
+            </button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </div>
+    <!-- Dừng ở đây -->
+
+
+  </div>
+</div>
