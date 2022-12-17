@@ -1,3 +1,4 @@
+  
   .loading {
     background: rgba(0, 0, 0, 0.5);
     width: 100%;
@@ -6,6 +7,18 @@
     top: 0;
     left: 0;
     z-index: 999;
+  }
+  .zoom {
+    padding: 50px;
+    transition: transform .2s;
+    margin: 0 auto;
+    background-size: cover;
+  }
+  .zoom:hover {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5); 
+    cursor: pointer;
   }
 
   .btn-link {
@@ -42,7 +55,11 @@
   td,
   th {
     text-align: center;
-    width: 13%;
+    width: 14%;
+  }
+  .btn-link {
+    font-weight: bold;
+    cursor: pointer;
   }
 
   th {

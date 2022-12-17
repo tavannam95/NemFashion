@@ -26,7 +26,6 @@ export class PromotionService {
         url += 'idPro=' + x.id + '&';
      }
      url += 'idDis=' + idDis ;
-      console.log('url---' , url)
      return this.api.addProductIntoPromotion( url );
   }
 

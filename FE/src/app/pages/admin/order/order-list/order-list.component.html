@@ -104,7 +104,7 @@
                                   Đang giao
                                 </div>
                                 <div *ngSwitchCase="3">
-                                  Đã giao
+                                    Đã giao
                                 </div>
                                 <div *ngSwitchCase="4">
                                   Đơn hủy
@@ -115,6 +115,12 @@
                                 <div *ngSwitchCase="6">
                                   Bán tại quầy
                                 </div>
+                                <div *ngSwitchCase="8">
+                                  Chờ xác nhận
+                                </div>
+                                <div *ngSwitchCase="9">
+                                  Đã xác nhận
+                                </div>
                                 <!-- <div *ngSwitchDefault>
                                     {{order.orders.status}}
                                   </div> -->
@@ -122,12 +128,17 @@
                             </td>
                             <td class="text-center">
                               <div *ngIf="order.orders.status==0">
-                                <a class="btn-link" style="color: blue; font-weight: bold;" (click)="openPreparingDialog(order,dateShift)">
+                                <a class="btn-link" style="color: blue; font-weight: bold;" (click)="openPreparingDialog(order,dateShift, tabIndex)">
                                   Chuẩn bị hàng
                                 </a>
                               </div>
-                              <div *ngIf="order.orders.status!=0">
-                                <a class="btn-link" style="color: blue; font-weight: bold;" (click)="openPreparingDialog(order,dateShift)">
+                              <div *ngIf="order.orders.status==8 || order.orders.status==9">
+                                <a class="btn-link" style="color: blue; font-weight: bold;"  (click)="openPreparingDialog(order,dateShift, tabIndex)">
+                                  Trả hàng
+                                </a>
+                              </div>
+                              <div *ngIf="order.orders.status!=0 && order.orders.status!=8 && order.orders.status!=9">
+                                <a class="btn-link" style="color: blue; font-weight: bold;" (click)="openPreparingDialog(order,dateShift, tabIndex)">
                                   Xem thông tin
                                 </a>
                               </div>

@@ -52,4 +52,12 @@ constructor(private readonly http: HttpClient) { }
   findById(id: any): Observable<any>{
     return this.http.get(`${ApiConstant.order}/${id}`);
   }
+
+  findExchange(page: any, size: any): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/exchange?page=${page}&size=${size}`);
+  }
+
+  findAllExchange(): Observable<any>{
+    return this.http.get(`${ApiConstant.order}/allExchange`);
+  }
 }
