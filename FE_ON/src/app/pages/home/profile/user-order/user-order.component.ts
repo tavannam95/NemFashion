@@ -55,8 +55,10 @@ export class UserOrderComponent implements OnInit {
   openExchange(order: any){
     this.dialog.open(ExchangeOrderDialogComponent,{
       disableClose: true,
-      width: '50rem',
+      width: '90rem',
       data: order
+    }).afterClosed().subscribe(rs=>{
+      console.log('After close open exchange');
     })
   }
 
