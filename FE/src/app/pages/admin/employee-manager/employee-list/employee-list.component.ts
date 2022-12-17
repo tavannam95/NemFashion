@@ -49,6 +49,7 @@ export class EmployeeListComponent implements OnInit {
             width: '60vw' ,
             disableClose: true ,
             hasBackdrop: true ,
+            autoFocus: false ,
             data: {
                 type: type,
                 row: row

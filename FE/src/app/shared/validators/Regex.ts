@@ -21,6 +21,30 @@ export function MustMatch(controlName: string, matchingControlName: string) {
     }
 }
 
+export function compareDate( startDate: string , endDate: string ){
+    return ( formGroup: FormGroup ) => {
+        const startDateControl = formGroup.controls[startDate] ;
+        const endDateControl = formGroup.controls[endDate] ;
+
+        const a = new Date(startDateControl.value)
+        const b = new Date(endDateControl.value )
+
+        if( a >= b ){
+            endDateControl.setErrors({compareDate: true});
+        }else {
+            endDateControl.setErrors(null) ;
+        }
+    }
+}
+
+export function checkDiscount( c: AbstractControl ){
+    const b = c.value ;
+    if( b < 0 || b > 100){
+        return {isDiscount: true}
+    }
+    return null ;
+}
+
 export function checkSpace( c: AbstractControl ) {
     return ( c.value.trim() == '' ) ? {
         isSpace: true

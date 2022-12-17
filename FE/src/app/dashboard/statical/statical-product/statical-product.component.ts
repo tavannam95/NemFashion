@@ -51,6 +51,7 @@ export class StaticalProductComponent implements OnInit {
       if( this.listStatic.length != 0 ){
         this.checkEmpty = false ;
         this.addDateIntoList( value , this.listLabel , this.listSeries , this.max ) ;
+        this.listStatic = value.sort( (a, b) => b.totalPrice - a.totalPrice )
       }else {
         this.checkEmpty = true ;
       }

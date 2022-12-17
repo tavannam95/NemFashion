@@ -26,8 +26,8 @@
                       <div class="card-icon">
                           <i class="fa-solid fa-money-bill"></i>
                       </div>
-                      <p class="card-category">Doanh thu tháng</p>
-                      <h3 class="card-title">{{overview?.totalMonth | currency: 'VND' : 'symbol-narrow' : '4.0-2' }}</h3>
+                      <p class="card-category">Doanh thu trên web</p>
+                      <h3 class="card-title">{{overview?.totalOn | currency: 'VND' : 'symbol-narrow' : '4.0-2' }}</h3>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
@@ -39,28 +39,29 @@
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6">
               <div class="card card-stats">
+                  <div class="card-header card-header-danger card-header-icon">
+                      <div class="card-icon">
+                          <i class="fa-solid fa-money-bill"></i>
+                      </div>
+                      <p class="card-category">Doanh thu tại quày</p>
+                      <h3 class="card-title">{{overview?.totalOff | currency: 'VND' : 'symbol-narrow' : '4.0-2'}}</h3>
+                  </div>
+                  <div class="card-footer">
+                      <div class="stats">
+                          <i class="material-icons">date_range</i> trong tháng {{date.getMonth()}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
                   <div class="card-header card-header-success card-header-icon">
                       <div class="card-icon">
                           <i class="material-icons">store</i>
                       </div>
                       <p class="card-category">Tổng đơn hàng</p>
                       <h3 class="card-title">{{overview?.totalOrder}}</h3>
-                  </div>
-                  <div class="card-footer">
-                      <div class="stats">
-                          <i class="material-icons">date_range</i> trong năm {{date.getFullYear()}}
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-              <div class="card card-stats">
-                  <div class="card-header card-header-danger card-header-icon">
-                      <div class="card-icon">
-                          <i class="fa-solid fa-ban"></i>
-                      </div>
-                      <p class="card-category">Tổng đơn trả</p>
-                      <h3 class="card-title">{{overview?.totalCancel}}</h3>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
