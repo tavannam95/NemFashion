@@ -36,14 +36,14 @@
 
                   <span class="dash__text u-s-m-b-16">{{fullname}}</span>
                   <ul class="dash__f-list">
-                    <li  (click)="checkColor = 1">
-                      <a [class]="checkColor == 1 ? 'dash-active' : ''"  routerLink="user-profile">Thông tin cá nhân</a>
+                    <li>
+                      <a routerLinkActive="dash-active" routerLink="user-profile">Thông tin cá nhân</a>
                     </li>
-                    <li (click)="checkColor = 2">
-                      <a [class]="checkColor == 2 ? 'dash-active' : ''"  routerLink="address-book">Địa chỉ giao hàng</a>
+                    <li >
+                      <a routerLinkActive="dash-active" routerLink="address-book">Địa chỉ giao hàng</a>
                     </li>
-                    <li (click)="checkColor = 3">
-                      <a [class]="checkColor == 3 ? 'dash-active' : ''" routerLink="user-order">Hóa đơn</a>
+                    <li >
+                      <a routerLinkActive="dash-active" routerLink="user-order">Hóa đơn</a>
                     </li>
                   </ul>
                 </div>

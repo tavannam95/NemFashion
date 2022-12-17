@@ -1,6 +1,5 @@
 <h2 class="text-center font-weight-bold h3" mat-dialog-title>{{ title }}</h2>
 <mat-dialog-content>
-
     <form class="row mt-3" [formGroup]="form">
         <mat-form-field appearance="outline" class="col-4">
             <mat-label>Tên khuyến mại</mat-label>
@@ -28,6 +27,9 @@
             <mat-error *ngIf="isValidators( 'endDate' , 'required')">
                 Vui lòng không để trống
             </mat-error>
+            <mat-error *ngIf=" !this.form.get('endDate').get('compareDate') && this.form.get('endDate').touched ">
+                Ngày bắt đầu phải nhở hơn ngày kết thúc
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-4">
@@ -36,16 +38,18 @@
             <mat-error *ngIf="isValidators( 'discount' , 'required')">
                  Vui lòng không để trống
             </mat-error>
+            <mat-error *ngIf=" this.form.get('discount').hasError('isDiscount') && this.form.get('discount').touched">
+                 Khuyễn mãi phải lớn hơn 0 và nhỏ hơn 100
+            </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-4" appearance="outline" *ngIf="CONSTAIN.UPDATE === data.type">
-            <mat-label>Trạng thái</mat-label>
-            <mat-select formControlName="status">
-                <mat-option [value]="1">Chưa diễn ra</mat-option>
-                <mat-option [value]="2">Đang hoạt động</mat-option>
-                <mat-option [value]="3">Đã kết thúc</mat-option>
-            </mat-select>
-        </mat-form-field>
+<!--        <mat-form-field class="col-4" appearance="outline" *ngIf="CONSTAIN.UPDATE === data.type">-->
+<!--            <mat-label>Trạng thái</mat-label>-->
+<!--            <mat-select formControlName="status">-->
+<!--                <mat-option [value]="1">Chưa diễn ra</mat-option>-->
+<!--                <mat-option [value]="3">Đã kết thúc</mat-option>-->
+<!--            </mat-select>-->
+<!--        </mat-form-field>-->
     </form>
 
 </mat-dialog-content>

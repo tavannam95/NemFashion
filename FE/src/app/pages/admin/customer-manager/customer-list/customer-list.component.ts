@@ -97,6 +97,7 @@ export class CustomerListComponent implements OnInit {
             width: '1000px',
             disableClose: true,
             hasBackdrop: true,
+            autoFocus: false ,
             data: {
                 type,
                 row

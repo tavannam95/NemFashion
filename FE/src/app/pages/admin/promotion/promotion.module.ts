@@ -16,6 +16,7 @@ import {PromotionProductComponent} from './promotion-product/promotion-product.c
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [ PromotionComponent , PromotionFormComponent , PromotionProductComponent],
@@ -33,7 +34,8 @@ import { MatMenuModule } from '@angular/material/menu';
         MatTooltipModule,
         MatCheckboxModule,
         MatDialogModule,
-        MatMenuModule
+        MatMenuModule,
+        MatChipsModule
     ]
 })
 export class PromotionModule { }
