@@ -19,4 +19,8 @@ export class OrderDetailService {
   getAllOrderDetailByOrderAndCustome( idCus: number , idOrder: number ){
      return this.orderApiService.getAllOrderDetailByCustomeAndOrder( idCus, idOrder ) ;
   }
+
+  getOrderDetailByOrderId(id: number){
+    return this.orderApiService.getOrderDetailByOrderId(id);
+  }
 }

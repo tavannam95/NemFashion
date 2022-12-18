@@ -111,7 +111,7 @@ export class PreparingProductComponent implements OnInit {
   ngOnInit() {
     console.log(this.dataDialog);
     // this.getOrder();
-    this.updateName = this.storageService.getFullNameFromToken();
+    this.updateName = this.storageService.getFullNameFromToken()+ ', ID: ' + this.storageService.getIdFromToken();;
     this.order = this.dataDialog.data.orders;
     // this.order.updateName = this.storageService.getFullNameFromToken();
     this.dataSource = this.dataDialog.data.orderDetailsList;
@@ -183,7 +183,7 @@ export class PreparingProductComponent implements OnInit {
               total += (this.orderDetailsList[i].unitprice*this.orderDetailsList[i].quantity);
             }
             this.order.total = total;
-            this.order.updateName = this.storageService.getFullNameFromToken();
+            this.order.updateName = this.updateName;
             this.orderService.updateOrder(this.order).subscribe({
               next: res=>{
                 this.order = res;
@@ -243,7 +243,7 @@ export class PreparingProductComponent implements OnInit {
         this.order.shipAddress = res.address;
         console.log(this.order.shipAddress);
         this.order.freight = res.fee;
-        this.order.updateName = this.storageService.getFullNameFromToken();
+        this.order.updateName = this.updateName;
         this.orderService.updateOrder(this.order).subscribe({
           next: res=>{
             this.toastrService.success('Đổi địa chỉ thành công');
@@ -434,7 +434,7 @@ export class PreparingProductComponent implements OnInit {
         this.ghnService.cancelOrder({order_codes:[this.order.orderCode]}).subscribe({
           next: (res) =>{
             //Update order status DB
-            this.order.updateName = this.storageService.getFullNameFromToken();
+            this.order.updateName = this.updateName;
             this.orderService.updateStatus(this.order,4).subscribe({
               next: (res)=>{
                 this.isLoading = false;
@@ -590,7 +590,7 @@ export class PreparingProductComponent implements OnInit {
       "weight": this.weight,
       "items": this.items,
       "client_order_code": this.order.id+"",
-      "note": this.order.note
+      "note": 'Khách hàng video khi mở hàng'
     })
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
@@ -608,7 +608,7 @@ export class PreparingProductComponent implements OnInit {
             
           }
         });
-        this.order.updateName = this.storageService.getFullNameFromToken();
+        this.order.updateName = this.updateName;
         this.orderService.updateStatus(this.order,1).subscribe(res=>{
           this.matDialogRef.close('OK');
           this.toastrService.success(this.resultOrder.message_display);

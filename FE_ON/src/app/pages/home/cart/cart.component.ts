@@ -214,7 +214,11 @@ export class CartComponent implements OnInit {
     }
     //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
     this.addressService.getService(data).subscribe((res: any) => {
-      this.serviceId = res.data[0].service_id;
+      if (res.data && res.data.length > 1) {
+        this.serviceId = res.data[1].service_id;
+      }else{
+        this.serviceId = res.data[0].service_id;
+      }
       const shippingOrder = {
         "service_id": this.serviceId,
         "insurance_value": this.subTotal,
