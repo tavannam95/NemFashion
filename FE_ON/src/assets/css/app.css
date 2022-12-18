@@ -984,6 +984,10 @@ input::-ms-clear {
   height: 400px;
 }
 
+.aspect-blog{
+  position: relative;
+}
+
 .aspect--bg-grey {
   background-color: #f5f5f5; }
 
