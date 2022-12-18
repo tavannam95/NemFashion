@@ -13,9 +13,9 @@ export class StaticalProductComponent implements OnInit {
   newDate = new Date() ;
   listYear: any[] = [] ;
   listMonth = [ 1, 2, 3, 4, 5 ,6 , 7 , 8 , 9 ,10 , 11 ,12]
+  listColor = ['#ffbb00' , '#aebd38' , '#b0d4b8' , '#c4dfe6' , '#f4cc70' , '#4eb09b' , '#8c54fb']
   day: number ;
   typeSearch: number = 3 ;
-  listLabel: any[] = [] ;
   listSeries: any[] = [] ;
   max: any ;
   type: any = 3;
@@ -50,23 +50,22 @@ export class StaticalProductComponent implements OnInit {
       this.listStatic = value
       if( this.listStatic.length != 0 ){
         this.checkEmpty = false ;
-        this.addDateIntoList( value , this.listLabel , this.listSeries , this.max ) ;
+        this.addDateIntoList( value , this.listSeries , this.max ) ;
         this.listStatic = value.sort( (a, b) => b.totalPrice - a.totalPrice )
       }else {
         this.checkEmpty = true ;
       }
       var data = {
-        labels: this.listLabel,
         series: this.listSeries
       };
+      var sum = function(a, b) { return a + b };
 
       new Chartist.Pie('#viewSevenProduct', data, {
         labelInterpolationFnc: function(value) {
-          return value
+          return Math.round(value / data.series.reduce(sum) * 100) + '%'
         },
-        chartPadding: 30,
-        labelOffset: 70,
-        labelDirection: 'explode',
+        chartPadding: 50,
+        labelOffset: 20,
       }  );
     })
   }
@@ -85,22 +84,19 @@ export class StaticalProductComponent implements OnInit {
     }
   }
 
-  addDateIntoList( data: any , label: any[] , series: any[] , max: number ){
-    max = data[0].totalPrice ;
+  addDateIntoList( data: any ,  series: any[] , max: number ){
+    max = data[0].total ;
     for( let x of data ){
-      if( max <= x.totalPrice ){
-        max = x.totalPrice ;
+      if( max <= x.total ){
+        max = x.total ;
       }
       // @ts-ignore
-      label.push(x.name)
-      // @ts-ignore
-      series.push(x.totalPrice) ;
+      series.push(x.total) ;
     }
   }
 
   clear(){
     this.listSeries = [] ;
-    this.listLabel  = [] ;
   }
 
   onSearch(){
