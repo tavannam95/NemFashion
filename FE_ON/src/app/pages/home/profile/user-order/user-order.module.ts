@@ -11,25 +11,33 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgxDropzoneModule} from "ngx-dropzone";
+import {NumberOnlyDirective} from "../../../../shared/directive/number-only.directive";
 
 @NgModule({
-  declarations: [
-    UserOrderComponent,
-    ExchangeOrderDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    UserOrderRoutingModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatDialogModule,
-    MatCardModule,
-    MatStepperModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ]
+    declarations: [
+        UserOrderComponent,
+        ExchangeOrderDialogComponent,
+        NumberOnlyDirective
+    ],
+    exports: [
+        NumberOnlyDirective
+    ],
+    imports: [
+        CommonModule,
+        UserOrderRoutingModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatDialogModule,
+        MatCardModule,
+        MatStepperModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        NgxDropzoneModule,
+        FormsModule
+    ]
 })
 export class UserOrderModule { }

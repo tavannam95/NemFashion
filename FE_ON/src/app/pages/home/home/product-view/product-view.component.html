@@ -5,16 +5,13 @@
         <!--====== Product Detail Zoom ======-->
         <div class="pd u-s-m-b-30 row">
           <div class="col-3">
-            <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel"
-                                [config]="slideConfissg"
-                                (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
-                                (afterChange)="afterChange($event)"
-                                (beforeChange)="beforeChange($event)">
+            <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel" [config]="slideConfissg"
+                                (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
+                                (beforeChange)="beforeChange($event)" >
 
-              <div class="row">
+              <div class="row" >
                 <div class="col-12 mb-2">
-                  <img src="{{product?.thumnail}}" (click)="changThumnail( product?.thumnail )" class="img-fluid"
-                       [class]="product?.thumnail === thumnail ? 'clickImage' : '' "
+                  <img src="{{product?.thumnail}}" (click)="changThumnail( product?.thumnail )" class="img-fluid" [class]="product?.thumnail === thumnail ? 'clickImage' : '' "
                   >
                 </div>
               </div>
@@ -60,7 +57,7 @@
               <div class="pd-detail__color">
                 <div class="color__radio" *ngFor="let c of listColor">
                   <input type="radio" id="jet" name="color"
-                         [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
+                         [class.disabled-color]="listSize.id != undefined ? !color.includes(c.id) :false"
                          [(ngModel)]="colorModel"
                          [value]="c.id"
                          [checked]="listColor.id ? listColor.id == c.id : false"
@@ -69,8 +66,8 @@
                   <label
                     class="color__radio-label"
                     for="jet"
-                    [class.disabled-color]="color.length > 0 ? !color.includes(c.id) :false"
-                    [class.low-opacity]="color.length > 0 ? !color.includes(c.id) :false"
+                    [class.disabled-color]=" listSize.id != undefined ? !color.includes(c.id)  :false"
+                    [class.low-opacity]=" listSize.id != undefined ?!color.includes(c.id)  :false"
                     [style.background-color]="c.code.code"
                   ></label>
                 </div>
@@ -81,14 +78,14 @@
               <div class="pd-detail__size">
                 <div class="size__radio" *ngFor="let s of listSize">
                   <input type="radio" id="xs" name="size"
-                         [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false"
+                         [class.disabled-size]=" listColor.id != undefined ?!size.includes(s.id) : false"
                          [value]="s.id"
                          [checked]="listSize.id ? listSize.id == s.id : false"
                          [(ngModel)]="sizeModel"
                          (click)="onClickSize(s.id)"
                          (change)="onClickProductDetail()"/>
                   <label class="size__radio-label" for="xs"
-                         [class.disabled-size]="size.length > 0 ? !size.includes(s.id) : false">
+                         [class.disabled-size]=" listColor.id != undefined ?!size.includes(s.id) : false">
                     {{s.code}}
                   </label>
                 </div>
@@ -103,13 +100,13 @@
                 <div class="input-counter">
                   <input
                     class="input-counter__text input-counter--text-primary-style"
-                    type="number"
+                    type="text"
                     name="quantity"
-                    onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
+                    numberOnly
+                    [minValue]="1"
+                    [maxValue]="countProductDetail"
                     [(ngModel)]="productQuantity"
                     (change)="onChangeInput($event)"
-                    min="1"
-                    [max]="countProductDetail"
                   />
                 </div>
                 <!--====== End - Input Counter ======-->

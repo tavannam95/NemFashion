@@ -18,6 +18,7 @@ import {ToastrModule} from "ngx-toastr";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {httpInterceptorProviders} from "./shared/intercepror/http-request.interceptor";
 import {MatDialogModule} from "@angular/material/dialog";
+import {UserOrderModule} from "./pages/home/profile/user-order/user-order.module";
 
 
 @NgModule({
@@ -31,25 +32,26 @@ import {MatDialogModule} from "@angular/material/dialog";
     ConfirmDialogComponent,
     ProductViewComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    CdkTableModule,
-    ToastrModule.forRoot({
-      maxOpened: 1,
-      preventDuplicates: true,
-      autoDismiss: true,
-      progressBar: true,
-      timeOut: 2000,
-      resetTimeoutOnDuplicate: true
-    }),
-    FormsModule,
-    ReactiveFormsModule,
-    SlickCarouselModule,
-    MatDialogModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        CdkTableModule,
+        ToastrModule.forRoot({
+            maxOpened: 1,
+            preventDuplicates: true,
+            autoDismiss: true,
+            progressBar: true,
+            timeOut: 2000,
+            resetTimeoutOnDuplicate: true
+        }),
+        FormsModule,
+        ReactiveFormsModule,
+        SlickCarouselModule,
+        MatDialogModule,
+        UserOrderModule
+    ],
   providers: [httpInterceptorProviders],
   exports: [],
   bootstrap: [AppComponent]

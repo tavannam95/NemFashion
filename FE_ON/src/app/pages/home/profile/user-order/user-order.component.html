@@ -71,7 +71,8 @@
                           <button class="btn btn-danger" (click)="openCancel(order.id)">Hủy</button>
                       </span>
                       <span class="ms-3" *ngIf=" order.status == 3" >
-                        <button class="btn btn-danger" (click)="openExchange(order)">Trả hàng</button>
+                        <button class="btn btn-danger" *ngIf="order.checkExchange === 0 && checkDay(order.createDate, 7)" (click)="openExchange(order,order.checkExchange)">Trả hàng</button>
+                        <button class="btn btn-success" *ngIf="order.checkExchange === 1" (click)="openExchange(order, order.checkExchange)">Chi tiết đơn trả</button>
                     </span>
                     </div>
                   </div>

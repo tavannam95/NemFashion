@@ -23,4 +23,16 @@ export class OrderDetailService {
   getOrderDetailByOrderId(id: number){
     return this.orderApiService.getOrderDetailByOrderId(id);
   }
+
+  updateOrderDetailExchange(data: any){
+    return this.orderApiService.updateOrderDetailExchange(data);
+  }
+
+  saveOrderDetailExchange(data: any){
+    return this.orderApiService.saveOrderDetailExchange(data);
+  }
+
+  getOrderDetailsInExchange(id: any) {
+    return this.orderApiService.getOrderDetailsInExchange(id);
+  }
 }

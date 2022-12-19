@@ -132,13 +132,13 @@
                 <div class="input-counter">
                   <input
                     class="input-counter__text input-counter--text-primary-style"
-                    type="number"
+                    type="text"
                     name="quantity"
-                    onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
+                    numberOnly
+                    [minValue]="1"
+                    [maxValue]="countProductDetail"
                     [(ngModel)]="productQuantity"
                     (change)="onChangeInput($event)"
-                    min="1"
-                    [max]="countProductDetail"
                   />
                 </div>
                 <!--====== End - Input Counter ======-->

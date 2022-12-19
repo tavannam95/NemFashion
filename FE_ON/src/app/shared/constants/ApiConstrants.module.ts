@@ -17,5 +17,7 @@ export const ApiConstrant = {
   category: 'http://localhost:8080/api/v1/category' ,
   rating: 'http://localhost:8080/api/v1/rating' ,
   ratingImage: 'http://localhost:8080/api/v1/rating-images' ,
-  cloudinary: 'http://localhost:8080/api/image'
+  cloudinary: 'http://localhost:8080/api/image',
+  exchange: 'http://localhost:8080/api/v1/exchange',
+  exchangeImage: 'http://localhost:8080/api/v1/exchange-image',
 }
