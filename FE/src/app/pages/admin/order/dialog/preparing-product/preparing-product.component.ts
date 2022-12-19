@@ -140,10 +140,10 @@ export class PreparingProductComponent implements OnInit {
     this.getAllProduct();
     if (this.tabIndex==5) {
       this.exchange = this.dataDialog.exchange;
-      if (this.dataDialog.exchange.exchanges.quantity==null) {
+      if (this.dataDialog.exchange.exchanges.total==null) {
         this.totalExchange = 0;
       }else{
-        this.totalExchange = this.dataDialog.exchange.exchanges.quantity;
+        this.totalExchange = this.dataDialog.exchange.exchanges.total;
       }
       
     }
@@ -176,7 +176,7 @@ export class PreparingProductComponent implements OnInit {
       if (res=='success') {
         this.disableBtn = true;   
         this.totalExchange += (row.quantity*row.unitprice);
-        this.exchange.exchanges.quantity = this.totalExchange;
+        this.exchange.exchanges.total = this.totalExchange;
         this.exchangeService.updateStatusExchange(this.exchange.exchanges, 1).subscribe({
         next: res=>{
         },
@@ -246,12 +246,13 @@ export class PreparingProductComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
-          this.exchange.exchanges.quantity = this.totalExchange;
+          this.exchange.exchanges.total = this.totalExchange;
           this.exchange.exchanges.note = this.noteFG.value.note;
           this.exchangeService.updateStatusExchange(this.exchange.exchanges, 1).subscribe({
             next: res=>{
-              this.order.total-= this.exchange.exchanges.quantity;
+              this.order.total-= this.exchange.exchanges.total;
               this.order.updateName = this.updateName;
+              this.order.status = 3;
               this.orderService.updateOrder(this.order).subscribe({
                 next: res=>{
                   this.toastrService.success('Cập nhật trạng thái trả hàng thành công');

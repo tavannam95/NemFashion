@@ -132,12 +132,12 @@
                                   Chuẩn bị hàng
                                 </a>
                               </div>
-                              <div *ngIf="order.orders.status==8 || order.orders.status==9">
+                              <div *ngIf="order.orders.status==8">
                                 <a class="btn-link" style="color: blue; font-weight: bold;"  (click)="openPreparingDialog(order,dateShift, tabIndex)">
                                   Trả hàng
                                 </a>
                               </div>
-                              <div *ngIf="order.orders.status!=0 && order.orders.status!=8 && order.orders.status!=9">
+                              <div *ngIf="order.orders.status!=0 && order.orders.status!=8">
                                 <a class="btn-link" style="color: blue; font-weight: bold;" (click)="openPreparingDialog(order,dateShift, tabIndex)">
                                   Xem thông tin
                                 </a>

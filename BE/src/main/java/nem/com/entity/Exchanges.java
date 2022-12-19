@@ -34,8 +34,8 @@ public class Exchanges {
     private String note;
 
     @Basic
-    @Column(name = "quantity", nullable = true)
-    private Integer quantity;
+    @Column(name = "total", nullable = true)
+    private Integer total;
 
     @Basic
     @Column(name = "create_date", nullable = true)

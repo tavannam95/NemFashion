@@ -30,7 +30,7 @@ public class ExchangeController {
         Exchanges exchanges1 = this.exchangesRepository.findById(exchanges.getId()).get();
         exchanges1.setNote(exchanges.getNote());
         exchanges1.setStatus(status);
-        exchanges1.setQuantity(exchanges.getQuantity());
+        exchanges1.setTotal(exchanges.getTotal());
         exchanges1.setNote(exchanges.getNote());
         return new ResponseEntity<>(this.exchangesRepository.save(exchanges1),HttpStatus.OK);
     }
