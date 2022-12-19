@@ -1,7 +1,9 @@
 package nem.com.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import nem.com.dto.request.OrderDetailDTO;
 import nem.com.entity.OrderDetails;
+import nem.com.exception.ResourceNotFoundException;
 import nem.com.repository.OrderDetailsRepository;
 import nem.com.repository.OrdersRepository;
 import nem.com.repository.ProductsDetailsRepository;
@@ -24,17 +26,46 @@ public class OrderDetailOnlineServiceImpl implements OrderDetailOnlineService {
     }
 
     @Override
-    public List<OrderDetails> findAllOrderDetail( Integer id ) {
+    public List<OrderDetails> findAllOrderDetail(Integer id) {
         return this.orderDetailsRepository.getOrderDetailsById(id);
     }
 
     @Override
     public List<OrderDetails> findAllOrderDetailByCustomeAndOrder(Long idOrder, Integer idCustome) {
-        return this.orderDetailsRepository.getOrderDetailsByByIdOrder( idOrder , idCustome );
+        return this.orderDetailsRepository.getOrderDetailsByByIdOrder(idOrder, idCustome);
     }
 
     @Override
     public List<OrderDetails> findOrderDetailByOrder(Long id) {
-        return this.orderDetailsRepository.getOrderDetailsByOrder(id) ;
+        return this.orderDetailsRepository.getOrderDetailsByOrder(id);
     }
+
+    @Override
+    public OrderDetails saveOrderDetailExchange(OrderDetails request) {
+        OrderDetails orderDetailById = this.orderDetailsRepository.findById(request.getId()).orElseThrow(() ->
+                new ResourceNotFoundException("Id order detail not found " + request.getId()));
+        OrderDetails newOrder = new OrderDetails();
+        newOrder.setExchanges(request.getExchanges());
+        newOrder.setQuantity(request.getQuantity());
+        newOrder.setUnitprice(request.getUnitprice());
+        newOrder.setOrder(orderDetailById.getOrder());
+        newOrder.setProductsDetail(orderDetailById.getProductsDetail());
+        newOrder.setStatus(0);
+        return this.orderDetailsRepository.save(newOrder);
+    }
+
+    @Override
+    public OrderDetails updateOrderDetailExchange(OrderDetails request) {
+        OrderDetails orderDetailById = this.orderDetailsRepository.findById(request.getId()).orElseThrow(() ->
+                new ResourceNotFoundException("Id order detail not found " + request.getId()));
+        orderDetailById.setStatus(0);
+        orderDetailById.setExchanges(request.getExchanges());
+        return this.orderDetailsRepository.save(orderDetailById);
+    }
+
+    public List<OrderDetails> getOrderDetailsInExchange(Long id){
+        return this.orderDetailsRepository.getOrderDetailsInExchange(id);
+    }
+
+
 }

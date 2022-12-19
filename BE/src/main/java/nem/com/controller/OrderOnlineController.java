@@ -2,6 +2,7 @@ package nem.com.controller;
 
 import lombok.RequiredArgsConstructor;
 import nem.com.domain.request.OrderDTO;
+import nem.com.domain.response.OrderDTOResponse;
 import nem.com.entity.Orders;
 import nem.com.service.OrderServiceOnline;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class OrderOnlineController {
     }
 
     @GetMapping("getAll")
-    public ResponseEntity<List<Orders>> getAllOrders(@RequestParam("id") Integer id) {
+    public ResponseEntity<List<OrderDTOResponse>> getAllOrders(@RequestParam("id") Integer id) {
         return ResponseEntity.ok(this.orderOnlineService.getAllOrders(id));
     }
 
