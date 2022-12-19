@@ -93,8 +93,6 @@ export class EditOrderComponent implements OnInit {
     this.productService.getAllProduct().subscribe({
         next: resp => {
             this.listProductSearch = resp;
-            console.log(this.listProductSearch);
-            
             this.productFilter();
         },
         error: error => {
@@ -130,10 +128,20 @@ export class EditOrderComponent implements OnInit {
             product: product
         }
     }).afterClosed().subscribe(value => {
-      console.log(value);
-      
         if (!(value == null || value == undefined)) {
           if (this.checkorderDetailsList(value.id)) {
+            this.orderDetail = {
+              order: {id: null},
+              productsDetail: {
+                id: null, 
+                product:{name:'', thumnail:''}, 
+                color:{code:'',id: null}, 
+                size:{code:'',id: null}
+              },
+              unitprice: null,
+              quantity: null,
+              status: 1
+            };
             this.orderDetail.order.id = this.order.id;
             this.orderDetail.productsDetail.product.name = value.product.name;
             this.orderDetail.productsDetail.product.thumnail = value.product.thumnail;
@@ -144,7 +152,10 @@ export class EditOrderComponent implements OnInit {
             this.orderDetail.productsDetail.size.code = value.nameSize;
             this.orderDetail.productsDetail.size.id = value.sizeId;
             this.orderDetail.productsDetail.id = value.id;
+            
             this.orderDetailsList.push(this.orderDetail);
+            console.log(this.orderDetailsList);
+            
             this.quantityPresentList.push(0);
             this.dataSource = new MatTableDataSource<any>(this.orderDetailsList);
           }else{
@@ -284,8 +295,5 @@ export class EditOrderComponent implements OnInit {
     for (let i = 0; i < this.orderDetailsList.length; i++) {
       this.orderDetailsList[i].updateName = this.storageService.getFullNameFromToken();
     }
-    console.log('Update name');
-    console.log(this.orderDetailsList);
-    
   }
 }

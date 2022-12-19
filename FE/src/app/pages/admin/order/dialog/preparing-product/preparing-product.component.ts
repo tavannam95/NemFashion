@@ -17,6 +17,9 @@ import { ProductDetailService } from '../../../../../shared/service/productDetai
 import { EditAddressDialogComponent } from '../edit-address-dialog/edit-address-dialog.component';
 import { StorageService } from '../../../../../shared/service/storage.service';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
+import { ExchangeService } from '../../../../../shared/service/exchange/exchange.service';
+import { OrderExchangeComponent } from '../order-exchange/order-exchange.component';
+import { TrimService } from '../../../../../shared/service/trim/trim.service';
 
 @Component({
   selector: 'app-preparing-product',
@@ -27,6 +30,11 @@ export class PreparingProductComponent implements OnInit {
   productInput = new FormControl('');
   filteredProduct: Observable<any>;
   listProductSearch: any = [];
+  totalExchange = 0;
+
+  disableBtn = false;
+
+  tabIndex: any;
 
   updateName: any;
   orderDetailsList: any[] = [];
@@ -50,8 +58,12 @@ export class PreparingProductComponent implements OnInit {
     status: 1
   }
 
-  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity'];
+  displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity', 'status', 'func'];
   dataSource: any[] = [];
+
+  noteFG = this.fb.group({
+    note: ['',Validators.required]
+  })
 
   data = this.fb.group({
     "payment_type_id": 2,
@@ -93,6 +105,8 @@ export class PreparingProductComponent implements OnInit {
     "items": ['']
   });
 
+  exchange: any;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public dataDialog: any,
     private orderService: OrderService,
@@ -105,21 +119,34 @@ export class PreparingProductComponent implements OnInit {
     private matDialog: MatDialog,
     private productService: ProductService,
     private productDetailService: ProductDetailService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private exchangeService: ExchangeService,
+    private trimService: TrimService
   ) { }
 
   ngOnInit() {
     console.log(this.dataDialog);
-    // this.getOrder();
+    
+    this.tabIndex = this.dataDialog.tabIndex;
     this.updateName = this.storageService.getFullNameFromToken()+ ', ID: ' + this.storageService.getIdFromToken();;
     this.order = this.dataDialog.data.orders;
     // this.order.updateName = this.storageService.getFullNameFromToken();
     this.dataSource = this.dataDialog.data.orderDetailsList;
+    console.log(this.dataSource);
     this.orderDetailsList = this.dataDialog.data.orderDetailsList;
     this.dateShift = this.dataDialog.dateShift;
     this.getDefaultContact();
     this.getWeight();
     this.getAllProduct();
+    if (this.tabIndex==5) {
+      this.exchange = this.dataDialog.exchange;
+      if (this.dataDialog.exchange.exchanges.total==null) {
+        this.totalExchange = 0;
+      }else{
+        this.totalExchange = this.dataDialog.exchange.exchanges.total;
+      }
+      
+    }
   }
   openEditOrder(){
     let dialogRef = this.matDialog.open(EditOrderComponent,{
@@ -129,7 +156,6 @@ export class PreparingProductComponent implements OnInit {
       autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(res=>{
-      console.log(res);
       if (res=='submit') {
         this.getOrder();  
       }
@@ -137,6 +163,119 @@ export class PreparingProductComponent implements OnInit {
     })
 
   }
+
+  acceptExchange(row: any){
+    console.log(row);
+    
+    this.matDialog.open(OrderExchangeComponent,{
+      disableClose: true,
+      data: row,
+      width: '550px',
+      autoFocus: false,
+    }).afterClosed().subscribe(res=>{
+      if (res=='success') {
+        this.disableBtn = true;   
+        this.totalExchange += (row.quantity*row.unitprice);
+        this.exchange.exchanges.total = this.totalExchange;
+        this.exchangeService.updateStatusExchange(this.exchange.exchanges, 1).subscribe({
+        next: res=>{
+        },
+        error: e=>{
+          console.log(e);
+          
+        }
+      })
+      }
+    })
+  }
+
+  cancelExchange(row: any){
+    console.log(row);
+    
+    this.matDialog
+      .open(ConfirmDialogComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+          message: "Hủy trả hàng với sản phẩm này?",
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          row.status = 3;
+          console.log(row);
+          this.disableBtn = true;
+          this.orderDetailService.updateOrderDetail(row).subscribe({
+            next: res=>{
+              this.toastrService.success('Hủy trả hàng thành công');
+            },
+            error: e=>{
+              this.toastrService.error('Hủy trả hàng thất bại');
+              row.status = 0;
+            }
+          })
+        }
+      });
+  }
+
+  exchangeAccept(){
+    this.trimService.inputTrim(this.noteFG,['note']);
+    this.noteFG.markAllAsTouched();
+    if (this.noteFG.invalid) {
+      return;
+    }
+    let check = false;
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if (this.dataSource[i].status==0) {
+        check = true;
+      }
+    }
+    if (check) {
+      this.toastrService.warning('Vui lòng xác nhận hết sản phẩm trước');
+      return;
+    }else{
+      this.matDialog
+      .open(ConfirmDialogComponent, {
+        disableClose: true,
+        hasBackdrop: true,
+        data: {
+          message: "Cập nhật trạng thái trả hàng?",
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.exchange.exchanges.total = this.totalExchange;
+          this.exchange.exchanges.note = this.noteFG.value.note;
+          this.exchangeService.updateStatusExchange(this.exchange.exchanges, 1).subscribe({
+            next: res=>{
+              this.order.total-= this.exchange.exchanges.total;
+              this.order.updateName = this.updateName;
+              this.order.status = 3;
+              this.orderService.updateOrder(this.order).subscribe({
+                next: res=>{
+                  this.toastrService.success('Cập nhật trạng thái trả hàng thành công');
+                  this.matDialogRef.close('OK');
+                },
+                error: e=>{
+                  this.toastrService.error('Cập nhật trạng thái trả hàng thất bại')
+                  this.matDialogRef.close('Error');
+                }
+              })
+              
+            },
+            error: e=>{
+              this.toastrService.error('Cập nhật trạng thái trả hàng thất bại')
+              this.matDialogRef.close('Error');
+            }
+          })
+        }
+      });
+      
+    }
+  }
+
 
   transporting(){
     this.matDialog
@@ -170,17 +309,15 @@ export class PreparingProductComponent implements OnInit {
     this.orderService.findById(this.dataDialog.data.orders.id).subscribe({
       next: res=>{
         this.order = res;
-        console.log('Old Order');
-        console.log(this.order);
         this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.data.orders.id).subscribe({
           next: res=>{
             this.dataSource = res;
             this.orderDetailsList = res;
-            console.log('orderDetailsList');
-            console.log(this.orderDetailsList);
             let total = 0;
             for (let i = 0; i < this.orderDetailsList.length; i++) {
-              total += (this.orderDetailsList[i].unitprice*this.orderDetailsList[i].quantity);
+              if (this.orderDetailsList[i].status != 2) {
+                total += (this.orderDetailsList[i].unitprice*this.orderDetailsList[i].quantity);
+              }
             }
             this.order.total = total;
             this.order.updateName = this.updateName;
@@ -203,7 +340,6 @@ export class PreparingProductComponent implements OnInit {
   }
 
   removeOrderDetail(row: any){
-    console.log(row);
     this.matDialog
       .open(ConfirmDialogComponent, {
         disableClose: true,
@@ -241,7 +377,6 @@ export class PreparingProductComponent implements OnInit {
     openDialog.afterClosed().subscribe(res=>{
       if (!(res==''||res== null)) {
         this.order.shipAddress = res.address;
-        console.log(this.order.shipAddress);
         this.order.freight = res.fee;
         this.order.updateName = this.updateName;
         this.orderService.updateOrder(this.order).subscribe({
@@ -260,8 +395,6 @@ export class PreparingProductComponent implements OnInit {
     let newQty = event.target.value;
     let oldQty = row.quantity;
     let presentQty = null;
-    console.log('newQty');
-    console.log(newQty);
     if (event.target.value=='') {
       event.target.value = oldQty;
       this.toastrService.error('Số lượng không được để trống')
@@ -274,10 +407,7 @@ export class PreparingProductComponent implements OnInit {
     }
     this.productDetailService.getOneProductDetail(row.productsDetail.id).subscribe(res=>{
       presentQty = res.quantity;
-      console.log('Present QTY');
-      console.log(presentQty);
       if (newQty==oldQty) {
-        console.log('No change');
         return;
       }else if (presentQty<=0) {
         event.target.value = oldQty;
@@ -291,8 +421,6 @@ export class PreparingProductComponent implements OnInit {
         row.quantity = newQty;
         this.orderDetailService.updateOrderDetail(row).subscribe({
               next: (res)=>{
-                console.log('res update orderDetail');
-                console.log(res);
                 this.subtractQuantity(row.productsDetail.id,(newQty-oldQty));
               },
               error: (e)=>{
@@ -325,11 +453,8 @@ export class PreparingProductComponent implements OnInit {
             product: product
         }
     }).afterClosed().subscribe(value => {
-      console.log(value);
         if (!(value == null || value == undefined)) {
           if (this.checkorderDetailsList(value.id)) {
-            console.log('Mới');
-            
             this.orderDetail.order.id = this.order.id;
             this.orderDetail.productsDetail.id = value.id;
             this.orderDetail.unitprice = value.price;
@@ -351,7 +476,6 @@ export class PreparingProductComponent implements OnInit {
           }else{
             for (let i = 0; i < this.orderDetailsList.length; i++) {
               if (this.orderDetailsList[i].productsDetail.id == value.id) {
-                console.log('Cộng');
                 this.orderDetailsList[i].quantity += value.quantityOrder;
                 this.orderDetailService.updateOrderDetail(this.orderDetailsList[i]).subscribe({
                   next: (res) =>{
@@ -382,12 +506,8 @@ export class PreparingProductComponent implements OnInit {
   }
 
   subtractQuantity(idPD: any, quantity: any){
-    console.log(idPD);
-    
     this.productDetailService.getOneProductDetail(idPD).subscribe({
       next: (res) =>{
-        console.log(res);
-        this.productDetail = res;
         this.productDetail.quantity -= quantity;
         this.productDetailService.updateProductDetail(this.productDetail).subscribe({
           next: (r)=>{

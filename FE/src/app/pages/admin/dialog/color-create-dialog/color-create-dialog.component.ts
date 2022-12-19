@@ -33,7 +33,6 @@ export class ColorCreateDialogComponent implements OnInit {
 
   createColor(){
     this.trimService.inputTrim(this.colorFormGroup,['name','code']);
-    console.log(this.colorFormGroup.value);
     
     this.colorFormGroup.markAllAsTouched();
     if (this.colorFormGroup.invalid) {

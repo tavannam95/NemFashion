@@ -7,6 +7,7 @@ import nem.com.entity.Products;
 import nem.com.repository.DiscountsRepository;
 import nem.com.repository.ProductDiscountRepository;
 import nem.com.repository.ProductsRepository;
+import nem.com.scheduled.ProcessToPromotion;
 import nem.com.service.DiscountService;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,10 @@ public class DiscountServiceIplm implements DiscountService  {
 
     @Override
     public Discounts create(Discounts discounts) {
-        return this.repository.save(discounts);
+        Discounts ds = this.repository.save(discounts);
+        ProcessToPromotion processToPromotion = new ProcessToPromotion(ds);
+        processToPromotion.start();
+        return ds ;
     }
 
     @Override

@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
             .subscribe({
                 next: (res) => {
                     this.storageService.saveUserToken(res);
-                    console.log(this.storageService.getRoleFromToken())
                     if(this.storageService.getRoleFromToken() === 'ROLE_ADMIN'){
                         this.router.navigate(['/selling'])
                     }else{

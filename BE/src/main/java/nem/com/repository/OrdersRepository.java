@@ -17,6 +17,17 @@ import java.util.Date;
 import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
+    @Query("select distinct o from Orders o " +
+            "join OrderDetails od on o.id = od.order.id " +
+            "join Exchanges e on e.id = od.exchanges.id ")
+    List<Orders> findAllOrderExchange();
+
+    @Query("select distinct o from Orders o " +
+            "join OrderDetails od on o.id = od.order.id " +
+            "join Exchanges e on e.id = od.exchanges.id " +
+            "order by e.status asc ")
+    Page<Orders> findOrderExchange(Pageable pageable);
+
     @Query("select o from Orders o where  o.status = :status and o.customer.id = :id order by o.createDate desc ")
     List<Orders> getAllOrderByStatus(@Param("status") Short status  , @Param("id") Integer id ) ;
 

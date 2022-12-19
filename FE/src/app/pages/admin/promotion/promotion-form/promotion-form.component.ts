@@ -5,6 +5,7 @@ import {PromotionComponent} from '../promotion.component';
 import {Constant} from '../../../../shared/constants/Constant';
 import {PromotionService} from '../../../../shared/service/promotion/promotion.service';
 import {ToastrService} from 'ngx-toastr';
+import {checkDiscount, checkSpace, compareDate} from '../../../../shared/validators/Regex';
 
 @Component({
   selector: 'promotion-form',
@@ -18,11 +19,13 @@ export class PromotionFormComponent implements OnInit {
 
   form = this.fb.group({
       id: null ,
-      discountName: [ null , [Validators.required ]] ,
-      discount: [ null , [Validators.required ]] ,
+      discountName: [ '' , [checkSpace  ]] ,
+      discount: [ null , [Validators.required , checkDiscount ]] ,
       startDate: [null , [Validators.required ]] ,
       endDate: [null , [Validators.required ]] ,
       status: 1 ,
+  } , {
+      validators: compareDate('startDate' , 'endDate')
   })
 
   constructor( private fb: FormBuilder ,

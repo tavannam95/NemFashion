@@ -20,9 +20,11 @@ public class DiscountUtils {
         List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(discounts.getId()) ;
         List<Integer> listPro = new ArrayList<>();
 
-        for( ProductDiscount x: listPd ){
-            if( x.getProduct().getDiscount() < discounts.getDiscount() || x.getDiscount() == null ){
-                listPro.add(x.getProduct().getId() );
+        if( listPd.size() != 0 ){
+            for( ProductDiscount x: listPd ){
+                if( x.getProduct().getDiscount() < discounts.getDiscount() || x.getDiscount() == null ){
+                    listPro.add(x.getProduct().getId() );
+                }
             }
         }
 
@@ -36,8 +38,10 @@ public class DiscountUtils {
         List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(discounts.getId()) ;
         List<Integer> listPro = new ArrayList<>();
 
-        for( ProductDiscount x: listPd ){
-            listPro.add(x.getProduct().getId() );
+        if( listPd.size() != 0 ){
+            for( ProductDiscount x: listPd ){
+                listPro.add(x.getProduct().getId() );
+            }
         }
 
         discounts.setStatus(3);

@@ -73,7 +73,6 @@ export class PromotionProductComponent implements OnInit  {
               }
 
           }
-          console.log('kaka' , this.listProsChoosed)
       })
   }
 
@@ -164,18 +163,7 @@ export class PromotionProductComponent implements OnInit  {
   }
 
   onSave(){
-
-      for( let x of this.listProsChoosed ){
-          this.checkExit(x);
-      }
-
-      for( let x of this.listPro ){
-          if( this.checkProInListChoose(x) ){
-              this.listAdd.push(x)
-          }
-      }
-
-      this.promotion.addProductIntoPromotion( this.listAdd , this.data.idDis ).subscribe({
+      this.promotion.addProductIntoPromotion( this.listPro , this.data.idDis ).subscribe({
           next: () =>{
               this.toast.success("Thêm sản phẩm thành công")
               this.dialogRef.close()
@@ -185,31 +173,4 @@ export class PromotionProductComponent implements OnInit  {
           }
       }) ;
   }
-
-  checkSelected( data: any){
-      for( let x of this.listProDis ){
-          if( x.product.id == data.id ){
-
-              return true ;
-          }
-      }
-
-      return false ;
-  }
-
-  checkExit(data: any){
-      if( this.checkSimilar(data.id) ){
-          this.listAdd.push(data);
-      }
-  }
-
-  checkProInListChoose( data: any ){
-      for( let x of this.listProsChoosed) {
-          if( x.id == data.id ){
-              return false ;
-          }
-      }
-      return true ;
-  }
 }
-

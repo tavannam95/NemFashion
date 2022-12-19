@@ -21,7 +21,6 @@ export class EmployeeImageComponent implements OnInit {
                 private dialogRef: MatDialogRef<EmployeeImageComponent>) {
         employeeService.getEmployeeById(3).subscribe( value =>{
             this.employee = value
-            console.log(value)
         });
     }
 

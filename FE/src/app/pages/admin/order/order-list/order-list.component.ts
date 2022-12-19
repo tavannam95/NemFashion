@@ -7,6 +7,8 @@ import { GhnService } from '../../../../shared/service/ghn/ghn.service';
 import { PageEvent } from '@angular/material/paginator';
 import { FormBuilder } from '@angular/forms';
 import { TrimService } from '../../../../shared/service/trim/trim.service';
+import { OrderExchangeComponent } from '../dialog/order-exchange/order-exchange.component';
+import { ExchangeService } from '../../../../shared/service/exchange/exchange.service';
 
 @Component({
   selector: 'app-order-list',
@@ -62,7 +64,8 @@ export class OrderListComponent implements OnInit {
     private ghnService: GhnService,
     private orderSevice: OrderService,
     private fb: FormBuilder,
-    private trimService: TrimService
+    private trimService: TrimService,
+    private exchangeService: ExchangeService
   ) { }
 
   ngOnInit() {
@@ -80,7 +83,18 @@ export class OrderListComponent implements OnInit {
     this.length = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    if (this.tabIndex == 7) {
+    if (this.tabIndex == 5) {
+      this.orderService.findExchange(this.pageIndex,this.pageSize).subscribe({
+        next: res=>{
+          this.allOrder = res;
+          this.orderService.findAllExchange().subscribe({
+            next: res=>{
+              this.length = res.length;
+            }
+          })
+        }
+      });
+    }else if (this.tabIndex == 7) {
       this.getAllOrder(this.pageIndex);
     }else{
       this.findByStatus(this.tabIndex);
@@ -110,12 +124,51 @@ export class OrderListComponent implements OnInit {
     })
   }
 
+  openExchange(order: any){
+    console.log(order);
+    
+    this.matDialog.open(OrderExchangeComponent,{
+      disableClose: true,
+      width: '800px'
+    })
+  }
+
   selectTab(index: any){
     this.tabIndex = index;
     if (this.tabIndex==0) {
       this.searchOrderDTO.patchValue({orderCode:''});
     }
-    if (index == 7) {
+    if (index == 5) {
+
+      this.setDefaultPageEvent();
+      this.orderService.findExchange(this.pageIndex,this.pageSize).subscribe({
+        next: res=>{
+          this.allOrder = res;
+          for (let i = 0; i < this.allOrder.length; i++) {
+            for (let j = 0; j < this.allOrder[i].orderDetailsList.length; j++) {
+              // console.log(this.allOrder[i].orderDetailsList[j]);
+              
+              if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 0) {
+                this.allOrder[i].orders.status = 8;
+                
+                break;
+              }
+              if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 1) {
+                this.allOrder[i].orders.status = 9;
+                break;
+              }
+            }
+            
+          }
+          
+          this.orderService.findAllExchange().subscribe({
+            next: res=>{
+              this.length = res.length;
+            }
+          })
+        }
+      });
+    }else if (index == 7) {
       this.setDefaultPageEvent();
       this.getAllOrder(0);
     }else{
@@ -136,27 +189,87 @@ export class OrderListComponent implements OnInit {
     })
   }
 
-  openPreparingDialog(data: any, dateShift: any){
-    let dialogRef = this.matDialog.open(PreparingProductComponent,{
-      width: '1000px',
-      disableClose: true,
-      autoFocus: false,
-      data: {
-        data,
-        dateShift
-      }
-    });
-    dialogRef.afterClosed().subscribe(res=>{
-      if (res == 'OK') {
-        if (this.tabIndex==7) {
-          this.getAllOrder(0);
-        }else{
-          this.orderService.findByStatus(this.tabIndex, this.pageIndex, this.pageSize).subscribe(res=>{
-            this.allOrder = res;
+  openPreparingDialog(data: any, dateShift: any, tabIndex: any){
+    let exchange;
+    if (this.tabIndex == 5) {
+      this.exchangeService.findByOrderId(data.orders.id).subscribe({
+        next: res=>{
+          exchange = res;
+          this.matDialog.open(PreparingProductComponent,{
+            width: '1000px',
+            disableClose: true,
+            autoFocus: false,
+            data: {
+              data,
+              dateShift,
+              tabIndex,
+              exchange: exchange
+            }
+          }).afterClosed().subscribe(res=>{
+            if (res == 'OK') {
+              if (this.tabIndex == 5) {
+              
+                this.orderService.findExchange(this.pageIndex,this.pageSize).subscribe({
+                  next: res=>{
+                    this.allOrder = res;
+                    for (let i = 0; i < this.allOrder.length; i++) {
+                      for (let j = 0; j < this.allOrder[i].orderDetailsList.length; j++) {
+                        // console.log(this.allOrder[i].orderDetailsList[j]);
+                        
+                        if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 0) {
+                          this.allOrder[i].orders.status = 8;
+                          
+                          break;
+                        }
+                        if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 1) {
+                          this.allOrder[i].orders.status = 9;
+                          break;
+                        }
+                      }
+                      
+                    }
+                    
+                    this.orderService.findAllExchange().subscribe({
+                      next: res=>{
+                        this.length = res.length;
+                      }
+                    })
+                  }
+                });
+
+              }else if (this.tabIndex==7) {
+                this.getAllOrder(0);
+              }else{
+                this.orderService.findByStatus(this.tabIndex, this.pageIndex, this.pageSize).subscribe(res=>{
+                  this.allOrder = res;
+                });
+              }
+            }
           });
         }
-      }
-    })
+      })
+    }else{
+      this.matDialog.open(PreparingProductComponent,{
+        width: '1000px',
+        disableClose: true,
+        autoFocus: false,
+        data: {
+          data,
+          dateShift,
+          tabIndex,
+        }
+      }).afterClosed().subscribe(res=>{
+        if (res == 'OK') {
+          if (this.tabIndex==7) {
+            this.getAllOrder(0);
+          }else{
+            this.orderService.findByStatus(this.tabIndex, this.pageIndex, this.pageSize).subscribe(res=>{
+              this.allOrder = res;
+            });
+          }
+        }
+      });
+    }
   }
 
   findByStatus(index: any){
@@ -201,7 +314,6 @@ export class OrderListComponent implements OnInit {
     this.orderService.getAllOrder(page,this.pageSize).subscribe({
       next: (res) =>{
         this.allOrder = res;
-        console.log(this.allOrder);
         if (this.allOrder.length>0) {
           this.totalPage = this.allOrder[0].totalPage;
         }

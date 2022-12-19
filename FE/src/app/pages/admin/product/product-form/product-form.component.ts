@@ -93,7 +93,6 @@ export class ProductFormComponent implements OnInit {
 
   check() {
     this.trimService.inputTrim(this.formGroup, ["name", "description"]);
-    console.log(this.formGroup.value);
   }
 
   onChange(event) {
