@@ -1,9 +1,9 @@
 <h2 class="text-center font-weight-bold h3" mat-dialog-title>{{ title }}</h2>
 <mat-dialog-content>
     <form class="row mt-3" [formGroup]="form">
-        <mat-form-field appearance="outline" class="col-4">
+        <mat-form-field appearance="outline" class="col-4" >
             <mat-label>Tên khuyến mại</mat-label>
-            <input matInput formControlName="discountName">
+            <input matInput formControlName="discountName" [readonly]>
             <mat-error *ngIf="this.form.get('discountName').hasError('isSpace') && this.form.get('discountName').touched ">
                 Vui lòng không để trống
             </mat-error>
@@ -11,7 +11,7 @@
 
         <mat-form-field appearance="outline" class="col-4">
             <mat-label>Ngày bắt đầu</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="startDate">
+            <input [disabled]="this.statusOpening" matInput [matDatepicker]="picker" formControlName="startDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             <mat-error *ngIf="isValidators( 'startDate' , 'required')">
@@ -21,7 +21,7 @@
 
         <mat-form-field appearance="outline" class="col-4">
             <mat-label>Ngày kết thúc</mat-label>
-            <input matInput [matDatepicker]="picker1" formControlName="endDate">
+            <input [disabled]="this.statusOpening" matInput [matDatepicker]="picker1" formControlName="endDate">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
             <mat-error *ngIf="isValidators( 'endDate' , 'required')">
@@ -34,7 +34,7 @@
 
         <mat-form-field appearance="outline" class="col-4">
             <mat-label>Giảm giá</mat-label>
-            <input matInput formControlName="discount" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+            <input matInput [disabled]="true" formControlName="discount">
             <mat-error *ngIf="isValidators( 'discount' , 'required')">
                  Vui lòng không để trống
             </mat-error>
