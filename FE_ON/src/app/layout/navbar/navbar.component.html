@@ -116,13 +116,13 @@
           <!--====== List ======-->
           <ul class="ah-list ah-list--design2 ah-list--link-color-secondary">
             <li>
-              <a routerLink="home">TRANG CHỦ</a>
+              <a routerLinkActive="text-color" routerLink="home">TRANG CHỦ</a>
             </li>
             <li>
-              <a routerLink="products">SẢN PHẨM</a>
+              <a routerLinkActive="text-color" routerLink="products">SẢN PHẨM</a>
             </li>
             <li>
-              <a href="#">SALE</a>
+              <a  href="#">SALE</a>
             </li>
           </ul>
           <!--====== End - List ======-->
@@ -138,7 +138,7 @@
           <!--====== List ======-->
           <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
             <li>
-              <a routerLink="/home"><i class="fas fa-home u-c-brand"></i></a>
+              <a routerLinkActive="text-color" routerLink="/home"><i class="fas fa-home u-c-brand"></i></a>
             </li>
             <li>
               <a href="#"><i class="far fa-heart"></i></a>
@@ -168,7 +168,7 @@
                       </div>
                       <div class="mini-product__info-wrapper">
                          <span class="mini-product__category">
-                           <a> {{cart.productsDetail.product.category.name}}</a>
+                           <a> {{cart.productsDetail.product.category?.name}}</a>
                          </span>
                         <span class="mini-product__name">
                           <a [routerLink]="['/product-detail/', cart.productsDetail.product.id]">

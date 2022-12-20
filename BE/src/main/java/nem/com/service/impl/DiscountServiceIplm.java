@@ -43,6 +43,12 @@ public class DiscountServiceIplm implements DiscountService  {
 
     @Override
     public Discounts update(Discounts discounts) {
+
+        if( discounts.getStatus() == 1 ){
+            ProcessToPromotion processToPromotion = new ProcessToPromotion(discounts);
+            processToPromotion.start();
+        }
+
         return this.repository.save(discounts);
     }
 
