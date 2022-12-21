@@ -90,7 +90,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     check_validate: boolean = false;
     openOrder: boolean = false;
     date: any = '';
-
+    checkOrder:boolean = false;
 
     ngOnInit(): void {
         this.getListCate();
@@ -122,14 +122,16 @@ export class SellingComponent implements OnInit, OnDestroy {
             if (this.selected.value == this.tabs.length) {
                 this.selected.setValue(this.tabs.length - 1);
             }
+            this.quantityDetail = [];
             this.getItemByTabs();
         } else {
             this.tabs = [];
             localStorage.removeItem('order');
             this.getItemLocalStorage();
+            this.quantityDetail = [];
             this.getItemByTabs();
         }
-        this.quantityDetail = [];
+        
     }
 
     getListCustomer() {
@@ -196,7 +198,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     openDialog(product: any) {
         this.productInput.setValue('');
         this.dialog.open(ProductDetailOrderComponent, {
-            width: '30vw',
+            width: '35vw',
             disableClose: true,
             hasBackdrop: true,
             data: {
@@ -668,6 +670,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                         this.removeTab(this.selected.value);
                     },
                     error: err => {
+                        this.isLoading = false;
                         if (err.error?.code == 'LIMIT_QUANTITY') {
                             this.toast.error(err.error.message);
                             this.resetQuantityInventory();
@@ -903,6 +906,10 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.wards = [];
     }
 
+    resetProvince(){
+        this.provinceId = -1;
+    }
+
     getWardName(wardName: any) {
         this.wardName = wardName;
         this.getShippingFee(this.districtId);
@@ -953,6 +960,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     clearDataOrder() {
+        this.resetProvince();
         this.resetDistrictAndWard();
         if (this.customerName.length > 0) {
             this.ship_name = this.customerName;
@@ -990,6 +998,13 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     onLogout() {
         this.authService.logout();
+    }
+
+    check():boolean{
+        if(this.order?.productDetail?.length == 0 || this.order.productDetail == undefined || this.order.productDetail == null){
+            return false;
+        }
+        return true;
     }
 }
 
