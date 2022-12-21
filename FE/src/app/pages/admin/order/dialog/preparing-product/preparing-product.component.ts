@@ -710,7 +710,7 @@ export class PreparingProductComponent implements OnInit {
       "weight": this.weight,
       "items": this.items,
       "client_order_code": this.order.id+"",
-      "note": 'Khách hàng video khi mở hàng'
+      "note": 'Vui lòng quay video khi mở hàng để có thể đổi hàng khi có vấn đề'
     })
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
