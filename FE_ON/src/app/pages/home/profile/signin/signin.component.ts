@@ -80,7 +80,7 @@ export class SigninComponent implements OnInit {
           this.toastService.error(err.error.message);
           return;
         }
-        this.toastService.error('Đăng nhập thất bại !');
+        this.toastService.error('Sai thông tin tài khoản hoặc mật khẩu!');
       }
     })
   }
