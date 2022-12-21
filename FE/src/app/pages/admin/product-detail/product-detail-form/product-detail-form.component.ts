@@ -111,6 +111,12 @@ export class ProductDetailFormComponent implements OnInit {
     this.checkSize = false;
     this.productDetailDto = [];
     for (let i = 0; i < this.allSize.length; i++) {
+      if (this.quantity[i] <=0) {
+        this.toastrService.warning('Số lượng phải lớn hơn 0');
+        return;
+      }
+    }
+    for (let i = 0; i < this.allSize.length; i++) {
       if (this.quantity[i] == undefined ||this.quantity[i] == null) {
         continue;
       }
@@ -139,15 +145,28 @@ export class ProductDetailFormComponent implements OnInit {
       this.toastrService.error('Vui lòng nhập đủ thông tin');
       return;
     }
-    
-    this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
-      next: (res)=>{
-        this.toastrService.success('Thêm chi tiết thành công');
-      },
-      error: (err)=>{
-        this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
+
+    this.dialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+          message: 'Bạn có muốn nhập hàng?'
       }
+    }).afterClosed().subscribe(result => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.productDetailService.createProductDetail(this.productDetailDto).subscribe({
+            next: (res)=>{
+              this.toastrService.success('Thêm chi tiết thành công');
+              this.productDetailDto = [];
+            },
+            error: (err)=>{
+              this.toastrService.error('Lỗi thêm chi tiết sản phẩm');
+            }
+          })
+        }
     })
+    
+    
     
   }
 
@@ -174,7 +193,9 @@ export class ProductDetailFormComponent implements OnInit {
       disableClose: true
     })
     dialogRef.afterClosed().subscribe(res=>{
-      this.getAllColor();
+      if (res=='submit') {
+        this.getAllColor();
+      }
     })
   }
   

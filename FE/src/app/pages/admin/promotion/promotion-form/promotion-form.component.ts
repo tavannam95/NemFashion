@@ -16,10 +16,12 @@ export class PromotionFormComponent implements OnInit {
 
   title = '' ;
   CONSTAIN = Constant.TYPE_DIALOG ;
+  statusOpening: boolean = false ;
+
 
   form = this.fb.group({
       id: null ,
-      discountName: [ '' , [checkSpace  ]] ,
+      discountName: [ '' , [checkSpace ]] ,
       discount: [ null , [Validators.required , checkDiscount ]] ,
       startDate: [null , [Validators.required ]] ,
       endDate: [null , [Validators.required ]] ,
@@ -40,6 +42,10 @@ export class PromotionFormComponent implements OnInit {
      }else{
         this.title = 'Cập nhập' ;
         this.form.patchValue( this.data.data ) ;
+        if( this.data.data.status === 2 ){
+            this.statusOpening = true;
+            this.form.controls['discount'].disable();
+        }
      }
   }
 
@@ -69,6 +75,17 @@ export class PromotionFormComponent implements OnInit {
   }
 
   update(){
+      var date = new Date();
+      var startDate = new Date(this.form.getRawValue().startDate);
+      var endDate = new Date(this.form.getRawValue().endDate)
+      if( date < startDate ){
+          this.form.patchValue({status: 1});
+      }
+
+      if(date > endDate ){
+          this.form.patchValue({status: 3});
+      }
+
       this.promotionService.create( this.form.getRawValue() ) .subscribe({
           next: value => {
               this.toast.success("Cập nhập thành công") ;

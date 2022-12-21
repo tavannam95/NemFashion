@@ -19,6 +19,8 @@ import { ToastrService } from "ngx-toastr";
 import { MatStepper } from "@angular/material/stepper";
 import { BehaviorSubject } from "rxjs";
 import { TrimService } from "app/shared/service/trim/trim.service";
+import { Constant } from '../../../../shared/constants/Constant';
+import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: "product-form",
@@ -150,6 +152,20 @@ export class ProductFormComponent implements OnInit {
     }
   }
 
+  createP(stepper: MatStepper){
+    this.dialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+          message: 'Bạn có muốn thêm sản phẩm?'
+      }
+    }).afterClosed().subscribe(result => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.createProduct(stepper);
+        }
+    })
+  }
+
   async createProductImage(stepper: MatStepper) {
     if (this.imagesFile.length > 0) {
       await this.uploadImages();
@@ -168,6 +184,19 @@ export class ProductFormComponent implements OnInit {
     if (this.imagesFile.length <= 0) {
       this.toastrService.warning("Bạn chưa chọn ảnh");
     }
+  }
+  createPI(stepper: MatStepper){
+    this.dialog.open(ConfirmDialogComponent, {
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+          message: 'Bạn có muốn tải lên ảnh sản phẩm?'
+      }
+    }).afterClosed().subscribe(result => {
+        if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.createProductImage(stepper);
+        }
+    })
   }
   async uploadImages() {
     this.isLoading = true;
