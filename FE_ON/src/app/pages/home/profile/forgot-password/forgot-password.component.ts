@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../../shared/service/auth/auth.service";
 import {DOCUMENT} from "@angular/common";
 import {StorageService} from "../../../../shared/service/storage.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-forgot-password',
@@ -69,6 +70,8 @@ export class ForgotPasswordComponent implements OnInit {
     }
   }
 
+  check: boolean = false;
+
   onSendEmail() {
     const email = this.formGroup.getRawValue().email;
     this.domain = 'http://' + this.document.location.hostname + ':' + this.document.location.port;
@@ -80,22 +83,27 @@ export class ForgotPasswordComponent implements OnInit {
       this.toastService.warning("Email sai định dạng !")
       return;
     }
-    this.authService.sendEmailForgotPassword(email?.trim(), this.domain).subscribe({
-      next: (res) => {
-        if (res) {
-          console.log(res)
-          this.isShowEmailForm = false;
-          this.isShowMessage = true;
-        } else {
-          this.isShowEmailForm = true;
+    this.check = true;
+    this.authService.sendEmailForgotPassword(email?.trim(), this.domain)
+      .pipe(finalize(() => {
+        this.check = false;
+      }))
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.isShowEmailForm = false;
+            this.isShowMessage = true;
+          } else {
+            this.toastService.error("Gửi liên kết thât bại vui lòng thử lại sau !")
+            this.isShowEmailForm = true;
+          }
+        },
+        error: (err) => {
+          if (err.error.code == 'NOT_FOUND') {
+            this.toastService.error("Email không tồn tại !")
+          }
         }
-      },
-      error: (err) => {
-        if (err.error.code == 'NOT_FOUND') {
-          this.toastService.error("Email không tồn tại !")
-        }
-      }
-    })
+      })
   }
 
   onChangePassword() {

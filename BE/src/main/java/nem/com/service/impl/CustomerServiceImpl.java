@@ -102,7 +102,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customers findCustomerByEmail(String email) {
         return this.customersRepository.findCustomersByEmail(email).orElseThrow(() -> {
-            throw new ResourceNotFoundException("Email not exist !");
+            throw new ResourceNotFoundException("Email không tồn tại !");
         });
     }
 

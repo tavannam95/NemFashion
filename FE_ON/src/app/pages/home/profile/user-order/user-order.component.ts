@@ -83,13 +83,11 @@ export class UserOrderComponent implements OnInit {
   findAllOrder() {
     this.orderService.getAllOrder(this.storageService.getIdFromToken()).subscribe(data => {
       this.listOrder = data;
-      console.log(this.listOrder);
     })
   }
 
   findAllOrderDetail() {
     this.orderDetailService.getAllOrderDetail(this.storageService.getIdFromToken()).subscribe(data => {
-      console.log(data);
       return this.listOrderDetail = data;
     })
   }
