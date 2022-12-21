@@ -874,8 +874,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     //
     getDistrict(provinceId: any, provinceName: any) {
-        let data = {'province_id': provinceId};
-        this.ghnService.getDistrict(data).subscribe((res: any) => {
+        this.ghnService.getDistrict(provinceId).subscribe((res: any) => {
             this.district = res.data;
         })
         this.proviceName = provinceName;
@@ -883,8 +882,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     //
     getWard(districtId: any, districtName: any) {
-        let data = {'district_id': districtId};
-        this.ghnService.getWard(data).subscribe((res: any) => {
+        this.ghnService.getWard(districtId).subscribe((res: any) => {
             this.wards = res.data;
         })
         this.districtName = districtName;
@@ -914,7 +912,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     getShippingFee(districtId: any) {
         this.isLoading = true;
         const data = {
-            'shop_id': Ghn.SHOP_ID_NUMBER,
+            'shop_id': 3424019,
             'from_district': 3440,
             'to_district': districtId
         }
