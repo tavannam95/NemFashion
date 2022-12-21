@@ -193,7 +193,9 @@ export class ProductDetailFormComponent implements OnInit {
       disableClose: true
     })
     dialogRef.afterClosed().subscribe(res=>{
-      this.getAllColor();
+      if (res=='submit') {
+        this.getAllColor();
+      }
     })
   }
   
