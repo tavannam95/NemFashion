@@ -508,7 +508,33 @@ export class PreparingProductComponent implements OnInit {
   subtractQuantity(idPD: any, quantity: any){
     this.productDetailService.getOneProductDetail(idPD).subscribe({
       next: (res) =>{
+        console.log(res);
+        this.productDetail = res;
         this.productDetail.quantity -= quantity;
+        console.log(this.productDetail);
+        this.productDetailService.updateProductDetail(this.productDetail).subscribe({
+          next: (r)=>{
+            console.log(r);
+            
+          },
+          error: (e) =>{
+            console.log(e);
+            
+          }
+        })
+      }
+    })
+  }
+
+  plusQuantity(idPD: any, quantity: any){
+    console.log(this.productDetail);
+    
+    this.productDetailService.getOneProductDetail(idPD).subscribe({
+      next: (res) =>{
+        console.log(res);
+        
+        this.productDetail = res;
+        this.productDetail.quantity += quantity;
         this.productDetailService.updateProductDetail(this.productDetail).subscribe({
           next: (r)=>{
             console.log(r);
@@ -541,6 +567,8 @@ export class PreparingProductComponent implements OnInit {
   }
 
   cancelOrder(){
+    console.log(this.productDetail);
+    
     this.isLoading = true;
     this.matDialog.open(ConfirmDialogComponent, {
       disableClose: true,
@@ -560,7 +588,7 @@ export class PreparingProductComponent implements OnInit {
                 this.isLoading = false;
                 this.checkCancelOrder = true;
                 for (let i = 0; i < this.orderDetailsList.length; i++) {
-                  this.subtractQuantity(this.orderDetailsList[i].productsDetail.id,(0-this.orderDetailsList[i].quantity));
+                  this.plusQuantity(this.orderDetailsList[i].productsDetail.id,this.orderDetailsList[i].quantity);
                 }
                 this.matDialogRef.close('OK');
                 this.toastrService.success('Hủy đơn hàng thành công');
@@ -627,7 +655,7 @@ export class PreparingProductComponent implements OnInit {
         this.orderService.updateStatus(this.order,4).subscribe({
           next: (res)=>{
             for (let i = 0; i < this.orderDetailsList.length; i++) {
-              this.subtractQuantity(this.orderDetailsList[i].productsDetail.id,(0-this.orderDetailsList[i].quantity));
+              this.plusQuantity(this.orderDetailsList[i].productsDetail.id,this.orderDetailsList[i].quantity);
             }
             this.matDialogRef.close('OK');
             this.toastrService.success('Hủy đơn thành công');
