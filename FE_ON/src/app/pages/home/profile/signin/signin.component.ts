@@ -68,6 +68,10 @@ export class SigninComponent implements OnInit {
         }
       },
       error: (err) => {
+        if (err.error.code == 'NOT_FOUND') {
+          this.toastService.error(err.error.message);
+          return;
+        }
         if (err.error.code == 'LOGIN_INVALID') {
           this.toastService.error(err.error.message);
           return;

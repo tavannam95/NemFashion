@@ -204,6 +204,7 @@ export class ExchangeOrderDialogComponent implements OnInit {
       this.selection.clear();
       return;
     }
+
     for (let i = 0; i < this.dataSource.data.length; i++) {
       this.dataSource.data[i].quantityNew = 0;
     }

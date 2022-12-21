@@ -16,7 +16,7 @@ import {Constant} from '../../../shared/constants/Constant';
 
 export class RatingComponent implements OnInit {
     array: any[] = [];
-    displayedColumns: string[] = ['select', 'image', 'content', 'action'];
+    displayedColumns: string[] = ['select', 'image', 'content'];
     dataSource: any;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     selection = new SelectionModel<any>(true, []);
