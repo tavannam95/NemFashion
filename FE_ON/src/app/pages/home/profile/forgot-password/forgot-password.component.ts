@@ -5,6 +5,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../../shared/service/auth/auth.service";
 import {DOCUMENT} from "@angular/common";
 import {StorageService} from "../../../../shared/service/storage.service";
+import { Constants } from '../../../../shared/constants/constants.module';
+import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-forgot-password',
@@ -37,6 +40,7 @@ export class ForgotPasswordComponent implements OnInit {
               private readonly route: ActivatedRoute,
               private readonly router: Router,
               private readonly storageService: StorageService,
+              private readonly matDialog: MatDialog,
               @Inject(DOCUMENT) private document: any) {
   }
 
