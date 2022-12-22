@@ -324,7 +324,7 @@ export class CartComponent implements OnInit {
       hasBackdrop: true,
       width: "25vw",
       data: {
-        message: 'Bạn có muốn đặt đơn hàng này?'
+        message: 'Bạn có muốn đặt hàng?'
       }
     }).afterClosed().subscribe((result) => {
       if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
