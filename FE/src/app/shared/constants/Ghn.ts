@@ -2,8 +2,10 @@ export const Ghn = {
     CHOTHUHANG:"CHOTHUHANG",
     CHOXEMHANGKHONGTHU:"CHOXEMHANGKHONGTHU",
     KHONGCHOXEMHANG: "KHONGCHOXEMHANG",
-    TOKEN: "bd7afdaa-61da-11ed-889d-7acb4388671e",
-    SHOP_ID: "120561",
+    // TOKEN: "bd7afdaa-61da-11ed-889d-7acb4388671e",
+    TOKEN: "d17646cb-81f3-11ed-9ccc-a2c11deda90c",
+    // SHOP_ID: "120561",
+    SHOP_ID: "121188",
     CONTENT_TYPE: "application/json",
     SHOP_ID_NUMBER : 120561
 }

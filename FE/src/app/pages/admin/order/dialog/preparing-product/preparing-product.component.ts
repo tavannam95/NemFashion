@@ -662,10 +662,17 @@ export class PreparingProductComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
-          this.createOrderGhn();
+          // this.createOrderGhn();
+          this.order.updateName = this.updateName;
+          this.orderService.updateStatus(this.order,1).subscribe(res=>{
+          this.matDialogRef.close('OK');
+          this.toastrService.success('Xác nhận đơn thành công');
+        });
         }
       });
   }
+
+
 
   createOrderGhn(){
     this.isLoading = true;
