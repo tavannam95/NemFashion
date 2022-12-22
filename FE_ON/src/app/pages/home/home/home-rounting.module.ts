@@ -13,10 +13,6 @@ const router: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(router)],
-    declarations: [
-        StarsComponent ,
-        ListFormatPipe
-    ],
-    exports: [RouterModule, StarsComponent, ListFormatPipe]
+    exports: [RouterModule]
 })
 export class HomeRountingModule { }

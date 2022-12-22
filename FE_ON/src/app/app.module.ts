@@ -21,6 +21,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {UserOrderModule} from "./pages/home/profile/user-order/user-order.module";
 import {StarsComponent} from "./shared/stars/stars.component";
 import {HomeRountingModule} from "./pages/home/home/home-rounting.module";
+import {SharedModule} from "./shared/shared.module";
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import {HomeRountingModule} from "./pages/home/home/home-rounting.module";
         SlickCarouselModule,
         MatDialogModule,
         UserOrderModule,
-        HomeRountingModule
+        HomeRountingModule,
+        SharedModule
     ],
   providers: [httpInterceptorProviders],
   exports: [],

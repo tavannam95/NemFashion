@@ -4,6 +4,7 @@ import {HomeRountingModule} from "./home-rounting.module";
 import {HomeComponent} from "./home.component";
 import {SlickCarouselModule} from "ngx-slick-carousel";
 import {MatDialogModule} from "@angular/material/dialog";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     HomeRountingModule,
     SlickCarouselModule,
     MatDialogModule,
+    SharedModule
   ]
 })
 export class HomeModule {
