@@ -27,9 +27,16 @@ export class GhnApiService {
   getDate(): Observable<any>{
     return this.http.get('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift/date');
   }
+
+  //DEV
+  // genToken(orderCode: any):Observable<any>{
+  //   return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',orderCode);
+  // }
+
   genToken(orderCode: any):Observable<any>{
-    return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',orderCode);
+    return this.http.post('https://online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',orderCode);
   }
+
   cancelOrderGhn(orderCode: any): Observable<any>{
     return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel',orderCode);
   }
