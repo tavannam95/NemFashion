@@ -79,7 +79,7 @@
                                     <button mat-menu-item (click)="openDialogForm( TYPE_DIALOG.UPDATE , element)">
                                         <span>Sửa thông tin</span>
                                       </button>
-                                      <button mat-menu-item (click)="openDialogDelete( element.status , element)">
+                                      <button *ngIf="this.storageService.getIdFromToken() !== element.id" mat-menu-item (click)="openDialogDelete( element.status , element)">
                                         <span>{{element.status == 2 ? 'Kích hoạt' : 'Hủy tài khoản'}}</span>
                                       </button>
                                   </mat-menu>
