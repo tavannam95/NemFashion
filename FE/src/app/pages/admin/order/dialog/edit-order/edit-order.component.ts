@@ -154,7 +154,6 @@ export class EditOrderComponent implements OnInit {
             this.orderDetail.productsDetail.id = value.id;
             
             this.orderDetailsList.push(this.orderDetail);
-            console.log(this.orderDetailsList);
             
             this.quantityPresentList.push(0);
             this.dataSource = new MatTableDataSource<any>(this.orderDetailsList);

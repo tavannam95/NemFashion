@@ -49,7 +49,7 @@ export class AddressBookComponent implements OnInit {
   findAddressByCustomerId() {
     this.addressService.findAddressByCustomerId(this.storageService.getIdFromToken()).subscribe((res: any) => {
       this.addressInCustomer = res as any[];
-      console.log(this.addressInCustomer)
+      // console.log(this.addressInCustomer)
     })
   }
 
