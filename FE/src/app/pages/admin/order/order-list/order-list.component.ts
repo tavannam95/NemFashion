@@ -125,8 +125,6 @@ export class OrderListComponent implements OnInit {
   }
 
   openExchange(order: any){
-    console.log(order);
-    
     this.matDialog.open(OrderExchangeComponent,{
       disableClose: true,
       width: '800px'
