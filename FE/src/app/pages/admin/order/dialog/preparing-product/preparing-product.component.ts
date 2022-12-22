@@ -32,6 +32,8 @@ export class PreparingProductComponent implements OnInit {
   listProductSearch: any = [];
   totalExchange = 0;
 
+  dateShip: any;
+
   disableBtn = false;
 
   tabIndex: any;
@@ -101,7 +103,7 @@ export class PreparingProductComponent implements OnInit {
     "service_type_id":2,
     "coupon":null,
     "pick_shift": null,
-    "pickup_time": ['',Validators.required],
+    "pickup_time": null,
     "items": ['']
   });
 
@@ -144,6 +146,10 @@ export class PreparingProductComponent implements OnInit {
       }
       
     }
+  }
+  setDateShip(e: any){
+    this.dateShip = e.value;
+    
   }
   openEditOrder(){
     let dialogRef = this.matDialog.open(EditOrderComponent,{
@@ -593,10 +599,6 @@ export class PreparingProductComponent implements OnInit {
     
   }
 
-  check(){
-    
-  }
-
   getDefaultContact(){
     this.contactService.getDafaultContact().subscribe(res=>{
       this.contact = res;
@@ -718,12 +720,12 @@ export class PreparingProductComponent implements OnInit {
       "required_note": this.requiredNote,
       "weight": this.weight,
       "items": this.items,
+      "pickup_time": this.dateShip,
       "client_order_code": this.order.id+"",
       "note": 'Vui lòng quay video khi mở hàng để có thể đổi hàng khi có vấn đề'
     })
 
     console.log(this.data.value);
-    
 
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
@@ -752,7 +754,7 @@ export class PreparingProductComponent implements OnInit {
       error: (e)=>{
         this.isLoading = false;
         console.log(e);
-        this.toastrService.error('Lỗi xác nhận đơn')
+        this.toastrService.error('Lỗi tạo đơn GHN vui lòng thử lại sau')
       }
     });
   }
