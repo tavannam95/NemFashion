@@ -154,12 +154,14 @@ export class CartComponent implements OnInit {
       this.toastService.warning("Số không được lớn hơn số lượng còn lại !")
       return;
     }
-
     this.cartService.updateCart(data).subscribe(data => {
       if (data) {
         this.findAllByCustomerId();
         if (this.districtId !== undefined) {
           this.getShippingFee(this.districtId);
+        }
+        if (this.defaultInfoModel) {
+          this.getShippingFee(this.address.districtId)
         }
         this.cartService.isReload.next(false);
       }
@@ -232,7 +234,7 @@ export class CartComponent implements OnInit {
 
   defaultInfo(event: any) {
     if (event.target.value == 'on') {
-      this.defaultInfoModel = true
+      this.defaultInfoModel = true;
       event.target.value = 'off';
       this.getShippingFee(this.address.districtId)
       this.formGroup.patchValue({

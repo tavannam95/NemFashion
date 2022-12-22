@@ -97,10 +97,9 @@ export class CustomerFormComponent implements OnInit {
             this.customerService.createCustomer(this.formGroup.getRawValue());
         } else {
             if (this.avatarUrl != undefined) {
-                if (this.formGroup.getRawValue().photo !== this.avatarDefault) {
+                if (this.formGroup.getRawValue().photo && this.formGroup.getRawValue().photo !== this.avatarDefault) {
                     const publicId = this.formGroup.getRawValue().photo.split('/').pop().split('.')[0];
-                    this.uploadService.delete(publicId).subscribe(res => {
-                    });
+                    this.uploadService.delete(publicId).subscribe();
                 }
                 this.formGroup.patchValue({photo: this.avatarUrl[0]});
             } else {

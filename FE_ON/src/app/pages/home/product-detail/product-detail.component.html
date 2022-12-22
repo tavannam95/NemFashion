@@ -6,13 +6,13 @@
         <div class="breadcrumb__wrap">
           <ul class="breadcrumb__list">
             <li class="has-separator">
-              <a href="#">Trang chủ</a>
+              <a routerLink="/home">Trang chủ</a>
             </li>
             <li class="is-marked has-separator">
-              <a href="#">{{product?.category?.name}}</a>
+              <a href="javascript:void(0)">{{product?.category?.name}}</a>
             </li>
             <li class="is-marked">
-              <a href="#">{{product?.name}}</a>
+              <a href="javascript:void(0)">{{product?.name}}</a>
             </li>
           </ul>
         </div>
@@ -29,13 +29,16 @@
         <!--====== Product Detail Zoom ======-->
         <div class="pd u-s-m-b-30 row">
           <div class="col-3">
-            <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel" [config]="slideConfissg"
-                                (init)="slickInit($event)" (breakpoint)="breakpoint($event)" (afterChange)="afterChange($event)"
-                                (beforeChange)="beforeChange($event)" >
+            <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel"
+                                [config]="slideConfissg"
+                                (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                                (afterChange)="afterChange($event)"
+                                (beforeChange)="beforeChange($event)">
 
-              <div class="row" >
+              <div class="row">
                 <div class="col-12 mb-2">
-                  <img src="{{product?.thumnail}}" (click)="changThumnail( product?.thumnail )" class="img-fluid" [class]="product?.thumnail === thumnail ? 'clickImage' : '' "
+                  <img src="{{product?.thumnail}}" (click)="changThumnail( product?.thumnail )" class="img-fluid"
+                       [class]="product?.thumnail === thumnail ? 'clickImage' : '' "
                   >
                 </div>
               </div>
@@ -63,17 +66,15 @@
             <div class="pd-detail__inline">
               <span class="pd-detail__price">{{product?.price | currency: 'VND' : 'symbol' : '4.0' }}</span>
 
-<!--              <span class="pd-detail__discount">(76% OFF)</span-->
-<!--              >-->
-<!--              <del class="pd-detail__del">$28.97</del>-->
+              <!--              <span class="pd-detail__discount">(76% OFF)</span-->
+              <!--              >-->
+              <!--              <del class="pd-detail__del">$28.97</del>-->
             </div>
           </div>
           <div class="u-s-m-b-15">
             <div class="pd-detail__rating gl-rating-style">
               <app-stars [rating]="takeRatingPro(product?.id)"></app-stars>
-              <span class="pd-detail__review u-s-m-l-4">
-                        <a data-click-scroll="#view-review">23 Reviews</a></span
-              >
+
             </div>
           </div>
         </div>
@@ -146,7 +147,8 @@
             </div>
             <p *ngIf="message" class="text-danger">{{message}}</p>
             <div class="u-s-m-b-15">
-              <button class="btn btn-warning" type="button" (click)="onAddToCart(f)" style="background-color: #ff4500; color: #ffffff">
+              <button class="btn btn-warning" type="button" (click)="onAddToCart(f)"
+                      style="background-color: #ff4500; color: #ffffff">
                 Thêm vào giỏ hàng
               </button>
             </div>
@@ -208,8 +210,8 @@
                         <td>{{colorDescription}}</td>
                       </tr>
                       <tr>
-                        <td>Shipping Weight (kg)</td>
-                        <td>0.5</td>
+                        <td>Cân nặng</td>
+                        <td>{{product?.weight}}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -233,7 +235,7 @@
                         <label for="sort-review"></label
                         ><select
                         class="select-box select-box--primary-style"
-                        id="sort-review"  *ngIf="changPage.length != 0">
+                        id="sort-review" *ngIf="changPage.length != 0">
                         <option selected>Sort by: Best Rating</option>
                         <option>Sort by: Worst Rating</option>
                       </select>
@@ -256,7 +258,7 @@
                         </p>
                         <div class="row d-flex flex-row">
                           <div class="col-2" *ngFor="let rateImg of takeListRatingImage(rating.id)">
-                               <img  style="height: 100px;" class="img-fluid" src="{{rateImg.name}}">
+                            <img style="height: 100px;" class="img-fluid" src="{{rateImg.name}}">
                           </div>
                         </div>
                       </div>
@@ -268,14 +270,18 @@
                   <!--====== Pagination ======-->
                   <ul class="shop-p__pagination">
                     <li class="is-active " *ngIf="changPage.length != 0">
-                      <a type="button" [class.disabled-a]="checkPage == 0"  style="background-color: #AAAAAA" (click)="nextPage(0)"> <i class="fas fa-angle-double-left"></i> </a>
+                      <a type="button" [class.disabled-a]="checkPage == 0" style="background-color: #AAAAAA"
+                         (click)="nextPage(0)"> <i class="fas fa-angle-double-left"></i> </a>
                     </li>
                     <li class="is-active" *ngFor=" let page of changPage() ">
-                      <a  type="button" [class.disabled-a]="checkPage == page" style="background-color: #AAAAAA" [class]="checkPage == page ? 'bg-dark text-white' : ''"
-                         (click)="nextPage(page)" >{{page + 1}}</a>
+                      <a type="button" [class.disabled-a]="checkPage == page" style="background-color: #AAAAAA"
+                         [class]="checkPage == page ? 'bg-dark text-white' : ''"
+                         (click)="nextPage(page)">{{page + 1}}</a>
                     </li>
                     <li class="is-active" *ngIf="changPage.length != 0">
-                      <a type="button" [class.disabled-a]="checkPage == totalPage - 1 " style="background-color: #AAAAAA" (click)="nextPage(totalPage - 1 )"> <i class="fas fa-angle-double-right"></i> </a>
+                      <a type="button" [class.disabled-a]="checkPage == totalPage - 1 "
+                         style="background-color: #AAAAAA" (click)="nextPage(totalPage - 1 )"> <i
+                        class="fas fa-angle-double-right"></i> </a>
                     </li>
                   </ul>
                   <!--====== End - Pagination ======-->
@@ -301,7 +307,6 @@
             <h1 class="section__heading u-c-secondary u-s-m-b-12">
               Sản phẩm liên quan
             </h1>
-            <span class="section__span u-c-grey">PRODUCTS THAT CUSTOMER VIEWED</span>
           </div>
         </div>
       </div>
@@ -309,7 +314,7 @@
       <div class="row col-12 mt-5">
         <ngx-slick-carousel class="carousel p-0 row" #slickModal="slick-carousel" [config]="slideConfig"
                             (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
-                            (afterChange)="afterChange($event)" >
+                            (afterChange)="afterChange($event)">
           <div ngxSlickItem *ngFor="let pro of listPro "
                class="slide col-12">
             <div class="product-o product-o--hover-on product-o--radius">
@@ -332,16 +337,6 @@
                     ><i class="fas fa-search-plus"></i
                     ></a>
                   </li>
-                  <li>
-                    <a
-                      data-modal="modal"
-                      data-modal-id="#add-to-cart"
-                      data-tooltip="tooltip"
-                      data-placement="top"
-                      title="Add to Cart"
-                    ><i class="fas fa-plus-circle"></i
-                    ></a>
-                  </li>
                 </ul>
               </div>
               <span class="product-o__name">
@@ -349,7 +344,6 @@
                     </span>
               <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
               <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
-                <span class="product-o__discount">$160.00</span>
                     </span>
             </div>
           </div>
