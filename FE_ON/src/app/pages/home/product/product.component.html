@@ -176,7 +176,12 @@
 
                       <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a></div>
                     <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
-                    <div class="product-m__price">{{pro.price | currency: 'VND' : 'symbol' : '4.0-0'}}</div>
+                    <div class="product-m__price">
+                      <span class="{{ (pro.discount != 0 && pro.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{pro.price | currencyVND}}</span>
+                      <span class="mx-2" *ngIf="pro.discount != 0 && pro.discount != null">
+                         {{pro.price  * ( 1 - 1/pro.discount ) | currencyVND}}
+                      </span>
+                    </div>
                     <div class="product-m__hover">
                       <div class="product-m__preview-description">
                         <span>{{pro.description}}</span>
@@ -216,4 +221,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

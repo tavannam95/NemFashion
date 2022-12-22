@@ -61,7 +61,12 @@
           </div>
           <div>
             <div class="pd-detail__inline">
-              <span class="pd-detail__price">{{product?.price | currency: 'VND' : 'symbol' : '4.0' }}</span>
+              <span class="pd-detail__price">
+                <span class="{{ (product.discount != 0 && product.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{product.price | currencyVND}}</span>
+                      <span class="mx-2" *ngIf="product.discount != 0 && product.discount != null">
+                         {{product.price  * ( 1 - 1/product.discount ) | currencyVND}}
+                      </span>
+              </span>
 
 <!--              <span class="pd-detail__discount">(76% OFF)</span-->
 <!--              >-->
@@ -348,9 +353,12 @@
                       <a href="/product-detail/{{pro.id}}">{{pro.name}}</a>
                     </span>
               <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
-              <span class="product-o__price">{{pro.price | currency:'VND':'symbol':'4.0' }}
-                <span class="product-o__discount">$160.00</span>
-                    </span>
+              <span class="product-o__price">
+              <span class="{{ (pro.discount != 0 && pro.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{pro.price | currencyVND}}</span>
+                      <span class="mx-2" *ngIf="pro.discount != 0 && pro.discount != null">
+                         {{pro.price  * ( 1 - 1/pro.discount ) | currencyVND}}
+                      </span>
+              </span>
             </div>
           </div>
 

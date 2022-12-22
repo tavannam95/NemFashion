@@ -6,19 +6,20 @@ import {FormsModule} from "@angular/forms";
 import {SlickCarouselModule} from "ngx-slick-carousel";
 import {HomeModule} from "../home/home.module";
 import {UserOrderModule} from "../profile/user-order/user-order.module";
+import {HomeRountingModule} from "../home/home-rounting.module";
 
 @NgModule({
   declarations: [
-    ProductDetailComponent
+    ProductDetailComponent,
   ],
-    imports: [
-        CommonModule,
-        ProductDetailRoutingModule,
-        FormsModule,
-        SlickCarouselModule,
-        HomeModule,
-        UserOrderModule,
-    ]
+  imports: [
+    CommonModule,
+    ProductDetailRoutingModule,
+    FormsModule,
+    SlickCarouselModule,
+    UserOrderModule,
+    HomeRountingModule,
+  ]
 })
 export class ProductDetailModule {
 }

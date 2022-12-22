@@ -19,6 +19,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {httpInterceptorProviders} from "./shared/intercepror/http-request.interceptor";
 import {MatDialogModule} from "@angular/material/dialog";
 import {UserOrderModule} from "./pages/home/profile/user-order/user-order.module";
+import {StarsComponent} from "./shared/stars/stars.component";
+import {HomeRountingModule} from "./pages/home/home/home-rounting.module";
 
 
 @NgModule({
@@ -30,7 +32,7 @@ import {UserOrderModule} from "./pages/home/profile/user-order/user-order.module
     FooterComponent,
     NavbarComponent,
     ConfirmDialogComponent,
-    ProductViewComponent
+    ProductViewComponent,
   ],
     imports: [
         BrowserModule,
@@ -50,7 +52,8 @@ import {UserOrderModule} from "./pages/home/profile/user-order/user-order.module
         ReactiveFormsModule,
         SlickCarouselModule,
         MatDialogModule,
-        UserOrderModule
+        UserOrderModule,
+        HomeRountingModule
     ],
   providers: [httpInterceptorProviders],
   exports: [],
