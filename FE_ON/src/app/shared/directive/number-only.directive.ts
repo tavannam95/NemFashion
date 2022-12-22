@@ -23,6 +23,9 @@ export class NumberOnlyDirective {
     if (Number(this.maxValue) && Number(initalValue) > Number(this.maxValue)) {
       initalValue = this.maxValue;
     }
+    if (Number(this.minValue) && Number(initalValue) < Number(this.minValue)) {
+      initalValue = this.minValue;
+    }
     this.ref.nativeElement.value = initalValue;
     if (initalValue !== this.ref.nativeElement.value) {
       event.stopPropagation();
@@ -37,6 +40,11 @@ export class NumberOnlyDirective {
     }
     if (Number(this.maxValue) && Number(initialValue) > Number(this.maxValue)) {
       initialValue = this.maxValue;
+    }
+    console.log(this.minValue);
+    console.log(initialValue)
+    if (Number(this.minValue) && Number(initialValue) < Number(this.minValue)) {
+      initialValue = this.minValue;
     }
     if (initialValue !== this.ref.nativeElement.value) {
       event.stopPropagation();
