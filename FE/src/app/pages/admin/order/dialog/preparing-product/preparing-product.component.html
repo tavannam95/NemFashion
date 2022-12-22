@@ -238,7 +238,7 @@
       <div class="col-12" *ngIf="order.status == 0">
         <form [formGroup]="data">
           <mat-radio-group aria-labelledby="example-radio-group-label" formControlName="pickup_time" class="example-radio-group m-0">
-            <mat-radio-button class="example-radio-button" *ngFor="let date of dateShift" [value]="date.from_time">
+            <mat-radio-button class="example-radio-button" *ngFor="let date of dateShift" (change)="setDateShip($event)" [value]="date.from_time">
               {{date.title}}
             </mat-radio-button>
           </mat-radio-group>
@@ -265,7 +265,7 @@
         <button class="btn btn-dark" [disabled]="disableBtn" style="margin-left: 0.5em;" mat-button mat-dialog-close>Đóng</button>
       </div>
       <div *ngIf="order.status==0" class="row">
-        <button class="btn btn-success" mat-button cdkFocusInitial [disabled]="!isFormValid()" (click)="onSubmit()">Xác nhận</button>
+        <button class="btn btn-success" mat-button cdkFocusInitial [disabled]="!dateShip" (click)="onSubmit()">Xác nhận</button>
         <button mat-button mat-dialog-close class="btn btn-dark" mat-button mat-dialog-close>Hủy</button>
       </div>
       <div *ngIf="order.status!=0&&order.status!=8" class="row">

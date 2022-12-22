@@ -23,9 +23,12 @@ export class GhnApiService {
   getOrderGhn(orderCode: any): Observable<any>{
     return this.http.post(`${ApiConstant.ghn}/detail`,orderCode);
   }
-
+  //DEV
+  // getDate(): Observable<any>{
+  //   return this.http.get('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift/date');
+  // }
   getDate(): Observable<any>{
-    return this.http.get('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shift/date');
+    return this.http.get('https://online-gateway.ghn.vn/shiip/public-api/v2/shift/date');
   }
 
   //DEV
@@ -37,8 +40,13 @@ export class GhnApiService {
     return this.http.post('https://online-gateway.ghn.vn/shiip/public-api/v2/a5/gen-token',orderCode);
   }
 
+  //DEV
+  // cancelOrderGhn(orderCode: any): Observable<any>{
+  //   return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel',orderCode);
+  // }
+
   cancelOrderGhn(orderCode: any): Observable<any>{
-    return this.http.post('https://dev-online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel',orderCode);
+    return this.http.post('https://online-gateway.ghn.vn/shiip/public-api/v2/switch-status/cancel',orderCode);
   }
 
   getProvince() {
