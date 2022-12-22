@@ -11,7 +11,9 @@ import nem.com.scheduled.ProcessToPromotion;
 import nem.com.service.DiscountService;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -20,12 +22,19 @@ public class DiscountServiceIplm implements DiscountService  {
     private final DiscountsRepository repository ;
     private final ProductDiscountRepository discountRepository ;
     private final ProductsRepository productsRepository ;
+
+    private final DiscountsRepository discountsRepository ;
+    private final ProductDiscountRepository productDiscountRepository ;
     public DiscountServiceIplm( DiscountsRepository repository ,
                                 ProductDiscountRepository discountRepository,
-                                ProductsRepository productsRepository ){
+                                ProductsRepository productsRepository ,
+                                DiscountsRepository discountsRepository ,
+                                ProductDiscountRepository productDiscountRepository ){
         this.repository = repository ;
         this.productsRepository = productsRepository ;
         this.discountRepository = discountRepository ;
+        this.discountsRepository = discountsRepository ;
+        this.productDiscountRepository = productDiscountRepository ;
     }
 
     @Override
@@ -35,20 +44,11 @@ public class DiscountServiceIplm implements DiscountService  {
 
     @Override
     public Discounts create(Discounts discounts) {
-        Discounts ds = this.repository.save(discounts);
-        ProcessToPromotion processToPromotion = new ProcessToPromotion(ds);
-        processToPromotion.start();
-        return ds ;
+        return this.repository.save(discounts);
     }
 
     @Override
     public Discounts update(Discounts discounts) {
-
-        if( discounts.getStatus() == 1 ){
-            ProcessToPromotion processToPromotion = new ProcessToPromotion(discounts);
-            processToPromotion.start();
-        }
-
         return this.repository.save(discounts);
     }
 

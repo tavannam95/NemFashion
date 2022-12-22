@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ProductRoutingModule} from "./product-routing.module";
 import {ProductComponent} from "./product.component";
-import {HomeModule} from "../home/home.module";
-import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {HomeRountingModule} from "../home/home-rounting.module";
 
 @NgModule({
   declarations: [
@@ -14,11 +14,11 @@ import {MatInputModule} from "@angular/material/input";
   imports: [
     CommonModule,
     ProductRoutingModule,
-    HomeModule,
     FormsModule,
-    ReactiveFormsModule ,
-    MatFormFieldModule ,
-    MatInputModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    HomeRountingModule,
   ]
 })
 export class ProductModule { }

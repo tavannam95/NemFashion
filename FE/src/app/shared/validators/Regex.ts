@@ -39,7 +39,7 @@ export function compareDate( startDate: string , endDate: string ){
 
 export function checkDiscount( c: AbstractControl ){
     const b = c.value ;
-    if( b < 0 || b > 100){
+    if( b <= 0 || b > 100){
         return {isDiscount: true}
     }
     return null ;

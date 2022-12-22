@@ -44,7 +44,6 @@ export class PromotionFormComponent implements OnInit {
         this.form.patchValue( this.data.data ) ;
         if( this.data.data.status === 2 ){
             this.statusOpening = true;
-            this.form.controls['discount'].disable();
         }
      }
   }
@@ -63,6 +62,12 @@ export class PromotionFormComponent implements OnInit {
   }
 
   create(){
+      var date = new Date() ;
+      var startDate = new Date( this.form.getRawValue().startDate );
+      if( date.getDay() == startDate.getDay() && date.getMonth() == startDate.getMonth() ){
+          this.form.patchValue({status: 2});
+      }
+
       this.promotionService.create( this.form.getRawValue() ) .subscribe({
           next: value => {
               this.toast.success("Thêm mới thành công") ;
@@ -80,10 +85,10 @@ export class PromotionFormComponent implements OnInit {
       var endDate = new Date(this.form.getRawValue().endDate)
       if( date < startDate ){
           this.form.patchValue({status: 1});
-      }
-
-      if(date > endDate ){
+      }else if(date > endDate ){
           this.form.patchValue({status: 3});
+      }else {
+          this.form.patchValue({status: 2});
       }
 
       this.promotionService.create( this.form.getRawValue() ) .subscribe({
