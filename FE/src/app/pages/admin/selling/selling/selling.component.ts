@@ -90,7 +90,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     check_validate: boolean = false;
     openOrder: boolean = false;
     date: any = '';
-
+    checkOrder:boolean = false;
 
     ngOnInit(): void {
         this.getListCate();
@@ -122,14 +122,16 @@ export class SellingComponent implements OnInit, OnDestroy {
             if (this.selected.value == this.tabs.length) {
                 this.selected.setValue(this.tabs.length - 1);
             }
+            this.quantityDetail = [];
             this.getItemByTabs();
         } else {
             this.tabs = [];
             localStorage.removeItem('order');
             this.getItemLocalStorage();
+            this.quantityDetail = [];
             this.getItemByTabs();
         }
-        this.quantityDetail = [];
+        
     }
 
     getListCustomer() {
@@ -196,7 +198,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     openDialog(product: any) {
         this.productInput.setValue('');
         this.dialog.open(ProductDetailOrderComponent, {
-            width: '30vw',
+            width: '35vw',
             disableClose: true,
             hasBackdrop: true,
             data: {
@@ -668,6 +670,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                         this.removeTab(this.selected.value);
                     },
                     error: err => {
+                        this.isLoading = false;
                         if (err.error?.code == 'LIMIT_QUANTITY') {
                             this.toast.error(err.error.message);
                             this.resetQuantityInventory();
@@ -874,8 +877,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     //
     getDistrict(provinceId: any, provinceName: any) {
-        let data = {'province_id': provinceId};
-        this.ghnService.getDistrict(data).subscribe((res: any) => {
+        this.ghnService.getDistrict(provinceId).subscribe((res: any) => {
             this.district = res.data;
         })
         this.proviceName = provinceName;
@@ -883,8 +885,7 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     //
     getWard(districtId: any, districtName: any) {
-        let data = {'district_id': districtId};
-        this.ghnService.getWard(data).subscribe((res: any) => {
+        this.ghnService.getWard(districtId).subscribe((res: any) => {
             this.wards = res.data;
         })
         this.districtName = districtName;
@@ -905,6 +906,10 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.wards = [];
     }
 
+    resetProvince(){
+        this.provinceId = -1;
+    }
+
     getWardName(wardName: any) {
         this.wardName = wardName;
         this.getShippingFee(this.districtId);
@@ -914,7 +919,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     getShippingFee(districtId: any) {
         this.isLoading = true;
         const data = {
-            'shop_id': Ghn.SHOP_ID_NUMBER,
+            'shop_id': 3424019,
             'from_district': 3440,
             'to_district': districtId
         }
@@ -955,6 +960,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     clearDataOrder() {
+        this.resetProvince();
         this.resetDistrictAndWard();
         if (this.customerName.length > 0) {
             this.ship_name = this.customerName;
@@ -992,6 +998,13 @@ export class SellingComponent implements OnInit, OnDestroy {
 
     onLogout() {
         this.authService.logout();
+    }
+
+    check():boolean{
+        if(this.order?.productDetail?.length == 0 || this.order.productDetail == undefined || this.order.productDetail == null){
+            return false;
+        }
+        return true;
     }
 }
 

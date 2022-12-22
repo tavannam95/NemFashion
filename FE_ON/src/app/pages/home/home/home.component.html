@@ -78,19 +78,9 @@
                           ><i class="fas fa-search-plus"></i
                           ></a>
                         </li>
-                        <li>
-                          <a
-                            data-modal="modal"
-                            data-modal-id="#add-to-cart"
-                            data-tooltip="tooltip"
-                            data-placement="top"
-                            title="Add to Cart"
-                          ><i class="fas fa-plus-circle"></i
-                          ></a>
-                        </li>
                       </ul>
                     </div>
-                    <span class="product-o__name">
+                    <span class="product-o__name" style="overflow: hidden; display: inline-block; width: 260px; text-overflow: ellipsis; white-space: nowrap;">
                       <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a>
                     </span>
                     <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
@@ -160,16 +150,6 @@
                           ><i class="fas fa-search-plus"></i
                           ></a>
                         </li>
-                        <li>
-                          <a
-                            data-modal="modal"
-                            data-modal-id="#add-to-cart"
-                            data-tooltip="tooltip"
-                            data-placement="top"
-                            title="Add to Cart"
-                          ><i class="fas fa-plus-circle"></i
-                          ></a>
-                        </li>
                       </ul>
                     </div>
 
@@ -177,7 +157,7 @@
                       <a href="#">Electronics</a>
                     </span> -->
 
-                    <span class="product-o__name">
+                    <span class="product-o__name" style="overflow: hidden; display: inline-block; width: 260px; text-overflow: ellipsis; white-space: nowrap;">
                       <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a>
                     </span>
                     <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>

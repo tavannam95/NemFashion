@@ -154,12 +154,14 @@ export class CartComponent implements OnInit {
       this.toastService.warning("Số không được lớn hơn số lượng còn lại !")
       return;
     }
-
     this.cartService.updateCart(data).subscribe(data => {
       if (data) {
         this.findAllByCustomerId();
         if (this.districtId !== undefined) {
           this.getShippingFee(this.districtId);
+        }
+        if (this.defaultInfoModel) {
+          this.getShippingFee(this.address.districtId)
         }
         this.cartService.isReload.next(false);
       }
@@ -214,11 +216,7 @@ export class CartComponent implements OnInit {
     }
     //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
     this.addressService.getService(data).subscribe((res: any) => {
-      if (res.data && res.data.length > 1) {
-        this.serviceId = res.data[1].service_id;
-      }else{
-        this.serviceId = res.data[0].service_id;
-      }
+      this.serviceId = res.data && res.data.length > 1 ? res.data[1].service_id : res.data[0].service_id;
       const shippingOrder = {
         "service_id": this.serviceId,
         "insurance_value": this.subTotal,
@@ -236,7 +234,7 @@ export class CartComponent implements OnInit {
 
   defaultInfo(event: any) {
     if (event.target.value == 'on') {
-      this.defaultInfoModel = true
+      this.defaultInfoModel = true;
       event.target.value = 'off';
       this.getShippingFee(this.address.districtId)
       this.formGroup.patchValue({
@@ -328,7 +326,7 @@ export class CartComponent implements OnInit {
       hasBackdrop: true,
       width: "25vw",
       data: {
-        message: 'Bạn có muốn đặt đơn hàng này?'
+        message: 'Bạn có muốn đặt hàng?'
       }
     }).afterClosed().subscribe((result) => {
       if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {

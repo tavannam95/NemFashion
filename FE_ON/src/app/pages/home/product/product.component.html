@@ -172,8 +172,7 @@
                     </div>
                   </div>
                   <div class="product-m__content">
-                    <div class="product-m__name">
-
+                    <div class="product-m__name" style="overflow: hidden; display: inline-block; width: 200px; text-overflow: ellipsis; white-space: nowrap;">
                       <a [routerLink]="['/product-detail/', pro.id]">{{pro.name}}</a></div>
                     <app-stars [rating]="takeRatingPro(pro.id)"></app-stars>
                     <div class="product-m__price">
@@ -187,7 +186,7 @@
                         <span>{{pro.description}}</span>
                       </div>
                       <div class="product-m__wishlist">
-                        <a class="far fa-heart" href="#" data-tooltip="tooltip" data-placement="top"
+                        <a class="far fa-heart" href="javascript:void(0)" data-tooltip="tooltip" data-placement="top"
                            title="Add to Wishlist"></a></div>
                     </div>
                   </div>
