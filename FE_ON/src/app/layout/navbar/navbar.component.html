@@ -174,7 +174,7 @@
                            <a> {{cart.productsDetail.product.category?.name}}</a>
                          </span>
                         <span class="mini-product__name">
-                          <a [routerLink]="['/product-detail/', cart.productsDetail.product.id]">
+                          <a href="{{'/product-detail/' + cart.productsDetail.product.id}}">
                             {{cart.productsDetail.product.name + ' / ' + cart.productsDetail.size.code + ' / ' + cart.productsDetail.color.name}}
                           </a>
                         </span>
@@ -182,7 +182,7 @@
                         <span class="mini-product__quantity">{{cart.quantity}} x</span>
 
                         <span class="mini-product__price">
-                          {{cart.productsDetail.product.price | currency: 'VND' : 'symbol' : '4.0' }}
+                         {{(cart.productsDetail.product.discount !== 0 ? cart.productsDetail.product.price * (1 - 1/cart.productsDetail.product.discount) : cart.productsDetail.product.price) | currencyVND}}
                         </span>
                       </div>
                     </div>
@@ -200,7 +200,7 @@
                   <div class="mini-total">
                     <span class="subtotal-text">Tổng tiền</span>
 
-                    <span class="subtotal-value">{{subTotal | currency: 'VND' : 'symbol' : '4.0' }}</span>
+                    <span class="subtotal-value">{{subTotal | currencyVND }}</span>
                   </div>
                   <div class="mini-action">
                     <a class="mini-link btn--e-brand-b-2 hover-link" routerLink="cart">Xem giỏ hàng</a>

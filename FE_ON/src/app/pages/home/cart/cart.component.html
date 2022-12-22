@@ -81,7 +81,9 @@
                   </td>
                   <td>
                   <span
-                    class="table-p__price">{{cart.productsDetail.product.price | currency: 'VND' : 'symbol' : '4.0' }}</span>
+                    class="table-p__price">
+                    {{(cart.productsDetail.product.discount !== 0 ? cart.productsDetail.product.price * (1 - 1/cart.productsDetail.product.discount) : cart.productsDetail.product.price) | currencyVND }}
+                  </span>
                   </td>
                   <td>
                     <div class="table-p__input-counter-wrap">
@@ -103,7 +105,7 @@
                   </td>
                   <td>
                   <span
-                    class="table-p__price">{{cart.productsDetail.product.price * cart.quantity | currency: 'VND' : 'symbol' : '4.0' }}</span>
+                    class="table-p__price">{{(cart.productsDetail.product.discount !== 0 ? (cart.productsDetail.product.price * (1 - 1/cart.productsDetail.product.discount)) * cart.quantity : cart.productsDetail.product.price) | currencyVND}}</span>
                   </td>
                   <td>
                     <div class="table-p__del-wrap">

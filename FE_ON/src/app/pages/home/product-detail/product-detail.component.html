@@ -65,9 +65,9 @@
           <div>
             <div class="pd-detail__inline">
               <span class="pd-detail__price">
-                <span class="{{ (product.discount != 0 ) ? 'product-o__discount' : ''}} m-0" >{{product.price | currencyVND}}</span>
-                      <span class="mx-2" *ngIf="product.discount != 0 && product.discount != null">
-                         {{product.price  * ( 1 - 1/product.discount ) | currencyVND}}
+                <span class="{{ (product?.discount != 0 ) ? 'product-o__discount' : ''}} m-0" >{{product?.price | currencyVND}}</span>
+                      <span class="mx-2" *ngIf="product?.discount != 0 && product?.discount != null">
+                         {{product?.price  * ( 1 - 1/product?.discount ) | currencyVND}}
                       </span>
               </span>
 
