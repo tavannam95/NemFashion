@@ -126,7 +126,7 @@ export class PreparingProductComponent implements OnInit {
 
   ngOnInit() {
     this.tabIndex = this.dataDialog.tabIndex;
-    this.updateName = this.storageService.getFullNameFromToken()+ ', ID: ' + this.storageService.getIdFromToken();;
+    this.updateName = this.storageService.getFullNameFromToken();
     this.order = this.dataDialog.data.orders;
     // this.order.updateName = this.storageService.getFullNameFromToken();
     this.dataSource = this.dataDialog.data.orderDetailsList;
