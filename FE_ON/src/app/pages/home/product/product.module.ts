@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {HomeRountingModule} from "../home/home-rounting.module";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {HomeRountingModule} from "../home/home-rounting.module";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    HomeRountingModule,
+    SharedModule
   ]
 })
 export class ProductModule { }

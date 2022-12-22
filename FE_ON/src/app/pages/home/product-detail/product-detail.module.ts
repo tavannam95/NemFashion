@@ -7,6 +7,7 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
 import {HomeModule} from "../home/home.module";
 import {UserOrderModule} from "../profile/user-order/user-order.module";
 import {HomeRountingModule} from "../home/home-rounting.module";
+import {SharedModule} from "../../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import {HomeRountingModule} from "../home/home-rounting.module";
     FormsModule,
     SlickCarouselModule,
     UserOrderModule,
-    HomeRountingModule,
+    SharedModule
   ]
 })
 export class ProductDetailModule {
