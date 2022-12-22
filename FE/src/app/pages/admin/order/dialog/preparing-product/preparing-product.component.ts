@@ -94,12 +94,12 @@ export class PreparingProductComponent implements OnInit {
     "width": 19,
     "height": 10,
     "content": [''],
-    "pick_station_id": 0,
+    "pick_station_id": 1444,
     "deliver_station_id": null,
     "insurance_value": [''],
     "service_id": 0,
     "service_type_id":2,
-    "coupon":[''],
+    "coupon":null,
     "pick_shift": null,
     "pickup_time": ['',Validators.required],
     "items": ['']
@@ -721,6 +721,10 @@ export class PreparingProductComponent implements OnInit {
       "client_order_code": this.order.id+"",
       "note": 'Vui lòng quay video khi mở hàng để có thể đổi hàng khi có vấn đề'
     })
+
+    console.log(this.data.value);
+    
+
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
         this.resultOrder = res;
