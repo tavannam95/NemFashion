@@ -318,8 +318,6 @@ export class PreparingProductComponent implements OnInit {
         if (result === Constant.RESULT_CLOSE_DIALOG.CONFIRM) {
           this.order.updateName = this.updateName;
           this.order.shippedDate = new Date();
-          console.log(new Date());
-          
           this.orderService.updateStatus(this.order,3).subscribe({
             next: res=>{
               this.toastrService.success('Chuyển trạng thái thành công');
@@ -756,8 +754,6 @@ export class PreparingProductComponent implements OnInit {
       "client_order_code": this.order.id+"",
       "note": 'Vui lòng quay video khi mở hàng để có thể đổi hàng khi có vấn đề'
     })
-
-    console.log(this.data.value);
 
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{
