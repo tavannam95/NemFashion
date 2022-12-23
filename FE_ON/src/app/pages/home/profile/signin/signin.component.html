@@ -53,7 +53,7 @@
               </div>
 
               <span class="gl-text u-s-m-b-10 u-s-m-t-20">Nếu bạn đã có tài khoản. Hãy đăng nhập</span>
-              <form class="l-f-o__form" [formGroup]="formGroup">
+              <form class="l-f-o__form" [formGroup]="formGroup" (keyup.enter)="onLogin()">
                 <div class="gl-s-api">
                   <div class="u-s-m-b-15">
 

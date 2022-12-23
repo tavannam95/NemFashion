@@ -75,7 +75,7 @@
                       </span>
                       <span class="ms-3" *ngIf=" order.status == 3">
                         <button class="btn btn-danger"
-                                *ngIf="order.checkExchange === 0 && checkDay(order.createDate, 7)"
+                                *ngIf="order.checkExchange === 0 && checkDay(order.shippedDate, 3)"
                                 (click)="openExchange(order,order.checkExchange)">Trả hàng</button>
                         <button class="btn btn-success" *ngIf="order.checkExchange === 1"
                                 (click)="openExchange(order, order.checkExchange)">Chi tiết đơn trả</button>
@@ -117,7 +117,7 @@
               <div class="description__info-wrap">
                 <div class="description-title">
                   <div
-                    *ngIf="checkDate(order.createDate) && order.status == 3 && checkRating(order.id , od.productsDetail.product.id )">
+                    *ngIf="checkDate(order.shippedDate) && order.status == 3 && checkRating(order.id , od.productsDetail.product.id )">
                       <span class="btn btn-outline-info"
                             (click)="OnpenRating(order.id , od.productsDetail.product.id) ">Đánh giá sao</span>
                   </div>
