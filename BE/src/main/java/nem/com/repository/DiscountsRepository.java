@@ -25,4 +25,5 @@ public interface DiscountsRepository extends JpaRepository<Discounts , Integer> 
             " (:status is null or d.status = :status)")
     List<Discounts> findAll(@Param("name") String name , @Param("startDate")Date startDate ,
                             @Param("endDate") Date endDate , @Param("status") Integer status ) ;
+
 }
