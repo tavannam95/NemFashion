@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Long> {
 
-    @Query("select od from OrderDetails od where od.order.id = :orderId and od.status = 1")
+    @Query("select od from OrderDetails od where od.order.id = :orderId")
     List<OrderDetails> findByOrderId(Long orderId);
 
     @Modifying
