@@ -286,7 +286,7 @@ export class OrderListComponent implements OnInit {
   }
 
   openPreparingDialog(data: any, dateShift: any, tabIndex: any){
-    this.badge = 0;
+    
     let exchange;
     if (this.tabIndex == 5) {
       this.exchangeService.findByOrderId(data.orders.id).subscribe({
@@ -308,6 +308,7 @@ export class OrderListComponent implements OnInit {
               
                 this.orderService.findExchange(this.pageIndex,this.pageSize).subscribe({
                   next: res=>{
+                    this.badge = 0;
                     this.allOrder = res;
                     for (let i = 0; i < this.allOrder.length; i++) {
                       for (let j = 0; j < this.allOrder[i].orderDetailsList.length; j++) {
