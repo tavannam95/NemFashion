@@ -30,7 +30,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
             "\t\t\t\t\t    limit 0 , 10 " , nativeQuery = true)
     List<Products> findTop10Product() ;
 
-    @Query(value = "select * from products where p.status = 1 order by create_date desc limit 0 , 10 ;" , nativeQuery = true)
+    @Query(value = "select * from products where status = 1 order by create_date desc limit 0 , 10 ;" , nativeQuery = true)
     List<Products> findTop10NewProduct();
 
     @Query("select p from Products p order by p.createDate desc ")
