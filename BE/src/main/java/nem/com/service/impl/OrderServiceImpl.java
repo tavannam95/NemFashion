@@ -54,6 +54,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<Orders> searchOrdersExchange(SearchOrderDTO searchOrderDTO, Integer page, Integer size) {
+        return this.ordersRepository.searchOrdersExchange(searchOrderDTO.getFullName(),
+                searchOrderDTO.getId(),searchOrderDTO.getOrderCode(),
+                searchOrderDTO.getStatus(),PageRequest.of(page,size));
+    }
+
+    @Override
     public Page<Orders> searchOrderByStatus(SearchOrderDTO searchOrderDTO, Integer page, Integer size) {
         return this.ordersRepository.searchOrderByStatus(searchOrderDTO.getFullName(),
                 searchOrderDTO.getId(),searchOrderDTO.getOrderCode(),
