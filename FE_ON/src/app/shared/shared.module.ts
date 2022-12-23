@@ -4,7 +4,7 @@ import {StarsComponent} from "./stars/stars.component";
 import {ListFormatPipe} from "./pipe/list-format.pipe";
 
 @NgModule({
-  declarations: [ StarsComponent , ListFormatPipe ],
+  declarations: [ StarsComponent , ListFormatPipe],
   imports: [
     CommonModule
   ],

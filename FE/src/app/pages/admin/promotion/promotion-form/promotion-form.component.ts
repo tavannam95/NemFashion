@@ -91,7 +91,7 @@ export class PromotionFormComponent implements OnInit {
           this.form.patchValue({status: 2});
       }
 
-      this.promotionService.create( this.form.getRawValue() ) .subscribe({
+      this.promotionService.update( this.form.getRawValue() ) .subscribe({
           next: value => {
               this.toast.success("Cập nhập thành công") ;
               this.dialogRef.close(Constant.RESULT_CLOSE_DIALOG.SUCCESS)

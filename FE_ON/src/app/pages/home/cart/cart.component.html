@@ -94,7 +94,7 @@
                           type="number"
                           onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
                           [value]="cart.quantity"
-                          (change)="updateCart($event, cart.customer.id, cart.productsDetail.id, cart.productsDetail.quantity, cart.quantity, cart.id)"
+                          (change)="updateCart($event, cart.customer.id, cart.productsDetail.id, cart.productsDetail.quantity, cart.quantity)"
                           min="1"
                           [max]="cart.productsDetail.quantity"/>
                         <p class="text-danger" *ngIf="cart.productsDetail.quantity < cart.quantity">
