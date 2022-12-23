@@ -10,7 +10,7 @@ import {BehaviorSubject, finalize, Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {CustomerFormComponent} from '../../customer-manager/customer-form/customer-form.component';
 import {CurrencyPipe} from '@angular/common';
-import {ToastrService} from 'ngx-toastr';
+import {DefaultNoAnimationsGlobalConfig, ToastrService} from 'ngx-toastr';
 import {MatDrawer} from '@angular/material/sidenav';
 // import printJS = require("print-js");
 // @ts-ignore
@@ -23,6 +23,7 @@ import {Ghn} from '../../../../shared/constants/Ghn';
 import {ComfirmSellingComponent} from './comfirm-selling/comfirm-selling.component';
 import {Regex} from '../../../../shared/validators/Regex';
 import {AuthService} from '../../../../shared/service/auth/auth.service';
+import { waitForAsync } from '@angular/core/testing';
 
 @Component({
     selector: 'selling',
@@ -93,6 +94,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     checkOrder:boolean = false;
 
     ngOnInit(): void {
+        this.reloadLocalStorage();
         this.getListCate();
         this.getListCustomer();
         this.getAllProduct();
@@ -135,7 +137,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     getListCustomer() {
-        this.customerService.getAllCustomer().subscribe(
+        this.customerService.getAllCustomerByStatus().subscribe(
             resp => {
                 this.listCustomers = resp;
                 this.customerFilter();
@@ -151,6 +153,9 @@ export class SellingComponent implements OnInit, OnDestroy {
         this.productService.getAllProduct().subscribe({
             next: resp => {
                 this.listProductSearch = resp;
+                this.listProductSearch.map(product =>{
+                    product.price = product.price - product.price*product.discount/100;
+                })
                 this.productFilter();
             },
             error: error => {
@@ -181,6 +186,9 @@ export class SellingComponent implements OnInit, OnDestroy {
                 resp => {
                     this.isLoading = false;
                     this.listCate[index].product = resp;
+                    this.listCate[index].product.map(product => {
+                        product.price = product.price - product.price*product.discount/100;
+                    })
                     this.listProduct = this.listCate[index].product;
                 },
                 error => {
@@ -192,6 +200,31 @@ export class SellingComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             this.listProduct = this.listCate[index].product;
         }
+    }
+
+    async reloadLocalStorage(){
+        let orders = JSON.parse(localStorage.getItem('order'));
+        let orders2 = [];
+        let count = 0;
+        let countDetail = 0;
+        orders.forEach(order=>{
+            order.orderDetail?.forEach(d =>{countDetail++})
+            order.totalPrice = 0;
+            order.orderDetail.map(detail => {
+                    if(detail?.id){
+                        this.productService.getProductById(detail.productId).subscribe({
+                            next: res=>{
+                                count ++;
+                                let discount = res.discount;
+                                detail.discount = discount;
+                                detail.price = res.price - res.price*discount/100;
+                                order.totalPrice += detail.price * detail.quantity;
+                                if(count == countDetail) this.setOrderLocalStorage(orders);
+                            }
+                        })
+                    } 
+                })
+            })
     }
 
 
@@ -220,7 +253,9 @@ export class SellingComponent implements OnInit, OnDestroy {
                     sizeId: value.sizeId,
                     sizeCode: value.nameSize,
                     name: value.productName,
-                    weight: value.weight
+                    weight: value.weight,
+                    discount: value.product.discount,
+                    productId: value.product.id
                 };
                 this.pushDataToLocalStorage(hd);
                 // localStorage.setItem('order',JSON.stringify(hd));
@@ -279,7 +314,12 @@ export class SellingComponent implements OnInit, OnDestroy {
         } else {
             if (order.customer != '') {
                 let customer = this.listCustomers.find(cus => cus.id === order.customer);
-                this.customerName = customer.fullname;
+                if(!customer){
+                    this.customerName = '';
+                    order.customer = ''
+                }else{
+                    this.customerName = customer.fullname;
+                }
             } else {
                 this.customerName = '';
             }
@@ -522,7 +562,7 @@ export class SellingComponent implements OnInit, OnDestroy {
             // this.customerService.response.subscribe(data=>console.log(data))
             this.customerService.response.subscribe(
                 resp => {
-                    if (resp != null) {
+                    if (resp != null && resp.status == 1) {
                         this.order.customer = resp?.id;
                         this.customerName = resp?.fullname;
                         this.customerService.response.next(null);
@@ -612,11 +652,13 @@ export class SellingComponent implements OnInit, OnDestroy {
 
 
     selling(status: number) {
+        
         if (this.order.orderDetail.length == 0) {
             this.toast.error('Chưa có sản phẩm nào!');
             return;
         }
         if (status == 1) {
+            this.clearValidate();
             this.check_validate = false;
             if (this.wardId == -1) {
                 this.toast.error('Vui lòng chọn địa chỉ nhận hàng!');
@@ -627,15 +669,33 @@ export class SellingComponent implements OnInit, OnDestroy {
                 this.toast.error('Vui lòng kiểm tra lại các trường!');
                 return;
             }
+            const rexgexName = /[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+(([\',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+            if (!rexgexName.test(this.ship_name)) {
+                this.toast.error('Tên không được chứa số và ký tự đặc biệt!');
+                document.getElementById('customer-name-order').style.border = '1px solid red';
+                return;
+            }
             const rexgex = /(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
             if (!rexgex.test(this.ship_phone)) {
                 this.toast.error('Số điện thoại không hợp lệ!');
+                document.getElementById('customer-phone-order').style.border = '1px solid red';
                 return;
             }
         }
         for (let i = 0; i < this.quantityDetail.length; i++) {
-            if (this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == '') {
+            if (this.quantityDetail[i] > this.order.orderDetail[i].quantityInventory || this.quantityDetail[i] == '' || this.quantityDetail[i] < 0) {
                 this.toast.error('Vui lòng kiểm tra lại số lượng của sản phẩm!');
+                return;
+            }
+        }
+        if(status == 0){
+            if(this.customerPayment == '' && this.discount < 100 && this.order.totalPrice != 0  ){
+                this.toast.error('Khách thanh toán không hợp lệ');
+                return;
+            }
+            let totalPrice = this.order.totalPrice - this.order.totalPrice * this.discount;
+            if((this.customerPayment < totalPrice) && this.discount < 100){
+                this.toast.error('Khách thanh toán không được nhỏ hơn khách cần trả');
                 return;
             }
         }
@@ -659,6 +719,8 @@ export class SellingComponent implements OnInit, OnDestroy {
                 this.isLoading = true;
                 this.sellingService.paymentSelling(this.order).subscribe({
                     next: resp => {
+                        console.log(resp.data);
+                        
                         this.drawer.close();
                         this.isLoading = false;
                         if (status == 0) {
@@ -697,10 +759,12 @@ export class SellingComponent implements OnInit, OnDestroy {
         const formatter = new Intl.NumberFormat();
         let text = '';
         data.orderDetail.forEach(od => {
+            console.log(od);
+            
             text += `<tr>
                             <td ><div>${od.name} (${od.nameSize}/${od.nameColor})</div>
                                 <div>${od.quantity}</div></td>
-                            <td style="text-align: center">${formatter.format(od.price)}</td>
+                            <td style="text-align: center">${formatter.format(od.price)}<div>${od.discount>0?`<del style="font-size:10px">${formatter.format(od.price+od.price*od.discount/100)}</dev>`:''}</div></td>
                             <td style="text-align: end">${formatter.format(od.quantity * od.price)}</td>
                     </tr>`
         })
@@ -719,7 +783,10 @@ export class SellingComponent implements OnInit, OnDestroy {
             font_size: '12pt',
             header: `
                     <div class="custom"> 
-                    <h2>NemPhaSun</h2> <h3 >HÓA ĐƠN BÁN HÀNG </h3>
+                    <h1>NEM FASION</h1> 
+                    <div>ĐC: Xóm 5, Thôn Phúc Đức, Xã Sài Sơn, Huyện Quốc Oai, Hà Nội</div>
+                    <div>ĐT:0988.605.514</div>
+                    <div style="text-align:center "> <h3 class="hdbh">HÓA ĐƠN BÁN HÀNG </h3> </div>
                     </div>
                     <div class="info">
                         <div>Mã hóa đơn: ${data.id}</div>
@@ -758,6 +825,14 @@ export class SellingComponent implements OnInit, OnDestroy {
                                     <td>Tổng thanh toán:</td>
                                     <td>${formatter.format(data.totalPrice - (data.totalPrice * data.discount / 100))}</td>
                                 </tr>
+                                <tr>
+                                    <td>Tiền khách trả:</td>
+                                    <td>${formatter.format(this.customerPayment)}</td>
+                                </tr>
+                                <tr>
+                                    <td>Tiền thừa:</td>
+                                    <td>${formatter.format(this.customerPayment - (data.totalPrice - (data.totalPrice * data.discount / 100)))}</td>
+                                </tr>
                             </tbody>     
                         </table>                    
                     <div style="margin-top: 20px;text-align: center;font-size: 13px">
@@ -769,9 +844,10 @@ export class SellingComponent implements OnInit, OnDestroy {
             style: '.custom { text-align: center;font-size:13px;margin:0 }' +
                 '.info {margin-top:5px; margin-bot: 10px; font-size:13px}' +
                 '.table{width: 100%; font-size: 13px; margin-top: 10px; ' +
-                'border-top:2px dashed  black; border-bottom: 2px dashed  black}' +
+                'border-top:1px solid  black; border-bottom: 1px solid  black}' +
                 '.total{width: 100%; float: right; text-align: end; font-weight: bold;' +
-                'font-size: 13px;margin:10px 0px 15px 0px; border-bottom: 2px dashed black;padding-bottom:10px}'
+                'font-size: 13px;margin:10px 0px 15px 0px; border-bottom: 1px solid black;padding-bottom:10px}'+
+                '.hdbh{border-top:1px solid; padding-top:10px;width:60%;margin:auto;margin-top:10px;}'
         })
         // printJS(data, 'html')
     }
@@ -799,10 +875,12 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
     onCodeResult(resultString: string) {
+        this.isLoading = true;
         this.qrResultString = '0';
         let qrResult = resultString.substring(0, resultString.length - 1);
         this.productService.getByBarcode(qrResult).subscribe({
                 next: resp => {
+                    this.isLoading = false;
                     if (resp != null) {
                         if (resp.quantity > 0 && resp.color.status == 1) {
                             this.qrResultString = '1';
@@ -812,7 +890,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                             hd.customer = '';
                             hd.detail = {
                                 id: resp.id,
-                                price: resp.product.price,
+                                price: resp.product.price - resp.product.price * resp.product.discount/100,
                                 quantity: 1,
                                 quantityInventory: resp.quantity,
                                 colorId: resp.color.id,
@@ -820,6 +898,9 @@ export class SellingComponent implements OnInit, OnDestroy {
                                 sizeId: resp.size.id,
                                 sizeCode: resp.size.code,
                                 name: resp.product.name,
+                                discount:resp.product.discount,
+                                weight: resp.product.weight,
+                                productId: resp.product.id
                             };
 
                             this.pushDataToLocalStorage(hd);
@@ -827,6 +908,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                             document.getElementById('qrResult').innerHTML = `${resp.product.name}(
                                                     <span style="width: 15px;height: 15px;background-color: ${resp.color.code}; display: inline-block">
                                                     </span>/${resp.size.code})`;
+                            
                         } else {
                             this.toast.error('Số lượng không đủ hoặc đã ngừng bán');
                             document.getElementById('qrResult').innerHTML = '';
@@ -837,6 +919,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                     }
                 },
                 error: err => {
+                    this.isLoading = false;
                     console.log(err);
                     this.toast.error('Lỗi quét Barcode');
                     document.getElementById('qrResult').innerHTML = '';
@@ -867,7 +950,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     }
 
 
-    SHIP
+    //SHIP
 
     getProvince() {
         this.ghnService.getProvince().subscribe((res: any) => {
@@ -925,7 +1008,7 @@ export class SellingComponent implements OnInit, OnDestroy {
         }
         //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
         this.ghnService.getService(data).subscribe((res: any) => {
-            this.serviceId = res.data[0].service_id;
+            this.serviceId = res.data.length > 1 ? res.data[1].service_id:res.data[0].service_id ;
             const shippingOrder = {
                 'service_id': this.serviceId,
                 'insurance_value': this.order.totalPrice,
@@ -969,6 +1052,12 @@ export class SellingComponent implements OnInit, OnDestroy {
         }
         this.address.reset('');
         this.phone.reset('');
+        document.getElementById('customer-name-order').style.border = 'none';
+        document.getElementById('customer-other-address').style.border = 'none';
+        document.getElementById('customer-phone-order').style.border = 'none';
+    }
+
+    clearValidate(){
         document.getElementById('customer-name-order').style.border = 'none';
         document.getElementById('customer-other-address').style.border = 'none';
         document.getElementById('customer-phone-order').style.border = 'none';
