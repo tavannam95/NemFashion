@@ -288,6 +288,16 @@ export class CartComponent implements OnInit {
       this.toastService.warning("Giỏ hàng của bạn đang trống !")
       return;
     }
+    console.log(this.carts);
+
+    // for (let i = 0; i < this.carts.length; i++) {
+    //   if (this.carts[i].productsDetail.product.status == 0) {
+    //     this.toastService.warning('Đơn hàng của bạn có sản phẩm đã ngừng kinh doanh');
+    //     this.findAllByCustomerId();
+    //     return;
+    //   }
+
+    // }
 
     if (!this.defaultInfoModel) {
       if (this.formGroup.getRawValue().district === -1 ||
@@ -352,7 +362,7 @@ export class CartComponent implements OnInit {
               void this.route.navigate(["/profile/user-order"]);
             },
             error: (err) => {
-              if (err.error.code == 'LIMIT_QUANTITY') {
+              if (err.error.code == 'LIMIT_QUANTITY' || err.error.code == 'NOT_FOUND') {
                 this.toastService.warning(err.error.message);
                 this.findAllByCustomerId();
                 return;
