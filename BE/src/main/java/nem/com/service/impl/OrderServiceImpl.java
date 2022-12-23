@@ -169,6 +169,9 @@ public class OrderServiceImpl implements OrderService {
         }else {
             type = "%d-%m-%Y" ;
         }
+        System.out.println(request.getEndDate());
+        System.out.println(request.getStartDate());
+        System.out.println(this.ordersRepository.turnoverDTO( request.getStartDate() , request.getEndDate() , type ).size() );
         return this.ordersRepository.turnoverDTO( request.getStartDate() , request.getEndDate() , type );
     }
 
