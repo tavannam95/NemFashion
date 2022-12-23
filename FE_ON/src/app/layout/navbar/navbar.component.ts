@@ -44,7 +44,7 @@ export class NavbarComponent implements OnInit {
         this.subTotal = this.carts
           .map(c => {
             if (c.productsDetail.product.discount !== 0) {
-              return (c.productsDetail.product.price * (1 - 1 / c.productsDetail.product.discount)) * c.quantity;
+              return (c.productsDetail.product.price - (c.productsDetail.product.price * c.productsDetail.product.discount/100)) * c.quantity;
             } else {
               return c.productsDetail.product.price * c.quantity;
             }

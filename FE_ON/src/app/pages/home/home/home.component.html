@@ -87,7 +87,7 @@
                     <span class="product-o__price">
                        <span class="{{ (pro.discount != 0 && pro.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{pro.price | currencyVND}}</span>
                       <span class="mx-2" *ngIf="pro.discount != 0 && pro.discount != null">
-                         {{pro.price  * ( 1 - 1/pro.discount ) | currencyVND}}
+                         {{pro.price  * ( 1 - pro.discount /100 ) | currencyVND}}
                       </span>
                     </span>
                   </div>
@@ -164,12 +164,11 @@
                     <span class="product-o__price">
                        <span class="{{ (pro.discount != 0 && pro.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{pro.price | currencyVND}}</span>
                        <span class="mx-2" *ngIf="pro.discount != 0 && pro.discount != null">
-                         {{pro.price  * ( 1 - 1/pro.discount ) | currencyVND}}
+                         {{pro.price  * ( 1 - pro.discount / 100 ) | currencyVND}}
                        </span>
                     </span>
                   </div>
                 </div>
-
               </ngx-slick-carousel>
             </div>
           </div>

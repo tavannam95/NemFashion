@@ -759,6 +759,10 @@ export class PreparingProductComponent implements OnInit {
     });
   }
 
+  close(){
+    this.matDialogRef.close('cancel');
+  }
+
   printOrderCode(){
     this.ghnService.genToken({order_codes:[this.order.orderCode]}).subscribe({
       next: (res)=>{

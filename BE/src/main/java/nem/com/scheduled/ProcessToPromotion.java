@@ -25,7 +25,7 @@ public class ProcessToPromotion extends Thread {
     public static void main(String[] args) {
         SpringApplication.run(ProcessToPromotion.class);
     }
-    @Scheduled(cron = "0 23 14 * * ?")
+    @Scheduled(cron = "59 04 13 * * ?")
     public void scheduledUpdateDiscountStatus() throws Exception{
         System.out.println("proceessssss");
         process();

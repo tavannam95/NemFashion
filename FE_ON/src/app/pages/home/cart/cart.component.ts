@@ -78,7 +78,7 @@ export class CartComponent implements OnInit {
         this.subTotal = this.carts
           .map(c => {
             if (c.productsDetail.product.discount !== 0) {
-              return (c.productsDetail.product.price * (1 - 1 / c.productsDetail.product.discount)) * c.quantity;
+              return (c.productsDetail.product.price - (c.productsDetail.product.price * c.productsDetail.product.discount/100)) * c.quantity;
             } else {
               return c.productsDetail.product.price * c.quantity;
             }
@@ -140,7 +140,7 @@ export class CartComponent implements OnInit {
     })
   }
 
-  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any, cartId?: any) {
+  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any) {
     const data = {
       customer: {
         id: this.storageService.getIdFromToken(),
@@ -354,6 +354,7 @@ export class CartComponent implements OnInit {
             error: (err) => {
               if (err.error.code == 'LIMIT_QUANTITY') {
                 this.toastService.warning(err.error.message);
+                this.findAllByCustomerId();
                 return;
               }
               this.toastService.error("Đặt hàng không thành công !");

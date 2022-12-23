@@ -13,11 +13,12 @@ import java.util.Date;
 @Entity
 @NamedNativeQuery(
         name = "TurnoverDTO" ,
-        query = "select sum(distinct o.total) as TT , date_format( o.create_date,:type) as dd \n" +
-                "from orders o join order_details od on o.id = od.order_id \n" +
-                "where (o.status = 3 or o.status = 6)and o.create_date >= :startDate and o.create_date<= :endDate  \n" +
+        query = "select sum( o.total) as TT , date_format( o.create_date,:type) as dd \n" +
+                "from orders o \n" +
+                "where (o.status = 3 or o.status = 6) and date_format( o.create_date , '%d %m %Y') between date_format(:startDate, '%d %m %Y')" +
+                " and  date_format(:endDate , '%d %m %Y') \n" +
                 "group by dd " +
-                "order by dd asc;\n" ,
+                "order by o.create_date;\n" ,
         resultSetMapping = "turnover_dto"
 )
 @SqlResultSetMapping(

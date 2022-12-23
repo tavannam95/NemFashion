@@ -21,10 +21,10 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
                                         @Param("color") Integer[] color , @Param("min") Double min ,
                                         @Param("max") Double max , Pageable pageable)   ;
 
-    @Query(value = "select distinct  p.*  from products p join products_details pd on p.id = pd.product_id\n" +
+    @Query(value = "select distinct p.* from products p join products_details pd on p.id = pd.product_id\n" +
             "                        join order_details od  on od.product_detail_id = pd.id \n" +
             "                        join orders o on o.id = od.order_id \n" +
-            "                        where o.status = 1 and p.status = 1  \n" +
+            "                        where o.status = 3 and p.status = 1 \n" +
             "                        group by p.id\n" +
             "                        order by sum(od.quantity) desc \n" +
             "\t\t\t\t\t    limit 0 , 10 " , nativeQuery = true)
