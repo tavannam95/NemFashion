@@ -132,6 +132,11 @@
             <p *ngIf="listSize.id != null && listColor.id != null">
               Số lượng còn lại: {{countProductDetail !== undefined ? countProductDetail : 0}}
             </p>
+            <div class="mb-3">
+              <a class="btn-link" (click)="openGuideSize()">
+                Hướng dẫn chọn size
+              </a>
+            </div>
             <div class="pd-detail-inline-2">
               <div class="u-s-m-b-15">
                 <!--====== Input Counter ======-->

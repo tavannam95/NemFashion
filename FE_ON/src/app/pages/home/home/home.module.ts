@@ -5,10 +5,12 @@ import {HomeComponent} from "./home.component";
 import {SlickCarouselModule} from "ngx-slick-carousel";
 import {MatDialogModule} from "@angular/material/dialog";
 import {SharedModule} from "../../../shared/shared.module";
+import { GuideSizeComponent } from './product-view/guide-size/guide-size.component';
 
 @NgModule({
     declarations: [
         HomeComponent,
+        GuideSizeComponent
     ],
   imports: [
     CommonModule,
