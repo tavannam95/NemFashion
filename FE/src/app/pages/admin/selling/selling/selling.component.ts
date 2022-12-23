@@ -719,8 +719,6 @@ export class SellingComponent implements OnInit, OnDestroy {
                 this.isLoading = true;
                 this.sellingService.paymentSelling(this.order).subscribe({
                     next: resp => {
-                        console.log(resp.data);
-                        
                         this.drawer.close();
                         this.isLoading = false;
                         if (status == 0) {
