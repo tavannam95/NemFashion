@@ -17,6 +17,9 @@
             <mat-error *ngIf="isValidators( 'startDate' , 'required')">
                 Vui lòng không để trống
             </mat-error>
+            <mat-error *ngIf=" !this.form.get('startDate').get('compareStart') && this.form.get('startDate').touched ">
+                Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-4">

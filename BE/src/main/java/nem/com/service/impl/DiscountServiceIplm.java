@@ -11,6 +11,7 @@ import nem.com.scheduled.ProcessToPromotion;
 import nem.com.service.DiscountService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,12 +45,49 @@ public class DiscountServiceIplm implements DiscountService  {
 
     @Override
     public Discounts create(Discounts discounts) {
+        System.out.println("kakaka" + discounts.getDiscount() );
         return this.repository.save(discounts);
     }
 
     @Override
     public Discounts update(Discounts discounts) {
-        return this.repository.save(discounts);
+        Discounts discounts1 = this.repository.save(discounts) ;
+        System.out.println( "siêu nhân" + discounts1.getDiscount());
+        System.out.println(discounts1.getStatus() );
+        if( discounts1.getStatus() == 2){
+            this.updateDiscountProductStart(discounts1);
+        }
+        return discounts1;
+    }
+
+    public void updateDiscountProductStart(Discounts discounts ) {
+        List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(discounts.getId()) ;
+        List<ProductDiscount> listPbb = this.productDiscountRepository.findProductDiscountStatus2() ;
+        List<Integer> listPro = new ArrayList<>();
+
+            for( ProductDiscount x: listPd ){
+                System.out.println( "Id:" + x.getProduct().getId());
+                System.out.println( "size" + listPbb.size() );
+                if( listPbb.size() != 0 ){
+                    for( ProductDiscount y: listPbb ){
+                        if( x.getProduct().getId() == y.getProduct().getId() ){
+                            if( x.getDiscount().getDiscount() >= y.getDiscount().getDiscount() ){
+                                listPro.add(x.getProduct().getId() );
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    listPro.add(x.getProduct().getId() );
+                }
+            }
+
+        Integer[] arr = listPro.toArray(Integer[]::new) ;
+        for( Integer ss: arr ){
+            System.out.println(ss);
+        }
+        System.out.println(discounts.getDiscount());
+        this.discountsRepository.updateDiscountProduct( discounts.getDiscount() , arr );
     }
 
 }

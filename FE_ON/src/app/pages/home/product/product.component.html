@@ -178,7 +178,7 @@
                     <div class="product-m__price">
                       <span class="{{ (pro.discount != 0 && pro.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{pro.price | currencyVND}}</span>
                       <span class="mx-2" *ngIf="pro.discount != 0 && pro.discount != null">
-                         {{pro.price  * ( 1 - 1/pro.discount ) | currencyVND}}
+                         {{pro.price  * ( 1 - pro.discount/ 100 ) | currencyVND}}
                       </span>
                     </div>
                     <div class="product-m__hover">
