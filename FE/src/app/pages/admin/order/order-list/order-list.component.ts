@@ -77,6 +77,15 @@ export class OrderListComponent implements OnInit {
     this.checkBadge();
   }
 
+  setDefaultSearchDTO(){
+    this.searchOrderDTO = this.fb.group({
+      fullName: [''],
+      id: null,
+      orderCode: [''],
+      status: null
+    })
+  }
+
   setDefaultPageEvent(){
     this.pageSize = 10;
     this.pageIndex = 0;
@@ -87,29 +96,61 @@ export class OrderListComponent implements OnInit {
     this.length = e.length;
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    if (this.tabIndex == 5) {
-      this.orderService.findExchange(this.pageIndex,this.pageSize).subscribe({
-        next: res=>{
-          this.allOrder = res;
-          this.orderService.findAllExchange().subscribe({
-            next: res=>{
-              this.length = res.length;
-            }
-          })
+    console.log('handlePageEvent');
+    
+    this.handlePage();
+  }
+
+  handlePage(){
+    this.badge = 0;
+    this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
+    this.searchOrderDTO.patchValue({status:this.tabIndex});
+    this.orderService.searchOrder(this.searchOrderDTO.value, this.pageIndex, this.pageSize).subscribe({
+      next: (res)=>{
+        if (res.length<=0) {
+          this.toastrService.warning('Đơn hàng không tồn tại');
         }
-      });
-    }else if (this.tabIndex == 7) {
-      this.getAllOrder(this.pageIndex);
-    }else{
-      this.findByStatus(this.tabIndex);
-    }
+        if (this.tabIndex == 5) {
+          this.allOrder = res;
+            for (let i = 0; i < this.allOrder.length; i++) {
+              for (let j = 0; j < this.allOrder[i].orderDetailsList.length; j++) {
+                // console.log(this.allOrder[i].orderDetailsList[j]);
+                
+                if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 0) {
+                  this.allOrder[i].orders.status = 8;
+                  this.badge ++;
+                  break;
+                }
+                if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 1) {
+                  this.allOrder[i].orders.status = 9;
+                  break;
+                }
+              }
+              
+            }
+            
+            if (this.allOrder.length>0) {
+              this.totalPage = this.allOrder[0].totalPage;
+              this.length = this.allOrder[0].totalElements;
+            }
+        }else{
+          this.allOrder = res;
+          if (this.allOrder.length>0) {
+            this.totalPage = this.allOrder[0].totalPage;
+            this.length = this.allOrder[0].totalElements;
+          }
+        }
+      },
+      error: (e)=>{
+        console.log(e);
+        
+      }
+    })
   }
 
   searchOrder(){
     this.badge = 0;
     this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
-    this.pageIndex = 0;
-    this.pageSize = 10;
     this.searchOrderDTO.patchValue({status:this.tabIndex});
     this.orderService.searchOrder(this.searchOrderDTO.value, this.pageIndex, this.pageSize).subscribe({
       next: (res)=>{
@@ -164,6 +205,7 @@ export class OrderListComponent implements OnInit {
   }
 
   selectTab(index: any){
+    this.setDefaultSearchDTO();
     this.badge = 0;
     this.tabIndex = index;
     if (this.tabIndex==0) {
