@@ -8,6 +8,7 @@ import {HomeModule} from "../home/home.module";
 import {UserOrderModule} from "../profile/user-order/user-order.module";
 import {HomeRountingModule} from "../home/home-rounting.module";
 import {SharedModule} from "../../../shared/shared.module";
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import {SharedModule} from "../../../shared/shared.module";
     FormsModule,
     SlickCarouselModule,
     UserOrderModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule,
+
   ]
 })
 export class ProductDetailModule {
