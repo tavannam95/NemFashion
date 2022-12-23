@@ -253,8 +253,10 @@
     <div class="col-6">
       <button *ngIf="order.status==0" class="btn btn-info" mat-button (click)="openEditOrder()">Sửa đơn</button>
       <button *ngIf="order.status==1" class="btn btn-info" mat-button (click)="transporting()">Giao hàng</button>
+      <button *ngIf="order.status==2" class="btn btn-info" mat-button (click)="shipped()">Đã giao</button>
       <button *ngIf="order.status==0" class="btn btn-danger" (click)="cancelStatus()" mat-button>Hủy đơn</button>
       <button *ngIf="order.status==1" class="btn btn-danger" (click)="cancelOrder()" mat-button>Hủy đơn</button>
+
       <div class="mt-2" *ngIf="order.status==8||order.status==9">
         <span class="text-danger h3 font-weight-bold">Tiền trả khách: {{totalExchange| currency:' ':'symbol':'0.0-2'}}₫</span>
       </div>
