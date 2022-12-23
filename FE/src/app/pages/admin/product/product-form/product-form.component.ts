@@ -54,6 +54,7 @@ export class ProductFormComponent implements OnInit {
     weight: ["", [Validators.min(1), Validators.required]],
     description: [""],
     thumnail: [""],
+    discount: 0
   });
 
   productImageFormGroup = this.fb.group({
