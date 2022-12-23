@@ -39,6 +39,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public List<Customers> getAllByStatus() {
+        return this.customersRepository.fillAllByStatus();
+    }
+
+    @Override
     public Customers save(Customers customers) {
 
         customersRepository.findCustomersByEmail(customers.getEmail()).ifPresent(e -> {
