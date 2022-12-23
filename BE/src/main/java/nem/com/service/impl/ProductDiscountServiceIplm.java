@@ -33,14 +33,14 @@ public class ProductDiscountServiceIplm implements ProductDiscountService {
     public void save(Integer idDis, Integer[] idPro) {
         Discounts d = this.discountsRepository.findById(idDis).get() ;
         List<ProductDiscount> listPd = this.productDiscountRepository.findAllPd(idDis);
-
-
         for( ProductDiscount pd : listPd ){
             if( checkProductInDiscount( idPro , pd ) == false){
                 this.productDiscountRepository.deleteProductDis( pd.getProduct().getId() , idDis ) ;
+                Products products = pd.getProduct();
+                products.setDiscount(0);
+                this.productsRepository.save(products);
             }
         }
-
         for( Integer x : idPro ){
             ProductDiscount pd = this.productDiscountRepository.findById( x , idDis);
             if( pd == null ){
