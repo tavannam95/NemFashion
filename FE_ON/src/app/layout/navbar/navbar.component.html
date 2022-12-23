@@ -182,7 +182,7 @@
                         <span class="mini-product__quantity">{{cart.quantity}} x</span>
 
                         <span class="mini-product__price">
-                         {{(cart.productsDetail.product.discount !== 0 ? cart.productsDetail.product.price * (1 - 1/cart.productsDetail.product.discount) : cart.productsDetail.product.price) | currencyVND}}
+                         {{(cart.productsDetail.product.discount !== 0 ? cart.productsDetail.product.price - (cart.productsDetail.product.price * cart.productsDetail.product.discount/100) : cart.productsDetail.product.price) | currencyVND}}
                         </span>
                       </div>
                     </div>
