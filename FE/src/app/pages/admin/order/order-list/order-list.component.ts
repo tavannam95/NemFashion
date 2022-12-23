@@ -16,6 +16,9 @@ import { ExchangeService } from '../../../../shared/service/exchange/exchange.se
   styleUrls: ['./order-list.component.scss']
 })
 export class OrderListComponent implements OnInit {
+
+  badge = 0;
+
   isLoading: boolean = false;
   tabIndex: number = 0;
   allOrder: any[] = [];
@@ -71,6 +74,7 @@ export class OrderListComponent implements OnInit {
   ngOnInit() {
     this.getDataOrder();
     this.getDate();
+    this.checkBadge();
   }
 
   setDefaultPageEvent(){
@@ -102,6 +106,7 @@ export class OrderListComponent implements OnInit {
   }
 
   searchOrder(){
+    this.badge = 0;
     this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
     this.pageIndex = 0;
     this.pageSize = 10;
@@ -111,10 +116,37 @@ export class OrderListComponent implements OnInit {
         if (res.length<=0) {
           this.toastrService.warning('Đơn hàng không tồn tại');
         }
-        this.allOrder = res;
-        if (this.allOrder.length>0) {
-          this.totalPage = this.allOrder[0].totalPage;
-          this.length = this.allOrder[0].totalElements;
+        if (this.tabIndex == 5) {
+          this.setDefaultPageEvent();
+          this.allOrder = res;
+            for (let i = 0; i < this.allOrder.length; i++) {
+              for (let j = 0; j < this.allOrder[i].orderDetailsList.length; j++) {
+                // console.log(this.allOrder[i].orderDetailsList[j]);
+                
+                if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 0) {
+                  this.allOrder[i].orders.status = 8;
+                  this.badge ++;
+                  break;
+                }
+                if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 1) {
+                  this.allOrder[i].orders.status = 9;
+                  break;
+                }
+              }
+              
+            }
+            
+            if (this.allOrder.length>0) {
+              this.totalPage = this.allOrder[0].totalPage;
+              this.length = this.allOrder[0].totalElements;
+            }
+        }else{
+          this.setDefaultPageEvent();
+          this.allOrder = res;
+          if (this.allOrder.length>0) {
+            this.totalPage = this.allOrder[0].totalPage;
+            this.length = this.allOrder[0].totalElements;
+          }
         }
       },
       error: (e)=>{
@@ -132,6 +164,7 @@ export class OrderListComponent implements OnInit {
   }
 
   selectTab(index: any){
+    this.badge = 0;
     this.tabIndex = index;
     if (this.tabIndex==0) {
       this.searchOrderDTO.patchValue({orderCode:''});
@@ -148,7 +181,7 @@ export class OrderListComponent implements OnInit {
               
               if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 0) {
                 this.allOrder[i].orders.status = 8;
-                
+                this.badge ++;
                 break;
               }
               if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 1) {
@@ -169,7 +202,9 @@ export class OrderListComponent implements OnInit {
     }else if (index == 7) {
       this.setDefaultPageEvent();
       this.getAllOrder(0);
+      this.checkBadge();
     }else{
+      this.checkBadge();
       this.orderService.findAllByStatus(this.tabIndex).subscribe(res=>{
         this.allOrderStatus = res;
         this.length = this.allOrderStatus.length;
@@ -177,6 +212,26 @@ export class OrderListComponent implements OnInit {
       this.setDefaultPageEvent();
       this.findByStatus(this.tabIndex);
     }
+  }
+
+  checkBadge(){
+    this.badge = 0;
+    this.orderService.findExchange(this.pageIndex,this.pageSize).subscribe({
+      next: res=>{
+        let r;
+        r = res;
+        for (let i = 0; i < r.length; i++) {
+          for (let j = 0; j < r[i].orderDetailsList.length; j++) {
+            // console.log(this.allOrder[i].orderDetailsList[j]);
+            if (r[i].orderDetailsList[j].exchanges != null && r[i].orderDetailsList[j].exchanges.status == 0) {
+              this.badge ++;
+              break;
+            }
+          }
+          
+        }
+      }
+    });
   }
   
   getDate(){
@@ -188,6 +243,7 @@ export class OrderListComponent implements OnInit {
   }
 
   openPreparingDialog(data: any, dateShift: any, tabIndex: any){
+    this.badge = 0;
     let exchange;
     if (this.tabIndex == 5) {
       this.exchangeService.findByOrderId(data.orders.id).subscribe({
@@ -216,7 +272,7 @@ export class OrderListComponent implements OnInit {
                         
                         if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 0) {
                           this.allOrder[i].orders.status = 8;
-                          
+                          this.badge ++;
                           break;
                         }
                         if (this.allOrder[i].orderDetailsList[j].exchanges != null && this.allOrder[i].orderDetailsList[j].exchanges.status == 1) {
@@ -236,8 +292,10 @@ export class OrderListComponent implements OnInit {
                 });
 
               }else if (this.tabIndex==7) {
+                this.checkBadge();
                 this.getAllOrder(0);
               }else{
+                this.checkBadge();
                 this.orderService.findByStatus(this.tabIndex, this.pageIndex, this.pageSize).subscribe(res=>{
                   this.allOrder = res;
                 });
