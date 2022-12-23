@@ -140,7 +140,7 @@ export class CartComponent implements OnInit {
     })
   }
 
-  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any, cartId?: any) {
+  updateCart(event: any, customerId?: any, productDetailId?: any, quantity?: any, cartQuantity?: any) {
     const data = {
       customer: {
         id: this.storageService.getIdFromToken(),
