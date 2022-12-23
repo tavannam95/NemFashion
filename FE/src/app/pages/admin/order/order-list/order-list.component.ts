@@ -102,7 +102,6 @@ export class OrderListComponent implements OnInit {
   }
 
   handlePage(){
-    this.badge = 0;
     this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
     this.searchOrderDTO.patchValue({status:this.tabIndex});
     this.orderService.searchOrder(this.searchOrderDTO.value, this.pageIndex, this.pageSize).subscribe({
@@ -111,6 +110,7 @@ export class OrderListComponent implements OnInit {
           this.toastrService.warning('Đơn hàng không tồn tại');
         }
         if (this.tabIndex == 5) {
+          this.badge = 0;
           this.allOrder = res;
             for (let i = 0; i < this.allOrder.length; i++) {
               for (let j = 0; j < this.allOrder[i].orderDetailsList.length; j++) {
@@ -149,7 +149,7 @@ export class OrderListComponent implements OnInit {
   }
 
   searchOrder(){
-    this.badge = 0;
+    
     this.trimService.inputTrim(this.searchOrderDTO,['fullName','orderCode']);
     this.searchOrderDTO.patchValue({status:this.tabIndex});
     this.orderService.searchOrder(this.searchOrderDTO.value, this.pageIndex, this.pageSize).subscribe({
@@ -158,6 +158,7 @@ export class OrderListComponent implements OnInit {
           this.toastrService.warning('Đơn hàng không tồn tại');
         }
         if (this.tabIndex == 5) {
+          this.badge = 0;
           this.setDefaultPageEvent();
           this.allOrder = res;
             for (let i = 0; i < this.allOrder.length; i++) {
