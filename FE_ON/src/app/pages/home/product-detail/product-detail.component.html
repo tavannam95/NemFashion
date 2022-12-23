@@ -67,7 +67,7 @@
               <span class="pd-detail__price">
                 <span class="{{ (product?.discount != 0 ) ? 'product-o__discount' : ''}} m-0" >{{product?.price | currencyVND}}</span>
                       <span class="mx-2" *ngIf="product?.discount != 0 && product?.discount != null">
-                         {{product?.price  * ( 1 - 1/product?.discount ) | currencyVND}}
+                         {{product?.price  * ( 1 - product?.discount / 100 ) | currencyVND}}
                       </span>
               </span>
 
@@ -356,7 +356,7 @@
               <span class="product-o__price">
               <span class="{{ (pro.discount != 0 && pro.discount != null ) ? 'product-o__discount' : ''}} m-0" >{{pro.price | currencyVND}}</span>
                       <span class="mx-2" *ngIf="pro.discount != 0 && pro.discount != null">
-                         {{pro.price  * ( 1 - 1/pro.discount ) | currencyVND}}
+                         {{pro.price  * ( 1 - pro.discount / 100 ) | currencyVND}}
                       </span>
               </span>
             </div>
