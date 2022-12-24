@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="card custom-card">
             <div class="card-body">
-                 <button class="btn btn-danger" (click)="deleteRating()">Xóa đánh giá</button>
-                 <button class="btn btn-primary mx-2" (click)="approveRating()">Duyệt đánh giá</button>
+                 <button class="btn btn-danger" [disabled]="dataSource.data.length==0" (click)="deleteRating()">Xóa đánh giá</button>
+                 <button class="btn btn-primary mx-2" [disabled]="dataSource.data.length==0" (click)="approveRating()">Duyệt đánh giá</button>
             </div>
             <div class="card-body">
                     <div class="col-12 p-0">

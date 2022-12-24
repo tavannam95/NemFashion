@@ -719,8 +719,6 @@ export class SellingComponent implements OnInit, OnDestroy {
                 this.isLoading = true;
                 this.sellingService.paymentSelling(this.order).subscribe({
                     next: resp => {
-                        console.log(resp.data);
-                        
                         this.drawer.close();
                         this.isLoading = false;
                         if (status == 0) {
@@ -757,6 +755,7 @@ export class SellingComponent implements OnInit, OnDestroy {
     print(data) {
         let customer = this.listCustomers.find(cus => cus.id == data.customer)
         const formatter = new Intl.NumberFormat();
+        let employee = this.storageService.getFullNameFromToken();
         let text = '';
         data.orderDetail.forEach(od => {
             console.log(od);
@@ -790,6 +789,7 @@ export class SellingComponent implements OnInit, OnDestroy {
                     </div>
                     <div class="info">
                         <div>Mã hóa đơn: ${data.id}</div>
+                        <div>Thu ngân: ${employee}</div>
                         <div>Khách hàng: ${customer == undefined ? 'Khách lẻ' : customer.fullname}</div>
                         <div>SĐT: ${customer == undefined ? '--' : customer.phone}</div>
                     </div>
