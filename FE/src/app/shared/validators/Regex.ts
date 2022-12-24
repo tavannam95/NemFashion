@@ -34,11 +34,11 @@ export function compareDate( startDate: string , endDate: string ){
         const b = new Intl.DateTimeFormat("en-US", options).format(new Date(endDateControl.value));
         // @ts-ignore
         const c = new Intl.DateTimeFormat("en-US", options).format(new Date());
-        const c1 = new Date();
+        const c1 = new Date( new Date().getFullYear() , new Date().getMonth() , new Date().getDate() - 1) ;
         const a1 = new Date(startDateControl.value)
         const b1 = new Date(endDateControl.value )
 
-        if( a < c) {
+        if( c1 >= a1 ) {
             startDateControl.setErrors({compareStart: true})
         }else {
             startDateControl.setErrors(null);
