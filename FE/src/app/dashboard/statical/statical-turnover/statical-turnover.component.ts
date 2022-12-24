@@ -56,9 +56,12 @@ export class StaticalTurnoverComponent implements OnInit {
           this.dataSource = new MatTableDataSource(value) ;
           this.dataSource.paginator = this.paginator;
 
-          if( this.listStatic.length != 0 ){
+          if( this.listStatic.length != 0  ){
               this.checkEmpty = false ;
               this.addDateIntoList( value , this.listLabel , this.listSeries , this.max ) ;
+              if( this.listStatic.length >= 13){
+                  this.showChart = 1 ;
+              }
           }else {
               this.checkEmpty = true ;
           }
