@@ -10,7 +10,7 @@ export const ApiConstant = {
   order: 'http://localhost:8080/api/v1/order',
   exchange: 'http://localhost:8080/api/v1/exchange',
   orderDetail: 'http://localhost:8080/api/v1/orderDetail',
-  ghn: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order',
+  ghn: 'https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order',
   contact: 'http://localhost:8080/api/v1/contact',
   cloudinary: 'http://localhost:8080/api/image',
   auth: {
