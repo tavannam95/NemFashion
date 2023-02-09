@@ -14,6 +14,7 @@ import { ProductDetailOrderComponent } from '../../../selling/selling/product-de
 import { StorageService } from '../../../../../shared/service/storage.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { quantity } from 'chartist';
+import { GhnService } from '../../../../../shared/service/ghn/ghn.service';
 
 @Component({
   selector: 'app-edit-order',
@@ -44,6 +45,9 @@ export class EditOrderComponent implements OnInit {
     status: 1
   }
 
+  shippingTotal: any;
+  serviceId: any;
+
   displayedColumns: string[] = ['image', 'name', 'price', 'color', 'size', 'quantity', 'function'];
   dataSource: MatTableDataSource<any>;
 
@@ -56,12 +60,15 @@ export class EditOrderComponent implements OnInit {
     private orderDetailService: OrderDetailService,
     private matDialog: MatDialog,
     private productService: ProductService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private ghnService: GhnService,
   ) { }
 
   ngOnInit() {
     this.getOrderAndOrderDetails();
     this.getAllProduct();
+    // console.log(this.dataDialog);
+    
   }
 
   closeDialog(check: any){
@@ -267,7 +274,43 @@ export class EditOrderComponent implements OnInit {
       }
     })
   }
+
+  //Api tinh phí vận chuyển
+  getShippingFee(districtId: any) {
+    this.isLoading = true;
+    const data = {
+        "shop_id": 3424019,
+        "from_district": 3440,
+        "to_district": districtId
+    }
+    //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
+    this.ghnService.getService(data).subscribe((res: any) => {
+      if (res.data && res.data.length > 1) {
+        this.serviceId = res.data[1].service_id;
+      }else{
+        this.serviceId = res.data[0].service_id;
+      }
+        
+        const shippingOrder = {
+            "service_id": this.serviceId,
+            "insurance_value": this.dataDialog.order.total,
+            "from_district_id": 3440,
+            "to_district_id": data.to_district,
+            "weight": this.dataDialog.weight
+        }
+        //getShippingOrder tính phí vận chuyển
+        this.ghnService.getShippingOrder(shippingOrder).subscribe((res: any) => {
+            this.isLoading = false;
+            this.shippingTotal = res.data.total;
+            
+        })
+    })
+}
+
   onSubmit(){
+
+    console.log(this.shippingTotal);
+    
     for (let i = 0; i < this.quantityList.length; i++) {
       this.orderDetailsList[i].quantity = this.quantityList[i];
     }

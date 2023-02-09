@@ -33,6 +33,9 @@ export class PreparingProductComponent implements OnInit {
   totalExchange = 0;
 
   dateShip: any;
+  serviceId:any;
+  shippingTotal: any;
+
 
   disableBtn = false;
 
@@ -130,6 +133,8 @@ export class PreparingProductComponent implements OnInit {
     this.tabIndex = this.dataDialog.tabIndex;
     this.updateName = this.storageService.getFullNameFromToken();
     this.order = this.dataDialog.data.orders;
+    console.log(this.order);
+    
     // this.order.updateName = this.storageService.getFullNameFromToken();
     this.dataSource = this.dataDialog.data.orderDetailsList;
     this.orderDetailsList = this.dataDialog.data.orderDetailsList;
@@ -151,6 +156,11 @@ export class PreparingProductComponent implements OnInit {
     this.dateShip = e.value;
     
   }
+
+  updateFee(){
+
+  }
+
   openEditOrder(){
     let dialogRef = this.matDialog.open(EditOrderComponent,{
       width: '800px',
@@ -161,6 +171,7 @@ export class PreparingProductComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res=>{
       if (res=='submit') {
         this.getOrder();  
+        this.getWeight();
       }
       
     })
@@ -337,6 +348,8 @@ export class PreparingProductComponent implements OnInit {
     this.orderService.findById(this.dataDialog.data.orders.id).subscribe({
       next: res=>{
         this.order = res;
+        console.log(this.order);
+        
         this.orderDetailService.getOrderDetailByOrderId(this.dataDialog.data.orders.id).subscribe({
           next: res=>{
             this.dataSource = res;
@@ -392,6 +405,38 @@ export class PreparingProductComponent implements OnInit {
         }
       });
   }
+
+  //Api tinh phí vận chuyển
+  getShippingFee(districtId: any) {
+    this.isLoading = true;
+    const data = {
+        "shop_id": 3424019,
+        "from_district": 3440,
+        "to_district": districtId
+    }
+    //Get service để lấy ra phương thức vận chuyển: đường bay, đường bộ,..
+    this.ghnService.getService(data).subscribe((res: any) => {
+      if (res.data && res.data.length > 1) {
+        this.serviceId = res.data[1].service_id;
+      }else{
+        this.serviceId = res.data[0].service_id;
+      }
+        
+        const shippingOrder = {
+            "service_id": this.serviceId,
+            "insurance_value": this.dataDialog.order.total,
+            "from_district_id": 3440,
+            "to_district_id": data.to_district,
+            "weight": this.dataDialog.weight
+        }
+        //getShippingOrder tính phí vận chuyển
+        this.ghnService.getShippingOrder(shippingOrder).subscribe((res: any) => {
+            this.isLoading = false;
+            this.shippingTotal = res.data.total;
+            
+        })
+    })
+}
 
   addAddress(){
     let openDialog = this.matDialog.open(EditAddressDialogComponent,{
@@ -636,6 +681,7 @@ export class PreparingProductComponent implements OnInit {
   }
 
   getWeight(){
+    this.items = [];
     this.orderDetailService.getOrderDetailByOrderId(this.order.id).subscribe(res=>{
       this.orderDetails = res;
       let weight = 0;
@@ -754,6 +800,9 @@ export class PreparingProductComponent implements OnInit {
       "client_order_code": this.order.id+"",
       "note": 'Vui lòng quay video khi mở hàng để có thể đổi hàng khi có vấn đề'
     })
+
+    console.log(this.data.value);
+    
 
     this.ghnService.createOrderGhn(this.data.value).subscribe({
       next: (res)=>{

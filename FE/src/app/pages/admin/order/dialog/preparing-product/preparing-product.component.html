@@ -33,7 +33,7 @@
           {{order.createDate | date: 'dd/MM/yyyy'}}
         </div>
         <div *ngIf="order.status !=6 && tabIndex != 5" class="col-12 font-weight-bold mt-3">
-          Phí vận chuyển:
+          Phí vận chuyển ước tính:
         </div>
         <div *ngIf="order.status !=6 && tabIndex != 5" class="col-12">
           {{order.freight| currency:' ':'symbol':'0.0-2'}}₫
